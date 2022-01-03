@@ -9,4 +9,4 @@ nvim/init.vim        ${HOME}/.config/nvim
 .tmux.conf  ${HOME}
 
 # coc
-coc         ${HOME}/.config/coc
+coc/coc-settings.json       ${HOME}/.config/coc
