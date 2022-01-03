@@ -1,0 +1,10 @@
+{
+  "languageserver": {
+    "efm": {
+      "command": "$HOME/go/bin/efm-langserver",
+      "args": [],
+      "filetypes": ["markdown"]
+    }
+  }
+}
+
