@@ -3,7 +3,7 @@
 
 
 dotfiles_root=$(cd $(dirname $0)/.. && pwd)
-
+echo $dotfiles_root
 # linklist.txtのコメントを削除
 __remove_linklist_comment() {(
     # '#'以降と空行を削除
