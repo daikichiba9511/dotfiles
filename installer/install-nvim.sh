@@ -11,10 +11,10 @@ NVIM_DEFUALT_VER=0.6
 NVIM_VERSION=${1-$NVIM_DEFUALT_VER}
 # step:1 clone
 echo "✨ git cloned neovim"
-git clone https://github.com/neovim/neovim.git
+git clone https://github.com/neovim/neovim.git ~/neovim
 
 # step:2 build
-cd neovim
+cd ~/neovim
 git checkout "release-${NVIM_VERSION}}"
 sudo make CMAKE_BUILD_TYPE=Release
 sudo make install
