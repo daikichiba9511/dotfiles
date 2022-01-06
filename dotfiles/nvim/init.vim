@@ -116,8 +116,21 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" =====
+" rust
+" =====
 Plug 'rust-lang/rust.vim'
+
+" =====
+" python
+" =====
 Plug 'vim-python/python-syntax'
+
+" =====
+" terminal
+" =====
+Plug 'kassio/neoterm'
 
 call plug#end()
 
@@ -227,4 +240,46 @@ inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap ( ()<ESC>i
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
+
+" ========
+" neovim内でデフォルトで起動するシェルを変える
+" デフォルトはsh
+" ========
+set sh=zsh
+
+
+" =========
+" neotermの設定
+" 参考:
+" [1] https://sy-base.com/myrobotics/vim/neovim-neoterm/
+" [2] https://wonderwall.hatenablog.com/entry/2019/08/25/190000
+" =========
+" Ttoggleはneotermのterminal windowの切り替え
+nnoremap <C-t><C-t> :Ttoggle<CR>
+" terminal modeの時は<C-\n><C-n>でターミナルモードを抜けてから:Ttoggleを実行
+tnoremap <C-t><C-t> <C-\><C-n> :Ttoggle<CR>
+" ESCでターミナルモードを抜ける
+tnoremap <silent> <ESC> <C-\><C-n><C-w>
+
+" 起動時の位置
+let g:neoterm_default_mod='belowright'
+" 起動時のサイズ
+let g:neoterm_size=20
+" 起動時に画面下部に実行結果が表示される
+let g:neoterm_autoscroll=1
+
+" 今編集してるpythonファイルを走らせる
+" %はカレントファイル名
+nnoremap @p :T python %<CR>
+
+
+" =============
+" buffer周りの設定
+" 参考
+" [1] https://zenn.dev/sa2knight/articles/e0a1b2ee30e9ec22dea9
+" =============
+nnoremap <silent> <C-j> :bprev<CR>
+nnoremap <silent> <C-k> :bnext<CR>
+
+" bufferを保存せずに切り替えできる
 set hidden
