@@ -197,7 +197,7 @@ fpath+=~/.zfunc
 
 alias julia1.6="/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia"
 export JULIA_CMDSTAN_HOME=/usr/local/bin/cmdstan
-launchctl setenv JULIA_CMDSTAN_HOME /usr/local/bin/cmdstan
+# launchctl setenv JULIA_CMDSTAN_HOME /usr/local/bin/cmdstan
 export JULIA_NUM_THREADS=4
 
 # ===============================
