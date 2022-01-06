@@ -19,5 +19,8 @@ git checkout "release-${NVIM_VERSION}}"
 sudo make CMAKE_BUILD_TYPE=Release
 sudo make install
 
+cd -
+rm -rf ~/neovim
+
 echo "✨ finished installing neovim"
 
