@@ -15,7 +15,7 @@ git clone https://github.com/neovim/neovim.git ~/neovim
 
 # step:2 build
 cd ~/neovim
-git checkout "release-${NVIM_VERSION}}"
+git checkout "release-${NVIM_VERSION}"
 sudo make CMAKE_BUILD_TYPE=Release
 sudo make install
 
