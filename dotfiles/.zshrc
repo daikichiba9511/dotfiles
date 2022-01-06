@@ -214,7 +214,7 @@ fi
 # CmdStan
 # ===============================
 export CMDSTAN_HOME=/usr/local/bin/cmdstan
-launchctl setenv CMDSTAN_HOME /usr/local/bin/cmdstann 
+# launchctl setenv CMDSTAN_HOME /usr/local/bin/cmdstann 
 
 export DOCKER_BUILDKIT=1
 
