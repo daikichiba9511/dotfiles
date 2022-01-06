@@ -1,8 +1,9 @@
 #!/bin/sh 
 # pipeは使わない予定だけど一応
-set -eou pipefail
+# set -eou pipefail
+set -eu
 
-echo $1
+# echo $1
 
 # install neovim from source
 # vscode-neovimとの互換性を持たせるためにはver>=0.5が必要なのでソースからビルドする
