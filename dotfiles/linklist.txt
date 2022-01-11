@@ -1,6 +1,6 @@
 # 1: path in dotfiles 2: link path
 # neovim
-nvim/init.vim        ${HOME}/.config/nvim
+nvim        ${HOME}/.config/nvim
 
 # zsh
 .zshrc      ${HOME}
@@ -9,4 +9,4 @@ nvim/init.vim        ${HOME}/.config/nvim
 .tmux.conf  ${HOME}
 
 # coc
-coc/coc-settings.json       ${HOME}/.config/coc
+coc       ${HOME}/.config/coc
