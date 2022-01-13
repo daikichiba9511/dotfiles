@@ -1,0 +1,4 @@
+volumes:
+  - ~/.zshrc:/root/.zshrc
+  - ~/.config/nvim/init.vim:/root/.config/nvim/init.vim
+  - ~/.ssh:/root/.ssh
