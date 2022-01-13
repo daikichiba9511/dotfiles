@@ -228,3 +228,8 @@ export PATH=/Users/chibadaimare/.config/coc/extensions/node_modules:$PATH
 # tmux
 # ===============================
 [[ -n "$TMUX" ]] && stty erase '^?'
+
+# ================================
+# .local/bin
+# ================================
+export PATH="$PATH:$HOME/.local/bin"
