@@ -4,6 +4,7 @@ scriptencoding utf-8
 
 " highlight of current line
 set cursorline
+set guicursor=
 
 
 set fileencoding=utf-8 " 保存時の文字コード
@@ -287,3 +288,4 @@ nnoremap <silent> <C-k> :bnext<CR>
 
 " bufferを保存せずに切り替えできる
 set hidden
+
