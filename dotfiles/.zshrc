@@ -233,3 +233,8 @@ export PATH=/Users/chibadaimare/.config/coc/extensions/node_modules:$PATH
 # .local/bin
 # ================================
 export PATH="$PATH:$HOME/.local/bin"
+
+# for ubuntu
+if type "xsel" > /dev/null; then
+        alias pbcopy='xsel  --clipboard --input'
+fi
