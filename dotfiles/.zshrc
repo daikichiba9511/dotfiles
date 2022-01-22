@@ -101,7 +101,8 @@ precmd () { vcs_info }
 function git-current-branch {
   local branch_name st branch_status
 
-  branch='\ue0a0'
+  # branch='\ue0a0'
+  branch='↑'
   color='%{\e[38;5;' #  文字色を設定
   green='114m%}'
   red='001m%}'
@@ -165,11 +166,13 @@ function left-prompt {
   text_color='%{\e[38;5;'    # set text color
   back_color='%{\e[30;48;5;' # set background color
   reset='%{\e[0m%}'   # reset
-  sharp='\uE0B0'      # triangle
+  # sharp='\uE0B0'      # triangle
 
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
-  echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  # apt-get install powerline fonts-powerlineがひつようで面倒
+  #echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "`git-current-branch`"${reset}\n${text_color}${arrow}$ ${reset}"
 }
 
 PROMPT=`left-prompt`
@@ -177,6 +180,7 @@ PROMPT=`left-prompt`
 
 # コマンドの実行ごとに改行
 function precmd() {
+    vcs_info
     # Print a newline before the prompt, unless it's the
     # first prompt in the process.
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
@@ -238,3 +242,13 @@ export PATH="$PATH:$HOME/.local/bin"
 if type "xsel" > /dev/null; then
         alias pbcopy='xsel  --clipboard --input'
 fi
+
+
+# ================================
+# .ls
+# ================================
+alias ls="ls --color"
+alias la="ls --color -a"
+alias ll="ls --color -l"
+alias lla="ls --color -l -a"
+
