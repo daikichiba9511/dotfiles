@@ -88,14 +88,6 @@ setopt AUTO_PUSHD
 # git
 #========================
 autoload -Uz compinit && compinit  # Gitの補完を有効化
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{magenta}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{yellow}+"
-zstyle ':vcs_info:*' formats "%F{cyan}%c%u[%b]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
 
 # git ブランチ名を色付きで表示させるメソッド
 function git-current-branch {
@@ -140,8 +132,7 @@ function git-current-branch {
   echo "${branch_status}$branch_name${reset} "
 }
 
-# プロンプトが表示されるたびにプロンプト文字列を評価、置換する
-setopt prompt_subst
+
 
 # プロンプトの右側にメソッドの結果を表示させる
 # RPROMPT='`git-current-branch`'
@@ -172,15 +163,18 @@ function left-prompt {
   dir="${back_color}${path_b}${text_color}${path_t}"
   # apt-get install powerline fonts-powerlineがひつようで面倒
   #echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
-  echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "`git-current-branch`"${reset}\n${text_color}${arrow}$ ${reset}"
+  echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
 }
+
+# プロンプトが表示されるたびにプロンプト文字列を評価、置換する
+setopt prompt_subst
 
 PROMPT=`left-prompt`
 
 
 # コマンドの実行ごとに改行
 function precmd() {
-    vcs_info
+    
     # Print a newline before the prompt, unless it's the
     # first prompt in the process.
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
