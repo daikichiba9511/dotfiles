@@ -1,4 +1,33 @@
-volumes:
-  - ~/.zshrc:/root/.zshrc
-  - ~/.config/nvim/init.vim:/root/.config/nvim/init.vim
-  - ~/.ssh:/root/.ssh
+version: '3'
+services:
+  local:
+    build:
+       context: ..
+       dockerfile: ./Dockerfile
+    image: local-dev-for-nvim
+    container_name: local-container-for-nvim
+    tty: true
+    stdin_open: true
+    command: >
+      sh -c 'mkdir -p ~/dotfiles
+      &&curl -sL https://deb.nodesource.com/setup_14.x | bash -
+      &&apt upgrade -y && apt install -yqq zsh nodejs sudo ninja-build gettext libtool libtool-bin autoconf automake g++ pkg-config doxygen unzip cmake make g++
+      &&git clone --depth=1 git@github.com:daikichiba9511/dotfiles.git
+      &&mv ./dotfiles ~/
+      &&chmod +x ~/dotfiles/installer/install-nvim.sh
+      &&sh /root/dotfiles/installer/install-nvim.sh
+      &&chsh -s /bin/zsh
+      &&exec /bin/zsh -l'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [utility, compute, video]
+    volumes:
+      - .:/workspace/$(basename `pwd')
+      - ${HOME}/.config:/root/.config
+      - ${HOME}/.config/nvim/init.vim:/root/.config/nvim/init.vim
+      - ${HOME}/.zshrc:/root/.zshrc
+      - ${HOME}/.gitconfig:/root/.gitconfig
+      - ${HOME}/.ssh/:/root/.ssh
