@@ -31,9 +31,7 @@ set backspace=indent,eol,start
 " 対応する括弧を強調する
 " ==============================
 set showmatch
-
-" ==============================
-" コマンドラインの補完
+" ============================== コマンドラインの補完
 " ==============================
 set wildmenu " コマンドモードの補完
 set history=5000 " 補完するコマンドの数
@@ -123,6 +121,11 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " =====
+" comment
+" =====
+Plug 'tpope/vim-commentary'
+
+" =====
 " rust
 " =====
 Plug 'rust-lang/rust.vim'
@@ -136,6 +139,12 @@ Plug 'vim-python/python-syntax'
 " terminal
 " =====
 Plug 'kassio/neoterm'
+
+" =====
+" markdown
+" =====
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 
 call plug#end()
 
@@ -175,25 +184,26 @@ colorscheme ayu
 
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsc_server_commands = {'python3': 'pyls'}
-"let g:lsp_settings = {
-"\    'pyls-all': {
-"\      'workspace_config': {
-"\         'pyls': {
-"\             'configurationSources': ['flake8']
-"\          }
-"\      }
-"\    },
-"\    'efm-langserver': {
-"\       'disabled': 0,
-"\       'allowlist': ['markdown'],
-"\    },
-"\}
 let g:lsp_settings = {
-\        'efm-langserver':{
-\          'disabled':0,
-\          'allowlist':['markdown'],
-\        },
+\    'pyls-all': {
+\      'workspace_config': {
+\         'pyls': {
+\             'configurationSources': ['flake8']
+\          }
+\      }
+\    },
+\    'efm-langserver': {
+\       'disabled': 0,
+\       'allowlist': ['markdown'],
+\    },
 \}
+
+" let g:lsp_settings = {
+" \        'efm-langserver':{
+" \          'disabled':0,
+" \          'allowlist':['markdown'],
+" \        },
+" \}
 
 if executable('rust-analyzer')
         au User lsp_setup call lsp#register_server({
@@ -265,6 +275,12 @@ nnoremap <C-t><C-t> :Ttoggle<CR>
 tnoremap <C-t><C-t> <C-\><C-n> :Ttoggle<CR>
 " ESCでターミナルモードを抜ける
 tnoremap <silent> <ESC> <C-\><C-n><C-w>
+" Tでターミナルを開いたときにウィンドウ下部に開く
+command! -nargs=* T split | wincmd j resize 20 | terminal <args>
+" 常にinsert mode
+autocmd TermOpen * startinsert
+
+
 
 " 起動時の位置
 let g:neoterm_default_mod='belowright'
