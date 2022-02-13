@@ -192,8 +192,11 @@ fpath+=~/.zfunc
 # ========================
 # julia
 # ========================
+# For Ubuntu
+export PATH="$PATH:/opt/julia-1.7.1/bin"
 
-alias julia1.6="/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia"
+# For Mac
+# alias julia1.6="/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia"
 export JULIA_CMDSTAN_HOME=/usr/local/bin/cmdstan
 # launchctl setenv JULIA_CMDSTAN_HOME /usr/local/bin/cmdstan
 export JULIA_NUM_THREADS=4
@@ -239,10 +242,16 @@ fi
 
 
 # ================================
-# .ls
+# ls
 # ================================
 alias ls="ls --color"
 alias la="ls --color -a"
 alias ll="ls --color -l"
 alias lla="ls --color -l -a"
 
+
+# ================================
+# git 
+# ================================
+alias g="git"
+alias "g add"="g add -v"
