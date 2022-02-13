@@ -1,7 +1,5 @@
 
 set encoding=utf-8
-scriptencoding utf-8
-
 " highlight of current line
 set cursorline
 set guicursor=
@@ -17,8 +15,7 @@ endif
 if exists('&ambw')
     set ambiwidth=single
 endif
-    " =================================
-" 行番号を表示
+    " ================================= 行番号を表示
 " =================================
 set number
 
@@ -67,8 +64,7 @@ if &term =~ "xterm"
     let &t_EI .= "\e[?2004l"
     let &pastetoggle = "\e[201~"
 
-    function XTermPasteBegin(ret)
-        set paste
+    function XTermPasteBegin(ret) set paste
         return a:ret
     endfunction
 
@@ -84,7 +80,7 @@ set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set ruler " ステータスラインの右側にカーソルの現在位置を表示する
-" set colorcolumn=119
+set colorcolumn=119
 
 
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
@@ -94,9 +90,8 @@ filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
 
-"ここからdeoplete本体
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
 
 " Plug 'prabirshrestha/asyncomplete.vim'
 " Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -114,8 +109,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'JuliaLang/julia-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ayu-theme/ayu-vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -156,10 +151,10 @@ nmap <C-b> :NERDTreeToggle<CR>
 " =============================
 " airline settings
 " =============================
-" let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-" nmap <C-p> <Plug>AirlineSelectPrevTab
-" nmap <C-n> <Plug>AirlineSelectNextTab
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+nmap <C-p> <Plug>AirlineSelectPrevTab
+nmap <C-n> <Plug>AirlineSelectNextTab
 
 " insert to normal quickly
 set ttimeoutlen=50
@@ -179,75 +174,73 @@ if exists('+termguicolors')
         let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
         set termguicolors
 endif
+
 let ayucolor="mirage"
 colorscheme ayu
 
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsc_server_commands = {'python3': 'pyls'}
-let g:lsp_settings = {
-\    'pyls-all': {
-\      'workspace_config': {
-\         'pyls': {
-\             'configurationSources': ['flake8']
-\          }
-\      }
-\    },
-\    'efm-langserver': {
-\       'disabled': 0,
-\       'allowlist': ['markdown'],
-\    },
-\}
 
+" let g:lsp_diagnostics_echo_cursor = 1
 " let g:lsp_settings = {
-" \        'efm-langserver':{
-" \          'disabled':0,
-" \          'allowlist':['markdown'],
-" \        },
+" \    'efm-langserver': {
+" \       'disabled': 0,
+" \       'allowlist': ['markdown'],
+" \    },
 " \}
 
-if executable('rust-analyzer')
-        au User lsp_setup call lsp#register_server({
-            \   'name': 'Rust Language Server',
-            \   'cmd': {server_info->['rust-analyzer']},
-            \   'whitelist': ['rust'],
-            \   'initialization_options': {
-            \       'cargo': {
-            \           'loadOutDirsFromCheck': v:true,
-            \       },
-            \       'procMacro': {
-            \           'enable': v:true,
-            \       },
-            \   },
-            \})
-endif
 
-" rust auto format
-let g:rustfmt_autosave = 1
-
-let g:lsp_signs_error = {'text': 'E'}
-let g:lsp_signs_warning = {'text': 'W'}
-if !has('nvim')
-  let g:lsp_diagnostics_float_cursor = 1
-endif
-let g:lsp_log_file = ''
+" let g:lsp_signs_error = {'text': 'E'}
+" let g:lsp_signs_warning = {'text': 'W'}
+" if !has('nvim')
+  " let g:lsp_diagnostics_float_cursor = 1
+" endif
+" let g:lsp_log_file = ''
 
 " ===============
 " python
 " ===============
 let g:python_highlight_all = 1
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
 
-function! s:on_lsp_buffer_enabled() abort
-  setlocal completeopt=menu
-  setlocal omnifunc=lsp#complete
-endfunction
+" vim-lspのpycodestyleをoffにしてflake8にする
+" let g:lsp_settings = {
+  " \  'pylsp-all': {
+  " \    'workspace_config': {
+  " \      'pylsp': {
+  " \        'configurationSources': ['flake8'],
+  " \        'plugins': {
+  " \          'flake8': {
+  " \            'enabled': 1,
+  " \            "ignore": ["E203", "W503", "504", "W391", "E402"],
+  " \            "max-line-length": 119
+  " \          },
+  " \          'mccabe': {
+  " \            'enabled': 0
+  " \          },
+  " \          'pycodestyle': {
+  " \            'enabled': 0
+  " \          },
+  " \          'pyflakes': {
+  " \            'enabled': 0
+  " \          },
+  " \          'pyls-black': { 'enabled': 1, "line-length": 119
+  " \           } 
+  " \        }
+  " \      }
+  " \    }
+  " \  }
+  " \}
 
-augroup lsp_install
-  au!
-  au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+" function! s:on_lsp_buffer_enabled() abort
+  " setlocal completeopt=menu
+  " setlocal omnifunc=lsp#complete
+" endfunction
 
+" augroup lsp_install
+  " au!
+  " au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+" augroup END
 
-autocmd BufWritePre <buffer> LspDocumentFormatSync
+" autocmd BufWritePre <buffer> LspDocumentFormatSync
 
 inoremap <silent> jj <ESC>
 inoremap { {}<Left>
@@ -309,95 +302,3 @@ set hidden
 " markdown.nvim
 " https://github.com/iamcco/markdown-preview.nvim
 " ===============
-" set to 1, nvim will open the preview window after entering the markdown buffer
-" default: 0
-let g:mkdp_auto_start = 0
-
-" set to 1, the nvim will auto close current preview window when change
-" from markdown buffer to another buffer
-" default: 1
-let g:mkdp_auto_close = 1
-
-" set to 1, the vim will refresh markdown when save the buffer or
-" leave from insert mode, default 0 is auto refresh markdown as you edit or
-" move the cursor
-" default: 0
-let g:mkdp_refresh_slow = 0
-
-" set to 1, the MarkdownPreview command can be use for all files,
-" by default it can be use in markdown file
-" default: 0
-let g:mkdp_command_for_global = 0
-
-" set to 1, preview server available to others in your network
-" by default, the server listens on localhost (127.0.0.1)
-" default: 0
-let g:mkdp_open_to_the_world = 0
-
-" use custom IP to open preview page
-" useful when you work in remote vim and preview on local browser
-" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
-" default empty
-let g:mkdp_open_ip = ''
-
-" specify browser to open preview page
-" default: ''
-let g:mkdp_browser = ''
-
-" set to 1, echo preview page url in command line when open preview page
-" default is 0
-let g:mkdp_echo_preview_url = 0
-
-" a custom vim function name to open preview page
-" this function will receive url as param
-" default is empty
-let g:mkdp_browserfunc = ''
-
-" options for markdown render
-" mkit: markdown-it options for render
-" katex: katex options for math
-" uml: markdown-it-plantuml options
-" maid: mermaid options
-" disable_sync_scroll: if disable sync scroll, default 0
-" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
-"   middle: mean the cursor position alway show at the middle of the preview page
-"   top: mean the vim top viewport alway show at the top of the preview page
-"   relative: mean the cursor position alway show at the relative positon of the preview page
-" hide_yaml_meta: if hide yaml metadata, default is 1
-" sequence_diagrams: js-sequence-diagrams options
-" content_editable: if enable content editable for preview page, default: v:false
-" disable_filename: if disable filename header for preview page, default: 0
-let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {},
-    \ 'flowchart_diagrams': {},
-    \ 'content_editable': v:false,
-    \ 'disable_filename': 0
-    \ }
-
-" use a custom markdown style must be absolute path
-" like '/Users/username/markdown.css' or expand('~/markdown.css')
-let g:mkdp_markdown_css = ''
-
-" use a custom highlight style must absolute path
-" like '/Users/username/highlight.css' or expand('~/highlight.css')
-let g:mkdp_highlight_css = ''
-
-" use a custom port to start server or random for empty
-let g:mkdp_port = ''
-
-" preview page title
-" ${name} will be replace with the file name
-let g:mkdp_page_title = '「${name}」'
-" recognized filetypes
-" these filetypes will have MarkdownPreview... commands
-let g:mkdp_filetypes = ['markdown']
-
-
-
