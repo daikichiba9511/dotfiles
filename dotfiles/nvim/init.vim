@@ -40,7 +40,7 @@ set wildmode=list:longest
 " 不可視文字を可視化
 " =============================
 set list " 制御文字を表示
-set listchars=eol:$,tab:>-,space:.,
+set listchars=eol:$,tab:>-
 " --------------- tab -----------------------
 
 set expandtab " タブ入力を複数の空白入力に置き換える
@@ -114,6 +114,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'Yggdroot/indentLine'
 
 " =====
 " comment
@@ -139,6 +140,21 @@ Plug 'kassio/neoterm'
 " markdown
 " =====
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+" =====
+" bracket autocompletion
+" =====
+Plug 'jiangmiao/auto-pairs'
+
+" =====
+" git
+" =====
+Plug 'tpope/vim-fugitive'
+
+" =====
+" fzf
+" =====
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 
 call plug#end()
@@ -243,10 +259,12 @@ autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.ven
 " autocmd BufWritePre <buffer> LspDocumentFormatSync
 
 inoremap <silent> jj <ESC>
-inoremap { {}<Left>
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap ( ()<ESC>i
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
+
+" カッコの保管 -> auto-pairsに移行
+" inoremap { {}<Left>
+" inoremap {<Enter> {}<Left><CR><ESC><S-o>
+" inoremap ( ()<ESC>i
+" inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 
 " ========
@@ -302,3 +320,16 @@ set hidden
 " markdown.nvim
 " https://github.com/iamcco/markdown-preview.nvim
 " ===============
+
+" ===============
+" vim-fugitive
+" ===============
+nmap [figitive] <Nop>
+map <Leader>g [figitive]
+nmap <silent> [figitive]s :<C-u>Gstatus<CR>
+nmap <silent> [figitive]d :<C-u>Gdiff<CR>
+nmap <silent> [figitive]b :<C-u>Gblame<CR>
+nmap <silent> [figitive]l :<C-u>Glog<CR>
+
+
+
