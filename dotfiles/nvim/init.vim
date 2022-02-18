@@ -183,6 +183,10 @@ set ttimeoutlen=50
 " ==============================
 " syntax highlight
 " ==============================
+
+syntax enable
+filetype plugin indent on
+
 " Plugが探し終えた後じゃないとエラーになる
 syntax on
 if exists('+termguicolors')
@@ -265,6 +269,16 @@ inoremap <silent> jj <ESC>
 " inoremap {<Enter> {}<Left><CR><ESC><S-o>
 " inoremap ( ()<ESC>i
 " inoremap (<Enter> ()<Left><CR><ESC><S-o>
+
+" ========
+" rust
+" ========
+let g:rustfmt_autsave = 1
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 
 " ========
