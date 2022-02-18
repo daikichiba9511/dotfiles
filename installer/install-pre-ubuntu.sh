@@ -10,9 +10,14 @@ sudo apt-get install -y \
     vim \
     tmux \
     bat \
-    fzf 
+    fzf \
+    curl \
+    exa
+
 
 # for bat
 # Ref: https://github.com/sharkdp/bat#on-ubuntu-using-apt
 mkdir -p ~/.local/bin
 ln -s /usr/bin/batcat ~/.local/bin/bat
+
+
