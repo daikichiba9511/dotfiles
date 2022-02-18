@@ -10,3 +10,6 @@ nvim        ${HOME}/.config/nvim
 
 # coc
 coc       ${HOME}/.config/coc
+
+# alacritty
+alacritty/alacritty.yml ${HOME}/.config/alacritty
