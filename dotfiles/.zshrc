@@ -36,14 +36,25 @@ setopt share_history
 
 
 #========================
-# 補完機能を有効にする
+# zplug 
 #========================
-zshpath=~/.zshrc/completion
-autoload -Uz compinit
-compinit -u
-if [ -e ${zshpath} ]; then
-  fpath=(${zshpath} $fpath)
+export ZPLUG_HOME=${HOME}/.zplug
+source $ZPLUG_HOME/init.zsh
+
+# plugins
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-completions"
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
 fi
+
+# Then, source plugins and add commands to $PATH
+zplug load --verbose
 
 
 #========================
@@ -248,6 +259,20 @@ alias ls="ls --color"
 alias la="ls --color -a"
 alias ll="ls --color -l"
 alias lla="ls --color -l -a"
+
+if [[ $(command -v exa) ]]; then
+  alias e='exa --icons'
+  alias l=e
+  alias ls=e
+  alias ea='exa -a --icons'
+  alias la=ea
+  alias ee='exa -aal --icons'
+  alias ll=ee
+  alias et='exa -T -L 3 -a -I "node_modules|.git|.cache" --icons'
+  alias lt=et
+  alias eta='exa -T -a -I "node_modules|.git|.cache" --color=always --icons | less -r'
+  alias lta=eta
+fi
 
 
 # ================================
