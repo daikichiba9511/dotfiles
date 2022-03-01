@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-
-sudo apt-get install -y \
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y \
     gcc \
     g++ \
     make \
