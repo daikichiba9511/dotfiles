@@ -2,6 +2,7 @@ export CLICOLOR=1
 
 echo hello. ${USER}
 
+bindkey -v
 
 #========================
 # 環境変数
