@@ -43,7 +43,6 @@ set list " 制御文字を表示
 set listchars=eol:$,tab:>-
 " --------------- tab -----------------------
 
-set expandtab " タブ入力を複数の空白入力に置き換える
 
 set autoindent " 改行時に前の行のインデントを継続する
 set smartindent
@@ -54,6 +53,9 @@ set autoread " 内容が変更されたら自動的にreload
 " 行頭以外のTab文字の表示幅
 " ===========================
 set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab " タブ入力を複数の空白入力に置き換える
 
 
 " ================================
@@ -156,6 +158,11 @@ Plug 'tpope/vim-fugitive'
 " =====
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
+" =====
+" asynchronously
+" =====
+Plug 'neomake/neomake'
+
 
 call plug#end()
 
@@ -174,6 +181,29 @@ nmap <C-n> <Plug>AirlineSelectNextTab
 
 " insert to normal quickly
 set ttimeoutlen=50
+
+
+" =============================
+" treesitter
+" =============================
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "vue", "ruby" },  -- list of language that will be disabled
+  },
+}
+EOF
+
+
+
+" =============================
+" NeoMake
+" https://github.com/neomake/neomake
+" =============================
+autocmd! BufEnter,BufWritePost * Neomake
+let g:neomake_python_enabled_makers = ['python', 'flake8', 'mypy']
 
 " =============================
 " Netrw
