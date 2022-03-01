@@ -16,6 +16,7 @@ elif [ $FLAG = "n" -o $FLAG = "N" ] ; then
 else 
         echo "Sorry, your input is invalid..."
         exit
+fi
 
 sh installer/install-pre-ubuntu.sh
 
