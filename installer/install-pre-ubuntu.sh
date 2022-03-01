@@ -12,8 +12,12 @@ sudo apt install -y \
     bat \
     fzf \
     curl \
-    exa
+    wget \
+    unzip
 
+wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
+unzip exa-linux-x86_64-v0.10.1.zip -d ~/.exa
+cp ~/.exa/bin/exa /usr/local/bin
 
 # for bat
 # Ref: https://github.com/sharkdp/bat#on-ubuntu-using-apt
