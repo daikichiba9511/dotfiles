@@ -8,7 +8,7 @@ echo "=================== start to setup develop environment  ==================
 
 echo " This Setup scripts if for Ubuntu (because of using apt and running is checked on Ubuntu)"
 read -p " Do you want to continue to develop? [y/N]" FLAG
-if [ $FLAG = "y"-o $FLAG = "Y" ] ; then
+if [ $FLAG = "y" -o $FLAG = "Y" ] ; then
         echo " Ok, continue to setup !! "
 elif [ $FLAG = "n" -o $FLAG = "N" ] ; then
         echo " Oh, stop to setup here. "
