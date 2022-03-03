@@ -2,7 +2,7 @@
 
 # ubuntuのとき
 # powerlineはzshのpromptのunicode文字列表示に必要
-sudo apt-get install -y zsh powerline fonts-powerline
+sudo apt install -y zsh powerline fonts-powerline
 
 # defaultのshellを変更
 # 次回以降のログイン時にshellを変える
