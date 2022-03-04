@@ -13,7 +13,8 @@ sudo apt install -y \
     fzf \
     curl \
     wget \
-    unzip
+    unzip \
+    sudo
 
 wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
 mv exa-linux-x86_64-v0.10.1.zip $HOME/
