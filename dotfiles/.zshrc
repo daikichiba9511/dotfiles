@@ -174,8 +174,13 @@ function left-prompt {
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
   # apt-get install powerline fonts-powerlineがひつようで面倒
-  echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp}${reset} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
-  # echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  # Inside docker, maybe unicode not working??, so switch version not using unicode..
+  if [ -d '/workspace' ] ; then 
+    echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+
+  else
+    echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp}${reset} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  fi
 }
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
