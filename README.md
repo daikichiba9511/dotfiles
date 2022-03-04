@@ -18,6 +18,9 @@ cd ~/dotfiles
 # 3 run a setup script
 sh scripts/setup.sh
 
+# 4 return
+cd -
+
 # oneline
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh
+git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh && cd -
 ```
