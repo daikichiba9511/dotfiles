@@ -18,7 +18,9 @@ apt install -y \
     autoconf \
     automake \
     pkg-config \
-    doxygen 
+    doxygen \
+    make \
+    cmake
 
 
 # step:1 clone
