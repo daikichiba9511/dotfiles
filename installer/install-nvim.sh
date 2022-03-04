@@ -45,6 +45,6 @@ echo "✨ finished installing vim-plug"
 
 # for coc
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
-pt upgrade -y && apt install -yqq nodejs
+apt upgrade -y && apt install -yqq nodejs
 echo "✨ finished installing nodejs for coc.nvim"
 
