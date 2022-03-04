@@ -16,11 +16,14 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # 3 run a setup script
-sh scripts/setup.sh
+sh scripts/setup.sh y
+
+## if you want to install python
+sh scripts/setup.sh y python
 
 # 4 return
 cd -
 
 # oneline
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh && cd -
+git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles y&& sh scripts/setup.sh y&& cd -
 ```
