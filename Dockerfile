@@ -15,15 +15,7 @@ RUN apt update && apt upgrade -y \
     cmake \
     curl \
     wget \
-    ninja-build \
-    gettext \
-    libtool \
-    libtool-bin \
-    autoconf \
-    automake \
     g++ \
-    pkg-config \
-    doxygen \
     unzip \
     &&curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     &&apt install -y nodejs
