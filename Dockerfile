@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
 # example
+ENV LC_ALL="C.UTF-8" LESSCHARSET="utf-8"
 
 WORKDIR /workspace
 
