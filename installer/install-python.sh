@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-PYTHON_DEFAULT=3.8.12
+PYTHON_DEFAULT=3.9.7
 PYTHON_VER=${1-$PYTHON_DEFAULT}
 
 echo "===== python install start ====="
@@ -14,8 +14,13 @@ sudo apt install -y \
     build-essential
 
 # control python versions by pyenv
-# if .pyenv exists , skip (returned 0)
-[ -d "~/.pyenv" ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone --depth 1 https://github.com/pyenv/pyenv.git $HOME/.pyenv
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
+fi
 
 pyenv install $PYTHON_DEFAULT
 
@@ -24,8 +29,8 @@ pyenv install $PYTHON_DEFAULT
 [ ! -f '~/.zshrc ]' && source ~/.zshrc
 
 # option versions
-pyenv install 3.9.7
-pyenv install 3.7.12
+# pyenv install 3.7.12
+# pyenv install 3.8.10
 
 pyenv global $PYTHON_VER
 echo ' ### check you python versions ### '
