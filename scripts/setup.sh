@@ -30,7 +30,7 @@ sh installer/install-around-zsh.sh
 
 sh installer/install-nvim.sh
 
-sh installer/install-nerdfonts.sh
+sh installer/install-nerdfonts.sh Hack
 
 PYTHON=${1:-SKIP}
 if [ $PYTHON = "python" -o $PYTHON = "p" ] ; then
