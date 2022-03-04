@@ -33,12 +33,16 @@ sudo make install
 
 cd -
 sudo rm -rf ~/neovim
-
 echo "✨ finished installing neovim"
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+echo "✨ finished installing vim-plug"
 
 # nvim +'PlugInstall --sync' +qa
 
-echo "✨ finished installing vim-plug"
+# for coc
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+pt upgrade -y && apt install -yqq nodejs
+echo "✨ finished installing nodejs for coc.nvim"
+
