@@ -30,9 +30,7 @@ sh installer/install-around-zsh.sh
 
 sh installer/install-nvim.sh
 
-sh installer/install-nerdfonts.sh Hack
-
-PYTHON=${1:-SKIP}
+PYTHON=${2:-SKIP}
 if [ $PYTHON = "python" -o $PYTHON = "p" ] ; then
     sh installer/install-python.sh
 else
@@ -51,6 +49,11 @@ if [ $CODE = "code" -o $CODE = "c" ] ; then
     sh installer/install-code.sh
 else
     echo "skip installation of vscode"
+fi
+
+NERD=${5:-SKIP}
+if [ $NERD = 'nerd' ] ; then 
+    sh installer/install-nerdfonts.sh Hack
 fi
 
 sh scripts/link.sh
