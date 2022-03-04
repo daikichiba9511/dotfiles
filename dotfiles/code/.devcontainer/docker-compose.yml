@@ -9,15 +9,7 @@ services:
     tty: true
     stdin_open: true
     command: >
-      sh -c 'mkdir -p ~/dotfiles
-      &&curl -sL https://deb.nodesource.com/setup_14.x | bash -
-      &&apt upgrade -y && apt install -yqq zsh nodejs sudo ninja-build gettext libtool libtool-bin autoconf automake g++ pkg-config doxygen unzip cmake make g++
-      &&git clone --depth=1 git@github.com:daikichiba9511/dotfiles.git
-      &&mv ./dotfiles ~/
-      &&chmod +x ~/dotfiles/installer/install-nvim.sh
-      &&sh /root/dotfiles/installer/install-nvim.sh
-      &&chsh -s /bin/zsh
-      &&exec /bin/zsh -l'
+      sh -c 'git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y'
     deploy:
       resources:
         reservations:
@@ -25,7 +17,7 @@ services:
             - driver: nvidia
               capabilities: [utility, compute, video]
     volumes:
-      - .:/workspace/$(basename `pwd')
+      - .:/workspace/working
       - ${HOME}/.config:/root/.config
       - ${HOME}/.config/nvim/init.vim:/root/.config/nvim/init.vim
       - ${HOME}/.zshrc:/root/.zshrc
