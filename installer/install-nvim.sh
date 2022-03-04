@@ -9,6 +9,18 @@ set -eu
 # vscode-neovimとの互換性を持たせるためにはver>=0.5が必要なのでソースからビルドする
 NVIM_DEFUALT_VER=0.6
 NVIM_VERSION=${1-$NVIM_DEFUALT_VER}
+# step:0 install prerequire
+apt install -y \
+    ninja-build \
+    gettext \
+    libtool \
+    libtool-bin \
+    autoconf \
+    automake \
+    pkg-config \
+    doxygen 
+
+
 # step:1 clone
 echo "✨ git cloned neovim"
 git clone https://github.com/neovim/neovim.git ~/neovim
