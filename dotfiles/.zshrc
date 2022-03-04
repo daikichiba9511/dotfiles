@@ -169,13 +169,13 @@ function left-prompt {
   text_color='%{\e[38;5;'    # set text color
   back_color='%{\e[30;48;5;' # set background color
   reset='%{\e[0m%}'   # reset
-  # sharp='\uE0B0'      # triangle
+  sharp='\uE0B0'      # triangle
 
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
   # apt-get install powerline fonts-powerlineがひつようで面倒
-  #echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
-  echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp}${reset} "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
+  # echo "${user}%n%#@%m${reset} => ${back_color}${path_b} ${text_color}${name_b}${dir}%~${reset}${text_color}${path_b}${reset} => "'`git-current-branch`'"${reset}\n${text_color}${arrow}$ ${reset}"
 }
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
@@ -242,6 +242,13 @@ export PATH=/Users/chibadaimare/.config/coc/extensions/node_modules:$PATH
 # ===============================
 [[ -n "$TMUX" ]] && stty erase '^?'
 
+function ide() {
+    tmux split-window -v
+    tmux split-window -h
+    tmux resize-pane -D 15
+    tmux select-pane -t 1
+}
+
 # ================================
 # .local/bin
 # ================================
@@ -249,7 +256,7 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # for ubuntu
 if type "xsel" > /dev/null; then
-        alias pbcopy='xsel  --clipboard --input'
+    alias pbcopy='xsel  --clipboard --input'
 fi
 
 
@@ -280,4 +287,6 @@ fi
 # git 
 # ================================
 alias g="git"
-alias "g add"="g add -v"
+alias gs="git status -u"
+alias ga="git add -v"
+alias gcm="git commit"
