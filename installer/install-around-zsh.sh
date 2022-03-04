@@ -11,6 +11,6 @@ chsh -s $(which zsh)
 
 # zplug
 # curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-export ZPLUG_HOME=~/.zplug
+export ZPLUG_HOME=$HOME/.zplug
 rm -rf ZPLUG_HOME
 git clone https://github.com/zplug/zplug $ZPLUG_HOME
