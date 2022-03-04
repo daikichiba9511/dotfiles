@@ -25,5 +25,5 @@ sh scripts/setup.sh y python
 cd -
 
 # oneline
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles y&& sh scripts/setup.sh y&& cd -
+git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
 ```
