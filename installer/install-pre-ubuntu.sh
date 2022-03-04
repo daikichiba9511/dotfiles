@@ -1,5 +1,12 @@
 #!/bin/sh
 set -eu
+
+if which sudo > /dev/null 2>&1; then
+    echo "this envrionment has sudo.. so continue to install"
+else
+    apt install -y sudo
+fi
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y \
     gcc \
@@ -13,8 +20,7 @@ sudo apt install -y \
     fzf \
     curl \
     wget \
-    unzip \
-    sudo
+    unzip 
 
 wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
 mv exa-linux-x86_64-v0.10.1.zip $HOME/
