@@ -142,6 +142,7 @@ Plug 'kassio/neoterm'
 " markdown
 " =====
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'dhruvasagar/vim-table-mode'
 
 " =====
 " bracket autocompletion
@@ -161,7 +162,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " =====
 " asynchronously
 " =====
-Plug 'neomake/neomake'
+" こっちはALEより古いらしい
+" Plug 'neomake/neomake'
+
+Plug 'dense-analysis/ale'
 
 
 call plug#end()
@@ -202,8 +206,28 @@ EOF
 " NeoMake
 " https://github.com/neomake/neomake
 " =============================
-autocmd! BufEnter,BufWritePost * Neomake
-let g:neomake_python_enabled_makers = ['python', 'flake8', 'mypy']
+" autocmd! BufEnter,BufWritePost * Neomake
+" let g:neomake_python_enabled_makers = ['python', 'flake8', 'mypy']
+
+" =============================
+" ALE
+" Ref
+" * https://github.com/neomake/neomake
+" * https://github.com/neomake/neomake
+" =============================
+" 開いた瞬間のlintをオフ（これでパッと開ける）
+let g:ale_lint_on_enter = 0
+let g:ale_fix_on_save = 1
+let g:ale_linters = {
+\   'python': ['flake8', 'mypy'],
+\   'markdown': ['textlint'],
+\}
+
+let g:ale_fixers = {
+    \ 'python': ['black', 'isort'],
+    \ }
+
+nmap <silent> <Leader>x <Plug>(ale_fix)
 
 " =============================
 " Netrw
@@ -220,9 +244,9 @@ filetype plugin indent on
 " Plugが探し終えた後じゃないとエラーになる
 syntax on
 if exists('+termguicolors')
-        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-        set termguicolors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
 endif
 
 let ayucolor="mirage"
@@ -361,9 +385,13 @@ nnoremap <silent> <C-k> :bnext<CR>
 set hidden
 
 " ===============
-" markdown.nvim
+" markdown
+" Ref
 " https://github.com/iamcco/markdown-preview.nvim
 " ===============
+
+" vim-table-mode
+let g:table_mode_corner = '|'
 
 " ===============
 " vim-fugitive
