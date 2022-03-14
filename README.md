@@ -29,7 +29,6 @@ cd -
 online commands
 
 ```
-# oneline
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
 ```
 
