@@ -295,6 +295,7 @@ alias g="git"
 alias gs="git status -u"
 alias ga="git add -v"
 alias gcm="git commit"
+alias gdf="git diff"
 
 # ================================
 # log
