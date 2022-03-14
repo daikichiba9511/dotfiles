@@ -295,3 +295,16 @@ alias g="git"
 alias gs="git status -u"
 alias ga="git add -v"
 alias gcm="git commit"
+
+# ================================
+# log
+# ================================
+function cdlog() {
+    # create daily log file
+    local datetime=$(date +%Y-%m-%d)
+    local log_file_name="${datetime}.md"
+    touch ${log_file_name}
+    echo "#${datetime}" >> ${log_file_name}
+    cat ~/dotfiles/dotfiles/base_logs.md >> ${log_file_name}
+    echo "✅ ${log_file_name} is created."
+}
