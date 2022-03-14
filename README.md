@@ -24,6 +24,19 @@ sh scripts/setup.sh y python
 # 4 return
 cd -
 
+```
+
+online commands
+
+```
 # oneline
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
+```
+
+NOTE:
+
+if you use Python at NeoVim, you should install jedi-lanugage-server. 
+
+```
+pip install jedi-lanugage-server
 ```
