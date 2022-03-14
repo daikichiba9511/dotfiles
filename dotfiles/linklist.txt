@@ -13,3 +13,6 @@ coc       ${HOME}/.config/coc
 
 # alacritty
 alacritty/alacritty.yml ${HOME}/.config/alacritty
+
+# textlint
+.textlintrc ${HOME}
