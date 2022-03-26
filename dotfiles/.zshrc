@@ -296,6 +296,8 @@ alias gs="git status -u"
 alias ga="git add -v"
 alias gcm="git commit"
 alias gdf="git diff"
+alias gpush="git push"
+alias gpull="git pull"
 
 # ================================
 # log
@@ -309,3 +311,10 @@ function cdlog() {
     cat ~/dotfiles/dotfiles/base_logs.md >> ${log_file_name}
     echo "✅ ${log_file_name} is created."
 }
+
+
+# ================================
+# deno
+# ================================
+export DENO_INSTALL="/home/d-chiba/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
