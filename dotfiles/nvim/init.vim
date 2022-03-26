@@ -168,6 +168,22 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 
 
+" =====
+" deno
+" =====
+" Plug 'vim-denops/denops.vim'
+
+" =====
+" 日本語入力
+" =====
+" Plug 'vim-skk/denops-skkeleton.vim'
+
+" =====
+" 補完
+" =====
+" Plug 'Shougo/ddc.vim'
+" Plug 'Shougo/pum.vim'
+
 call plug#end()
 
 " =============================
@@ -404,4 +420,54 @@ nmap <silent> [figitive]b :<C-u>Gblame<CR>
 nmap <silent> [figitive]l :<C-u>Glog<CR>
 
 
+" ===============
+" vim-skkeleton
+" ===============
+" imap <C-j> <Plug>(skkeleton-toggle)
+" cmap <C-j> <Plug>(skkeleton-toggle)
+" function! s:skkeleton_init() abort
+"   call skkeleton#config({
+"     \ 'eggLikeNewline': v:true
+"     \ })
+"   call skkeleton#register_kanatable('rom', {
+"     \ "z\<Space>": ["\u3000", ''],
+"     \ })
+" endfunction
+" augroup skkeleton-initialize-pre
+"   autocmd!
+"   autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+" augroup END
 
+" call ddc#custom#patch_global('sources', ['skkeleton'])
+" call ddc#custom#patch_global('sourceOptions', {
+"     \   '_': {
+"     \     'matchers': ['matcher_head'],
+"     \     'sorters': ['sorter_rank']
+"     \   },
+"     \   'skkeleton': {
+"     \     'mark': 'skkeleton',
+"     \     'matchers': ['skkeleton'],
+"     \     'sorters': [],
+"     \     'minAutoCompleteLength': 2,
+"     \   },
+"     \ })
+" call skkeleton#config({'completionRankFile': '~/.skkeleton/rank.json'})
+
+" " let g:skkeleton#debug = v:true
+
+" " coc.nvimの例
+" augroup skkeleton-coc
+"   autocmd!
+"   autocmd User skkeleton-enable-pre let b:coc_suggest_disable = v:true
+"   autocmd User skkeleton-disable-pre let b:coc_suggest_disable = v:false
+" augroup END
+
+
+" ===============
+" 背景透過
+" ===============
+highlight Normal ctermbg=NONE guibg=NONE
+highlight NonText ctermbg=NONE guibg=NONE
+highlight LineNr ctermbg=NONE guibg=NONE
+highlight Folded ctermbg=NONE guibg=NONE
+highlight EndOfBuffer ctermbg=NONE guibg=NONE
