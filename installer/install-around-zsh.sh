@@ -14,3 +14,8 @@ chsh -s $(which zsh)
 export ZPLUG_HOME=$HOME/.zplug
 rm -rf ZPLUG_HOME
 git clone https://github.com/zplug/zplug $ZPLUG_HOME
+
+# starship
+# customize prompt
+curl -sS https://starship.rs/install.sh | sh
+

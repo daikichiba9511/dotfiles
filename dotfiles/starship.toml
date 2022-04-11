@@ -1,0 +1,15 @@
+# ~/.config/starship.toml
+
+[directory]
+truncation_length = 10_000
+truncate_to_repo = false
+
+[python]
+format = "[$symbol$version]($style) "
+style = "bold green"
+
+[rust]
+format = "[$symbol$version]($style) "
+style = "bold green"
+
+
