@@ -183,6 +183,12 @@ Plug 'dense-analysis/ale'
 " =====
 " Plug 'Shougo/ddc.vim'
 " Plug 'Shougo/pum.vim'
+"
+" =====
+" terraform
+" =====
+ Plug 'hashivim/vim-terraform' , { 'for': 'terraform'}
+
 
 call plug#end()
 
