@@ -184,9 +184,9 @@ function left-prompt {
 }
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
-setopt prompt_subst
+# setopt prompt_subst
 
-PROMPT=`left-prompt`
+# PROMPT=`left-prompt`
 
 
 # コマンドの実行ごとに改行
@@ -318,3 +318,16 @@ function cdlog() {
 # ================================
 export DENO_INSTALL="/home/d-chiba/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
+
+
+# ================================
+# terraform
+# ================================
+export PATH=$PATH:$HOME/.bin
+
+
+# ================================
+# starship
+# should be put on last line
+# ================================
+eval $(starship init zsh)
