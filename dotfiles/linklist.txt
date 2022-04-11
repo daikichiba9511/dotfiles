@@ -16,3 +16,6 @@ alacritty/alacritty.yml ${HOME}/.config/alacritty
 
 # textlint
 .textlintrc ${HOME}
+
+# starship
+starship.toml ${HOME}/.config
