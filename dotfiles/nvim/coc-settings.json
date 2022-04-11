@@ -1,8 +1,12 @@
 {
-        "languageserver": {
-                "python": {
-                        "command": "jedi-language-server",
-                        "filetypes": ["python"]
-                }
+    "languageserver": {
+        "python": {
+            "command": "jedi-language-server",
+            "filetypes": ["python"]
+        },
+        "terraform": {
+            "command": "terraform-lsp",
+            "filetypes": ["terraform", "tf"]
         }
+    }
 }
