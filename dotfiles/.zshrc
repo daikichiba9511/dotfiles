@@ -331,3 +331,4 @@ export PATH=$PATH:$HOME/.bin
 # should be put on last line
 # ================================
 eval $(starship init zsh)
+

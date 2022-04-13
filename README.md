@@ -26,7 +26,7 @@ cd -
 
 ```
 
-online commands
+oneline commands
 
 ```
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
@@ -34,7 +34,7 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 
 NOTE:
 
-if you use Python at NeoVim, you should install jedi-lanugage-server. 
+if you use Python at NeoVim, you should install `jedi-lanugage-server`. 
 
 ```
 pip install jedi-lanugage-server
