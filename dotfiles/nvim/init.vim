@@ -73,7 +73,7 @@ if &term =~ "xterm"
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-set clipboard=unnamed
+set clipboard+=unnamedplus
 
 " ====================================
 " vim plugin の管理
