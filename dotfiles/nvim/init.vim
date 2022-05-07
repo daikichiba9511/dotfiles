@@ -122,7 +122,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -200,6 +200,11 @@ Plug 'dense-analysis/ale'
  Plug 'hashivim/vim-terraform' , { 'for': 'terraform'}
 
 
+" =====
+" SATySFi
+" =====
+Plug 'qnighy/satysfi.vim'
+
 call plug#end()
 
 " =============================
@@ -223,10 +228,10 @@ set ttimeoutlen=50
 " =============================
 " telescope
 " =============================
-nnoremap <silent> ;f <cmd>Telescope find_files<cr>
-nnoremap <silent> ;r <cmd>Telescope live_grep<cr>
-nnoremap <silent> \\ <cmd>Telescope buffers<cr>
-nnoremap <silent> ;; <cmd>Telescope help_tags<cr>
+" nnoremap <silent> ;f <cmd>Telescope find_files<cr>
+" nnoremap <silent> ;r <cmd>Telescope live_grep<cr>
+" nnoremap <silent> \\ <cmd>Telescope buffers<cr>
+" nnoremap <silent> ;; <cmd>Telescope help_tags<cr>
 
 
 " =============================
