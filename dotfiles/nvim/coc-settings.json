@@ -7,6 +7,12 @@
         "terraform": {
             "command": "terraform-lsp",
             "filetypes": ["terraform", "tf"]
+        },
+        "satysfi-ls": {
+            "command": "satysfi-language-server",
+            "args": [],
+            "filetypes": ["satysfi"],
+            "trace.server": "verbose"
         }
     }
 }
