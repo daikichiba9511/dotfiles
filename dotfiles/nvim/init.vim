@@ -275,6 +275,7 @@ let g:ale_fixers = {
     \ }
 
 let g:ale_pattern_options = {'*.rs': {'ale_enabled': 0}}
+let g:ale_python_black_options = "--max-line-length 119"
 
 nmap <silent> <Leader>x <Plug>(ale_fix)
 

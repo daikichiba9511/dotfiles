@@ -7,7 +7,7 @@ set -eu
 
 # install neovim from source
 # vscode-neovimとの互換性を持たせるためにはver>=0.5が必要なのでソースからビルドする
-NVIM_DEFUALT_VER=0.6
+NVIM_DEFUALT_VER=0.7
 NVIM_VERSION=${1-$NVIM_DEFUALT_VER}
 # step:0 install prerequire
 apt install -y \
