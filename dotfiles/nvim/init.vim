@@ -274,6 +274,8 @@ let g:ale_fixers = {
     \ 'python': ['black', 'isort'],
     \ }
 
+let g:ale_pattern_options = {'*.rs': {'ale_enabled': 0}}
+
 nmap <silent> <Leader>x <Plug>(ale_fix)
 
 " =============================
@@ -375,6 +377,16 @@ inoremap <silent> jj <ESC>
 " rust
 " ========
 let g:rustfmt_autsave = 1
+
+" ========
+" hover of coc
+" ========
+" scroll of hover
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
