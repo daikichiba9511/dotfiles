@@ -2,7 +2,7 @@
 set encoding=utf-8
 " highlight of current line
 set cursorline
-set guicursor=
+" set guicursor=
 
 
 set fileencoding=utf-8 " 保存時の文字コード
