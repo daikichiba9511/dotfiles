@@ -108,25 +108,39 @@ call plug#begin('~/.vim/plugged')
 
 "Vim用自動補完プラグイン（任意）
 
-Plug 'Shougo/neco-vim'
+" Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'JuliaLang/julia-vim'
 Plug 'itchyny/lightline.vim'
-Plug 'ayu-theme/ayu-vim'
+
+" =====
+" status line
+" =====
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+
+" =====
+" file
+" =====
 Plug 'preservim/nerdtree'
 " Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
+" =====
+" ColorTheme
+" =====
+Plug 'ayu-theme/ayu-vim'
 
+" =====
+" Highlight
+" =====
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'Yggdroot/indentLine'
+Plug 't9md/vim-quickhl'
 
 " =====
 " comment
@@ -199,11 +213,15 @@ Plug 'dense-analysis/ale'
 " =====
  Plug 'hashivim/vim-terraform' , { 'for': 'terraform'}
 
-
 " =====
 " SATySFi
 " =====
 Plug 'qnighy/satysfi.vim'
+
+" =====
+" Julia
+" =====
+" Plug 'JuliaLang/julia-vim'
 
 call plug#end()
 
