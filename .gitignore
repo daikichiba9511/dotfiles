@@ -1,5 +1,7 @@
 dotfiles/coc/extensions
 dotfiles/coc/commands
 dotfiles/coc/suggest.txt
+dotfiles/coc/mru
 
 dotfiles/coc/list*
+
