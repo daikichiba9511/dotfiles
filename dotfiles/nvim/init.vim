@@ -94,8 +94,7 @@ filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
 
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
+
 
 " Plug 'prabirshrestha/asyncomplete.vim'
 " Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -122,13 +121,17 @@ Plug 'vim-airline/vim-airline-themes'
 " =====
 " file
 " =====
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
+" Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'
+
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/nerdfont.vim'
+
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
 
 " =====
 " ColorTheme
@@ -176,12 +179,21 @@ Plug 'jiangmiao/auto-pairs'
 " =====
 " git
 " =====
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
+Plug 'lambdalisue/gina.vim'
 
 " =====
 " fzf
 " =====
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Ref: 
+" [1] https://zenn.dev/yano/articles/vim_with_fzf_preview_is_best_experience
+" [2] https://zenn.dev/yutakatay/articles/vim-fuzzy-finder
+" [3] https://github.com/yuki-yano/fzf-preview.vim
+" 拡張にLuaの知識が必要 (you have to know about Lua to customize)
+" Plug 'nvim-telescope/telescope.nvim'
+Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
+" isntall by coc
+" Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 
 " =====
 " asynchronously
@@ -226,9 +238,40 @@ Plug 'qnighy/satysfi.vim'
 call plug#end()
 
 " =============================
-" nerdtree settings
+" filer settings
 " =============================
-nmap <C-b> :NERDTreeToggle<CR>
+" nmap <C-b> :NERDTreeToggle<CR>
+
+"" fern
+nnoremap <silent> <Leader>e :<C-u>Fern . -drawer<CR>
+nnoremap <silent> <Leader>E :<C-u>Fern . -drawer -reveal=%<CR>
+let g:fern#renderer = "nerdfont"
+
+" =============================
+" fzf settings
+" =============================
+let $BAT_THEME                     = 'grubbox'
+let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'grubbox'
+
+noremap <fzf-p> <Nop>
+map     ;       <fzf-p>
+noremap ;;      ;
+noremap <dev>   <Nop>
+map     m       <dev>
+
+nnoremap <silent> <C-p>  :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> <fzf-p>s  :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> <fzf-p>gg :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> <fzf-p>b  :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap          <fzf-p>f  :<C-u>CocCommand fzf-preview.ProjectGrep --add-fzf-arg=--exact --add-fzf-arg=--no-sort<Space>
+xnoremap          <fzf-p>f  "sy:CocCommand fzf-preview.ProjectGrep --add-fzf-arg=--exact --add-fzf-arg=--no-sort<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+
+nnoremap <silent> <fzf-p>q  :<C-u>CocCommand fzf-preview.CocCurrentDiagnostics<CR>
+nnoremap <silent> <fzf-p>rf :<C-u>CocCommand fzf-preview.CocReferences<CR>
+nnoremap <silent> <fzf-p>d  :<C-u>CocCommand fzf-preview.CocDefinition<CR>
+nnoremap <silent> <fzf-p>t  :<C-u>CocCommand fzf-preview.CocTypeDefinition<CR>
+nnoremap <silent> <fzf-p>o  :<C-u>CocCommand fzf-preview.CocOutline --add-fzf-arg=--exact --add-fzf-arg=--no-sort<CR>
+
 
 " =============================
 " airline settings
@@ -236,8 +279,8 @@ nmap <C-b> :NERDTreeToggle<CR>
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'simple' 
-nmap <C-p> <Plug>AirlineSelectPrevTab
-nmap <C-n> <Plug>AirlineSelectNextTab
+" nmap <C-p> <Plug>AirlineSelectPrevTab
+" nmap <C-n> <Plug>AirlineSelectNextTab
 
 " insert to normal quickly
 set ttimeoutlen=50
@@ -256,11 +299,26 @@ set ttimeoutlen=50
 " treesitter
 " =============================
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    'python',
+    'rust',
+    'typescript',
+    'html',
+    'javascript',
+    'tsx',
+    'yaml',
+    'toml',
+    'vim',
+    'make',
+    'latex',
+    'json',
+    'dockerfile',
+    'cpp',
+    'bash',
+  },
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "vue", "ruby" },  -- list of language that will be disabled
   },
 }
 EOF
@@ -318,6 +376,7 @@ if exists('+termguicolors')
 endif
 
 let ayucolor="mirage"
+" let ayucolor="dark"
 colorscheme ayu
 
 
@@ -398,9 +457,36 @@ inoremap <silent> jj <ESC>
 let g:rustfmt_autsave = 1
 
 " ========
-" hover of coc
+" coc
 " ========
-" scroll of hover
+""
+let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-git', 'coc-fzf-preview', 'coc-lists', 'coc-rust-analyzer']
+
+" [dev] = m
+inoremap <silent> <expr> <C-Space> coc#refresh()
+nnoremap <silent> K       :<C-u>call <SID>show_documentation()<CR>
+nmap     <silent> [dev]rn <Plug>(coc-rename)
+nmap     <silent> [dev]a  <Plug>(coc-codeaction-selected)iw
+
+function! s:coc_typescript_settings() abort
+  nnoremap <silent> <buffer> [dev]f :<C-u>CocCommand eslint.executeAutofix<CR>:CocCommand prettier.formatFile<CR>
+endfunction
+
+augroup coc_ts
+  autocmd!
+  autocmd FileType typescript,typescriptreact call <SID>coc_typescript_settings()
+augroup END
+
+function! s:show_documentation() abort
+  if index(['vim','help'], &filetype) >= 0
+    execute 'h ' . expand('<cword>')
+  elseif coc#rpc#ready()
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
+
+"" scroll of hover
 nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
@@ -411,7 +497,6 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
 
 " ========
 " neovim内でデフォルトで起動するシェルを変える
@@ -474,12 +559,12 @@ let g:table_mode_corner = '|'
 " ===============
 " vim-fugitive
 " ===============
-nmap [figitive] <Nop>
-map <Leader>g [figitive]
-nmap <silent> [figitive]s :<C-u>Gstatus<CR>
-nmap <silent> [figitive]d :<C-u>Gdiff<CR>
-nmap <silent> [figitive]b :<C-u>Gblame<CR>
-nmap <silent> [figitive]l :<C-u>Glog<CR>
+" nmap [figitive] <Nop>
+" map <Leader>g [figitive]
+" nmap <silent> [figitive]s :<C-u>Gstatus<CR>
+" nmap <silent> [figitive]d :<C-u>Gdiff<CR>
+" nmap <silent> [figitive]b :<C-u>Gblame<CR>
+" nmap <silent> [figitive]l :<C-u>Glog<CR>
 
 
 " ===============
@@ -526,10 +611,10 @@ nmap <silent> [figitive]l :<C-u>Glog<CR>
 
 
 " ===============
-" 背景透過
+" 背景透過(transparency)
 " ===============
-highlight Normal ctermbg=NONE guibg=NONE
-highlight NonText ctermbg=NONE guibg=NONE
-highlight LineNr ctermbg=NONE guibg=NONE
-highlight Folded ctermbg=NONE guibg=NONE
-highlight EndOfBuffer ctermbg=NONE guibg=NONE
+" highlight Normal ctermbg=NONE guibg=NONE
+" highlight NonText ctermbg=NONE guibg=NONE
+" highlight LineNr ctermbg=NONE guibg=NONE
+" highlight Folded ctermbg=NONE guibg=NONE
+" highlight EndOfBuffer ctermbg=NONE guibg=NONE
