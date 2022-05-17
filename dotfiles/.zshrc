@@ -333,3 +333,5 @@ export PATH=$PATH:$HOME/.bin
 # ================================
 eval $(starship init zsh)
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
