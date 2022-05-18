@@ -159,6 +159,8 @@ Plug 'rust-lang/rust.vim'
 " python
 " =====
 Plug 'vim-python/python-syntax'
+" Plug 'psf/black', { 'branch': 'stable' }
+" Plug 'fisadev/vim-isort'
 
 " =====
 " terminal
@@ -200,9 +202,12 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
 " =====
 " こっちはALEより古いらしい
 " Plug 'neomake/neomake'
+" Plug 'dense-analysis/ale'
 
-Plug 'dense-analysis/ale'
-
+" =====
+" json
+" =====
+" Plug 'elzr/vim-json'
 
 " =====
 " deno
@@ -339,21 +344,23 @@ EOF
 " * https://github.com/neomake/neomake
 " =============================
 " 開いた瞬間のlintをオフ（これでパッと開ける）
-let g:ale_lint_on_enter = 0
-let g:ale_fix_on_save = 1
-let g:ale_linters = {
-\   'python': ['flake8', 'mypy'],
-\   'markdown': ['textlint'],
-\}
+" let g:ale_lint_on_enter = 0
+" let g:ale_fix_on_save = 1
+" let g:ale_disable_lsp = 0
+" let g:ale_linters = {
+" \   'python': ['flake8', 'mypy'],
+" \   'markdown': ['textlint'],
+" \}
 
-let g:ale_fixers = {
-    \ 'python': ['black', 'isort'],
-    \ }
+" let g:ale_fixers = {
+"     \ 'python': ['black', 'isort'],
+"     \ }
 
-let g:ale_pattern_options = {'*.rs': {'ale_enabled': 0}}
-let g:ale_python_black_options = "--max-line-length 119"
+" let g:ale_pattern_options = {'*.rs': {'ale_enabled': 0}}
+" let g:ale_python_black_options = "--max-line-length 119"
 
-nmap <silent> <Leader>x <Plug>(ale_fix)
+
+" nmap <silent> <Leader>x <Plug>(ale_fix)
 
 " =============================
 " Netrw
@@ -401,6 +408,20 @@ colorscheme ayu
 " ===============
 let g:python_highlight_all = 1
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
+
+" augroup black_on_save
+"   autocmd!
+"   autocmd BufWritePre *.py Black
+" augroup end
+" autocmd BufWritePost *.py :!isort %
+
+" This triggers all formatting before coc linter is triggered
+" aug python
+"     au!
+"     autocmd BufWritePre *.py Isort
+"     autocmd BufWritePre *.py Black
+" aug END
+
 
 " vim-lspのpycodestyleをoffにしてflake8にする
 " let g:lsp_settings = {
@@ -609,6 +630,11 @@ let g:table_mode_corner = '|'
 "   autocmd User skkeleton-disable-pre let b:coc_suggest_disable = v:false
 " augroup END
 
+" ============
+" json
+" ============
+set conceallevel=0
+let g:vim_json_syntax_conceal=0
 
 " ===============
 " 背景透過(transparency)
