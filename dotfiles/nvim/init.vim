@@ -481,7 +481,7 @@ let g:rustfmt_autsave = 1
 " coc
 " ========
 ""
-let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-git', 'coc-fzf-preview', 'coc-lists', 'coc-rust-analyzer']
+" let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-git', 'coc-fzf-preview', 'coc-lists', 'coc-rust-analyzer', 'coc-pyright']
 
 " [dev] = m
 inoremap <silent> <expr> <C-Space> coc#refresh()
@@ -505,6 +505,22 @@ function! s:show_documentation() abort
     call CocActionAsync('doHover')
   endif
 endfunction
+
+let g:coc_global_extensions = [
+    \ 'coc-eslint8',
+    \ 'coc-fzf-preview',
+    \ 'coc-git',
+    \ 'coc-html',
+    \ 'coc-json',
+    \ 'coc-lists',
+    \ 'coc-prettier',
+    \ 'coc-pyright',
+    \ 'coc-rust-analyzer',
+    \ 'coc-sh',
+    \ 'coc-sql',
+    \ 'coc-tsserver'
+\]
+
 
 
 "" scroll of hover
