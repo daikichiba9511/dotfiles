@@ -21,7 +21,13 @@ sudo apt install -y \
     curl \
     wget \
     unzip \
-    skkdic
+    skkdic \
+    fd-find \
+
+# for telescop.nvim
+curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+sudo dpkg -i ripgrep_13.0.0_amd64.deb
+
 
 wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip
 mv exa-linux-x86_64-v0.10.1.zip $HOME/

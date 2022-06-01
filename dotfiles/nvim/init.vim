@@ -286,6 +286,14 @@ nnoremap <silent> <fzf-p>d  :<C-u>CocCommand fzf-preview.CocDefinition<CR>
 nnoremap <silent> <fzf-p>t  :<C-u>CocCommand fzf-preview.CocTypeDefinition<CR>
 nnoremap <silent> <fzf-p>o  :<C-u>CocCommand fzf-preview.CocOutline --add-fzf-arg=--exact --add-fzf-arg=--no-sort<CR>
 
+" =============================
+" telescope settings
+" =============================
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " =============================
 " airline settings
