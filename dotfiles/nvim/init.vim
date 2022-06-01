@@ -197,6 +197,15 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
 " isntall by coc
 " Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 
+" ====
+" telescope
+" ====
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+
+
+
 " =====
 " asynchronously
 " =====
