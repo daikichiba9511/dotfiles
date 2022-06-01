@@ -90,7 +90,7 @@ set laststatus=2 " ステータスラインを常に表示
 set showmode " 現在のモードを表示
 set showcmd " 打ったコマンドをステータスラインの下に表示
 set ruler " ステータスラインの右側にカーソルの現在位置を表示する
-set colorcolumn=119
+set colorcolumn=120
 
 
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
@@ -143,6 +143,7 @@ Plug 'nvim-lua/plenary.nvim'
 " ColorTheme
 " =====
 Plug 'ayu-theme/ayu-vim'
+Plug 'shaunsingh/nord.nvim'
 
 " =====
 " Highlight
@@ -268,8 +269,8 @@ let g:fern#renderer = "nerdfont"
 " =============================
 " fzf settings
 " =============================
-let $BAT_THEME                     = 'grubbox'
-let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'grubbox'
+let $BAT_THEME                     = 'nord'
+let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'nord'
 
 noremap <fzf-p> <Nop>
 map     ;       <fzf-p>
@@ -300,16 +301,19 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fm <cmd>Telescope media_files<cr>
 
+lua << EOF
+require('telescope').load_extension('media_files')
 require'telescope'.setup {
   extensions = {
     media_files = {
       -- filetypes whitelist
       -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
       filetypes = {"png", "webp", "jpg", "jpeg", "pdf"},
-      find_cmd = "rg" -- find command (defaults to `fd`)
+      find_cmd = "fd" -- find command (defaults to `fd`)
     }
   },
 }
+EOF
 
 
 " =============================
@@ -416,10 +420,13 @@ if exists('+termguicolors')
     set termguicolors
 endif
 
-let ayucolor="mirage"
+" let ayucolor="mirage"
 " let ayucolor="dark"
-colorscheme ayu
+" colorscheme ayu
 
+lua << EOF
+    require('nord').set()
+EOF
 
 " let g:lsp_diagnostics_echo_cursor = 1
 " let g:lsp_settings = {
