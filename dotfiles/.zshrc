@@ -250,6 +250,7 @@ export PATH=/Users/chibadaimare/.config/coc/extensions/node_modules:$PATH
 function ide() {
     tmux split-window -v
     tmux split-window -h
+    tmux split-window -h
     tmux resize-pane -D 15
     tmux select-pane -t 1
 }
