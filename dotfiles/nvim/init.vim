@@ -55,7 +55,13 @@ set autoread " 内容が変更されたら自動的にreload
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+
+" set smarttab
+" set cindent
 set expandtab " タブ入力を複数の空白入力に置き換える
+
 
 
 " ================================
@@ -533,6 +539,8 @@ function! s:show_documentation() abort
     call CocActionAsync('doHover')
   endif
 endfunction
+
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 let g:coc_global_extensions = [
     \ 'coc-eslint8',

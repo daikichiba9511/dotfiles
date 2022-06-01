@@ -14,7 +14,12 @@
   "suggest.enablePreview": true,
   "python.pythonPath": "python",
   "coc.preferences.willSaveHandlerTimeout": 1000,
-  "coc.preferences.formatOnSaveFiletypes": ["json", "markdown", "python"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "json",
+    "markdown",
+    "python",
+    "css"
+  ],
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextCurrentLineOnly": false,
   "diagnostic.checkCurrentLine": true,
