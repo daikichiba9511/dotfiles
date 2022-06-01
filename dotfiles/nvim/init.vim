@@ -200,10 +200,8 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
 " ====
 " telescope
 " ====
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-
-
+Plug 'nvim-telescope/telescope-media-files.nvim'
 
 
 " =====
