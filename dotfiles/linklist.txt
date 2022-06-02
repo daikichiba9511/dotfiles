@@ -12,10 +12,14 @@ nvim        ${HOME}/.config/nvim
 coc       ${HOME}/.config/coc
 
 # alacritty
-alacritty/alacritty.yml ${HOME}/.config/alacritty
+# alacritty/alacritty.yml ${HOME}/.config/alacritty
 
 # textlint
 .textlintrc ${HOME}
 
 # starship
 starship.toml ${HOME}/.config
+
+# wezterm
+wezterm     ${HOME}/.config/wezterm
+
