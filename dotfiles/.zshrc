@@ -242,6 +242,12 @@ export DOCKER_BUILDKIT=1
 # for rust-analyzer
 export PATH=/Users/chibadaimare/.config/coc/extensions/node_modules:$PATH
 
+
+# ===============================
+# Go
+# ===============================
+export PATH=~/go/bin:$PATH
+
 # ===============================
 # tmux
 # ===============================
