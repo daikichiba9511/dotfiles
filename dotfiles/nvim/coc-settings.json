@@ -9,6 +9,11 @@
       "args": [],
       "filetypes": ["satysfi"],
       "trace.server": "verbose"
+    },
+    "efm": {
+      "command": "efm-langserver",
+      "args": [],
+      "filetypes": ["markdown"]
     }
   },
   "suggest.enablePreview": true,
