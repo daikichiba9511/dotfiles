@@ -56,7 +56,9 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2
 
 " set smarttab
 " set cindent
@@ -321,7 +323,7 @@ EOF
 " =============================
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'simple' 
+let g:airline_theme = 'base16_nord' 
 " nmap <C-p> <Plug>AirlineSelectPrevTab
 " nmap <C-n> <Plug>AirlineSelectNextTab
 
@@ -692,7 +694,8 @@ let g:table_mode_corner = '|'
 " ============
 " json
 " ============
-set conceallevel=0
+let g:conceallevel=0
+let g:indentLine_conceallevel=0
 let g:vim_json_syntax_conceal=0
 
 " ===============
