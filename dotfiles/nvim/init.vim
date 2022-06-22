@@ -28,7 +28,8 @@ set backspace=indent,eol,start
 " 対応する括弧を強調する
 " ==============================
 set showmatch
-" ============================== コマンドラインの補完
+" ============================== 
+" コマンドラインの補完
 " ==============================
 set wildmenu " コマンドモードの補完
 set history=5000 " 補完するコマンドの数
@@ -695,7 +696,7 @@ let g:table_mode_corner = '|'
 " json
 " ============
 let g:conceallevel=0
-let g:indentLine_conceallevel=0
+autocmd FileType json let g:indentLine_conceallevel=0
 let g:vim_json_syntax_conceal=0
 
 " ===============
