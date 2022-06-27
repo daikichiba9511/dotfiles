@@ -145,7 +145,7 @@ Plug 'nvim-lua/plenary.nvim'
 " =====
 " ColorTheme
 " =====
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
 Plug 'shaunsingh/nord.nvim'
 
 " =====
