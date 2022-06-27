@@ -152,7 +152,8 @@ Plug 'shaunsingh/nord.nvim'
 " Highlight
 " =====
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 't9md/vim-quickhl'
 
 " =====
@@ -451,62 +452,17 @@ EOF
 " python
 " ===============
 let g:python_highlight_all = 1
-autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
+autocmd FileType python let b:coc_root_patterns = [
+    \ '.git',
+    \ '.env' ,
+    \ 'venv',
+    \ '.venv',
+    \ 'setup.cfg',
+    \ 'setup.py',
+    \ 'pyproject.toml',
+    \ 'pyrightconfig.json'
+\]
 
-" augroup black_on_save
-"   autocmd!
-"   autocmd BufWritePre *.py Black
-" augroup end
-" autocmd BufWritePost *.py :!isort %
-
-" This triggers all formatting before coc linter is triggered
-" aug python
-"     au!
-"     autocmd BufWritePre *.py Isort
-"     autocmd BufWritePre *.py Black
-" aug END
-
-
-" vim-lspのpycodestyleをoffにしてflake8にする
-" let g:lsp_settings = {
-  " \  'pylsp-all': {
-  " \    'workspace_config': {
-  " \      'pylsp': {
-  " \        'configurationSources': ['flake8'],
-  " \        'plugins': {
-  " \          'flake8': {
-  " \            'enabled': 1,
-  " \            "ignore": ["E203", "W503", "504", "W391", "E402"],
-  " \            "max-line-length": 119
-  " \          },
-  " \          'mccabe': {
-  " \            'enabled': 0
-  " \          },
-  " \          'pycodestyle': {
-  " \            'enabled': 0
-  " \          },
-  " \          'pyflakes': {
-  " \            'enabled': 0
-  " \          },
-  " \          'pyls-black': { 'enabled': 1, "line-length": 119
-  " \           } 
-  " \        }
-  " \      }
-  " \    }
-  " \  }
-  " \}
-
-" function! s:on_lsp_buffer_enabled() abort
-  " setlocal completeopt=menu
-  " setlocal omnifunc=lsp#complete
-" endfunction
-
-" augroup lsp_install
-  " au!
-  " au User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-" augroup END
-
-" autocmd BufWritePre <buffer> LspDocumentFormatSync
 
 inoremap <silent> jj <ESC>
 
@@ -524,8 +480,6 @@ let g:rustfmt_autsave = 1
 " ========
 " coc
 " ========
-""
-" let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-git', 'coc-fzf-preview', 'coc-lists', 'coc-rust-analyzer', 'coc-pyright']
 
 " [dev] = m
 inoremap <silent> <expr> <C-Space> coc#refresh()
@@ -698,6 +652,21 @@ let g:table_mode_corner = '|'
 let g:conceallevel=0
 autocmd FileType json let g:indentLine_conceallevel=0
 let g:vim_json_syntax_conceal=0
+
+" =============
+" indent-blankline
+" =============
+lua << EOF
+vim.opt.list = true
+vim.opt.listchars:append("eol:$")
+
+require("indent_blankline").setup {
+    show_end_of_line = true,
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+}
+EOF
 
 " ===============
 " 背景透過(transparency)
