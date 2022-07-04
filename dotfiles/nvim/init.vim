@@ -141,12 +141,14 @@ Plug 'lambdalisue/nerdfont.vim'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
 
 " =====
 " ColorTheme
 " =====
 " Plug 'ayu-theme/ayu-vim'
 Plug 'shaunsingh/nord.nvim'
+Plug 'cocopon/iceberg.vim'
 
 " =====
 " Highlight
@@ -426,7 +428,7 @@ endif
 
 " let ayucolor="mirage"
 " let ayucolor="dark"
-" colorscheme ayu
+" colorscheme iceberg
 
 lua << EOF
     require('nord').set()
