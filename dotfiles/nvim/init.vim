@@ -327,7 +327,7 @@ EOF
 " =============================
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme = 'base16_nord' 
+let g:airline_theme = 'iceberg' 
 " nmap <C-p> <Plug>AirlineSelectPrevTab
 " nmap <C-n> <Plug>AirlineSelectNextTab
 
@@ -428,11 +428,11 @@ endif
 
 " let ayucolor="mirage"
 " let ayucolor="dark"
-" colorscheme iceberg
+colorscheme iceberg
 
-lua << EOF
-    require('nord').set()
-EOF
+" lua << EOF
+" require('nord').set()
+" EOF
 
 " let g:lsp_diagnostics_echo_cursor = 1
 " let g:lsp_settings = {

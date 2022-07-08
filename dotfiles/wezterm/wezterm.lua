@@ -268,13 +268,17 @@ local local_config = load_local_config("local")
 local config = {
     -- font = wezterm.font("Hack Nerd Font Mono", {weight="Bold", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Bold Nerd Font Complete Mono.ttf, FontConfig
     -- font = wezterm.font("Hack Nerd Font", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Regular Nerd Font Complete.ttf, FontConfig
-    font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/Unknown Vendor/TrueType/Ricty/Ricty_R
+    -- font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/Unknown Vendor/TrueType/Ricty/Ricty_R
+    font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}),
+    -- font = wezterm.font("UDEV Gothic 35NFLG"),
+    -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
     use_ime = true,
     font_size = 14.0,
     color_scheme = "nord",
     adjust_window_size_when_changing_font_size = false,
     window_background_opacity = 1.0,
     text_background_opacity = 0.8,
+    warn_about_missing_glyphs = false,
 
     selection_word_boundary = " \t\n{}[]()\"'`,;:",
     window_padding = {
