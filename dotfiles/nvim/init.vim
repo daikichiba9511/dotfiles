@@ -678,3 +678,10 @@ EOF
 " highlight LineNr ctermbg=NONE guibg=NONE
 " highlight Folded ctermbg=NONE guibg=NONE
 " highlight EndOfBuffer ctermbg=NONE guibg=NONE
+"
+
+" Todo-comments {{
+lua << EOF
+require("todo-comments").setup{}
+EOF
+" }}
