@@ -274,7 +274,7 @@ local config = {
     -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
     use_ime = true,
     font_size = 14.0,
-    color_scheme = "nord",
+    color_scheme = "iceberg-dark",
     adjust_window_size_when_changing_font_size = false,
     window_background_opacity = 1.0,
     text_background_opacity = 0.8,
