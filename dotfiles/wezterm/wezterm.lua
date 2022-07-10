@@ -248,20 +248,6 @@ local function load_local_config(module)
 end
 local local_config = load_local_config("local")
 
--- local local_config = {
---  ssh_domains = {
---      {
---          -- This name identifies the domain
---          name = "my.server",
---          -- The address to connect to
---          remote_address = "192.168.8.31",
---          -- The username to use on the remote host
---          username = "katayama",
---      },
---  },
--- }
--- return local_config
-
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
@@ -287,7 +273,7 @@ local config = {
         top = 0,
         bottom = 0,
     },
-    tab_bar_at_bottom = true,
+    tab_bar_at_bottom = false,
     -- window_background_opacity = 0.8,
     disable_default_key_bindings = true,
     -- visual_bell = {

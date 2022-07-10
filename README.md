@@ -12,7 +12,7 @@ But, these code has some bugs (e.g. install-python etc.), so be careful if you u
 # 1. clone this repository
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles
 
-# 2. move 
+# 2. move
 cd ~/dotfiles
 
 # 3 run a setup script
@@ -34,7 +34,11 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 
 NOTE:
 
-if you use Python at NeoVim, you should install `jedi-lanugage-server`. 
+_`jeai-language-sever` is no longer used !_
+
+Now, I use coc-pyright, so do not have to install jedi-language-server.
+
+~~if you use Python at NeoVim, you should install `jedi-lanugage-server`.~~
 
 ```
 pip install jedi-lanugage-server

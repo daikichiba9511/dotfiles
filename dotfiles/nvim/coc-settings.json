@@ -36,5 +36,8 @@
   "python.linting.mypyEnabled": true,
   "python.sortImports.args": ["--profile", "black"],
   "pyright.completion.importSupport": false,
-  "pyright.organizeimports.provider": "isort"
+  "pyright.organizeimports.provider": "isort",
+
+  "sumneko-lua.enableNvimLuaDev": true,
+  "Lua.diagnostics.globals": ["vim"]
 }
