@@ -23,6 +23,8 @@ sudo apt install -y \
     unzip \
     skkdic \
     fd-find \
+    sqlite3 \
+    libsqlite3-dev
 
 # for telescop.nvim
 curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb

@@ -35,6 +35,11 @@ vim.keymap.set("n", ";", "<Nop>", { noremap = true, silent = true })
 vim.keymap.set("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", ";", "[lsp]", {})
 
+-- [FuzzyFinder]
+vim.keymap.set("n", "z", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set("n", "Z", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "z", "[FuzzyFinder]", {})
+vim.api.nvim_set_keymap("v", "z", "[FuzzyFinder]", {})
 
 -- package はplugins.luaで管理
 require("plugins")
