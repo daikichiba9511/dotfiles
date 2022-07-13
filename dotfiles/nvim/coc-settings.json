@@ -23,7 +23,8 @@
     "json",
     "markdown",
     "python",
-    "css"
+    "css",
+    "lua"
   ],
   "diagnostic.virtualText": false,
   "diagnostic.virtualTextCurrentLineOnly": false,

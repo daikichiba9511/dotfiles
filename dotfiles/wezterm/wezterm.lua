@@ -1,4 +1,4 @@
--- Ref: 
+-- Ref:
 -- [1] https://zenn.dev/yutakatay/articles/wezterm-intro#tmux-%E3%81%AE-window%2C-pane-%E5%88%87%E3%82%8A%E6%9B%BF%E3%81%88%E3%81%AE%E3%82%88%E3%81%86%E3%81%AA%E6%93%8D%E4%BD%9C%E3%81%8C%E3%81%A7%E3%81%8D%E3%81%AA%E3%81%84
 -- [2] https://github.com/yutkat/dotfiles/blob/main/.config/wezterm/wezterm.lua
 
@@ -10,7 +10,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     local title = wezterm.truncate_right(utils.basename(tab.active_pane.foreground_process_name), max_width)
     if title == "" then
         title = wezterm.truncate_right(
-        utils.basename(utils.convert_home_dir(tab.active_pane.current_working_dir)),
+            utils.basename(utils.convert_home_dir(tab.active_pane.current_working_dir)),
             max_width
         )
     end
@@ -57,11 +57,11 @@ local tmux_keybinds = {
     { key = "j", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
     { key = "Enter", mods = "ALT", action = "QuickSelect" },
     -- switch to the default workspace
-    { key = "y", mods = "CTRL|SHIFT", action = wezterm.action{SwitchToWorkspace = { name="default" }} },
+    { key = "y", mods = "CTRL|SHIFT", action = wezterm.action { SwitchToWorkspace = { name = "default" } } },
     -- Create a newworkspace with a random name and switch to it
-    { key = "i", mods = "CTRL|SHIFT", action = wezterm.action{SwitchToWorkspace = {}}},
+    { key = "i", mods = "CTRL|SHIFT", action = wezterm.action { SwitchToWorkspace = {} } },
     -- and allow activationg one.
-    { key = "9", mods = "ALT", action = wezterm.action{ShowLauncherArgs={flags="FUZZY|WORKSPACES"}} },
+    { key = "9", mods = "ALT", action = wezterm.action { ShowLauncherArgs = { flags = "FUZZY|WORKSPACES" } } },
 }
 
 local default_keybinds = {
@@ -246,6 +246,7 @@ local function load_local_config(module)
     -- end
     -- return require("local")
 end
+
 local local_config = load_local_config("local")
 
 ---------------------------------------------------------------
@@ -255,7 +256,7 @@ local config = {
     -- font = wezterm.font("Hack Nerd Font Mono", {weight="Bold", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Bold Nerd Font Complete Mono.ttf, FontConfig
     -- font = wezterm.font("Hack Nerd Font", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Regular Nerd Font Complete.ttf, FontConfig
     -- font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/Unknown Vendor/TrueType/Ricty/Ricty_R
-    font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}),
+    font = wezterm.font("Ricty", { weight = "Regular", stretch = "Normal", style = "Normal" }),
     -- font = wezterm.font("UDEV Gothic 35NFLG"),
     -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
     use_ime = true,

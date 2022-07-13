@@ -6,3 +6,4 @@ dotfiles/coc/mru
 dotfiles/coc/list*
 
 dotfiles/nvim/pack
+dotfiles/nvim/plugin

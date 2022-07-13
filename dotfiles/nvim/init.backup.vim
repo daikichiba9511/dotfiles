@@ -25,7 +25,7 @@ set list " 制御文字を表示
 set listchars=eol:$,tab:>-
 
 set autoindent
-set autoread 
+set autoread
 
 " File Tab Config {{
 set expandtab " タブ入力を複数の空白入力に置き換える
@@ -108,7 +108,7 @@ Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Jetpack 'feline-nvim/feline.nvim'
 " LuaLineとfelineは動かなかったのでとりあえずlightlineを使う
 " Jetpack 'itchyny/lightline.vim'
-Jetpack 'akinsho/bufferline.nvim'
+" Jetpack 'akinsho/bufferline.nvim'
 " }}
 
 " Filer {{
@@ -134,7 +134,7 @@ Jetpack 'nvim-telescope/telescope-media-files.nvim'
 
 " Git {{
 " Jetpack 'lambdalisue/gina.vim'
-Jetpack 'TimUntersberger/neogit' 
+Jetpack 'TimUntersberger/neogit'
 " }}
 
 " ------- 言語別package
@@ -162,6 +162,10 @@ Jetpack 'hashivim/vim-terraform' , { 'for': 'terraform'}
 
 " Julia {{
 " Jetpack 'JuliaLang/julia-vim'
+" }}
+
+" Lua {{
+" Jetpack 'ckipp01/stylua-nvim'
 " }}
 
 call jetpack#end()
@@ -231,10 +235,10 @@ require('sidebar-nvim').setup({
 })
 
 -- KeyConfig of sidebar
--- CTRL + bでSidebarをtoggleするscroll backを潰したかったけどcocのhover scrolとconflictする（あまりつかってないから） 
+-- CTRL + bでSidebarをtoggleするscroll backを潰したかったけどcocのhover scrolとconflictする（あまりつかってないから）
 -- fernのコマンドと合わせて<Leader> = default "\" + "e"に当てた
 -- silentで実行コマンドを出さないようにする
-vim.api.nvim_set_keymap('n', '<Leader>e', ':SidebarNvimToggle <CR>', { noremap = true, silent = true }) 
+vim.api.nvim_set_keymap('n', '<Leader>e', ':SidebarNvimToggle <CR>', { noremap = true, silent = true })
 
 -- }}
 
@@ -338,7 +342,7 @@ colorscheme iceberg
 " }}
 
 " -- CoC {{
-" Install CoC Plugin List 
+" Install CoC Plugin List
 let g:coc_global_extensions = [
     \ 'coc-eslint8',
     \ 'coc-html',
@@ -351,7 +355,7 @@ let g:coc_global_extensions = [
     \ 'coc-sql',
     \ 'coc-tsserver',
     \ 'coc-sumneko-lua',
-    \ 'coc-vimlsp',
+    \ 'coc-vimlsp'
 \]
 
 " Python
@@ -449,4 +453,3 @@ let g:conceallevel=0
 " highlight Folded ctermbg=NONE guibg=NONE
 " highlight EndOfBuffer ctermbg=NONE guibg=NONE
 " }}
-

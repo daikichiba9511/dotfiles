@@ -1,10 +1,13 @@
 export CLICOLOR=1
 echo hello. ${USER}
 
+
 bindkey -v
 
 # -- 環境変数
 export LANG=ja_JP.UTF-8
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
 
 # -- ヒストリの設定
 HISTFILE=~/.zsh_history
