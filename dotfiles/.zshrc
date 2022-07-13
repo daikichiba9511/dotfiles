@@ -28,7 +28,7 @@ setopt no_beep
 DIRSTACKSIZE=100
 setopt AUTO_PUSHD
 
-# -- zplug 
+# -- zplug
 export ZPLUG_HOME=${HOME}/.zplug
 source $ZPLUG_HOME/init.zsh
 # plugins
@@ -70,7 +70,7 @@ autoload -Uz compinit && compinit  # Gitの補完を有効化
 
 # -- コマンドの実行ごとに改行
 function precmd() {
-    
+
     # Print a newline before the prompt, unless it's the
     # first prompt in the process.
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
@@ -79,6 +79,9 @@ function precmd() {
         echo ""
     fi
 }
+
+# For neovim
+export PATH=$PATH:./node_modules/.bin
 
 # -- .zfunc
 fpath+=~/.zfunc
@@ -106,7 +109,7 @@ export PATH=$HOME/go/bin:$PATH
 
 # -- CmdStan
 export CMDSTAN_HOME=/usr/local/bin/cmdstan
-# launchctl setenv CMDSTAN_HOME /usr/local/bin/cmdstann 
+# launchctl setenv CMDSTAN_HOME /usr/local/bin/cmdstann
 
 # -- Docker
 export DOCKER_BUILDKIT=1
@@ -156,7 +159,7 @@ if [[ $(command -v exa) ]]; then
   alias lta=eta
 fi
 
-# -- git 
+# -- git
 alias g="git"
 alias gs="git status -u"
 alias ga="git add -v"

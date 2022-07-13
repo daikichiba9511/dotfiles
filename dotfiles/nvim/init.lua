@@ -26,6 +26,8 @@ opt.clipboard:append("unnamedplus")
 opt.list = true
 opt.listchars:append("tab:>-")
 
+vim.cmd([[ set sh=zsh ]])
+
 vim.api.nvim_set_keymap("i", "jj", "<ESC>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-j>", ":bprev<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-k>", ":bnext<CR>", { noremap = true, silent = true })

@@ -42,4 +42,7 @@ echo "✨ finished installing neovim"
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt upgrade -y && apt install -yqq nodejs
 
+# for nvim-treesitter
+npm install --location=global tree-sitter-cli
+
 echo "✨ finished installing nodejs"
