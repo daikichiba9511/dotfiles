@@ -17,6 +17,8 @@ end
 
 package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/lua/?"
 
+vim.opt.termguicolors = true
+
 vim.cmd([[packadd packer.nvim]])
 
 require("packer-init")
