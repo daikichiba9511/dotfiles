@@ -37,13 +37,14 @@ return require("packer").startup(function(use)
     use({ "rcarriga/nvim-notify", module = "notify" })
 
     -- ColorScheme
-    local colorscheme = "iceberg.vim"
+    -- local colorscheme = "iceberg.vim"
+    local colorscheme = "nord.nvim"
     use({
         "cocopon/iceberg.vim",
         event = { "VimEnter", "ColorSchemePre" },
-        config = function()
-            require("config/iceberg")
-        end,
+        -- config = function()
+        -- require("config/iceberg")
+        -- end,
     })
     use({
         'shaunsingh/nord.nvim',
@@ -53,6 +54,7 @@ return require("packer").startup(function(use)
             vim.g.nord_borders = false
             vim.g.nord_disable_background = false
             vim.g.nord_italic = false
+            vim.cmd([[ colorscheme nord ]])
         end
     })
 
@@ -231,12 +233,21 @@ return require("packer").startup(function(use)
     })
 
     -- StatusLine
-    use({
-        "feline-nvim/feline.nvim",
+    -- use({
+    --     "feline-nvim/feline.nvim",
+    --     config = function()
+    --         require("config/feline")
+    --     end
+    -- })
+
+    use {
+        "nvim-lualine/lualine.nvim",
+        after = colorscheme,
+        requires = { "kyazdani42/nvim-web-devicons", opt = true },
         config = function()
-            require("config/feline")
+            require("config/lualine")
         end
-    })
+    }
 
     -- Bufferline
     if not vim.g.vscode then
@@ -403,5 +414,6 @@ return require("packer").startup(function(use)
     })
 
     use({ "folke/lua-dev.nvim" })
+    use({ "zsugabubus/crazy8.nvim" })
 
 end)
