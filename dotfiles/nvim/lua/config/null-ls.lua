@@ -80,19 +80,19 @@ local sources = {
         condition = function()
             return vim.fn.executable("black") > 0
         end,
-        estra_args = { "--line-length", python_line_length },
+        extra_args = { "--line-length", python_line_length },
     }),
     null_ls.builtins.formatting.isort.with({
         condition = function()
             return vim.fn.executable("isort") > 0
         end,
-        estra_args = { "--line-length", python_line_length, "--profile", "black" },
+        extra_args = { "--line-length", python_line_length, "--profile", "black" },
     }),
     null_ls.builtins.diagnostics.flake8.with({
         condition = function()
             return vim.fn.executable("flake8") > 0
         end,
-        estra_args = {
+        extra_args = {
             "--max-line-length", python_line_length
         },
     }),
