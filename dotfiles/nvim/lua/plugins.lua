@@ -151,6 +151,14 @@ return require("packer").startup(function(use)
         "folke/lsp-colors.nvim",
         module = "lsp-colors",
     })
+
+    use({
+        "ray-x/lsp_signature.nvim",
+        config = function()
+            require("lsp_signature").setup({})
+        end
+    })
+
     use({
         "folke/trouble.nvim",
         after = { "nvim-lsp-installer" },

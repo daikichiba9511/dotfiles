@@ -54,7 +54,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     once = false,
 })
 
+-- Python settings
 local python_line_length = "120"
+
 local sources = {
     -- LuaFormatter off
     -- null_ls.builtins.completion.spell,
@@ -90,7 +92,9 @@ local sources = {
         condition = function()
             return vim.fn.executable("flake8") > 0
         end,
-        estra_args = { "--max-line-length", python_line_length },
+        estra_args = {
+            "--max-line-length", python_line_length
+        },
     }),
 
     -- rust-analyzer

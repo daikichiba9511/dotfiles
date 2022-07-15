@@ -11,6 +11,10 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_buf_set_option(bufnr, ...)
     end
 
+    -- serverが持ってるformatをoff, null-lsでformatとlintを行う
+    -- TODO: eslintを使うようになったら設定を考える(重いからLSP側のを使う)
+    client.server_capabilities.document_formatting = false
+
     -- Mappings.
     local opts = { noremap = true, silent = true }
 
