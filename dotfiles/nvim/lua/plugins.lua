@@ -152,12 +152,12 @@ return require("packer").startup(function(use)
         module = "lsp-colors",
     })
 
-    use({
-        "ray-x/lsp_signature.nvim",
-        config = function()
-            require("lsp_signature").setup({})
-        end
-    })
+    -- use({
+    --     "ray-x/lsp_signature.nvim",
+    --     config = function()
+    --         require("lsp_signature").setup({})
+    --     end
+    -- })
 
     use({
         "folke/trouble.nvim",
@@ -421,7 +421,9 @@ return require("packer").startup(function(use)
         end,
     })
 
-    use({ "folke/lua-dev.nvim" })
+    use({ "bfredl/nvim-luadev", event = "VimEnter" })
+    use({ "folke/lua-dev.nvim", module = "lua-dev" })
+    use({ "wadackel/nvim-syntax-info", cmd = { "SyntaxInfo" } })
     use({ "zsugabubus/crazy8.nvim" })
 
 end)

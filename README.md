@@ -43,3 +43,7 @@ Now, I use coc-pyright, so do not have to install jedi-language-server.
 ```
 pip install jedi-lanugage-server
 ```
+
+# Reference
+
+[1] [yutkat/dotfiles](https://github.com/yutkat/dotfiles)

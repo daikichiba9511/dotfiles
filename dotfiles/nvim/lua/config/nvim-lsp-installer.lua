@@ -13,7 +13,7 @@ local on_attach = function(client, bufnr)
 
     -- serverが持ってるformatをoff, null-lsでformatとlintを行う
     -- TODO: eslintを使うようになったら設定を考える(重いからLSP側のを使う)
-    client.server_capabilities.document_formatting = false
+    -- client.server_capabilities.document_formatting = false
 
     -- Mappings.
     local opts = { noremap = true, silent = true }
@@ -42,19 +42,59 @@ local on_attach = function(client, bufnr)
     require("nvim-navic").attach(client, bufnr)
 end
 
+
 local lspconfig = require("lspconfig")
+
+-- Python
+-- lspconfig.pyright.setup({
+--     settings = {
+--         python = {
+--             analysis = {
+--                 autoSearchPaths = true,
+--                 diagnosticMode = "workspace",
+--                 useLibraryCodeForTypes = true
+--             }
+--         }
+--     }
+-- })
+--
+--
+-- -- Lua
+-- lspconfig.sumneko_lua.setup({
+--     settings = {
+--         Lua = {
+--             workspace = {
+--                 -- Make the server aware of Neovim runtime files
+--                 -- library = vim.api.nvim_get_runtime_file("", true),
+--                 preloadFileSize = 500,
+--                 -- very slow
+--                 -- library = vim.api.nvim_get_runtime_file("", true),
+--             },
+--             -- Do not send telemetry data containing a randomized but unique identifier
+--             telemetry = { enable = false },
+--         },
+--     },
+-- })
+
+
+
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+
 local servers = require("nvim-lsp-installer").get_installed_servers()
 for _, server in ipairs(servers) do
     local opts = { capabilities = capabilities, on_attach = on_attach }
-    -- use rust-tools
+
     if server.name == "rust_analyzer" then
         local has_rust_tools, rust_tools = pcall(require, "rust-tools")
         if has_rust_tools then
-            rust_tools.setup({ server = opts })
+            rust_tools.setup({
+                server = { capabilities = capabilities, on_attach = on_attach }
+            })
             goto continue
         end
+
     elseif server.name == "sumneko_lua" then
         local has_lua_dev, lua_dev = pcall(require, "lua-dev")
         if has_lua_dev then
@@ -73,26 +113,8 @@ for _, server in ipairs(servers) do
             lspconfig[server.name].setup(luadev)
             goto continue
         end
-    elseif server.name == "pyright" then
-        local has_pyright, pyright = pcall(require, "pyright")
-        if has_pyright then
-            local pyright_config = pyright.setup({
-                filetypes = { "python" },
-                settings = {
-                    python = {
-                        analysis = {
-                            autoSearchPaths = true,
-                            diagnosticMode = "workspace",
-                            useLibraryCodeForTypes = true
-                        }
-                    }
-                },
-                lspconfig = opts
-            })
-            lspconfig[server.name].setup(pyright_config)
-            goto continue
-        end
     end
+
     lspconfig[server.name].setup(opts)
     ::continue::
     vim.cmd([[ do User LspAttachBuffers ]])
