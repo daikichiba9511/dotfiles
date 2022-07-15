@@ -17,6 +17,7 @@ end
 
 package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/lua/?"
 
+vim.opt.syntax = "enable"
 vim.opt.termguicolors = true
 
 vim.cmd([[packadd packer.nvim]])
@@ -224,7 +225,9 @@ return require("packer").startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         after = { colorscheme },
         -- event = "VimEnter",
-        run = ":TSUpdate",
+        run = function()
+            require("nvim-treesitter.install").update({ with_sync = true })
+        end,
         config = function()
             require("config/nvim-treesitter")
         end,

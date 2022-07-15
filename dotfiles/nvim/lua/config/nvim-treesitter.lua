@@ -25,7 +25,7 @@ require("nvim-treesitter.configs").setup({
             node_decremental = "V",
         },
     },
-    -- indent = { enable = false, disable = { "python" } },
+    indent = { enable = false, disable = { "python" } },
     refactor = {
         -- highlight_definitions = { enable = false },
         -- highlight_current_scope = { enable = false },
@@ -92,12 +92,12 @@ require("nvim-treesitter.configs").setup({
             ["<S-Tab>"] = "textsubjects-container-inner",
         },
     },
-    -- rainbow = {
-    --     enable = true,
-    --     extended_mode = true,
-    --     max_file_lines = 300,
-    --     disable = { "cpp" }, -- please disable lua and bash for now
-    -- },
+    rainbow = {
+        enable = true,
+        extended_mode = true,
+        max_file_lines = 300,
+        disable = { "cpp" }, -- please disable lua and bash for now
+    },
     pairs = {
         enable = false,
         disable = {},
@@ -112,5 +112,5 @@ require("nvim-treesitter.configs").setup({
         disable = {},
     },
     context_commentstring = { enable = true },
-    -- yati = { enable = true, disable = { "markdown" } },
+    yati = { enable = true, disable = { "markdown" } },
 })
