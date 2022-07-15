@@ -43,6 +43,7 @@ curl -sL https://deb.nodesource.com/setup_14.x | bash -
 apt upgrade -y && apt install -yqq nodejs
 
 # for nvim-treesitter
-npm install --location=global tree-sitter-cli
+# Ocasionaly, we cannot install tree-sitter by nvim-treesitter, so manually install these packages by npm
+npm install --location=global tree-sitter tree-sitter-cli
 
 echo "✨ finished installing nodejs"
