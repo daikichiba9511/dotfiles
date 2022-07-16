@@ -90,7 +90,17 @@ for _, server in ipairs(servers) do
         local has_rust_tools, rust_tools = pcall(require, "rust-tools")
         if has_rust_tools then
             rust_tools.setup({
-                server = { capabilities = capabilities, on_attach = on_attach }
+                server = {
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                    settings = {
+                        ["rust-analyzer"] = {
+                            checkOnSave = {
+                                command = "clippy",
+                            }
+                        }
+                    }
+                }
             })
             goto continue
         end
