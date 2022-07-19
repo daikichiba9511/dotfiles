@@ -173,7 +173,15 @@ return require("packer").startup(function(use)
         after = "nvim-lsp-installer",
         config = function()
             require("config/fidget")
-        end,
+        end
+    })
+
+
+    use({
+        "tzachar/cmp-tabnine",
+        run = "./install.sh",
+        requires = "hrsh7th/nvim-cmp"
+        after = "nvim-cmp",
     })
 
     -- FuzzyFiner
