@@ -180,7 +180,7 @@ return require("packer").startup(function(use)
     use({
         "tzachar/cmp-tabnine",
         run = "./install.sh",
-        requires = "hrsh7th/nvim-cmp"
+        requires = "hrsh7th/nvim-cmp",
         after = "nvim-cmp",
     })
 
