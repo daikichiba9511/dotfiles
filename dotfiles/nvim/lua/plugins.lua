@@ -27,6 +27,33 @@ require("packer-init")
 -- パッケージ個別の設定は可読性のためにconfig directory配下に分ける
 return require("packer").startup(function(use)
     use({ "wbthomason/packer.nvim" })
+    use({
+        "machakann/vim-sandwich",
+        event = "VimEnter",
+        config = function()
+            vim.cmd("source ~/.config/nvim/config/vim-sandwich.vim")
+        end,
+    })
+    use({
+        "folke/todo-comments.nvim",
+        event = "VimEnter",
+        config = function()
+            require("config/todo-comments")
+        end,
+    })
+    -- Comment out
+    use({
+        "numToStr/Comment.nvim",
+        event = "VimEnter",
+        config = function()
+            require("config/Comment")
+        end,
+    })
+
+    -- vscodeのときは早期リターンで以下のパッケージは読み込まない
+    if vim.g.vscode then
+        return
+    end
 
     -- Lua Library
     use({ "nvim-lua/popup.nvim", module = "popup" })
@@ -176,11 +203,10 @@ return require("packer").startup(function(use)
         end
     })
 
-
     use({
         "tzachar/cmp-tabnine",
         run = "./install.sh",
-        requires = "hrsh7th/nvim-cmp"
+        requires = "hrsh7th/nvim-cmp",
         after = "nvim-cmp",
     })
 
@@ -279,13 +305,7 @@ return require("packer").startup(function(use)
         })
     end
 
-    use({
-        "folke/todo-comments.nvim",
-        event = "VimEnter",
-        config = function()
-            require("config/todo-comments")
-        end,
-    })
+
 
     -- Sidebar
     -- conflict with clever-f (augroup sidebar_nvim_prevent_buffer_override)
@@ -306,13 +326,7 @@ return require("packer").startup(function(use)
         end,
     })
 
-    use({
-        "machakann/vim-sandwich",
-        event = "VimEnter",
-        config = function()
-            vim.cmd("source ~/.config/nvim/config/vim-sandwich.vim")
-        end,
-    })
+
 
     use({
         "famiu/bufdelete.nvim",
@@ -336,19 +350,15 @@ return require("packer").startup(function(use)
             after = { colorscheme },
             event = "VimEnter",
             config = function()
-                require("config/indent-blankline")
+                if not vim.g.vscode then
+                    require("config/indent-blankline")
+                else
+                    return
+                end
             end,
         })
     end
-    -- Comment out
-    -- TODO: comment outのkeybind考える
-    use({
-        "numToStr/Comment.nvim",
-        event = "VimEnter",
-        config = function()
-            require("config/Comment")
-        end,
-    })
+
     use({
         "windwp/nvim-autopairs",
         event = "VimEnter",
