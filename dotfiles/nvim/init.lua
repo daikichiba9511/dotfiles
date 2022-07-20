@@ -22,6 +22,7 @@ opt.softtabstop = 4
 opt.shiftwidth = 4
 
 opt.clipboard:append("unnamedplus")
+opt.hidden = true
 
 opt.list = true
 opt.listchars:append("tab:>-")
@@ -47,6 +48,7 @@ vim.cmd([[ set sh=zsh ]])
 
 -- package はplugins.luaで管理
 require("plugins")
+
 
 
 vim.cmd [[

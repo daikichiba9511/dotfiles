@@ -91,7 +91,14 @@ return require("packer").startup(function(use)
     use({ "lambdalisue/nerdfont.vim" })
 
     -- term
-    use({ "kassio/neoterm" })
+    -- use({ "kassio/neoterm" })
+    use({
+        "akinsho/toggleterm.nvim",
+        tag = "v2.*",
+        config = function()
+            require("config/toggleterm")
+        end
+    })
 
     -- LSP
     use({
