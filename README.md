@@ -4,9 +4,18 @@ this repository has codes of my dotfiles. if you want to know entire install pro
 
 But, these code has some bugs (e.g. install-python etc.), so be careful if you use these codes
 
+## Used
+
+- neovim latest
+  - packer.nvim
+  - nvim-lsp
+
+- wezterm
+
+
 ## How
 
-```shell
+```sh
 # procedure
 
 # 1. clone this repository
@@ -30,18 +39,6 @@ oneline commands
 
 ```
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
-```
-
-NOTE:
-
-_`jeai-language-sever` is no longer used !_
-
-Now, I use coc-pyright, so do not have to install jedi-language-server.
-
-~~if you use Python at NeoVim, you should install `jedi-lanugage-server`.~~
-
-```
-pip install jedi-lanugage-server
 ```
 
 # Reference

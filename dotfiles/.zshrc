@@ -180,5 +180,8 @@ function cdlog() {
     echo "✅ ${log_file_name} is created."
 }
 
+# -- vim
+alias v="nvim ."
+
 # -- starship : should be put on last line
 eval $(starship init zsh)

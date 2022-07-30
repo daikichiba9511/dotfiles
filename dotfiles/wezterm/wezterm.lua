@@ -264,7 +264,7 @@ local config = {
     color_scheme = "iceberg-dark",
     -- color_scheme = "nord",
     adjust_window_size_when_changing_font_size = false,
-    window_background_opacity = 1.0,
+    window_background_opacity = 0.5,
     text_background_opacity = 0.8,
     warn_about_missing_glyphs = false,
 
