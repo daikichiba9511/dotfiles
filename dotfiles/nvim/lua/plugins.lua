@@ -85,6 +85,12 @@ return require("packer").startup(function(use)
             vim.cmd([[ colorscheme nord ]])
         end
     })
+    use {
+        'jinh0/eyeliner.nvim',
+        config = function()
+            require("config/eyeliner")
+        end
+    }
 
     -- Fonts
     use({ "kyazdani42/nvim-web-devicons", after = colorscheme })
