@@ -119,27 +119,6 @@ return require("packer").startup(function(use)
         "hrsh7th/nvim-cmp",
         requires = {
             { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function()
-            require 'alpha'.setup(require 'alpha.themes.startify'.config)
-        end })
-    -- Fonts
-    use({ "lambdalisue/nerdfont.vim" })
-
-    -- term
-    -- use({ "kassio/neoterm" })
-    use({
-        "akinsho/toggleterm.nvim",
-        config = function()
-            require("config/toggleterm")
-        end
-    })
-
-    -- LSP
-    use({
-        "hrsh7th/nvim-cmp",
-        requires = {
-            { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
             { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
         },
         after = { "LuaSnip", "nvim-autopairs" },
