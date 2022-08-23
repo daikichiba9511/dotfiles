@@ -92,8 +92,38 @@ return require("packer").startup(function(use)
         end
     }
 
+    use({
+        'sunjon/stylish.nvim'
+    })
+    use({ "kyazdani42/nvim-web-devicons" })
+    -- use({
+    --    'goolord/alpha-nvim',
+    --    requires = { 'kyazdani42/nvim-web-devicons' },
+    --    config = function()
+    --        require 'alpha'.setup(require 'alpha.themes.startify'.config)
+    --    end })
     -- Fonts
-    use({ "kyazdani42/nvim-web-devicons", after = colorscheme })
+    use({ "lambdalisue/nerdfont.vim" })
+
+    -- term
+    -- use({ "kassio/neoterm" })
+    use({
+        "akinsho/toggleterm.nvim",
+        config = function()
+            require("config/toggleterm")
+        end
+    })
+
+    -- LSP
+    use({
+        "hrsh7th/nvim-cmp",
+        requires = {
+            { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function()
+            require 'alpha'.setup(require 'alpha.themes.startify'.config)
+        end })
+    -- Fonts
     use({ "lambdalisue/nerdfont.vim" })
 
     -- term
@@ -138,6 +168,7 @@ return require("packer").startup(function(use)
 
     use({ "ray-x/cmp-treesitter", after = "nvim-cmp" })
     use({ "lukas-reineke/cmp-under-comparator", after = { "LuaSnip" } })
+    use({ "hrsh7th/cmp-omni", after = "nvim-cmp" })
 
     use({
         "neovim/nvim-lspconfig",
@@ -192,12 +223,12 @@ return require("packer").startup(function(use)
         module = "lsp-colors",
     })
 
-    -- use({
-    --     "ray-x/lsp_signature.nvim",
-    --     config = function()
-    --         require("lsp_signature").setup({})
-    --     end
-    -- })
+    use({
+        "ray-x/lsp_signature.nvim",
+        config = function()
+            require("lsp_signature").setup({})
+        end
+    })
 
     use({
         "folke/trouble.nvim",
@@ -222,6 +253,20 @@ return require("packer").startup(function(use)
         after = "nvim-cmp",
     })
 
+    use({
+        "RRethy/vim-illuminate",
+        config = function()
+            require("config/vim-illuminate")
+        end
+    })
+    use({
+        "t9md/vim-quickhl",
+    })
+
+    use({
+        "myusuf3/numbers.vim"
+    })
+
     -- FuzzyFiner
     -- TODO: configを理解&整理する. 動作しそうかチェックする
     use({
@@ -232,6 +277,12 @@ return require("packer").startup(function(use)
         config = function()
             require("config/telescope")
         end,
+    })
+    use({
+        "nvim-telescope/telescope-packer.nvim",
+        config = function()
+            require("config/telescope-packer")
+        end
     })
     use({
         "nvim-telescope/telescope-frecency.nvim",
@@ -457,6 +508,33 @@ return require("packer").startup(function(use)
     use({ "bfredl/nvim-luadev", event = "VimEnter" })
     use({ "folke/lua-dev.nvim", module = "lua-dev" })
     use({ "wadackel/nvim-syntax-info", cmd = { "SyntaxInfo" } })
-    use({ "zsugabubus/crazy8.nvim" })
 
-end)
+    -- 自前でinit.luaに設定することにした
+    -- use({ "zsugabubus/crazy8.nvim" })
+
+    use({
+        "danymat/neogen",
+        config = function()
+            require('config/neogen')
+        end,
+        require = "nvim-treesitter/nvim-treesitter",
+    })
+
+    -- Git
+    use({
+        'akinsho/git-conflict.nvim',
+        tag = "*",
+        config = function()
+            require('config/git-conflict')
+        end
+    })
+    use({
+        'lewis6991/gitsigns.nvim',
+        -- tag = 'release' -- To use the latest release
+        config = function()
+            require('gitsigns').setup()
+        end
+    })
+
+end
+)
