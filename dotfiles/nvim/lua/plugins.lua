@@ -25,7 +25,8 @@ vim.cmd([[packadd packer.nvim]])
 require("packer-init")
 
 -- パッケージ個別の設定は可読性のためにconfig directory配下に分ける
-return require("packer").startup(function(use)
+return require("packer").startup(
+function(use)
     use({ "wbthomason/packer.nvim" })
     use({
         "machakann/vim-sandwich",
@@ -225,12 +226,12 @@ return require("packer").startup(function(use)
         end
     })
 
-    use({
-        "tzachar/cmp-tabnine",
-        run = "./install.sh",
-        requires = "hrsh7th/nvim-cmp",
-        after = "nvim-cmp",
-    })
+    -- use({
+    --    "tzachar/cmp-tabnine",
+    --    run = "./install.sh",
+    --    requires = "hrsh7th/nvim-cmp",
+    --    after = "nvim-cmp",
+    -- })
 
     use({
         "RRethy/vim-illuminate",
@@ -515,5 +516,13 @@ return require("packer").startup(function(use)
         end
     })
 
+    -- Jupyter
+    -- use({
+    --    'dccsillag/magma-nvim',
+    --    run = ':UpdateRemotePlugins',
+    --    config = function()
+    --        require("config/magma-nvim")
+    --    end
+    -- })
 end
 )
