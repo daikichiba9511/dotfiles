@@ -261,7 +261,8 @@ local config = {
     font = wezterm.font("HackGenNerd", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
     use_ime = true,
     font_size = 14.0,
-    color_scheme = "iceberg-dark",
+    -- color_scheme = "iceberg-dark",
+    colorscheme = "nightfox",
     -- color_scheme = "nord",
     adjust_window_size_when_changing_font_size = false,
     window_background_opacity = 0.65,

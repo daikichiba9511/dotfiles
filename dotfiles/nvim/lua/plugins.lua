@@ -67,7 +67,7 @@ function(use)
 
     -- ColorScheme
     -- local colorscheme = "iceberg.vim"
-    local colorscheme = "nord.nvim"
+    local colorscheme = "nightfox.nvim"
     use({
         "cocopon/iceberg.vim",
         event = { "VimEnter", "ColorSchemePre" },
@@ -83,9 +83,16 @@ function(use)
             vim.g.nord_borders = false
             vim.g.nord_disable_background = false
             vim.g.nord_italic = false
-            vim.cmd([[ colorscheme nord ]])
+        --    vim.cmd([[ colorscheme nord ]])
         end
     })
+    use({
+        "EdenEast/nightfox.nvim",
+        config = function()
+            require("config/nightfox")
+        end
+    })
+
     use {
         'jinh0/eyeliner.nvim',
         config = function()
