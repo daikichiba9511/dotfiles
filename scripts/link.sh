@@ -14,7 +14,11 @@ __remove_linklist_comment() {(
 
 # シンボリックリンクを作成
 cd ${dotfiles_root}/dotfiles
-linklist="linklist.txt"
+if [ "$(uname)" == "Darwin" ]; then
+    linklist="linklist_macos.txt"
+else
+    linklist="linklist.txt"
+fi
 [ ! -r "$linklist" ] && return
 __remove_linklist_comment "$linklist" | while read target link; do
     # ~ や環境変数を展開

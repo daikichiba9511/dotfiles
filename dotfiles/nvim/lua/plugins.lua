@@ -19,13 +19,13 @@ package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/lua/?"
 
 vim.opt.syntax = "enable"
 vim.opt.termguicolors = true
-
-vim.cmd([[packadd packer.nvim]])
+vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
+-- vim.cmd([[packadd packer.nvim]])
 
 require("packer-init")
 
 -- パッケージ個別の設定は可読性のためにconfig directory配下に分ける
-return require("packer").startup(
+return require("packer").startup({
 function(use)
     use({ "wbthomason/packer.nvim" })
     use({
@@ -319,7 +319,7 @@ function(use)
     use({ "JoosepAlviste/nvim-ts-context-commentstring", after = { "nvim-treesitter" } })
     use({ "nvim-treesitter/nvim-treesitter-refactor", after = { "nvim-treesitter" } })
     use({ "nvim-treesitter/nvim-tree-docs", after = { "nvim-treesitter" } })
-    use({ "vigoux/architext.nvim", after = { "nvim-treesitter" } })
+    -- use({ "vigoux/architext.nvim", after = { "nvim-treesitter" } })
     use({ "yioneko/nvim-yati", after = "nvim-treesitter" })
 
     use({
@@ -531,5 +531,8 @@ function(use)
     --        require("config/magma-nvim")
     --    end
     -- })
-end
-)
+    end,
+    config = {
+        max_jobs = 10,
+    },
+})

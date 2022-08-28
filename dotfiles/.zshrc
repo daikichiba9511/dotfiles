@@ -82,6 +82,7 @@ function precmd() {
 
 # For neovim
 export PATH=$PATH:./node_modules/.bin
+export XDG_STATE_HOME=~/.local/state
 
 # -- .zfunc
 fpath+=~/.zfunc
