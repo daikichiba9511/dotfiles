@@ -182,13 +182,28 @@ function(use)
     })
 
     -- TODO: lsp系がバグってたらここみるといいかも
+    -- use({
+    --    "williamboman/nvim-lsp-installer",
+    --    after = { "nvim-lspconfig", "cmp-nvim-lsp" },
+    --    config = function()
+    --        require("config/nvim-lsp-installer")
+    --    end,
+    -- })
+
     use({
-        "williamboman/nvim-lsp-installer",
-        after = { "nvim-lspconfig", "cmp-nvim-lsp" },
+        "williamboman/mason.nvim",
         config = function()
-            require("config/nvim-lsp-installer")
-        end,
+            require("config/mason")
+        end
     })
+
+    use({
+        "williamboman/mason-lspconfig.nvim",
+        config = function()
+            require("config/mason-lspconfig")
+        end
+    })
+
 
     use({
         "tamago324/nlsp-settings.nvim",
@@ -200,7 +215,6 @@ function(use)
     use({ "weilbith/nvim-lsp-smag", after = "nvim-lspconfig" })
     use({
         "kkharji/lspsaga.nvim",
-        after = "nvim-lsp-installer",
         config = function()
             require("config/lspsaga")
         end,
@@ -219,7 +233,6 @@ function(use)
 
     use({
         "folke/trouble.nvim",
-        after = { "nvim-lsp-installer" },
         config = function()
             require("config/trouble")
         end,
@@ -227,7 +240,6 @@ function(use)
 
     use({
         "j-hui/fidget.nvim",
-        after = "nvim-lsp-installer",
         config = function()
             require("config/fidget")
         end
@@ -419,7 +431,6 @@ function(use)
     -- Lint
     use({
         "jose-elias-alvarez/null-ls.nvim",
-        after = "nvim-lsp-installer",
         config = function()
             require("config/null-ls")
         end,
