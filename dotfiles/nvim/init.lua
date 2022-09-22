@@ -22,7 +22,6 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 
-vim.cmd([[ autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 ]])
 vim.cmd([[ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 ]])
 vim.cmd([[ autocmd FileType markdown set shiftwidth=2 tabstop=2 ]])
 

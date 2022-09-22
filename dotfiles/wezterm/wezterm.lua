@@ -43,7 +43,7 @@ local tmux_keybinds = {
     -- Create a newworkspace with a random name and switch to it
     { key = "i", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = {} }) },
     -- and allow activationg one.
-    { key = "9", mods = "ALT", action = wezterm.action({ ShowLauncherArgs = { flags = "FUZZY|WORKSPACES" } }) },
+    { key = "9", mods = "ALT", action = wezterm.action({ ShowLauncherArgs = { flags = "FUZZY|WORKSPACES|DOMAINS" } }) },
 }
 
 local default_keybinds = {

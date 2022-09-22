@@ -69,6 +69,16 @@ local sources = {
             end
         end,
     }),
+    -- Clang
+    -- null_ls.builtins.formatting.clang_format.with({
+    --     extra_args = {
+    --         "-style=google"
+    --     },
+    --     condition = function()
+    --         return vim.fn.executable("clang-format")
+    --     end,
+    -- }),
+
     -- Lua
     null_ls.builtins.formatting.stylua.with({
         condition = function()
