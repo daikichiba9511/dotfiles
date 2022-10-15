@@ -22,8 +22,22 @@ opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 
-vim.cmd([[ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 ]])
-vim.cmd([[ autocmd FileType markdown set shiftwidth=2 tabstop=2 ]])
+local function set_tab(file_type, indent_num)
+    vim.cmd(string.format(" autocmd FileType %s setlocal shiftwidth=%s tabstop=%s ", file_type, indent_num, indent_num))
+end
+
+local tab2_ft = {
+    "cpp",
+    "typescript",
+    "markdown",
+}
+for _, ft in ipairs(tab2_ft) do
+    set_tab(ft, 2)
+end
+
+-- vim.cmd([[ autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 ]])
+-- vim.cmd([[ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 ]])
+-- vim.cmd([[ autocmd FileType markdown set shiftwidth=2 tabstop=2 ]])
 
 opt.clipboard:append("unnamedplus")
 opt.hidden = true
@@ -60,8 +74,6 @@ vim.cmd([[ syntax enable ]])
 
 -- package はplugins.luaで管理
 require("plugins")
-
-
 
 vim.cmd([[
 augroup Packer

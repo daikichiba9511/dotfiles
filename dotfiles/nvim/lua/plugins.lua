@@ -158,10 +158,10 @@ return require("packer").startup({
         use({ "hrsh7th/cmp-omni", after = "nvim-cmp" })
 
         use({
-           "neovim/nvim-lspconfig",
-           cofnig = function()
-               require("config/nvim-lspconfig")
-           end
+            "neovim/nvim-lspconfig",
+            cofnig = function()
+                require("config/nvim-lspconfig")
+            end,
         })
 
         -- Snippet
@@ -212,9 +212,9 @@ return require("packer").startup({
                 require("config/nlsp-settings")
             end,
         })
-        use({ 
+        use({
             "weilbith/nvim-lsp-smag",
-            after = "nvim-lspconfig" 
+            after = "nvim-lspconfig",
         })
         use({
             "kkharji/lspsaga.nvim",
