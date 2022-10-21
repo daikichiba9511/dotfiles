@@ -32,7 +32,7 @@ end
 
 local lspconfig = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local opts = { capabilities = capabilities, on_attach = on_attach_fn }
 
 require("mason-lspconfig").setup_handlers({
@@ -50,7 +50,7 @@ require("mason-lspconfig").setup_handlers({
     end,
 
     ["sumneko_lua"] = function()
-        local has_lua_dev, lua_dev = pcall(require, "lua-dev")
+        local has_lua_dev, lua_dev = pcall(require, "neodev")
         if has_lua_dev then
             local l_dev = lua_dev.setup({
                 library = {

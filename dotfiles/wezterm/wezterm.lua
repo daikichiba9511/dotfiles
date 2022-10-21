@@ -260,8 +260,10 @@ local config = {
     color_scheme = "nightfox",
     -- color_scheme = "nord",
     adjust_window_size_when_changing_font_size = false,
-    window_background_opacity = 0.65,
-    text_background_opacity = 0.7,
+    -- window_background_opacity = 0.65,
+    -- text_background_opacity = 0.7,
+    window_background_opacity = 1.0,
+    text_background_opacity = 1.0,
     warn_about_missing_glyphs = false,
 
     selection_word_boundary = " \t\n{}[]()\"'`,;:",

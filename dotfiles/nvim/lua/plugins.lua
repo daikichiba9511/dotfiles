@@ -460,6 +460,16 @@ return require("packer").startup({
             -- 	require("rc/pluginconfig/rust-tools")
             -- end,
         })
+
+        -- Obsidian
+        use({
+            "epwalsh/obsidian.nvim",
+            config = function()
+                require("config/obsidian")
+            end,
+            after = "nvim-cmp",
+        })
+
         -- Terraform
         use({ "hashivim/vim-terraform" })
         -- SATySFi

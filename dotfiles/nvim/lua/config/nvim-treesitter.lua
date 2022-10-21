@@ -10,7 +10,7 @@ require("nvim-treesitter.configs").setup({
         -- disable = function(lang, bufnr)
         -- 		return lang == "cmake" or ts_disable(lang, bufnr)
         -- end,
-        additional_vim_regex_highlighting = false,
+        additional_vim_regex_highlighting = { "markdown" },
     },
     incremental_selection = {
         enable = true,

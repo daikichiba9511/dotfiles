@@ -42,7 +42,6 @@ local on_attach = function(client, bufnr)
     require("nvim-navic").attach(client, bufnr)
 end
 
-
 local lspconfig = require("lspconfig")
 
 -- Python
@@ -76,11 +75,8 @@ local lspconfig = require("lspconfig")
 --     },
 -- })
 
-
-
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local servers = require("nvim-lsp-installer").get_installed_servers()
 for _, server in ipairs(servers) do
@@ -97,16 +93,15 @@ for _, server in ipairs(servers) do
                         ["rust-analyzer"] = {
                             checkOnSave = {
                                 command = "clippy",
-                            }
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             })
             goto continue
         end
-
     elseif server.name == "sumneko_lua" then
-        local has_lua_dev, lua_dev = pcall(require, "lua-dev")
+        local has_lua_dev, lua_dev = pcall(require, "neodev")
         if has_lua_dev then
             local luadev = lua_dev.setup({
                 library = {
