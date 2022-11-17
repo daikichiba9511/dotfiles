@@ -73,6 +73,7 @@ vim.cmd([[ set sh=zsh ]])
 vim.cmd([[ syntax enable ]])
 
 -- package はplugins.luaで管理
+
 require("plugins")
 
 vim.cmd([[

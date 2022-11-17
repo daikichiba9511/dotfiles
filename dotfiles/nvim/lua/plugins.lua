@@ -68,24 +68,24 @@ return require("packer").startup({
         -- ColorScheme
         -- local colorscheme = "iceberg.vim"
         local colorscheme = "nightfox.nvim"
-        use({
-            "cocopon/iceberg.vim",
-            -- event = { "VimEnter", "ColorSchemePre" },
-            -- config = function()
-            -- require("config/iceberg")
-            -- end,
-        })
-        use({
-            "shaunsingh/nord.nvim",
-            event = { "VimEnter", "ColorSchemePre" },
-            config = function()
-                vim.g.nord_contrast = true
-                vim.g.nord_borders = false
-                vim.g.nord_disable_background = false
-                vim.g.nord_italic = false
-                --    vim.cmd([[ colorscheme nord ]])
-            end,
-        })
+        -- use({
+        --     "cocopon/iceberg.vim",
+        --     -- event = { "VimEnter", "ColorSchemePre" },
+        --     -- config = function()
+        --     -- require("config/iceberg")
+        --     -- end,
+        -- })
+        -- use({
+        --     "shaunsingh/nord.nvim",
+        --     event = { "VimEnter", "ColorSchemePre" },
+        --     config = function()
+        --         vim.g.nord_contrast = true
+        --         vim.g.nord_borders = false
+        --         vim.g.nord_disable_background = false
+        --         vim.g.nord_italic = false
+        --         --    vim.cmd([[ colorscheme nord ]])
+        --     end,
+        -- })
         use({
             "EdenEast/nightfox.nvim",
             config = function()
@@ -126,10 +126,11 @@ return require("packer").startup({
         use({
             "hrsh7th/nvim-cmp",
             requires = {
-                { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
+                -- { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
                 { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
             },
-            after = { "LuaSnip", "nvim-autopairs" },
+            -- after = { "LuaSnip", "nvim-autopairs" },
+            after = { "nvim-autopairs" },
             config = function()
                 require("config/nvim-cmp")
             end,
@@ -150,11 +151,12 @@ return require("packer").startup({
         use({ "hrsh7th/cmp-emoji", after = "nvim-cmp" })
         use({ "hrsh7th/cmp-calc", after = "nvim-cmp" })
         use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" })
-        use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
+        -- use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
         use({ "f3fora/cmp-spell", after = "nvim-cmp" })
 
         use({ "ray-x/cmp-treesitter", after = "nvim-cmp" })
-        use({ "lukas-reineke/cmp-under-comparator", after = { "LuaSnip" } })
+        -- use({ "lukas-reineke/cmp-under-comparator", after = { "LuaSnip" } })
+        use({ "lukas-reineke/cmp-under-comparator" })
         use({ "hrsh7th/cmp-omni", after = "nvim-cmp" })
 
         use({
@@ -165,29 +167,21 @@ return require("packer").startup({
         })
 
         -- Snippet
-        use({
-            "L3MON4D3/LuaSnip",
-            -- event = "VimEnter",
-            config = function()
-                require("config/LuaSnip")
-            end,
-        })
-
+        -- use({
+        --     "L3MON4D3/LuaSnip",
+        --     -- event = "VimEnter",
+        --     config = function()
+        --         require("config/LuaSnip")
+        --     end,
+        -- })
+        --
         use({
             "kevinhwang91/nvim-hclipboard",
-            after = { "LuaSnip" },
+            -- after = { "LuaSnip" },
             config = function()
                 require("hclipboard").start()
             end,
         })
-
-        -- use({
-        --    "williamboman/nvim-lsp-installer",
-        --    after = { "nvim-lspconfig", "cmp-nvim-lsp" },
-        --    config = function()
-        --        require("config/nvim-lsp-installer")
-        --    end,
-        -- })
 
         use({
             "williamboman/mason.nvim",
@@ -229,11 +223,19 @@ return require("packer").startup({
 
         use({
             "ray-x/lsp_signature.nvim",
+            after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp", "nlsp-settings.nvim" },
             config = function()
                 require("lsp_signature").setup({})
             end,
         })
+        use({
+            "lvimuser/lsp-inlayhints.nvim",
+            config = function()
+                require("config/lsp-inlayhints")
+            end,
+        })
 
+        -- Diagnostic list
         use({
             "folke/trouble.nvim",
             config = function()
@@ -247,13 +249,6 @@ return require("packer").startup({
                 require("config/fidget")
             end,
         })
-
-        -- use({
-        --    "tzachar/cmp-tabnine",
-        --    run = "./install.sh",
-        --    requires = "hrsh7th/nvim-cmp",
-        --    after = "nvim-cmp",
-        -- })
 
         use({
             "RRethy/vim-illuminate",
@@ -279,26 +274,26 @@ return require("packer").startup({
                 require("config/telescope")
             end,
         })
-        use({
-            "nvim-telescope/telescope-packer.nvim",
-            config = function()
-                require("config/telescope-packer")
-            end,
-        })
-        use({
-            "nvim-telescope/telescope-frecency.nvim",
-            after = { "telescope.nvim" },
-            config = function()
-                require("telescope").load_extension("frecency")
-            end,
-        })
-        use({
-            "nvim-telescope/telescope-github.nvim",
-            after = { "telescope.nvim" },
-            config = function()
-                require("telescope").load_extension("gh")
-            end,
-        })
+        -- use({
+        --     "nvim-telescope/telescope-packer.nvim",
+        --     config = function()
+        --         require("config/telescope-packer")
+        --     end,
+        -- })
+        -- use({
+        --     "nvim-telescope/telescope-frecency.nvim",
+        --     after = { "telescope.nvim" },
+        --     config = function()
+        --         require("telescope").load_extension("frecency")
+        --     end,
+        -- })
+        -- use({
+        --     "nvim-telescope/telescope-github.nvim",
+        --     after = { "telescope.nvim" },
+        --     config = function()
+        --         require("telescope").load_extension("gh")
+        --     end,
+        -- })
         use({
             "nvim-telescope/telescope-ui-select.nvim",
             after = { "telescope.nvim" },
@@ -461,15 +456,6 @@ return require("packer").startup({
             -- end,
         })
 
-        -- Obsidian
-        use({
-            "epwalsh/obsidian.nvim",
-            config = function()
-                require("config/obsidian")
-            end,
-            after = "nvim-cmp",
-        })
-
         -- Terraform
         use({ "hashivim/vim-terraform" })
         -- SATySFi
@@ -478,29 +464,29 @@ return require("packer").startup({
         -- use({ "JuliaLang/julia-vim" })
 
         -- Debugger
-        use({
-            "mfussenegger/nvim-dap",
-            event = "VimEnter",
-            config = function()
-                require("config/nvim-dap")
-            end,
-        })
-        use({
-            "rcarriga/nvim-dap-ui",
-            after = { "nvim-dap" },
-            config = function()
-                require("config/nvim-dap-ui")
-            end,
-        })
-        use({ "theHamsta/nvim-dap-virtual-text", after = { "nvim-dap" } })
-        use({
-            "nvim-telescope/telescope-dap.nvim",
-            requires = {
-                { "mfussenegger/nvim-dap", opt = true },
-                { "nvim-telescope/telescope.nvim", opt = true },
-            },
-            after = { "nvim-dap", "telescope.nvim" },
-        })
+        -- use({
+        --     "mfussenegger/nvim-dap",
+        --     event = "VimEnter",
+        --     config = function()
+        --         require("config/nvim-dap")
+        --     end,
+        -- })
+        -- use({
+        --     "rcarriga/nvim-dap-ui",
+        --     after = { "nvim-dap" },
+        --     config = function()
+        --         require("config/nvim-dap-ui")
+        --     end,
+        -- })
+        -- use({ "theHamsta/nvim-dap-virtual-text", after = { "nvim-dap" } })
+        -- use({
+        --     "nvim-telescope/telescope-dap.nvim",
+        --     requires = {
+        --         { "mfussenegger/nvim-dap", opt = true },
+        --         { "nvim-telescope/telescope.nvim", opt = true },
+        --     },
+        --     after = { "nvim-dap", "telescope.nvim" },
+        -- })
         use({
             "stevearc/aerial.nvim",
             event = "VimEnter",
@@ -516,13 +502,13 @@ return require("packer").startup({
         -- 自前でinit.luaに設定することにした
         -- use({ "zsugabubus/crazy8.nvim" })
 
-        use({
-            "danymat/neogen",
-            config = function()
-                require("config/neogen")
-            end,
-            require = "nvim-treesitter/nvim-treesitter",
-        })
+        -- use({
+        --     "danymat/neogen",
+        --     config = function()
+        --         require("config/neogen")
+        --     end,
+        --     require = "nvim-treesitter/nvim-treesitter",
+        -- })
 
         -- Git
         use({

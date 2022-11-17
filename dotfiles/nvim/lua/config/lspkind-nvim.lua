@@ -29,7 +29,7 @@ require("lspkind").init({
         Value = "",
         Enum = "",
         Keyword = "",
-        Snippet = "",
+        -- Snippet = "",
         Color = "",
         File = "",
         Reference = "",
