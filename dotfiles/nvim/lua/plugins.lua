@@ -126,10 +126,10 @@ return require("packer").startup({
         use({
             "hrsh7th/nvim-cmp",
             requires = {
-                -- { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
+                { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
                 { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
             },
-            -- after = { "LuaSnip", "nvim-autopairs" },
+            after = { "LuaSnip", "nvim-autopairs" },
             after = { "nvim-autopairs" },
             config = function()
                 require("config/nvim-cmp")
@@ -151,12 +151,11 @@ return require("packer").startup({
         use({ "hrsh7th/cmp-emoji", after = "nvim-cmp" })
         use({ "hrsh7th/cmp-calc", after = "nvim-cmp" })
         use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" })
-        -- use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
+        use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
         use({ "f3fora/cmp-spell", after = "nvim-cmp" })
 
         use({ "ray-x/cmp-treesitter", after = "nvim-cmp" })
-        -- use({ "lukas-reineke/cmp-under-comparator", after = { "LuaSnip" } })
-        use({ "lukas-reineke/cmp-under-comparator" })
+        use({ "lukas-reineke/cmp-under-comparator", after = { "LuaSnip" } })
         use({ "hrsh7th/cmp-omni", after = "nvim-cmp" })
 
         use({
@@ -177,7 +176,7 @@ return require("packer").startup({
         --
         use({
             "kevinhwang91/nvim-hclipboard",
-            -- after = { "LuaSnip" },
+            after = { "LuaSnip" },
             config = function()
                 require("hclipboard").start()
             end,

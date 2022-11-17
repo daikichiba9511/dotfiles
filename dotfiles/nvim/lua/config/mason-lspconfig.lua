@@ -1,5 +1,11 @@
 -- require("mason-lspconfig").setup()
 
+vim.cmd([[
+    highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040
+    highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040
+    highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040
+]])
+
 local on_attach_fn = function(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -26,6 +32,14 @@ local on_attach_fn = function(client, bufnr)
     buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
     buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     buf_set_keymap("n", "[lsp]f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+    vim.cmd([[
+        augroup lsp_document_hightlight
+            autocmd! * <buffer>
+            autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved,CursorMovedI <buffer> lua vim.lsp.buf.clear_references()
+        augroup END
+    ]])
 
     require("nvim-navic").attach(client, bufnr)
 end
