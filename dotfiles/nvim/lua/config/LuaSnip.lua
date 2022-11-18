@@ -19,7 +19,7 @@ ls.config.set_config({
     ext_base_prio = 300,
     -- minimal increase in priority.
     ext_prio_increase = 1,
-    enable_autosnippets = true,
+    enable_autosnippets = false,
     -- mapping for cutting selected text so it's usable as SELECT_DEDENT,
     -- SELECT_RAW or TM_SELECTED_TEXT (mapped via xmap).
     -- store_selection_keys = "<Tab>",

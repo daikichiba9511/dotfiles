@@ -50,6 +50,23 @@ local opts = { capabilities = capabilities, on_attach = on_attach_fn }
 
 require("mason-lspconfig").setup_handlers({
     function(server_name)
+        -- if server_name == "denols" then
+        --     opts.init_options = {
+        --         lint = true,
+        --         unstable = true,
+        --         suggest = {
+        --             imports = {
+        --                 host = {
+        --                     ["https://deno.land"] = true,
+        --                     ["https://cdn.nest.land"] = true,
+        --                     ["https://crux.land"] = true,
+        --                 },
+        --             },
+        --         },
+        --     }
+        -- opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json"),
+        -- end
+
         lspconfig[server_name].setup(opts)
     end,
 

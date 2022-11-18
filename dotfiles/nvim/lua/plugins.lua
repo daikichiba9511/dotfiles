@@ -130,7 +130,7 @@ return require("packer").startup({
                 { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
             },
             after = { "LuaSnip", "nvim-autopairs" },
-            after = { "nvim-autopairs" },
+            -- after = { "nvim-autopairs" },
             config = function()
                 require("config/nvim-cmp")
             end,
@@ -166,14 +166,14 @@ return require("packer").startup({
         })
 
         -- Snippet
-        -- use({
-        --     "L3MON4D3/LuaSnip",
-        --     -- event = "VimEnter",
-        --     config = function()
-        --         require("config/LuaSnip")
-        --     end,
-        -- })
-        --
+        use({
+            "L3MON4D3/LuaSnip",
+            event = "VimEnter",
+            config = function()
+                require("config/LuaSnip")
+            end,
+        })
+
         use({
             "kevinhwang91/nvim-hclipboard",
             after = { "LuaSnip" },
