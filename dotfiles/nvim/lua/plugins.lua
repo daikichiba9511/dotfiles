@@ -12,9 +12,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) == 1 then
     os.execute(string.format(cmd, package_manager_url, install_path))
 end
 
--- vim.cmd([[packadd vim-jetpack]])
--- vim.g["jetpack#optimization"] = 2
-
 package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/lua/?"
 
 vim.opt.syntax = "enable"
@@ -454,6 +451,10 @@ return require("packer").startup({
             -- 	require("rc/pluginconfig/rust-tools")
             -- end,
         })
+
+        -- Deno
+        use({ "sigmasd/deno-nvim", config = function() require("config/deno-nvim") end, })
+
 
         -- Terraform
         use({ "hashivim/vim-terraform" })

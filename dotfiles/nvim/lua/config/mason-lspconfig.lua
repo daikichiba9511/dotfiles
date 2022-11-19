@@ -50,22 +50,15 @@ local opts = { capabilities = capabilities, on_attach = on_attach_fn }
 
 require("mason-lspconfig").setup_handlers({
     function(server_name)
-        -- if server_name == "denols" then
-        --     opts.init_options = {
-        --         lint = true,
-        --         unstable = true,
-        --         suggest = {
-        --             imports = {
-        --                 host = {
-        --                     ["https://deno.land"] = true,
-        --                     ["https://cdn.nest.land"] = true,
-        --                     ["https://crux.land"] = true,
-        --                 },
-        --             },
-        --         },
-        --     }
-        -- opts.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json"),
-        -- end
+        if server_name == "sumneko_lua" then
+            opts.settings = {
+                Lua = {
+                    daignostics = { globals = { "vim" } },
+                    hint = { enable = true },
+                }
+            }
+
+        end
 
         lspconfig[server_name].setup(opts)
     end,
@@ -76,32 +69,6 @@ require("mason-lspconfig").setup_handlers({
             rust_tools.setup({ server = opts })
         else
             lspconfig.rust_analyzer.setup({})
-        end
-    end,
-
-    ["sumneko_lua"] = function()
-        local has_lua_dev, lua_dev = pcall(require, "neodev")
-        if has_lua_dev then
-            local l_dev = lua_dev.setup({
-                library = {
-                    vimruntime = true,
-                    types = true,
-                    plugins = { "nvim-treesitter", "plenary.nvim" },
-                },
-                runtime_path = false,
-                lspconfig = opts,
-            })
-            lspconfig.sumneko_lua.setup(l_dev)
-        else
-            lspconfig.sumneko_lua.setup({
-                settings = {
-                    Lua = {
-                        diagnostic = {
-                            globals = { "vim" },
-                        },
-                    },
-                },
-            })
         end
     end,
 })

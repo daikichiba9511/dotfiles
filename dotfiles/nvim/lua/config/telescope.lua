@@ -123,7 +123,7 @@ require("telescope").setup({
                 ["<C-g>"] = custom_actions.multi_selection_open,
             },
         },
-        history = { path = vim.fn.stdpath("data") .. "/databases/telescope_history.sqlite3", limit = 100 },
+        -- history = { path = vim.fn.stdpath("data") .. "/databases/telescope_history.sqlite3", limit = 100 },
     },
     extensions = {
         media_files = {
@@ -256,16 +256,18 @@ telescope_builtin.my_mru = function(opts)
 
     local results = join_uniq(results_mru_cur, results_git)
 
-    pickers.new(opts, {
-        prompt_title = "MRU",
-        finder = finders.new_table({
-            results = results,
-            entry_maker = opts.entry_maker or make_entry.gen_from_file(opts),
-        }),
-        -- default_text = vim.fn.getcwd(),
-        sorter = conf.file_sorter(opts),
-        previewer = conf.file_previewer(opts),
-    }):find()
+    pickers
+        .new(opts, {
+            prompt_title = "MRU",
+            finder = finders.new_table({
+                results = results,
+                entry_maker = opts.entry_maker or make_entry.gen_from_file(opts),
+            }),
+            -- default_text = vim.fn.getcwd(),
+            sorter = conf.file_sorter(opts),
+            previewer = conf.file_previewer(opts),
+        })
+        :find()
 end
 
 telescope_builtin.grep_prompt = function(opts)
@@ -394,5 +396,5 @@ vim.api.nvim_set_keymap(
 -- coc
 vim.api.nvim_set_keymap("n", "[FuzzyFinder]cd", "<Cmd>Telescope coc diagnostics<CR>", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("n", "[FuzzyFinder]:", "<Cmd>Telescope command_history<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("c", "<C-t>", "<BS><Cmd>Telescope command_history<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "[FuzzyFinder]:", "<Cmd>Telescope command_history<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("c", "<C-t>", "<BS><Cmd>Telescope command_history<CR>", { noremap = true, silent = true })

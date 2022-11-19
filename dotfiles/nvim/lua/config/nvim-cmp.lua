@@ -1,4 +1,6 @@
-vim.g.completeopt = "menu,menuone,noselect"
+-- vim.g.completeopt = "menu,menuone,noselect"
+vim.cmd([[set completeopt=menu,menuone,noselect ]])
+vim.cmd([[set shortmess+=c]])
 
 local cmp = require("cmp")
 local types = require("cmp.types")
@@ -14,7 +16,10 @@ local t = function(str)
 end
 
 cmp.setup({
-    preselect = cmp.PreselectMode.None,
+    -- preselect = cmp.PreselectMode.None,
+    -- completion = {
+    --     autocomplete = false
+    -- },
     formatting = {
         -- fields = {'abbr', 'kind', 'menu'},
         format = require("lspkind").cmp_format({
@@ -144,7 +149,6 @@ cmp.setup({
         { name = "luasnip", priority = 20 }, -- For luasnip users.
     }, {
         { name = "buffer", priority = 50 },
-        { name = "omni", priority = 40 },
         { name = "spell", priority = 40 },
         { name = "calc", priority = 50 },
         { name = "treesitter", priority = 30 },
@@ -162,7 +166,6 @@ cmp.setup.filetype({ "gitcommit", "markdown" }, {
         { name = "emoji", insert = true, priority = 60 },
     }, {
         { name = "buffer", priority = 50 },
-        { name = "omni", priority = 40 },
         { name = "spell", priority = 40 },
         { name = "calc", priority = 50 },
         { name = "treesitter", priority = 30 },

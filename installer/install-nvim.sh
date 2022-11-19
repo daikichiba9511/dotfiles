@@ -10,7 +10,8 @@ set -eu
 # NVIM_DEFUALT_VER=0.7
 # NVIM_VERSION=${1-$NVIM_DEFUALT_VER}
 # step:0 install prerequire
-apt install -y \
+sudo apt update && sudo apt upgrade
+sudo apt install -y \
     ninja-build \
     gettext \
     libtool \
@@ -39,11 +40,11 @@ sudo rm -rf ~/neovim
 echo "✨ finished installing neovim"
 
 # for jupyterlab
-curl -sL https://deb.nodesource.com/setup_14.x | bash -
-apt upgrade -y && apt install -yqq nodejs
+# curl -sL https://deb.nodesource.com/setup_14.x | bash -
+# sudo apt upgrade -y && sudo apt install -yqq nodejs
 
 # for nvim-treesitter
 # Ocasionaly, we cannot install tree-sitter by nvim-treesitter, so manually install these packages by npm
-npm install --location=global tree-sitter tree-sitter-cli
+# npm install --location=global tree-sitter tree-sitter-cli
 
 echo "✨ finished installing nodejs"

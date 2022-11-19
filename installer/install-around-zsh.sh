@@ -17,5 +17,5 @@ git clone https://github.com/zplug/zplug $ZPLUG_HOME
 
 # starship
 # customize prompt
-curl -sS https://starship.rs/install.sh | sh -s -- -y
+sudo curl -sS https://starship.rs/install.sh | sudo sh -s -- -y
 
