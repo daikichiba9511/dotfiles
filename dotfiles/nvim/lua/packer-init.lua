@@ -12,9 +12,9 @@ augroup END
 
 vim.api.nvim_exec(
     [[
-function! IsPluginInstalled(name) abort
-  return luaeval("_G.packer_plugins['" .. a:name .. "'] ~= nil")
-endfunction
+    function! IsPluginInstalled(name) abort
+      return luaeval("_G.packer_plugins['" .. a:name .. "'] ~= nil")
+    endfunction
 ]]   ,
     true
 )

@@ -1,10 +1,12 @@
 -- require("mason-lspconfig").setup()
 
-vim.cmd([[
+if not vim.g.vscode then
+    vim.cmd([[
     highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040
     highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040
     highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040
-]])
+]]   )
+end
 
 local on_attach_fn = function(client, bufnr)
     local function buf_set_keymap(...)
@@ -55,9 +57,8 @@ require("mason-lspconfig").setup_handlers({
                 Lua = {
                     daignostics = { globals = { "vim" } },
                     hint = { enable = true },
-                }
+                },
             }
-
         end
 
         lspconfig[server_name].setup(opts)

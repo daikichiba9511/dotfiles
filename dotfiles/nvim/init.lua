@@ -70,15 +70,14 @@ vim.api.nvim_set_keymap("n", "z", "[FuzzyFinder]", {})
 vim.api.nvim_set_keymap("v", "z", "[FuzzyFinder]", {})
 
 vim.cmd([[ set sh=zsh ]])
-vim.cmd([[ syntax enable ]])
+-- vim.cmd([[ syntax enable ]])
 
 -- package はplugins.luaで管理
-
 require("plugins")
 
 vim.cmd([[
-augroup Packer
-    autocmd!
-    autocmd BufWritePost plugin.lua,init.lua PackerCompile
-augroup END
-]])
+        augroup Packer
+            autocmd!
+            autocmd BufWritePost plugin.lua,init.lua PackerCompile
+        augroup END
+    ]])
