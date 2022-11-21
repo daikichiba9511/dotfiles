@@ -453,8 +453,12 @@ return require("packer").startup({
         })
 
         -- Deno
-        use({ "sigmasd/deno-nvim", config = function() require("config/deno-nvim") end, })
-
+        use({
+            "sigmasd/deno-nvim",
+            config = function()
+                require("config/deno-nvim")
+            end,
+        })
 
         -- Terraform
         use({ "hashivim/vim-terraform" })
