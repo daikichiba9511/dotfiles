@@ -21,9 +21,13 @@ I always develop machine learing model , datascience code , and so on by using N
 
 - wezterm
 
+## Screenshot
+
 - screenshot on macos
 
 ![screenshot-on-macos](./assets/screenshot-on-macos.png)
+
+![screenshot-telescope-on-macos](./assets/screenshot-telescope-on-macos.png)
 
 
 ## How
