@@ -21,6 +21,10 @@ I always develop machine learing model , datascience code , and so on by using N
 
 - wezterm
 
+- screenshot on macos
+
+![screenshot-on-macos](./assets/screenshot-on-macos.png)
+
 
 ## How
 
