@@ -18,6 +18,9 @@ I always develop machine learing model , datascience code , and so on by using N
   - lualine
   - mason
   - mason-lspconfig
+  - null-ls
+
+etc.
 
 - wezterm
 
@@ -66,7 +69,7 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 4. Type `:PackerSync`
 5. Close Neovim at once
 6. Open Neovim and type `:MasonInstall pyright`
-7. If you wanna use formatter with opeened buffer, Open your terminal, and then type `pip install black`. If you install black in your develop environment, I have set the Neovim to format buffer automatically.
+7. If you wanna use formatter with opeened buffer, type `pip install black` on your terminal.  If you install black in your develop environment, the Neovim format buffer automatically (by using null-ls).
 
 
 # Reference
