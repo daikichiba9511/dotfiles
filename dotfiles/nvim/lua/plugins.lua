@@ -105,12 +105,9 @@ return require("packer").startup({
             use({
                 "folke/tokyonight.nvim",
                 config = function()
-                    if colorscheme == "tokyonight.nvim" then
-                        require("config/tokyonight")
-                    end
+                    require("config/tokyonight")
                 end,
             })
-            vim.cmd([[colorscheme tokyonight-night]])
 
             use({
                 "jinh0/eyeliner.nvim",
