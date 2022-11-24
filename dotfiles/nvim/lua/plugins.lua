@@ -81,7 +81,8 @@ return require("packer").startup({
 
             -- ColorScheme
             -- local colorscheme = "iceberg.vim"
-            local colorscheme = "nightfox.nvim"
+            -- local colorscheme = "nightfox.nvim"
+            local colorscheme = "tokyonight.nvim"
             -- use({
             --     "shaunsingh/nord.nvim",
             --     event = { "VimEnter", "ColorSchemePre" },
@@ -96,9 +97,20 @@ return require("packer").startup({
             use({
                 "EdenEast/nightfox.nvim",
                 config = function()
-                    require("config/nightfox")
+                    if colorscheme == "nightfox.nvim" then
+                        require("config/nightfox")
+                    end
                 end,
             })
+            use({
+                "folke/tokyonight.nvim",
+                config = function()
+                    if colorscheme == "tokyonight.nvim" then
+                        require("config/tokyonight")
+                    end
+                end,
+            })
+            vim.cmd([[colorscheme tokyonight-night]])
 
             use({
                 "jinh0/eyeliner.nvim",
