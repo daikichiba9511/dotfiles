@@ -7,3 +7,4 @@ dotfiles/coc/list*
 
 dotfiles/nvim/pack
 dotfiles/nvim/plugin
+startuptime.log
