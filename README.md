@@ -35,27 +35,37 @@ etc.
 
 ## How
 
+- procedure
+
+1. clone this repository
+
 ```sh
-# procedure
-
-# 1. clone this repository
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles
+```
+2. move
 
-# 2. move
+```sh
 cd ~/dotfiles
-
-# 3 run a setup script
-sh scripts/setup.sh y
-
-## if you want to install python
-sh scripts/setup.sh y python
-
-# 4 return
-cd -
-
 ```
 
-oneline commands
+3. run a setup script
+
+```sh
+sh scripts/setup.sh y
+```
+
+4. (optional) if you want to install python
+
+```
+sh scripts/setup.sh y python
+```
+
+5. return
+```
+cd -
+```
+
+- one-line commands
 
 ```
 git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
