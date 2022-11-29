@@ -2,7 +2,8 @@ export CLICOLOR=1
 echo hello. ${USER}
 
 
-bindkey -v
+# -- vim mode
+# bindkey -v
 
 # -- 環境変数
 export LANG=ja_JP.UTF-8
