@@ -343,8 +343,8 @@ local config = {
             { key = "^", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
             { key = "a", mods = "CTRL", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
             -- select
-            -- { key = " ", mods = "NONE", action = wezterm.action({ CopyMode = "ToggleSelectionByCell" }) },
-            -- { key = "v", mods = "NONE", action = wezterm.action({ CopyMode = "ToggleSelectionByCell" }) },
+            { key = " ", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
+            { key = "v", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
             {
                 key = "v",
                 mods = "SHIFT",
