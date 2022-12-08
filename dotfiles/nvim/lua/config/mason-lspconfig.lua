@@ -1,13 +1,5 @@
 -- require("mason-lspconfig").setup()
 
-if not vim.g.vscode then
-    vim.cmd([[
-    highlight LspReferenceText  cterm=underline ctermbg=8 gui=underline guibg=#104040
-    highlight LspReferenceRead  cterm=underline ctermbg=8 gui=underline guibg=#104040
-    highlight LspReferenceWrite cterm=underline ctermbg=8 gui=underline guibg=#104040
-]]   )
-end
-
 local on_attach_fn = function(client, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
