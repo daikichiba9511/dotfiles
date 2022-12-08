@@ -460,6 +460,14 @@ return require("packer").startup({
                     vim.cmd("source ~/.config/nvim/config/vim-table-mode.vim")
                 end,
             })
+
+            use({
+                "hkupty/iron.nvim",
+                config = function()
+                    require("config/iron")
+                end,
+            })
+
             -- Markdown
             use({ "iamcco/markdown-preview.nvim", ft = { "markdown" }, run = ":call mkdp#util#install()" })
             -- Rust
