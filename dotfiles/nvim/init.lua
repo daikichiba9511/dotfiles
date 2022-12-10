@@ -1,6 +1,5 @@
 local opt = vim.opt
 opt.termguicolors = true
-opt.cursorline = true
 
 opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
@@ -46,8 +45,16 @@ opt.hidden = true
 opt.ignorecase = true
 opt.smartcase = true
 opt.wrapscan = true
-opt.hlsearch = true
-opt.incsearch = true
+
+-- vscode neovimで動作を切り替えたい設定
+if vim.g.vscode then
+    opt.cursorline = false
+    opt.hlsearch = false
+else
+    opt.cursorline = true
+    opt.hlsearch = true
+    opt.incsearch = true
+end
 
 --
 
@@ -70,7 +77,6 @@ vim.api.nvim_set_keymap("n", "z", "[FuzzyFinder]", {})
 vim.api.nvim_set_keymap("v", "z", "[FuzzyFinder]", {})
 
 vim.cmd([[ set sh=zsh ]])
--- vim.cmd([[ syntax enable ]])
 
 -- package はplugins.luaで管理
 require("plugins")

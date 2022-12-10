@@ -1,0 +1,324 @@
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
+
+[[plugins]]
+repo = 'vim-denops/denops.vim'
+
+
+[[plugins]]
+repo = 'Vimjas/vim-python-pep8-indent'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+# ---- vim-lsp {
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+hook_source = '''
+" denops-signature_helpいれてるからoffにする
+let g:lsp_signature_help_enabled=0
+'''
+
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+hook_source = '''
+let g:lsp_settings_filetype_python = ['pyright-langserver']
+'''
+
+[[plugins]]
+repo = 'shun/ddc-source-vim-lsp'
+depends = ['vim-lsp']
+# }
+
+# ---- ddu {
+[[plugins]]
+repo = 'Shougo/ddu-ui-ff'
+
+[[plugins]]
+repo = 'Shougo/ddu.vim'
+depends = ['denops.vim']
+hook_source = '''
+" You must set the default ui.
+" Note: ff ui
+" https://github.com/Shougo/ddu-ui-ff
+call ddu#custom#patch_global({
+    \ 'ui': 'ff',
+    \ })
+
+" You must set the default action.
+" Note: file kind
+" https://github.com/Shougo/ddu-kind-file
+call ddu#custom#patch_global({
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   }
+    \ })
+
+" Specify matcher.
+" Note: matcher_substring filter
+" https://github.com/Shougo/ddu-filter-matcher_substring
+call ddu#custom#patch_global({
+    \   'sourceOptions': {
+    \     '_': {
+    \       'matchers': ['matcher_substring'],
+    \     },
+    \   }
+    \ })
+
+" Set default sources
+" Note: file source
+" https://github.com/Shougo/ddu-source-file
+"call ddu#custom#patch_global({
+"    \ 'sources': [{'name': 'file', 'params': {}}],
+"    \ })
+
+" Call default sources
+"call ddu#start({})
+
+" Set name specific configuration
+"call ddu#custom#patch_local('files', {
+"    \ 'sources': [
+"    \   {'name': 'file', 'params': {}},
+"    \   {'name': 'file_old', 'params': {}},
+"    \ ],
+"    \ })
+
+" Specify name
+"call ddu#start({'name': 'files'})
+
+" Specify source with params
+" Note: file_rec source
+" https://github.com/Shougo/ddu-source-file_rec
+"call ddu#start({'sources': [
+"    \ {'name': 'file_rec', 'params': {'path': expand('~')}}
+"    \ ]})
+'''
+# }
+
+# ---- ddc {
+[[plugins]]
+repo = 'Shougo/ddc-ui-native'
+
+[[plugins]]
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-source-around'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-buffer'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-source-cmdline'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-source-cmdline-history'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = "Shougo/ddc-ui-pum"
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'matsui54/denops-signature_help'
+on_source = 'ddc.vim'
+hook_source = '''
+call signature_help#enable()
+'''
+
+# [[plugins]]
+# repo = 'matsui54/denops-popup-preview.vim'
+# on_source = 'ddc.vim'
+# hook_source = '''
+# " call popup_preview#enable() 
+# '''
+
+
+[[plugins]]
+repo = 'Shougo/pum.vim'
+on_source = 'ddc.vim'
+hook_source = '''
+inoremap <silent><expr> <TAB>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+      \ '<TAB>' : ddc#map#manual_complete()
+inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+
+'''
+
+[[plugins]]
+repo = 'Shougo/ddc.vim'
+depends = ['denops.vim']
+hook_source = '''
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('ui', 'native')
+call ddc#custom#patch_global('sources', [
+    \ 'around',
+    \ 'vim-lsp',
+    \ 'vsnip',
+    \ ])
+call ddc#custom#patch_global('sourceOptions', #{
+    \ _: #{
+    \   matchers: ['matcher_head'], 
+    \   sorters: ['sorter_rank'],
+    \   converters: ['converter_remove_overlap'],
+    \ },
+    \ vsnip: #{mark: 'vsnip'},
+    \ vim-lsp: #{
+    \   mark: 'lsp',
+    \   matchers: ['matcher_head'],
+    \ },
+    \ around: #{
+    \   mark: 'around' 
+    \ },
+    \ })
+
+
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? '<C-n>' :
+    \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+    \ '<TAB>' : ddc#map#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+
+call ddc#custom#patch_global('autoCompleteEvents', [
+    \ 'InsertEnter', 'TextChangedI', 'TextChangedP',
+    \ 'CmdlineEnter', 'CmdlineChanged',
+    \ ])
+
+nnoremap :<Cmd>call CommandlinePre()<CR>:
+
+function! CommandlinePre() abort
+  " Note: It disables default command line completion!
+  cnoremap <expr> <Tab>
+  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+  \ ddc#map#manual_complete()
+  cnoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+  cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+  cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+
+  " Overwrite sources
+  if !exists('b:prev_buffer_config')
+    let b:prev_buffer_config = ddc#custom#get_buffer()
+  endif
+
+  call ddc#custom#patch_buffer('sources',
+          \ ['cmdline', 'cmdline-history', 'around'])
+
+  autocmd User DDCCmdlineLeave ++once call CommandlinePost()
+  autocmd InsertEnter <buffer> ++once call CommandlinePost()
+
+  " Enable command line completion
+  call ddc#enable_cmdline_completion()
+endfunction
+
+function! CommandlinePost() abort
+  cunmap <Tab>
+  cunmap <S-Tab>
+  cunmap <C-y>
+  cunmap <C-e>
+
+  " Restore sources
+  if exists('b:prev_buffer_config')
+    call ddc#custom#set_buffer(b:prev_buffer_config)
+    unlet b:prev_buffer_config
+  else
+    call ddc#custom#set_buffer({})
+  endif
+endfunction
+
+call ddc#enable()
+'''
+# }
+
+
+# ---- snippet {
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+hook_source='''
+" NOTE: You can use other key to expand snippet.
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+nmap        s   <Plug>(vsnip-select-text)
+xmap        s   <Plug>(vsnip-select-text)
+nmap        S   <Plug>(vsnip-cut-text)
+xmap        S   <Plug>(vsnip-cut-text)
+
+" If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.javascriptreact = ['javascript']
+let g:vsnip_filetypes.typescriptreact = ['typescript']
+'''
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
+# }
+
+
+# ---- statusline {
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+# }
+
+# ---- comment out {
+[[plugins]]
+repo = 'tpope/vim-commentary'
+# }
+
+# ---- linter & formatter {
+[[plugins]]
+repo = 'dense-analysis/ale'
+hook_source = '''
+let g:ale_linters = {
+    \ 'python': ['flake8'],
+    \ }
+let g:ale_fixers = {
+    \ 'python': ['black'],
+    \ }
+let g:ale_fix_on_save = 1
+'''
+# }

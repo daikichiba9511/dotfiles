@@ -2,20 +2,20 @@ local my_packer = {}
 
 vim.api.nvim_exec(
     [[
-augroup vimrc_packer
-  autocmd!
-  autocmd BufWritePost .config/nvim/lua/plugin.lua,.config/nvim/config/*.vim,.config/nvim/lua/config/*.lua PackerCompile
-augroup END
-]]   ,
+        augroup vimrc_packer
+          autocmd!
+          autocmd BufWritePost .config/nvim/lua/plugin.lua,.config/nvim/config/*.vim,.config/nvim/lua/config/*.lua PackerCompile
+        augroup END
+    ]],
     true
 )
 
 vim.api.nvim_exec(
     [[
-    function! IsPluginInstalled(name) abort
-      return luaeval("_G.packer_plugins['" .. a:name .. "'] ~= nil")
-    endfunction
-]]   ,
+        function! IsPluginInstalled(name) abort
+          return luaeval("_G.packer_plugins['" .. a:name .. "'] ~= nil")
+        endfunction
+    ]],
     true
 )
 

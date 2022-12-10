@@ -27,15 +27,18 @@ local on_attach_fn = function(client, bufnr)
     buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     buf_set_keymap("n", "[lsp]f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-    vim.cmd([[
-        augroup lsp_document_hightlight
-            autocmd! * <buffer>
-            autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved,CursorMovedI <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
-    ]])
-
-    require("nvim-navic").attach(client, bufnr)
+    if vim.g.vscode then
+        return nil
+    else
+        vim.cmd([[
+            augroup lsp_document_hightlight
+                autocmd! * <buffer>
+                autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved,CursorMovedI <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+        ]])
+        require("nvim-navic").attach(client, bufnr)
+    end
 end
 
 local lspconfig = require("lspconfig")

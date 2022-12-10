@@ -2,6 +2,10 @@
 # neovim
 nvim        ${HOME}/.config/nvim
 
+# vim
+# .vimrc ${HOME}
+# .dein.toml ${HOME}/.vim
+
 # zsh
 .zshrc      ${HOME}
 
