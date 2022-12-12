@@ -365,6 +365,14 @@ return require("packer").startup({
                     require("config/lualine")
                 end,
             })
+            use({
+                "akinsho/bufferline.nvim",
+                tag = "v3.*",
+                requires = "nvim-tree/nvim-web-devicons",
+                config = function()
+                    require("config.bufferline")
+                end,
+            })
             -- Sidebar
             ---- サイドバーにファイラーとtodo-commentsみたいなの出す
             ------ conflict with clever-f (augroup sidebar_nvim_prevent_buffer_override)
