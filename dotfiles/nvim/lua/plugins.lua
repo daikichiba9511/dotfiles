@@ -373,6 +373,15 @@ return require("packer").startup({
                     require("config.bufferline")
                 end,
             })
+            -- buffer系
+            ---- Ctrl+Xでcurrent bufferのみを閉じる
+            use({
+                "famiu/bufdelete.nvim",
+                event = "VimEnter",
+                config = function()
+                    require("config.bufdelete")
+                end,
+            })
             -- Sidebar
             ---- サイドバーにファイラーとtodo-commentsみたいなの出す
             ------ conflict with clever-f (augroup sidebar_nvim_prevent_buffer_override)
