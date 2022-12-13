@@ -402,13 +402,6 @@ return require("packer").startup({
                 end,
             })
 
-            --         use({
-            --             "famiu/bufdelete.nvim",
-            --             event = "VimEnter",
-            --             config = function()
-            --                 require("config/bufdelete")
-            --             end,
-            --         })
             -- Popup Info
             use({
                 "lewis6991/hover.nvim",
