@@ -58,13 +58,4 @@ require("mason-lspconfig").setup_handlers({
 
         lspconfig[server_name].setup(opts)
     end,
-
-    ["rust_analyzer"] = function()
-        local has_rust_tools, rust_tools = pcall(require, "rust-tools")
-        if has_rust_tools then
-            rust_tools.setup({ server = opts })
-        else
-            lspconfig.rust_analyzer.setup({})
-        end
-    end,
 })

@@ -197,7 +197,7 @@ return require("packer").startup({
                 "williamboman/mason.nvim",
                 event = "VimEnter",
                 config = function()
-                    require("config/mason")
+                    require("config.mason")
                 end,
             })
             ---- Masonでインストールしたツールのセットアップをする
@@ -205,7 +205,7 @@ return require("packer").startup({
                 "williamboman/mason-lspconfig.nvim",
                 after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp", "nlsp-settings.nvim" },
                 config = function()
-                    require("config/mason-lspconfig")
+                    require("config.mason-lspconfig")
                 end,
             })
             use({
@@ -219,7 +219,7 @@ return require("packer").startup({
             use({
                 "neovim/nvim-lspconfig",
                 cofnig = function()
-                    require("config/nvim-lspconfig")
+                    require("config.nvim-lspconfig")
                 end,
             })
             ------ status lineにコンテキストを出すのに使う
@@ -267,13 +267,13 @@ return require("packer").startup({
                     require("config.trouble")
                 end,
             })
-            --
-            --         use({
-            --             "j-hui/fidget.nvim",
-            --             config = function()
-            --                 require("config/fidget")
-            --             end,
-            --         })
+            -- 通知を良い感じにする
+            use({
+                "j-hui/fidget.nvim",
+                config = function()
+                    require("config.fidget")
+                end,
+            })
             --
             --         use({
             --             "RRethy/vim-illuminate",
@@ -470,19 +470,19 @@ return require("packer").startup({
             -- Rust
             use({
                 "simrat39/rust-tools.nvim",
-                module = "rust-tools",
-                -- after = { "nvim-lspconfig" },
+                -- module = "rust-tools",
+                after = { "nvim-lspconfig" },
                 -- ft = { "rust" },
-                -- config = function()
-                -- 	require("rc/pluginconfig/rust-tools")
-                -- end,
+                config = function()
+                    require("config.rust_tools")
+                end,
             })
 
             -- Deno
             use({
                 "sigmasd/deno-nvim",
                 config = function()
-                    require("config/deno-nvim")
+                    require("config.deno-nvim")
                 end,
             })
             --
