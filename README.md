@@ -1,12 +1,16 @@
 # dotfiles
 
-this repository has codes of my dotfiles. if you want to know entire install procedure, refer to scripts/setup.sh.
+this repository has codes of my dotfiles. if you want to know entire install procedure, you should refer to scripts/setup.sh.
 
-But, these code might have some bugs (e.g. install-python etc.), so be careful if you use these codes.
+But, these code might have some bugs (e.g. install-python etc., Sorry), so be careful please...
 
-I always develop machine learing model , datascience code , and so on by using Neovim in wezterm.
+I always develop machine learing model , datascience code , etc with Neovim in wezterm on Ubuntu (local os and docker container).
 
-## Used
+I guarantee do your tasks on Ubuntu(local/docker container) because I always write something like code or document in Neovim on Ubuntu.
+
+## My Environment
+
+- Ubuntu20.04
 
 - neovim latest
   - packer.nvim
@@ -23,6 +27,7 @@ I always develop machine learing model , datascience code , and so on by using N
 etc.
 
 - wezterm
+- zsh
 
 ## Screenshot
 
