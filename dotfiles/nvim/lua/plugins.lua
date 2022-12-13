@@ -259,13 +259,14 @@ return require("packer").startup({
             --         --     end,
             --         -- })
             --
-            --         -- Diagnostic list
-            --         use({
-            --             "folke/trouble.nvim",
-            --             config = function()
-            --                 require("config/trouble")
-            --             end,
-            --         })
+            -- Diagnostic list
+            ---- lintの結果のリストを別bufferに流してcurrent bufferの下部に表示する
+            use({
+                "folke/trouble.nvim",
+                config = function()
+                    require("config.trouble")
+                end,
+            })
             --
             --         use({
             --             "j-hui/fidget.nvim",
