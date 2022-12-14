@@ -23,4 +23,4 @@ RUN apt update && apt upgrade -y \
 
 COPY ./ ./
 
-RUN sh ./scripts/setup.sh y python
+RUN bash ./setup.sh

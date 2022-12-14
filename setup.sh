@@ -3,10 +3,8 @@
 # I assummed that this scirpts is running under dotfiles
 
 set -eu
+echo "################### start to setup develop environment  #######################"
 
-echo "=================== start to setup develop environment  ======================="
-
-echo " This Setup scripts is guaranteed only on Ubuntu"
 ##############################################
 # helpコマンド用
 # Globals:
@@ -16,18 +14,27 @@ echo " This Setup scripts is guaranteed only on Ubuntu"
 ##############################################
 function help() {
 	cat <<EOS >&2
-usage: $0 [-p]
+usage: $0 [-p] [-r] [-n]
         -h flag to show help
-        -p flag to setup python environment
-        -r flag to setup rust environment
-        -n flag to install nerdfont to your environment
+        -p flag to setup python environment (tasks/install-python.sh)
+        -r flag to setup rust environment (tasks/install-rust.sh)
+        -n flag to install nerdfont to your environment (tasks/install-nerdfonts.sh)
 EOS
 	exit 1
 }
+#############################################
+# global変数
+#############################################
+SETUP_PYTHON_FLAG=false
+SETUP_RUST_FLAG=false
+SETUP_NERDFONT_FLAG=false
 
 ##############################################
 # 引数の解析
 # Globals:
+#   SETUP_PYTHON_FLAG
+#   SETUP_RUST_FLAG
+#   SETUP_NERDFONT_FLAG
 #
 # Arguments:
 #   None
@@ -86,7 +93,7 @@ function main() {
 	fi
 
 	echo " ###### Sync dotfiles to your environment ####### "
-	bash task/link.sh
+	bash tasks/link.sh
 
 	echo "=================== ✅Finished setup of develop environment  ================="
 }
