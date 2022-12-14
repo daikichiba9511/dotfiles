@@ -6,11 +6,11 @@ But, these code might have some bugs (e.g. install-python etc., Sorry), so be ca
 
 I always develop machine learing model , datascience code , etc with Neovim in wezterm on Ubuntu (local os and docker container).
 
-I guarantee do your tasks on Ubuntu(local/docker container) because I always write something like code or document in Neovim on Ubuntu.
+I think your that your tasks are ok If being on Ubuntu(local/docker container), because I always write something like code or document in Neovim on Ubuntu.
 
-## My Environment
+## My Environment List
 
-- Ubuntu20.04
+- Ubuntu 20.04
 
 - neovim latest
   - packer.nvim
@@ -28,6 +28,11 @@ etc.
 
 - wezterm
 - zsh
+- starship
+
+I have prepared some task files in 'tasks' directory (mostly about install/setup)
+
+If you want to see in details, see prepared tasks, please.
 
 ## Screenshot
 
@@ -56,30 +61,56 @@ cd ~/dotfiles
 3. run a setup script
 
 ```sh
-sh scripts/setup.sh y
+bash setup.sh
 ```
 
-4. (optional) if you want to install python
+- (optional) if you want to install python
 
-```
-sh scripts/setup.sh y python
+```sh
+bash setup.sh -p
 ```
 
-5. return
+or
+
+```sh
+bash tasks/install-python.sh
 ```
+
+- (optional) if you want to install rust
+
+```sh
+bash setup.sh -r
+```
+
+or
+
+```sh
+bash tasks/install-rust.sh
+```
+
+
+5. back to previous directory
+```sh
 cd -
 ```
 
 - one-line commands
 
-```
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && sh scripts/setup.sh y&& cd -
+```sh
+git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && bash setup.sh && cd -
 ```
 
 ## For python user
 
+- prerequire
+    - python is installed on your environment
+    - node.js is installed on your environment
+        - Install 'Pyright' with MasonInstall is by npm
+        - and require node.js runtime for pyright
+- If you don't prefer to use pyright, you should install other Python Lsp. See details by using ':Mason', please.
+
 1. Clone this repository
-2. Run scripts/setup.sh
+2. Run 'bash scripts/setup.sh'
 3. Open Neovim
 4. Type `:PackerSync`
 5. Close Neovim at once

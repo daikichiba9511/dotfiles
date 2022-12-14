@@ -69,23 +69,25 @@ local sources = {
             end
         end,
     }),
-    -- Clang
-    -- null_ls.builtins.formatting.clang_format.with({
-    --     extra_args = {
-    --         "-style=google"
-    --     },
-    --     condition = function()
-    --         return vim.fn.executable("clang-format")
-    --     end,
-    -- }),
+    -- Clang {{
+    null_ls.builtins.formatting.clang_format.with({
+        extra_args = {
+            "-style=google",
+        },
+        condition = function()
+            return vim.fn.executable("clang-format")
+        end,
+    }),
+    -- }}
 
-    -- Lua
+    -- Lua {{
     null_ls.builtins.formatting.stylua.with({
         condition = function()
             return vim.fn.executable("stylua") > 0
         end,
     }),
-    -- Python
+    -- }}
+    -- Python {{
     null_ls.builtins.formatting.black.with({
         condition = function()
             return vim.fn.executable("black") > 0
@@ -103,12 +105,13 @@ local sources = {
             return vim.fn.executable("flake8") > 0
         end,
         extra_args = {
-            "--max-line-length", python_line_length
+            "--max-line-length",
+            python_line_length,
         },
     }),
+    -- }}
 
-    -- rust-analyzer
-    -- null_ls.builtins.formatting.rustfmt,
+    -- JavaScript {{
     null_ls.builtins.formatting.prettier.with({
         condition = function()
             return vim.fn.executable("prettier") > 0
@@ -119,11 +122,21 @@ local sources = {
             return vim.fn.executable("eslint") > 0
         end,
     }),
+    -- }}
+
+    -- Shell {{
     null_ls.builtins.formatting.shfmt.with({
         condition = function()
             return vim.fn.executable("shfmt") > 0
         end,
     }),
+    null_ls.builtins.diagnostics.shellcheck.with({
+        condition = function()
+            return vim.fn.executable("shellcheck") > 0
+        end,
+    }),
+    -- }}
+
     null_ls.builtins.diagnostics.shellcheck.with({
         condition = function()
             return vim.fn.executable("shellcheck") > 0
