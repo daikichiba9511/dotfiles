@@ -388,14 +388,14 @@ vim.api.nvim_set_keymap(
     { noremap = true, silent = true }
 )
 -- extension
-vim.api.nvim_set_keymap(
-    "n",
-    "[FuzzyFinder]S",
-    "<Cmd>lua require('telescope').extensions.arecibo.websearch()<CR>",
-    { noremap = true, silent = true }
-)
+-- vim.api.nvim_set_keymap(
+--     "n",
+--     "[FuzzyFinder]S",
+--     "<Cmd>lua require('telescope').extensions.arecibo.websearch()<CR>",
+--     { noremap = true, silent = true }
+-- )
 -- coc
-vim.api.nvim_set_keymap("n", "[FuzzyFinder]cd", "<Cmd>Telescope coc diagnostics<CR>", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap("n", "[FuzzyFinder]cd", "<Cmd>Telescope coc diagnostics<CR>", { noremap = true, silent = true })
 
 -- vim.api.nvim_set_keymap("n", "[FuzzyFinder]:", "<Cmd>Telescope command_history<CR>", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap("c", "<C-t>", "<BS><Cmd>Telescope command_history<CR>", { noremap = true, silent = true })

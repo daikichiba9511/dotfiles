@@ -301,7 +301,7 @@ return require("packer").startup({
                 after = { colorscheme },
                 event = "VimEnter",
                 config = function()
-                    require("config/telescope")
+                    require("config.telescope")
                 end,
             })
             ---------- TelescopeのExtension
