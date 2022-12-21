@@ -4,7 +4,7 @@ this repository has codes of my dotfiles. if you want to know entire install pro
 
 But, these code might have some bugs (e.g. install-python etc., Sorry), so be careful please...
 
-I always develop machine learing model , datascience code , etc with Neovim in wezterm on Ubuntu (local os and docker container).
+I usualy write code such as machine learing model , data science with Neovim in wezterm on Ubuntu (local os and docker container).
 
 I think your that your tasks are ok If being on Ubuntu(local/docker container), because I always write something like code or document in Neovim on Ubuntu.
 
