@@ -9,7 +9,7 @@ sudo rm -r /usr/local/share/nvim
 cd "/tmp"
 git clone https://github.com/neovim/neovim.git
 cd "/tmp/neovim"
-git checkout v0.8.1
+# git checkout v0.8.1
 make CMAKE_BUILD_TYPE=Release
 sudo make install
 rm -rf "/tmp/neovim"

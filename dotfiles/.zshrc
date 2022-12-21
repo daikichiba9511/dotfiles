@@ -135,6 +135,7 @@ function ide() {
 }
 
 export PATH="$PATH:$HOME/.local/bin"
+export PATH=/usr/local/bin:$PATH
 
 if type "xsel" > /dev/null; then
     alias pbcopy='xsel  --clipboard --input'
