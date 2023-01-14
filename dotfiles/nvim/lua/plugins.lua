@@ -31,16 +31,23 @@ require("packer-init")
 -- パッケージ個別の設定は可読性のためにconfig directory配下に分ける
 return require("packer").startup({
     function(use)
+        use({ "rcarriga/nvim-notify", module = "notify" })
+        use({
+            "vim-jp/vimdoc-ja",
+            config = function()
+                -- vim.cmd([[set helplang=ja,en]])
+                vim.g.helplang = "ja,en"
+            end,
+        })
         if vim.g.vscode then
             -- Notify
-            use({ "rcarriga/nvim-notify", module = "notify" })
-            use({
-                "cocopon/iceberg.vim",
-                event = { "VimEnter", "ColorSchemePre" },
-                config = function()
-                    require("config/iceberg")
-                end,
-            })
+            -- use({
+            --     "cocopon/iceberg.vim",
+            --     event = { "VimEnter", "ColorSchemePre" },
+            --     config = function()
+            --         require("config/iceberg")
+            --     end,
+            -- })
             return nil
         else
             -- ###### Not for vscode neovim ######
