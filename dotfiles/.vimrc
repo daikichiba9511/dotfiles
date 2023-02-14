@@ -81,8 +81,10 @@ if dein#load_state(s:dein_base)
     endif
     let s:toml = s:rc_dir . '/dein.toml'
     " read toml cache
-    call dein#load_toml(s:toml, {'lazy':0})
+    " call dein#load_toml(s:toml, {'lazy':0})
     " )
+
+    call dein#add("sickill/vim-monokai")
 
     call dein#end()
     call dein#save_state()
@@ -110,4 +112,5 @@ endif
 " -- ddc {
 " }
 
-colorscheme iceberg
+" colorscheme iceberg
+colorscheme monokai

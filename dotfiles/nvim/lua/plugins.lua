@@ -89,7 +89,8 @@ return require("packer").startup({
             -- ColorScheme
             -- local colorscheme = "iceberg.vim"
             -- local colorscheme = "nightfox.nvim"
-            local colorscheme = "tokyonight.nvim"
+            -- local colorscheme = "tokyonight.nvim"
+            local colorscheme = "catppuccin"
             --         -- use({
             --         --     "shaunsingh/nord.nvim",
             --         --     event = { "VimEnter", "ColorSchemePre" },
@@ -113,6 +114,13 @@ return require("packer").startup({
                 "folke/tokyonight.nvim",
                 config = function()
                     require("config/tokyonight")
+                end,
+            })
+            use({
+                "catppuccin/nvim",
+                as = "catppuccin",
+                config = function()
+                    require("config.catppuccin")
                 end,
             })
             --

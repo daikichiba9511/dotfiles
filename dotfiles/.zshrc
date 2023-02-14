@@ -29,13 +29,19 @@ setopt no_beep
 DIRSTACKSIZE=100
 setopt AUTO_PUSHD
 
-# -- zplug
+# -- zplug {{{
 export ZPLUG_HOME=${HOME}/.zplug
 source $ZPLUG_HOME/init.zsh
-# plugins
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-autosuggestions"
+# -- zsh plugins {{
+# syntax highlight
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "chrissicool/zsh-256color"
+
+# assist input
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+# }}
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -44,6 +50,8 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
+
+# }}}
 
 # Then, source plugins and add commands to $PATH
 zplug load --verbose
@@ -185,7 +193,7 @@ function cdlog() {
 }
 
 # -- vim
-alias v="nvim ."
+alias v="nvim"
 
 # -- starship : should be put on last line
 eval $(starship init zsh)
