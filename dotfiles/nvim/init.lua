@@ -26,6 +26,7 @@ local function set_tab(file_type, indent_num)
 end
 
 local tab2_ft = {
+    "c",
     "cpp",
     "typescript",
     "markdown",

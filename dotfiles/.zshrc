@@ -134,12 +134,18 @@ export PATH=$PATH:$HOME/.bin
 # -- tmux
 [[ -n "$TMUX" ]] && stty erase '^?'
 
-function ide() {
+function tide() {
     tmux split-window -v
     tmux split-window -h
     tmux split-window -h
     tmux resize-pane -D 15
     tmux select-pane -t 1
+}
+
+function wide() {
+    local pane_size=${1:-60}
+    wezterm cli split-pane --right --percent "${pane_size}"
+    wezterm cli split-pane --bottom
 }
 
 export PATH="$PATH:$HOME/.local/bin"
