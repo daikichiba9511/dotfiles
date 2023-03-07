@@ -30,36 +30,41 @@ DIRSTACKSIZE=100
 setopt AUTO_PUSHD
 
 # -- zplug {{{
-export ZPLUG_HOME=${HOME}/.zplug
-source $ZPLUG_HOME/init.zsh
-# -- zsh plugins {{
-# syntax highlight
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "chrissicool/zsh-256color"
+# export ZPLUG_HOME=${HOME}/.zplug
+# source $ZPLUG_HOME/init.zsh
+# # -- zsh plugins {{
+# # syntax highlight
+# zplug "zsh-users/zsh-syntax-highlighting", defer:2
+# zplug "chrissicool/zsh-256color"
+#
+# # assist input
+# zplug "zsh-users/zsh-history-substring-search"
+# zplug "zsh-users/zsh-autosuggestions"
+# zplug "zsh-users/zsh-completions"
+# # }}
+#
+# # Install plugins if there are plugins that have not been installed
+# if ! zplug check --verbose; then
+#     printf "Install? [y/N]: "
+#     if read -q; then
+#         echo; zplug install
+#     fi
+# fi
+#
+# # }}}
+#
+# # Then, source plugins and add commands to $PATH
+# zplug load --verbose
+#
+# # -- zsh-syntax-highlighting
+# if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# fi
 
-# assist input
-zplug "zsh-users/zsh-history-substring-search"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
-# }}
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# }}}
-
-# Then, source plugins and add commands to $PATH
-zplug load --verbose
-
-# -- zsh-syntax-highlighting
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# =====================================
+# sheldon : zsh plugin manager
+# =====================================
+eval "$(sheldon source)"
 
 # -- 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -74,10 +79,14 @@ zstyle ':completion:*' list-colors ''
 # --コマンドのスペルを訂正
 setopt correct
 
+# ====================================
 # -- git
+# ====================================
 autoload -Uz compinit && compinit  # Gitの補完を有効化
 
+# ====================================
 # -- コマンドの実行ごとに改行
+# ====================================
 function precmd() {
 
     # Print a newline before the prompt, unless it's the
@@ -89,14 +98,20 @@ function precmd() {
     fi
 }
 
+# ====================================
 # For neovim
+# ====================================
 export PATH=$PATH:./node_modules/.bin
 export XDG_STATE_HOME=~/.local/state
 
+# ====================================
 # -- .zfunc
+# ====================================
 fpath+=~/.zfunc
 
+# ====================================
 # -- julia
+# ====================================
 export PATH="$PATH:/opt/julia-1.7.1/bin"
 
 # alias julia1.6="/Applications/Julia-1.6.app/Contents/Resources/julia/bin/julia"
@@ -104,36 +119,55 @@ export JULIA_CMDSTAN_HOME=/usr/local/bin/cmdstan
 # launchctl setenv JULIA_CMDSTAN_HOME /usr/local/bin/cmdstan
 export JULIA_NUM_THREADS=4
 
+# ====================================
 # -- Python (pyenv)
+# ====================================
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
+# ====================================
 # -- Rust
+# ====================================
 export PATH=$HOME/.config/coc/extensions/node_modules:$PATH
 
+# ====================================
 # -- Go
+# ====================================
 export PATH=$HOME/go/bin:$PATH
 
+# ====================================
 # -- CmdStan
+# ====================================
 export CMDSTAN_HOME=/usr/local/bin/cmdstan
 # launchctl setenv CMDSTAN_HOME /usr/local/bin/cmdstann
 
+# ====================================
 # -- Docker
+# ====================================
 export DOCKER_BUILDKIT=1
 
+# ====================================
 # -- deno
+# ====================================
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
+# ====================================
 # -- terraform
+# ====================================
 export PATH=$PATH:$HOME/.bin
 
+# ====================================
 # -- tmux
+# ====================================
 [[ -n "$TMUX" ]] && stty erase '^?'
 
+# ====================================
+# tmuxの使用時にtile状にpaneをsplitする
+# ====================================
 function tide() {
     tmux split-window -v
     tmux split-window -h
@@ -142,6 +176,9 @@ function tide() {
     tmux select-pane -t 1
 }
 
+# ====================================
+# weztermを使用してpaneをsplitする
+# ====================================
 function wide() {
     local pane_size=${1:-60}
     wezterm cli split-pane --right --percent "${pane_size}"
@@ -156,7 +193,9 @@ if type "xsel" > /dev/null; then
 fi
 
 
+# ====================================
 # -- ls
+# ====================================
 alias ls="ls --color"
 alias la="ls --color -a"
 alias ll="ls --color -l"
@@ -176,7 +215,9 @@ if [[ $(command -v exa) ]]; then
   alias lta=eta
 fi
 
+# ====================================
 # -- git
+# ====================================
 alias g="git"
 alias gs="git status -u"
 alias ga="git add -v"
@@ -187,21 +228,30 @@ alias gpull="git pull"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gco="git checkout"
 
-# -- log
+# ====================================
+# logをつける用のマークダウンを生成する
+# ====================================
 function cdlog() {
     # create daily log file
-    local datetime=$(date +%Y-%m-%d)
-    local log_file_name="${datetime}.md"
+    local today=$(date +%Y-%m-%d)
+    local log_file_name="${today}.md"
     touch ${log_file_name}
-    echo "#${datetime}" >> ${log_file_name}
+    echo "#${today}" >> ${log_file_name}
     cat ~/dotfiles/dotfiles/base_logs.md >> ${log_file_name}
     echo "✅ ${log_file_name} is created."
 }
 
+# ====================================
 # -- vim
+# ====================================
 alias v="nvim"
 
-# -- starship : should be put on last line
-eval $(starship init zsh)
-
+# ====================================
+#
+# ====================================
 [ -f "/home/d-chiba/.ghcup/env" ] && source "/home/d-chiba/.ghcup/env" # ghcup-env
+
+# ====================================
+# -- starship : should be put on last line
+# ====================================
+eval $(starship init zsh)
