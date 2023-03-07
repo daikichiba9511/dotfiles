@@ -203,3 +203,5 @@ alias v="nvim"
 
 # -- starship : should be put on last line
 eval $(starship init zsh)
+
+[ -f "/home/d-chiba/.ghcup/env" ] && source "/home/d-chiba/.ghcup/env" # ghcup-env
