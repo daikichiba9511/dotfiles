@@ -47,7 +47,7 @@ local opts = { capabilities = capabilities, on_attach = on_attach_fn }
 
 require("mason-lspconfig").setup_handlers({
     function(server_name)
-        if server_name == "sumneko_lua" then
+        if server_name == "lua-language-server" then
             opts.settings = {
                 Lua = {
                     daignostics = { globals = { "vim" } },

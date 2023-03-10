@@ -86,11 +86,11 @@ return require("packer").startup({
             use({ "kkharji/sqlite.lua" })
             use({ "MunifTanjim/nui.nvim", module = "nui" })
 
-            -- ColorScheme
+            -- Colorscheme {{{
             -- local colorscheme = "iceberg.vim"
             -- local colorscheme = "nightfox.nvim"
-            -- local colorscheme = "tokyonight.nvim"
-            local colorscheme = "catppuccin"
+            local colorscheme = "tokyonight.nvim"
+            -- local colorscheme = "catppuccin"
             --         -- use({
             --         --     "shaunsingh/nord.nvim",
             --         --     event = { "VimEnter", "ColorSchemePre" },
@@ -119,10 +119,24 @@ return require("packer").startup({
             use({
                 "catppuccin/nvim",
                 as = "catppuccin",
-                config = function()
-                    require("config.catppuccin")
-                end,
+                -- config = function()
+                --     require("config.catppuccin")
+                -- end,
             })
+            use({
+                "tomasr/molokai",
+            })
+            use({
+                "tanvirtin/monokai.nvim",
+            })
+            -- use({
+            --     "loctvl842/monokai-pro.nvim",
+            -- })
+            use({
+                "sickill/vim-monokai",
+            })
+
+            -- }}}
             --
             --         use({
             --             "jinh0/eyeliner.nvim",
@@ -158,7 +172,7 @@ return require("packer").startup({
             use({
                 "hrsh7th/nvim-cmp",
                 requires = {
-                    { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
+                    { "L3MON4D3/LuaSnip",      opt = true, event = "VimEnter" },
                     { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
                 },
                 after = { "LuaSnip", "nvim-autopairs" },

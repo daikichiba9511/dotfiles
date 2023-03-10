@@ -77,14 +77,14 @@ vim.keymap.set("n", "Z", "<Nop>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "z", "[FuzzyFinder]", {})
 vim.api.nvim_set_keymap("v", "z", "[FuzzyFinder]", {})
 
-vim.cmd([[ set sh=zsh ]])
+-- vim.cmd([[ set sh=zsh ]])
 
 -- package はplugins.luaで管理
 require("plugins")
 
 vim.cmd([[
-        augroup Packer
-            autocmd!
-            autocmd BufWritePost plugin.lua,init.lua PackerCompile
-        augroup END
-    ]])
+    augroup Packer
+        autocmd!
+        autocmd BufWritePost plugin.lua,init.lua PackerCompile
+    augroup END
+]])
