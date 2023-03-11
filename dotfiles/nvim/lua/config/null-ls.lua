@@ -218,7 +218,7 @@ local on_attach = function(client, bufnr)
 end
 
 null_ls.setup({
-    debug = true,
+    -- debug = true,
     sources = sources,
     on_attach = on_attach,
 })
