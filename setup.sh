@@ -73,6 +73,7 @@ function parse_args() {
 
 function main() {
 	bash tasks/install-pre-ubuntu.sh
+    bash tasks/install-sheldon.sh
 	bash tasks/install-around-zsh.sh
 	bash tasks/install-nvim.sh
 
