@@ -27,3 +27,5 @@ starship.toml ${HOME}/.config
 # wezterm
 wezterm     ${HOME}/.config/wezterm
 
+# sheldon
+sheldon ${HOME}/.config
