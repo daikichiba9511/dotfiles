@@ -101,9 +101,20 @@ local sources = {
         end,
         extra_args = { "--profile", "black" },
     }),
+    null_ls.builtins.diagnostics.pyproject_flake8.with({
+        condition = function()
+            return vim.fn.executable("pflake8") > 0
+        end,
+        extra_args = {
+            "--max-line-length",
+            python_line_length,
+            -- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
+        },
+
+    }),
     null_ls.builtins.diagnostics.flake8.with({
         condition = function()
-            return vim.fn.executable("flake8") > 0
+            return vim.fn.executable("flake8") > 0 and vim.fn.executable("pflake8") < 1
         end,
         extra_args = {
             "--max-line-length",
