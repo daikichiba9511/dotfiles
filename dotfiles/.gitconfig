@@ -1,0 +1,18 @@
+[user]
+	email = daikichiba.tech.ml@gmail.com
+	name = daikichiba9511
+[core]
+	editor = nvim
+    pager = delta
+[safe]
+    directory = /workspace/Invox-AI-Invoice-Table-Detection
+	directory = /workspace/working/
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    line-numbers = true
+    dark = true
+[delta "line-number"]
+    line-numbers-left-style = cyan
+[merge]
+    conflictstyle = diff3

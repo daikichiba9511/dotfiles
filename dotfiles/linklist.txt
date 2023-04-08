@@ -12,6 +12,9 @@ nvim        ${HOME}/.config/nvim
 # tmux
 .tmux.conf  ${HOME}
 
+# gitconfig
+.gitconfig ${HOME}
+
 # coc
 coc       ${HOME}/.config/coc
 
