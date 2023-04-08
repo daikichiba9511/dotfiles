@@ -242,6 +242,29 @@ function cdlog() {
 }
 
 # ====================================
+# fuzzy search files and open with vscode
+# fzfで見つけたファイルをvscodeで開く
+# ====================================
+function fv {
+    local filename=$(fzf --preview 'bat --color=always {1} --highlight-line {2}')
+    if [ $? = 0 ]; then
+        code "${filename}"
+    fi
+}
+
+
+# ====================================
+# fuzzy search files and open with neovim
+# fzfで見つけたファイルをvscodeで開く
+# ====================================
+function fn {
+    local filename=$(fzf --preview 'bat --color=always {1} --highlight-line {2}')
+    if [ $? = 0 ]; then
+        nvim "${filename}"
+    fi
+}
+
+# ====================================
 # -- vim
 # ====================================
 alias v="nvim"
