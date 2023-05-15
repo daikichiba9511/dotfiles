@@ -61,10 +61,6 @@ setopt AUTO_PUSHD
 #   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # fi
 
-# =====================================
-# sheldon : zsh plugin manager
-# =====================================
-eval "$(sheldon source)"
 
 # -- 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -249,10 +245,7 @@ function fv {
     local filename=$(fzf --preview 'bat --color=always {1} --highlight-line {2}')
     if [ $? = 0 ]; then
         code "${filename}"
-    fi
-}
-
-
+    fi }
 # ====================================
 # fuzzy search files and open with neovim
 # fzfで見つけたファイルをvscodeで開く
@@ -273,6 +266,26 @@ alias v="nvim"
 #
 # ====================================
 [ -f "/home/d-chiba/.ghcup/env" ] && source "/home/d-chiba/.ghcup/env" # ghcup-env
+
+
+# ====================================
+# asdf
+# ====================================
+. "${HOME}/.asdf/asdf.sh"
+fpath=(${ASDF_DIR}/completions $fpath)
+autoload -Uz compinit && compinit
+
+# ====================================
+# cuda
+# ====================================
+export CUDA_PATH=/usr/local/cuda-12
+export LD_LIBRARY_PATH=/usr/local/cuda-12/lib64:${LD_LIBRARY_PATH}
+export PATH=/usr/local/cuda-12/bin:${PATH}
+
+# =====================================
+# sheldon : zsh plugin manager
+# =====================================
+eval "$(sheldon source)"
 
 # ====================================
 # -- starship : should be put on last line
