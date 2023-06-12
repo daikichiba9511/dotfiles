@@ -79,7 +79,6 @@ cmp.setup({
             cmp.config.compare.order,
         },
     },
-
     mapping = {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
         ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
@@ -97,7 +96,6 @@ cmp.setup({
                 vim.api.nvim_feedkeys(t("<Down>"), "n", true)
             end
         end, { "i" }),
-
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -107,7 +105,6 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -117,7 +114,6 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<C-Down>"] = cmp.mapping(function(fallback)
             if luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
@@ -125,7 +121,6 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<C-Up>"] = cmp.mapping(function(fallback)
             if luasnip.jumpable(-1) then
                 luasnip.jump(-1)
@@ -133,24 +128,23 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-        ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+        ["<C-y>"] = cmp.config.disable,               -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
         ["<C-q>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
         ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
     -- LuaFormatter off
     sources = cmp.config.sources({
-        { name = "nvim_lsp", priority = 100 },
-        { name = "path", priority = 100 },
-        { name = "emoji", insert = true, priority = 60 },
-        { name = "nvim_lua", priority = 50 },
+        { name = "nvim_lsp",                priority = 100 },
+        { name = "path",                    priority = 100 },
+        { name = "emoji",                   insert = true, priority = 60 },
+        { name = "nvim_lua",                priority = 50 },
         { name = "nvim_lsp_signature_help", priority = 80 },
-        { name = "luasnip", priority = 20 }, -- For luasnip users.
+        { name = "luasnip",                 priority = 20 }, -- For luasnip users.
     }, {
-        { name = "buffer", priority = 50 },
-        { name = "spell", priority = 40 },
-        { name = "calc", priority = 50 },
+        { name = "buffer",     priority = 50 },
+        { name = "spell",      priority = 40 },
+        { name = "calc",       priority = 50 },
         { name = "treesitter", priority = 30 },
         { name = "dictionary", keyword_length = 2, priority = 10 },
     }),
@@ -160,16 +154,16 @@ cmp.setup({
 cmp.setup.filetype({ "gitcommit", "markdown" }, {
     sources = cmp.config.sources({
         { name = "nvim_lsp", priority = 100 },
-        { name = "luasnip", priority = 80 }, -- For luasnip users.
-        { name = "rg", priority = 70 },
-        { name = "path", priority = 100 },
-        { name = "emoji", insert = true, priority = 60 },
+        { name = "luasnip",  priority = 80 }, -- For luasnip users.
+        { name = "rg",       priority = 70 },
+        { name = "path",     priority = 100 },
+        { name = "emoji",    insert = true, priority = 60 },
     }, {
-        { name = "buffer", priority = 50 },
-        { name = "spell", priority = 40 },
-        { name = "calc", priority = 50 },
+        { name = "buffer",     priority = 50 },
+        { name = "spell",      priority = 40 },
+        { name = "calc",       priority = 50 },
         { name = "treesitter", priority = 30 },
-        { name = "mocword", priority = 60 },
+        { name = "mocword",    priority = 60 },
         { name = "dictionary", keyword_length = 2, priority = 10 },
     }),
 })
@@ -194,7 +188,6 @@ cmp.setup.cmdline(":", {
                 fallback()
             end
         end, { "c" }),
-
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
