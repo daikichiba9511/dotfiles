@@ -4,6 +4,20 @@
 [core]
 	editor = nvim
     pager = delta
+
+[alias]
+    a = add --verbose
+    cm = commit
+    df = diff
+    sw = switch
+    cob = checkout -b
+    pl = pull
+    po = push origin
+    ri = rebase -i
+    rc = rebase --continue
+    s = status
+    ss = status -s
+
 [safe]
     directory = /workspace/Invox-AI-Invoice-Table-Detection
 	directory = /workspace/working/

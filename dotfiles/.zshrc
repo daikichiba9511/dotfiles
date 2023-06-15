@@ -215,14 +215,14 @@ fi
 # -- git
 # ====================================
 alias g="git"
-alias gs="git status -u"
-alias ga="git add -v"
-alias gcm="git commit"
-alias gdf="git diff"
-alias gpush="git push"
-alias gpull="git pull"
+# alias gs="git status -u"
+# alias ga="git add -v"
+# alias gcm="git commit"
+# alias gdf="git diff"
+# alias gpush="git push"
+# alias gpull="git pull"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias gco="git checkout"
+# alias gco="git checkout"
 
 # ====================================
 # logをつける用のマークダウンを生成する
