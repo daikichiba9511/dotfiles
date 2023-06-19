@@ -10,14 +10,14 @@ I think your that your tasks are ok If being on Ubuntu(local/docker container), 
 
 ## My Environment List
 
-- Ubuntu 20.04
+- Ubuntu 22.04
 
 - neovim latest
-  - packer.nvim
+  - lazy.nvim
   - nvim-lsp
   - nvim-cmp
   - telescope
-  - sidevar
+  - sidebar
   - luasnip
   - lualine
   - mason
@@ -103,19 +103,17 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 ## For python user
 
 - prerequire
-    - python is installed on your environment
-    - node.js is installed on your environment
-        - Install 'Pyright' with MasonInstall is by npm
-        - and require node.js runtime for pyright
-- If you don't prefer to use pyright, you should install other Python Lsp. See details by using ':Mason', please.
+    - you should install nodejs and python on your environment
+        - install 'Pyright' by executing 'MasonInstall pyright'
+- If you don't prefer to use pyright, you should install other Python Lsp. See details by executing ':Mason', please.
 
 1. Clone this repository
 2. Run 'bash scripts/setup.sh'
 3. Open Neovim
-4. Type `:PackerSync`
-5. Close Neovim at once
-6. Open Neovim and type `:MasonInstall pyright`
-7. If you wanna use formatter with opeened buffer, type `pip install black` on your terminal.  If you install black in your develop environment, the Neovim format buffer automatically (by using null-ls).
+4. Type `:Lazy sync`
+5. Close Neovim.
+6. Reopen Neovim and type `:MasonInstall pyright` if you want to use python with LSP support.
+7. If you want to use formatter with opened buffer, execute a command, `pip install black` on your terminal. Neovim format buffer automatically (by using null-ls) when can use `black` on your terminal directly.
 
 
 # Reference
