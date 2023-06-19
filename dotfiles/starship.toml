@@ -26,7 +26,7 @@ ssh_only = false
 format = "[$ssh_symbol on ](bg:#1A374D fg:white bold)[$hostname ](bg:#1A374D fg:white bold)"
 
 [git_branch]
-format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[$branch (:$remote_branch) ]($style) "
+format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
 style = "fg:#FFFFFF bold bg:#6998AB"
 
 [character]

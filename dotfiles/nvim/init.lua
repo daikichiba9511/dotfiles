@@ -345,6 +345,12 @@ require("lazy").setup({
     { "folke/lua-dev.nvim",           module = "lua-dev" },
     { "wadackel/nvim-syntax-info",    cmd = { "SyntaxInfo" } },
     { "iamcco/markdown-preview.nvim", ft = { "markdown" },   run = ":call mkdp#util#install()" },
+    {
+        "lewis6991/gitsigns.nvim",
+        -- config = function()
+        --     require("config/gitsigns")
+        -- end,
+    },
 })
 
 -- }}}
