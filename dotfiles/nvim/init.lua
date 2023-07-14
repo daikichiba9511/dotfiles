@@ -351,6 +351,12 @@ require("lazy").setup({
         --     require("config/gitsigns")
         -- end,
     },
+    {
+        "akinsho/toggleterm.nvim",
+        config = function()
+            require("config/toggleterm")
+        end,
+    },
 })
 
 -- }}}

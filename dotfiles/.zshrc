@@ -292,3 +292,7 @@ eval "$(sheldon source)"
 # -- starship : should be put on last line
 # ====================================
 eval $(starship init zsh)
+#compdef rye
+
+autoload -U is-at-least
+
