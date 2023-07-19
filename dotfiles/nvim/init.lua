@@ -22,7 +22,8 @@ opt.softtabstop = 4
 opt.shiftwidth = 4
 
 local function set_tab(file_type, indent_num)
-    vim.cmd(string.format(" autocmd FileType %s setlocal shiftwidth=%s tabstop=%s ", file_type, indent_num, indent_num))
+    vim.cmd(string.format(" autocmd FileType %s setlocal shiftwidth=%s tabstop=%s ", file_type, indent_num,
+        indent_num))
 end
 
 local tab2_ft = {

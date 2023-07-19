@@ -2,9 +2,12 @@
 # neovim
 nvim        ${HOME}/.config
 
+# sheldon shell plugin manger
+sheldon ${HOME}/.config
+
 # vim
-.vimrc      ${HOME}
-.vim        ${HOME}
+# .vimrc      ${HOME}
+# .vim        ${HOME}
 
 # zsh
 .zshrc      ${HOME}
