@@ -288,11 +288,14 @@ export PATH=/usr/local/cuda-11.8/bin:${PATH}
 # =====================================
 eval "$(sheldon source)"
 
+# =====================================
+# nnn
+# =====================================
+export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
+
 # ====================================
 # -- starship : should be put on last line
 # ====================================
 eval $(starship init zsh)
-#compdef rye
 
-autoload -U is-at-least
 
