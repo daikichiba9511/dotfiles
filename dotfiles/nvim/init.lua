@@ -1,4 +1,6 @@
 local opt = vim.opt
+local set_keymap = vim.api.nvim_set_keymap
+
 -- package はplugins.luaで管理
 -- require("plugins")
 
@@ -9,6 +11,8 @@ local opt = vim.opt
 --     augroup END
 -- ]])
 --
+
+vim.g.mapleader = " "
 
 opt.termguicolors = true
 
@@ -52,7 +56,7 @@ end
 -- vim.cmd([[ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 ]])
 -- vim.cmd([[ autocmd FileType markdown set shiftwidth=2 tabstop=2 ]])
 
-opt.clipboard:append("unnamedplus")
+opt.clipboard = "unnamedplus"
 opt.hidden = true
 
 -- Search
@@ -72,10 +76,9 @@ end
 
 --
 
-opt.list = true
+opt.list = true -- show tabs
 opt.listchars:append("tab:>-")
 
-local set_keymap = vim.api.nvim_set_keymap
 set_keymap("i", "jj", "<ESC>", { silent = true })
 set_keymap("n", "<C-j>", ":bprev<CR>", { noremap = true, silent = true })
 set_keymap("n", "<C-k>", ":bnext<CR>", { noremap = true, silent = true })
@@ -110,14 +113,26 @@ vim.opt.rtp:prepend(lazypath)
 
 Colorscheme = "tokyonight"
 -- Colorscheme = "nightowl"
+--
+
+local lazy_opts = {
+    defaults = {
+        lazy = false,
+    },
+    -- peformance = {
+    -- 	cache = {
+    -- 		enabled = true,
+    -- 	},
+    -- },
+}
 
 -- plugins {{{
 require("lazy").setup({
     -- colorscheme
     {
         "folke/tokyonight.nvim",
-        lazy = false,
         priority = 1000,
+        lazy = false,
         config = function()
             require("config/tokyonight")
         end,
@@ -133,19 +148,29 @@ require("lazy").setup({
     -- },
     { "nvim-lua/plenary.nvim" }, -- do not lazy load
     { "folke/which-key.nvim" },
-    { "folke/neodev.nvim" },
+    {
+        "folke/neodev.nvim",
+        config = function()
+            require("neodev").setup()
+        end,
+    },
+
+    -- Completion using nvim-cmp {{
     {
         "hrsh7th/nvim-cmp",
         event = "InsertEnter",
+        version = false,
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "saadparwaiz1/cmp_luasnip",
         },
         config = function()
             require("config/nvim-cmp")
         end,
     },
-    { "hrsh7th/cmp-nvim-lsp",                module = "cmp_nvim_lsp" },
+    { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/cmp-nvim-lsp-signature-help" },
     { "hrsh7th/cmp-nvim-lsp-document-symbol" },
     { "hrsh7th/cmp-buffer" },
@@ -159,6 +184,8 @@ require("lazy").setup({
     { "ray-x/cmp-treesitter" },
     { "lukas-reineke/cmp-under-comparator" },
     { "hrsh7th/cmp-omni" },
+    -- }}
+
     {
         "L3MON4D3/LuaSnip",
         event = "VimEnter",
@@ -166,7 +193,7 @@ require("lazy").setup({
             require("config/LuaSnip")
         end,
     },
-    { "nvim-tree/nvim-web-devicons",                lazy = true },
+    { "nvim-tree/nvim-web-devicons",  lazy = true },
     {
         "folke/todo-comments.nvim",
         event = "VimEnter",
@@ -184,14 +211,15 @@ require("lazy").setup({
     },
     {
         "onsails/lspkind-nvim",
-        module = "lspkind",
         config = function()
             require("config/lspkind-nvim")
         end,
     },
+    -- Lsp
     {
         "williamboman/mason.nvim",
         event = "VimEnter",
+        build = ":MasonUpdate",
         config = function()
             require("config.mason")
         end,
@@ -199,12 +227,14 @@ require("lazy").setup({
     ---- Masonでインストールしたツールのセットアップをする
     {
         "williamboman/mason-lspconfig.nvim",
+        event = "VimEnter",
         config = function()
             require("config.mason-lspconfig")
         end,
     },
     {
         "tamago324/nlsp-settings.nvim",
+        event = "VimEnter",
         config = function()
             require("config/nlsp-settings")
         end,
@@ -212,6 +242,7 @@ require("lazy").setup({
     -- LSPの機能強化系
     {
         "neovim/nvim-lspconfig",
+        event = "VimEnter",
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
             { "williamboman/mason.nvim", config = true },
@@ -283,10 +314,12 @@ require("lazy").setup({
 
     {
         "nvim-treesitter/nvim-treesitter",
-        event = "VimEnter",
-        run = function()
-            require("nvim-treesitter.install").update({ with_sync = true })
-        end,
+        version = false, -- last release is way too old and doesn't work on Windows
+        build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
+        -- run = function()
+        -- 	require("nvim-treesitter.install").update({ with_sync = true })
+        -- end,
         config = function()
             if vim.g.vscode then
                 return nil
@@ -294,12 +327,22 @@ require("lazy").setup({
                 require("config/nvim-treesitter")
             end
         end,
+        dependencies = {
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                init = function()
+                    require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
+                    load_textobjects = true
+                end,
+            },
+        },
+        cmd = { "TSUpdateSync" },
     },
-    { "JoosepAlviste/nvim-ts-context-commentstring" },
-    { "nvim-treesitter/nvim-treesitter-refactor" },
-    { "nvim-treesitter/nvim-tree-docs" },
+    -- { "JoosepAlviste/nvim-ts-context-commentstring" },
+    -- { "nvim-treesitter/nvim-treesitter-refactor" },
+    -- { "nvim-treesitter/nvim-tree-docs" },
     -- use({ "vigoux/architext.nvim",  })
-    { "yioneko/nvim-yati" },
+    -- { "yioneko/nvim-yati" },
     --
     -- StatusLine
     {
@@ -369,8 +412,8 @@ require("lazy").setup({
 
     { "bfredl/nvim-luadev",           event = "VimEnter" },
     { "folke/lua-dev.nvim",           module = "lua-dev" },
-    -- { "wadackel/nvim-syntax-info",    cmd = { "SyntaxInfo" } },
-    { "iamcco/markdown-preview.nvim", ft = { "markdown" }, run = ":call mkdp#util#install()" },
+    { "wadackel/nvim-syntax-info",    cmd = { "SyntaxInfo" } },
+    { "iamcco/markdown-preview.nvim", ft = { "markdown" },   run = ":call mkdp#util#install()" },
     {
         "lewis6991/gitsigns.nvim",
         -- config = function()
@@ -390,6 +433,7 @@ require("lazy").setup({
         end,
     },
     { "kevinhwang91/nvim-bqf" },
-})
+    { "lambdalisue/nerdfont.vim" },
+}, lazy_opts)
 
 -- }}}
