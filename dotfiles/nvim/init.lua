@@ -35,6 +35,7 @@ opt.history = 5000
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
+opt.shell = "/usr/bin/zsh"
 
 local function set_tab(file_type, indent_num)
 	vim.cmd(string.format(" autocmd FileType %s setlocal shiftwidth=%s tabstop=%s ", file_type, indent_num, indent_num))
