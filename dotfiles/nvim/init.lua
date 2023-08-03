@@ -11,7 +11,7 @@ local set_keymap = vim.api.nvim_set_keymap
 --     augroup END
 -- ]])
 --
-vim.g.mapleader = " "
+-- vim.g.mapleader = " "
 
 opt.termguicolors = true
 
@@ -460,9 +460,10 @@ require("lazy").setup({
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		-- config = function()
-		--     require("config/gitsigns")
-		-- end,
+		event = "BufRead",
+		config = function()
+			require("config/gitsigns")
+		end,
 	},
 	{
 		"microsoft/python-type-stubs",
@@ -491,6 +492,19 @@ require("lazy").setup({
 		config = function()
 			vim.notify = require("notify")
 			vim.notify("Config loaded", "info", { title = "Neovim" })
+		end,
+	},
+	{
+		"phaazon/hop.nvim",
+		branch = "v2",
+		event = "BufRead",
+		config = function()
+			-- require("config/hop")
+			require("hop").setup({
+				-- default key settings is for QWERTY
+				keys = "etovxqpdygfblzhckisuran",
+			})
+			set_keymap("n", "<Leader>h", "<Cmd>:HopWord<CR>", { noremap = true, silent = true })
 		end,
 	},
 }, lazy_opts)
