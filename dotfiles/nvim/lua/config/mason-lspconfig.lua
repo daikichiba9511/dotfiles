@@ -1,6 +1,7 @@
 -- require("mason-lspconfig").setup()
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local util = require("lspconfig/util")
 
 local on_attach_fn = function(client, bufnr)
 	local function buf_set_keymap(...)
@@ -78,22 +79,29 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["pyright"] = function()
+		vim.notify("pyright setup loaded")
 		lspconfig.pyright.setup({
 			on_attach = on_attach_fn,
 			capabilities = capabilities,
+			root_dir = function(fname)
+				return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
+					or util.path.dirname(fname)
+			end,
 			settings = {
 				-- pyright = {
 				-- 	autoImportCompletions = false,
 				-- },
 				python = {
-					-- venvPath = ".",
-					-- pythonPath = "./.venv/bin/python",
+					venvPath = ".",
+					pythonPath = "./.venv/bin/python",
 					analysis = {
 						typeCheckingMode = "basic",
 						-- indexing = true,
 						-- useFileIndexingLimit = 2000,
+
 						diagnosticMode = "openFilesOnly",
-						autoImportCompletions = false,
+						-- autoImportCompletions = false,
+
 						autoSearchPaths = true,
 						useLibraryCodeForTypes = true,
 						completeFunctionParens = true,

@@ -1,3 +1,5 @@
+-- require("copilot").setup({})
+
 vim.g.copilot_no_tab_map = true
 
 local keymap = vim.keymap.set

@@ -11,7 +11,6 @@ local set_keymap = vim.api.nvim_set_keymap
 --     augroup END
 -- ]])
 --
-
 vim.g.mapleader = " "
 
 opt.termguicolors = true
@@ -20,8 +19,8 @@ opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 opt.fileencodings = "ucs-boms,utf-8,euc-jp,cp932"
 opt.fileformats = "unix,dos,mac"
-
 opt.swapfile = false
+
 -- opt.number = true
 opt.relativenumber = true
 opt.showmatch = true
@@ -72,10 +71,8 @@ else
 	opt.incsearch = true
 end
 
---
-
 opt.list = true -- show tabs
-opt.listchars:append("tab:>-")
+opt.listchars = { tab = "-»", space = "·" }
 
 set_keymap("i", "jj", "<ESC>", { silent = true })
 set_keymap("n", "<C-j>", ":bprev<CR>", { noremap = true, silent = true })
@@ -197,7 +194,23 @@ require("lazy").setup({
 	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
 	{ "lukas-reineke/cmp-under-comparator", event = "InsertEnter" },
 	{ "hrsh7th/cmp-omni", event = "InsertEnter" },
+	-- {
+	-- 	"zbirenbaum/copilot-cmp",
+	-- 	event = "InsertEnter",
+	-- 	after = { "copilot.lua" },
+	-- 	config = function()
+	-- 		require("copilot_cmp").setup()
+	-- 	end,
+	-- },
 	-- }}
+	-- {
+	-- 	"zbirenbaum/copilot.lua",
+	-- 	cmd = "Copilot",
+	-- 	event = "InsertEnter",
+	-- 	config = function()
+	-- 		require("copilot").setup({})
+	-- 	end,
+	-- },
 	{
 		"L3MON4D3/LuaSnip",
 		event = "VimEnter",
@@ -263,10 +276,10 @@ require("lazy").setup({
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
+			-- { "j-hui/fidget.nvim" },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
-			"folke/neodev.nvim",
+			{ "folke/neodev.nvim" },
 		},
 		cofnig = function()
 			require("config.nvim-lspconfig")
@@ -276,7 +289,6 @@ require("lazy").setup({
 	{
 		"SmiteshP/nvim-navic",
 		event = "VimEnter",
-		module = "nvim-navic",
 	},
 	--         use({
 	--             "weilbith/nvim-lsp-smag",
@@ -304,7 +316,7 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
-		cmd = "Trouble",
+		event = "BufRead",
 		config = function()
 			require("config.trouble")
 		end,
@@ -312,7 +324,7 @@ require("lazy").setup({
 	-- 通知を良い感じにする
 	{
 		"j-hui/fidget.nvim",
-		event = "LspAttach",
+		event = "VimEnter",
 		tag = "legacy",
 		config = function()
 			require("config.fidget")
@@ -320,6 +332,7 @@ require("lazy").setup({
 	},
 	{
 		"myusuf3/numbers.vim",
+		event = "VimEnter",
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -350,7 +363,7 @@ require("lazy").setup({
 				"nvim-treesitter/nvim-treesitter-textobjects",
 				init = function()
 					require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
-					load_textobjects = true
+					-- load_textobjects = true
 				end,
 			},
 		},
@@ -374,6 +387,7 @@ require("lazy").setup({
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
+		event = "BufRead",
 		requires = "nvim-tree/nvim-web-devicons",
 		config = function()
 			require("config.bufferline")
@@ -431,17 +445,25 @@ require("lazy").setup({
 		end,
 	},
 
-	{ "bfredl/nvim-luadev", event = "VimEnter" },
-	{ "folke/lua-dev.nvim", module = "lua-dev" },
+	{ "bfredl/nvim-luadev", ft = "lua" },
+	{ "folke/lua-dev.nvim", ft = "lua" },
 	{ "wadackel/nvim-syntax-info", cmd = { "SyntaxInfo" } },
-	{ "iamcco/markdown-preview.nvim", ft = { "markdown" }, run = ":call mkdp#util#install()" },
+	{
+		"iamcco/markdown-preview.nvim",
+		ft = { "markdown" },
+		event = { "BufRead" },
+		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+		config = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+		-- build = "cd app && npm install",
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		-- config = function()
 		--     require("config/gitsigns")
 		-- end,
 	},
-	-- need lazy.nvim
 	{
 		"microsoft/python-type-stubs",
 		cond = false,
@@ -463,6 +485,14 @@ require("lazy").setup({
 	},
 	{ "kevinhwang91/nvim-bqf", event = "VimEnter" },
 	{ "lambdalisue/nerdfont.vim", event = "VimEnter" },
+	{
+		"rcarriga/nvim-notify",
+		event = "VimEnter",
+		config = function()
+			vim.notify = require("notify")
+			vim.notify("Config loaded", "info", { title = "Neovim" })
+		end,
+	},
 }, lazy_opts)
 
 -- }}}
