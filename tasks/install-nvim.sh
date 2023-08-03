@@ -12,17 +12,16 @@ set -eu
 # step:0 install prerequire
 sudo apt update && sudo apt upgrade
 sudo apt install -y \
-    ninja-build \
-    gettext \
-    libtool \
-    libtool-bin \
-    autoconf \
-    automake \
-    pkg-config \
-    doxygen \
-    make \
-    cmake
-
+	ninja-build \
+	gettext \
+	libtool \
+	libtool-bin \
+	autoconf \
+	automake \
+	pkg-config \
+	doxygen \
+	make \
+	cmake
 
 # step:1 clone
 echo "✨ git cloned neovim"
@@ -40,8 +39,8 @@ sudo rm -rf ~/neovim
 echo "✨ finished installing neovim"
 
 # for jupyterlab
-# curl -sL https://deb.nodesource.com/setup_14.x | bash -
-# sudo apt upgrade -y && sudo apt install -yqq nodejs
+curl -sL https://deb.nodesource.com/setup_19.x | bash -
+sudo apt upgrade -y && sudo apt install -yqq nodejs
 
 # for nvim-treesitter
 # Ocasionaly, we cannot install tree-sitter by nvim-treesitter, so manually install these packages by npm
