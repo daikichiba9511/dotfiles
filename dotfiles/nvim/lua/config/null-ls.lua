@@ -93,7 +93,7 @@ local sources = {
 			return vim.fn.executable("black") > 0
 		end,
 		-- extra_args = { "-t", "py310" },
-		extra_args = { "--line-length", python_line_length },
+		-- extra_args = { "--line-length", python_line_length },
 	}),
 	null_ls.builtins.formatting.isort.with({
 		condition = function()
@@ -105,22 +105,22 @@ local sources = {
 		condition = function()
 			return vim.fn.executable("pflake8") > 0
 		end,
-		extra_args = {
-			"--max-line-length",
-			python_line_length,
-			-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
-		},
+		-- extra_args = {
+		-- 	"--max-line-length",
+		-- 	python_line_length,
+		-- 	-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
+		-- },
 	}),
-	null_ls.builtins.diagnostics.flake8.with({
-		condition = function()
-			return vim.fn.executable("flake8") > 0 and vim.fn.executable("pflake8") < 1
-		end,
-		extra_args = {
-			"--max-line-length",
-			python_line_length,
-			-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
-		},
-	}),
+	-- null_ls.builtins.diagnostics.flake8.with({
+	-- 	condition = function()
+	-- 		return vim.fn.executable("flake8") > 0 and vim.fn.executable("pflake8") < 1
+	-- 	end,
+	-- 	extra_args = {
+	-- 		"--max-line-length",
+	-- 		python_line_length,
+	-- 		-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
+	-- 	},
+	-- }),
 	-- }}
 
 	-- JavaScript {{
