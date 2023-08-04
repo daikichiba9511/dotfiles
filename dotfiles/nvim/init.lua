@@ -454,7 +454,7 @@ require("lazy").setup({
 		ft = { "markdown" },
 		event = { "BufRead" },
 		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
-		config = function()
+		build = function()
 			vim.fn["mkdp#util#install"]()
 		end,
 		-- build = "cd app && npm install",

@@ -98,6 +98,7 @@ function precmd() {
 # For neovim
 # ====================================
 export PATH=$PATH:./node_modules/.bin
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 export XDG_STATE_HOME=~/.local/state
 
 # ====================================

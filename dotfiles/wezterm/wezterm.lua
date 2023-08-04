@@ -9,23 +9,23 @@ local utils = require("utils")
 --- keybinds
 ---------------------------------------------------------------
 local tmux_keybinds = {
-	{ key = "k", mods = "ALT",      action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-	{ key = "j", mods = "ALT",      action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
-	{ key = "h", mods = "ALT",      action = wezterm.action({ ActivateTabRelative = -1 }) },
-	{ key = "l", mods = "ALT",      action = wezterm.action({ ActivateTabRelative = 1 }) },
+	{ key = "k", mods = "ALT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+	{ key = "j", mods = "ALT", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
+	{ key = "h", mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+	{ key = "l", mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
 	{ key = "h", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = -1 }) },
 	{ key = "l", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = 1 }) },
 	{ key = "k", mods = "ALT|CTRL", action = "ActivateCopyMode" },
 	{ key = "j", mods = "ALT|CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
-	{ key = "1", mods = "ALT",      action = wezterm.action({ ActivateTab = 0 }) },
-	{ key = "2", mods = "ALT",      action = wezterm.action({ ActivateTab = 1 }) },
-	{ key = "3", mods = "ALT",      action = wezterm.action({ ActivateTab = 2 }) },
-	{ key = "4", mods = "ALT",      action = wezterm.action({ ActivateTab = 3 }) },
-	{ key = "5", mods = "ALT",      action = wezterm.action({ ActivateTab = 4 }) },
-	{ key = "6", mods = "ALT",      action = wezterm.action({ ActivateTab = 5 }) },
-	{ key = "7", mods = "ALT",      action = wezterm.action({ ActivateTab = 6 }) },
-	{ key = "8", mods = "ALT",      action = wezterm.action({ ActivateTab = 7 }) },
-	{ key = "9", mods = "ALT",      action = wezterm.action({ ActivateTab = 8 }) },
+	{ key = "1", mods = "ALT", action = wezterm.action({ ActivateTab = 0 }) },
+	{ key = "2", mods = "ALT", action = wezterm.action({ ActivateTab = 1 }) },
+	{ key = "3", mods = "ALT", action = wezterm.action({ ActivateTab = 2 }) },
+	{ key = "4", mods = "ALT", action = wezterm.action({ ActivateTab = 3 }) },
+	{ key = "5", mods = "ALT", action = wezterm.action({ ActivateTab = 4 }) },
+	{ key = "6", mods = "ALT", action = wezterm.action({ ActivateTab = 5 }) },
+	{ key = "7", mods = "ALT", action = wezterm.action({ ActivateTab = 6 }) },
+	{ key = "8", mods = "ALT", action = wezterm.action({ ActivateTab = 7 }) },
+	{ key = "9", mods = "ALT", action = wezterm.action({ ActivateTab = 8 }) },
 	{
 		key = "-",
 		mods = "ALT",
@@ -38,20 +38,20 @@ local tmux_keybinds = {
 			SplitHorizontal = { domain = "CurrentPaneDomain" },
 		}),
 	},
-	{ key = "w",     mods = "ALT",            action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
-	{ key = "h",     mods = "ALT|SHIFT",      action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-	{ key = "l",     mods = "ALT|SHIFT",      action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-	{ key = "k",     mods = "ALT|SHIFT",      action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-	{ key = "j",     mods = "ALT|SHIFT",      action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-	{ key = "h",     mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
-	{ key = "l",     mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
-	{ key = "k",     mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
-	{ key = "j",     mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
-	{ key = "Enter", mods = "ALT",            action = "QuickSelect" },
+	{ key = "w", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
+	{ key = "h", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+	{ key = "l", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+	{ key = "k", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+	{ key = "j", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+	{ key = "h", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
+	{ key = "l", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
+	{ key = "k", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
+	{ key = "j", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
+	{ key = "Enter", mods = "ALT", action = "QuickSelect" },
 	-- switch to the default workspace
-	{ key = "y",     mods = "CTRL|SHIFT",     action = wezterm.action({ SwitchToWorkspace = { name = "default" } }) },
+	{ key = "y", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = { name = "default" } }) },
 	-- Create a newworkspace with a random name and switch to it
-	{ key = "i",     mods = "CTRL|SHIFT",     action = wezterm.action({ SwitchToWorkspace = {} }) },
+	{ key = "i", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = {} }) },
 	-- and allow activationg one.
 	{
 		key = "9",
@@ -63,20 +63,20 @@ local tmux_keybinds = {
 }
 
 local default_keybinds = {
-	{ key = "c",        mods = "CTRL|SHIFT", action = wezterm.action({ CopyTo = "Clipboard" }) },
-	{ key = "v",        mods = "CTRL|SHIFT", action = wezterm.action({ PasteFrom = "Clipboard" }) },
-	{ key = "Insert",   mods = "SHIFT",      action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
-	{ key = "=",        mods = "CTRL",       action = "ResetFontSize" },
-	{ key = "+",        mods = "CTRL",       action = "IncreaseFontSize" },
-	{ key = "-",        mods = "CTRL",       action = "DecreaseFontSize" },
-	{ key = "x",        mods = "CTRL|SHIFT", action = "ActivateCopyMode" },
-	{ key = "PageUp",   mods = "ALT",        action = wezterm.action({ ScrollByPage = -1 }) },
-	{ key = "PageDown", mods = "ALT",        action = wezterm.action({ ScrollByPage = 1 }) },
-	{ key = "z",        mods = "ALT",        action = "ReloadConfiguration" },
-	{ key = "z",        mods = "ALT|SHIFT",  action = wezterm.action({ EmitEvent = "toggle-tmux-keybinds" }) },
-	{ key = "e",        mods = "ALT",        action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
-	{ key = "q",        mods = "ALT",        action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
-	{ key = "x",        mods = "ALT",        action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
+	{ key = "c", mods = "CTRL|SHIFT", action = wezterm.action({ CopyTo = "Clipboard" }) },
+	{ key = "v", mods = "CTRL|SHIFT", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+	{ key = "Insert", mods = "SHIFT", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
+	{ key = "=", mods = "CTRL", action = "ResetFontSize" },
+	{ key = "+", mods = "CTRL", action = "IncreaseFontSize" },
+	{ key = "-", mods = "CTRL", action = "DecreaseFontSize" },
+	{ key = "x", mods = "CTRL|SHIFT", action = "ActivateCopyMode" },
+	{ key = "PageUp", mods = "ALT", action = wezterm.action({ ScrollByPage = -1 }) },
+	{ key = "PageDown", mods = "ALT", action = wezterm.action({ ScrollByPage = 1 }) },
+	{ key = "z", mods = "ALT", action = "ReloadConfiguration" },
+	{ key = "z", mods = "ALT|SHIFT", action = wezterm.action({ EmitEvent = "toggle-tmux-keybinds" }) },
+	{ key = "e", mods = "ALT", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
+	{ key = "q", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
+	{ key = "x", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
 	{
 		key = "r",
 		mods = "ALT",
@@ -143,7 +143,7 @@ local function update_window_background(window, pane)
 		return
 	end
 	if pane:get_user_vars().production == "1" then
-		overrides.color_scheme = "OneHalfDark"
+		overrides.color_scheme = "TokyoNight"
 	end
 	window:set_config_overrides(overrides)
 end
@@ -219,6 +219,9 @@ wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
 	local scrollback = pane:get_lines_as_text()
 	local name = os.tmpname()
 	local f = io.open(name, "w+")
+	if f == nil then
+		return
+	end
 	f:write(scrollback)
 	f:flush()
 	f:close()
@@ -245,6 +248,7 @@ end)
 ---------------------------------------------------------------
 -- Write settings you don't want to make public, such as ssh_domains
 package.path = os.getenv("HOME") .. "/.local/share/wezterm/?.lua;" .. package.path
+
 local function load_local_config(module)
 	local m = package.searchpath(module, package.path)
 	if m == nil then
@@ -305,38 +309,38 @@ local config = {
 	keys = create_keybinds(),
 	key_tables = {
 		resize_pane = {
-			{ key = "LeftArrow",  action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
-			{ key = "h",          action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
+			{ key = "LeftArrow", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
+			{ key = "h", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
 			{ key = "RightArrow", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
-			{ key = "l",          action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
-			{ key = "UpArrow",    action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
-			{ key = "k",          action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
-			{ key = "DownArrow",  action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
-			{ key = "j",          action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
+			{ key = "l", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
+			{ key = "UpArrow", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
+			{ key = "k", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
+			{ key = "DownArrow", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
+			{ key = "j", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
 			-- Cancel the mode by pressing escape
-			{ key = "Escape",     action = "PopKeyTable" },
+			{ key = "Escape", action = "PopKeyTable" },
 		},
 		copy_mode = {
-			{ key = "Escape",     mods = "NONE",  action = wezterm.action({ CopyMode = "Close" }) },
-			{ key = "q",          mods = "NONE",  action = wezterm.action({ CopyMode = "Close" }) },
+			{ key = "Escape", mods = "NONE", action = wezterm.action({ CopyMode = "Close" }) },
+			{ key = "q", mods = "NONE", action = wezterm.action({ CopyMode = "Close" }) },
 			-- move cursor
-			{ key = "h",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveLeft" }) },
-			{ key = "LeftArrow",  mods = "NONE",  action = wezterm.action({ CopyMode = "MoveLeft" }) },
-			{ key = "j",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveDown" }) },
-			{ key = "DownArrow",  mods = "NONE",  action = wezterm.action({ CopyMode = "MoveDown" }) },
-			{ key = "k",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveUp" }) },
-			{ key = "UpArrow",    mods = "NONE",  action = wezterm.action({ CopyMode = "MoveUp" }) },
-			{ key = "l",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveRight" }) },
-			{ key = "RightArrow", mods = "NONE",  action = wezterm.action({ CopyMode = "MoveRight" }) },
+			{ key = "h", mods = "NONE", action = wezterm.action({ CopyMode = "MoveLeft" }) },
+			{ key = "LeftArrow", mods = "NONE", action = wezterm.action({ CopyMode = "MoveLeft" }) },
+			{ key = "j", mods = "NONE", action = wezterm.action({ CopyMode = "MoveDown" }) },
+			{ key = "DownArrow", mods = "NONE", action = wezterm.action({ CopyMode = "MoveDown" }) },
+			{ key = "k", mods = "NONE", action = wezterm.action({ CopyMode = "MoveUp" }) },
+			{ key = "UpArrow", mods = "NONE", action = wezterm.action({ CopyMode = "MoveUp" }) },
+			{ key = "l", mods = "NONE", action = wezterm.action({ CopyMode = "MoveRight" }) },
+			{ key = "RightArrow", mods = "NONE", action = wezterm.action({ CopyMode = "MoveRight" }) },
 			-- move word
-			{ key = "RightArrow", mods = "ALT",   action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
-			{ key = "f",          mods = "ALT",   action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
-			{ key = "\t",         mods = "NONE",  action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
-			{ key = "w",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
-			{ key = "LeftArrow",  mods = "ALT",   action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
-			{ key = "b",          mods = "ALT",   action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
-			{ key = "\t",         mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
-			{ key = "b",          mods = "NONE",  action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
+			{ key = "RightArrow", mods = "ALT", action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
+			{ key = "f", mods = "ALT", action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
+			{ key = "\t", mods = "NONE", action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
+			{ key = "w", mods = "NONE", action = wezterm.action({ CopyMode = "MoveForwardWord" }) },
+			{ key = "LeftArrow", mods = "ALT", action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
+			{ key = "b", mods = "ALT", action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
+			{ key = "\t", mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
+			{ key = "b", mods = "NONE", action = wezterm.action({ CopyMode = "MoveBackwardWord" }) },
 			{
 				key = "e",
 				mods = "NONE",
@@ -349,18 +353,18 @@ local config = {
 				}),
 			},
 			-- move start/end
-			{ key = "0",  mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToStartOfLine" }) },
-			{ key = "\n", mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToStartOfNextLine" }) },
-			{ key = "$",  mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
-			{ key = "$",  mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
-			{ key = "e",  mods = "CTRL",  action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
-			{ key = "m",  mods = "ALT",   action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
-			{ key = "^",  mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
-			{ key = "^",  mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
-			{ key = "a",  mods = "CTRL",  action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
+			{ key = "0", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToStartOfLine" }) },
+			{ key = "\n", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToStartOfNextLine" }) },
+			{ key = "$", mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
+			{ key = "$", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
+			{ key = "e", mods = "CTRL", action = wezterm.action({ CopyMode = "MoveToEndOfLineContent" }) },
+			{ key = "m", mods = "ALT", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
+			{ key = "^", mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
+			{ key = "^", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
+			{ key = "a", mods = "CTRL", action = wezterm.action({ CopyMode = "MoveToStartOfLineContent" }) },
 			-- select
-			{ key = " ",  mods = "NONE",  action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
-			{ key = "v",  mods = "NONE",  action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
+			{ key = " ", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
+			{ key = "v", mods = "NONE", action = wezterm.action.CopyMode({ SetSelectionMode = "Cell" }) },
 			{
 				key = "v",
 				mods = "SHIFT",
@@ -410,10 +414,10 @@ local config = {
 					CopyMode = "MoveToScrollbackBottom",
 				}),
 			},
-			{ key = "g", mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToScrollbackTop" }) },
-			{ key = "H", mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToViewportTop" }) },
+			{ key = "g", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToScrollbackTop" }) },
+			{ key = "H", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToViewportTop" }) },
 			{ key = "H", mods = "SHIFT", action = wezterm.action({ CopyMode = "MoveToViewportTop" }) },
-			{ key = "M", mods = "NONE",  action = wezterm.action({ CopyMode = "MoveToViewportMiddle" }) },
+			{ key = "M", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToViewportMiddle" }) },
 			{
 				key = "M",
 				mods = "SHIFT",
@@ -421,7 +425,7 @@ local config = {
 					CopyMode = "MoveToViewportMiddle",
 				}),
 			},
-			{ key = "L",        mods = "NONE", action = wezterm.action({ CopyMode = "MoveToViewportBottom" }) },
+			{ key = "L", mods = "NONE", action = wezterm.action({ CopyMode = "MoveToViewportBottom" }) },
 			{
 				key = "L",
 				mods = "SHIFT",
@@ -429,10 +433,10 @@ local config = {
 					CopyMode = "MoveToViewportBottom",
 				}),
 			},
-			{ key = "PageUp",   mods = "NONE", action = wezterm.action({ CopyMode = "PageUp" }) },
+			{ key = "PageUp", mods = "NONE", action = wezterm.action({ CopyMode = "PageUp" }) },
 			{ key = "PageDown", mods = "NONE", action = wezterm.action({ CopyMode = "PageDown" }) },
-			{ key = "b",        mods = "CTRL", action = wezterm.action({ CopyMode = "PageUp" }) },
-			{ key = "f",        mods = "CTRL", action = wezterm.action({ CopyMode = "PageDown" }) },
+			{ key = "b", mods = "CTRL", action = wezterm.action({ CopyMode = "PageUp" }) },
+			{ key = "f", mods = "CTRL", action = wezterm.action({ CopyMode = "PageDown" }) },
 			-- search
 			{
 				key = "/",
@@ -441,14 +445,14 @@ local config = {
 					Search = { CaseSensitiveString = "" },
 				}),
 			},
-			{ key = "n", mods = "NONE",  action = wezterm.action({ CopyMode = "NextMatch" }) },
+			{ key = "n", mods = "NONE", action = wezterm.action({ CopyMode = "NextMatch" }) },
 			{ key = "N", mods = "SHIFT", action = wezterm.action({ CopyMode = "PriorMatch" }) },
 		},
 		search_mode = {
 			{ key = "Escape", mods = "NONE", action = wezterm.action({ CopyMode = "Close" }) },
-			{ key = "Enter",  mods = "NONE", action = "ActivateCopyMode" },
-			{ key = "r",      mods = "CTRL", action = wezterm.action({ CopyMode = "CycleMatchType" }) },
-			{ key = "/",      mods = "NONE", action = wezterm.action({ CopyMode = "ClearPattern" }) },
+			{ key = "Enter", mods = "NONE", action = "ActivateCopyMode" },
+			{ key = "r", mods = "CTRL", action = wezterm.action({ CopyMode = "CycleMatchType" }) },
+			{ key = "/", mods = "NONE", action = wezterm.action({ CopyMode = "ClearPattern" }) },
 		},
 	},
 	mouse_bindings = {
@@ -468,6 +472,7 @@ local config = {
 			action = "OpenLinkAtMouseCursor",
 		},
 	},
+	ssh_domains = local_config.ssh_domains,
 	-- animation_fps = 10,
 	-- enable_wayland = true,
 }
