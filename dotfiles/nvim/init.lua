@@ -82,17 +82,15 @@ set_keymap("n", "<C-k>", ":bnext<CR>", { noremap = true, silent = true })
 set_keymap("n", "<C-x>", ":bd<CR>", { noremap = true, silent = true })
 
 -- [lsp]
-vim.keymap.set("n", ";", "<Nop>", { noremap = true, silent = true })
-vim.keymap.set("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ";", "[lsp]", {})
+set_keymap("n", ";", "<Nop>", { noremap = true, silent = true })
+set_keymap("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
+set_keymap("n", ";", "[lsp]", {})
 
 -- [FuzzyFinder]
-vim.keymap.set("n", "z", "<Nop>", { noremap = true, silent = true })
-vim.keymap.set("n", "Z", "<Nop>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "z", "[FuzzyFinder]", {})
-vim.api.nvim_set_keymap("v", "z", "[FuzzyFinder]", {})
-
--- vim.cmd([[ set sh=zsh ]])
+set_keymap("n", "z", "<Nop>", { noremap = true, silent = true })
+set_keymap("n", "Z", "<Nop>", { noremap = true, silent = true })
+set_keymap("n", "z", "[FuzzyFinder]", {})
+set_keymap("v", "z", "[FuzzyFinder]", {})
 
 -- References:
 -- https://riq0h.jp/2023/01/20/210601/
@@ -487,6 +485,9 @@ require("lazy").setup({
 		"rcarriga/nvim-notify",
 		event = "VimEnter",
 		config = function()
+			require("notify").setup({
+				background_colour = "#1e222a",
+			})
 			vim.notify = require("notify")
 			vim.notify("Config loaded", "info", { title = "Neovim" })
 		end,
@@ -516,7 +517,22 @@ require("lazy").setup({
 			require("alpha").setup(require("alpha.themes.dashboard").config)
 		end,
 	},
-	{ "petertriho/nvim-scrollbar", event = "VimEnter" },
+	{
+		"petertriho/nvim-scrollbar",
+		event = {
+			"BufWinEnter",
+			"CmdwinLeave",
+			"TabEnter",
+			"TermEnter",
+			"TextChanged",
+			"VimResized",
+			"WinEnter",
+			"WinScrolled",
+		},
+		config = function()
+			require("scrollbar").setup()
+		end,
+	},
 	{ "machakann/vim-sandwich", event = "VimEnter" },
 	{ "zsugabubus/crazy8.nvim", event = "VimEnter" },
 	{ "Decodetalkers/csv-tools.lua", ft = "csv" },

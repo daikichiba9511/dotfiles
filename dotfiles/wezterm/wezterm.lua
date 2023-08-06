@@ -47,9 +47,7 @@ local tmux_keybinds = {
 	{ key = "l", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
 	{ key = "k", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
 	{ key = "j", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Down", 1 } }) },
-	{ key = "Enter", mods = "ALT", action = "QuickSelect" },
-	-- switch to the default workspace
-	{ key = "y", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = { name = "default" } }) },
+	{ key = "Enter", mods = "ALT", action = "QuickSelect" }, -- switch to the default workspace { key = "y", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = { name = "default" } }) },
 	-- Create a newworkspace with a random name and switch to it
 	{ key = "i", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = {} }) },
 	-- and allow activationg one.
@@ -237,10 +235,107 @@ wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
 	os.remove(name)
 end)
 
--- Reference: https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
--- show active workspace
-wezterm.on("update-right-status", function(window, pane)
-	window:set_right_status(window:active_workspace())
+local HEADER_HOST = { Foreground = { Color = "#75b1a9" }, Text = "" }
+local HEADER_CWD = { Foreground = { Color = "#92aac7" }, Text = "" }
+local HEADER_DATE = { Foreground = { Color = "#ffccac" }, Text = "󱪺" }
+local HEADER_TIME = { Foreground = { Color = "#bcbabe" }, Text = "" }
+local HEADER_BATTERY = { Foreground = { Color = "#dfe166" }, Text = "" }
+local DEFAULT_FG = { Color = "#9a9eab" }
+local DEFAULT_BG = { Color = "#333333" }
+local SPACE_1 = " "
+local SPACE_3 = "   "
+
+local HEADER_KEY_NORMAL = { Foreground = DEFAULT_FG, Text = "" }
+local HEADER_LEADER = { Foreground = { Color = "#ffffff" }, Text = "" }
+local HEADER_IME = { Foreground = DEFAULT_FG, Text = "あ" }
+
+local function AddIcon(elems, icon)
+	table.insert(elems, { Foreground = icon.Foreground })
+	table.insert(elems, { Background = DEFAULT_BG })
+	table.insert(elems, { Text = SPACE_1 .. icon.Text .. SPACE_3 })
+end
+
+local function GetKeyboard(elems, window)
+	if window:leader_is_active() then
+		AddIcon(elems, HEADER_LEADER)
+	end
+
+	AddIcon(elems, window:composition_status() and HEADER_IME or HEADER_KEY_NORMAL)
+end
+
+local function AddElement(elems, header, str)
+	table.insert(elems, { Foreground = header.Foreground })
+	table.insert(elems, { Background = DEFAULT_BG })
+	table.insert(elems, { Text = header.Text .. SPACE_1 })
+
+	table.insert(elems, { Foreground = DEFAULT_FG })
+	table.insert(elems, { Background = DEFAULT_BG })
+	table.insert(elems, { Text = str .. SPACE_3 })
+end
+
+local function GetHostAndCwd(elems, pane)
+	local uri = pane:get_current_working_dir()
+
+	if not uri then
+		return
+	end
+
+	local cwd_uri = uri:sub(8)
+	local slash = cwd_uri:find("/")
+
+	if not slash then
+		return
+	end
+
+	local host = cwd_uri:sub(1, slash - 1)
+	local dot = host:find("[.]")
+
+	AddElement(elems, HEADER_HOST, dot and host:sub(1, dot - 1) or host)
+	AddElement(elems, HEADER_CWD, cwd_uri:sub(slash))
+end
+
+local function GetDate(elems)
+	AddElement(elems, HEADER_DATE, wezterm.strftime("%a %b %-d"))
+end
+
+local function GetTime(elems)
+	AddElement(elems, HEADER_TIME, wezterm.strftime("%H:%M"))
+end
+
+local function GetBattery(elems, window)
+	if not window:get_dimensions().is_full_screen then
+		return
+	end
+
+	for _, b in ipairs(wezterm.battery_info()) do
+		AddElement(elems, HEADER_BATTERY, string.format("%.0f%%", b.state_of_charge * 100))
+	end
+end
+
+local function LeftUpdate(window, pane)
+	local elems = {}
+
+	GetKeyboard(elems, window)
+	window:set_left_status(wezterm.format(elems))
+end
+
+local function RightUpdate(window, pane)
+	local elems = {}
+
+	GetHostAndCwd(elems, pane)
+	GetDate(elems)
+	GetBattery(elems, window)
+	GetTime(elems)
+
+	window:set_right_status(wezterm.format(elems))
+end
+
+-- Reference:
+-- https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
+-- https://coralpink.github.io/commentary/wezterm/right-status.html
+wezterm.on("update-status", function(window, pane)
+	LeftUpdate(window, pane)
+	RightUpdate(window, pane)
 end)
 
 ---------------------------------------------------------------
@@ -276,7 +371,7 @@ local config = {
 	-- font = wezterm.font("HackGenNerd", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
 	font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
 	use_ime = true,
-	font_size = 16.0,
+	font_size = 13.0,
 	-- color_scheme = "iceberg-dark",
 	-- color_scheme = "nightfox",
 	-- color_scheme = "nord",
@@ -286,6 +381,8 @@ local config = {
 	text_background_opacity = 0.8,
 	-- window_background_opacity = 1.0,
 	-- text_background_opacity = 1.0,
+	-- text_blink_rate = 600,
+	status_update_interval = 60000, -- 60s
 	warn_about_missing_glyphs = false,
 	selection_word_boundary = " \t\n{}[]()\"'`,;:",
 	window_padding = {
