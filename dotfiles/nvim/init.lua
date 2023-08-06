@@ -156,8 +156,9 @@ require("lazy").setup({
 	-- 	vim.cmd.colorscheme("night-owl")
 	-- end,
 	-- },
+	{ "MunifTanjim/nui.nvim", event = "VimEnter" },
 	{ "nvim-lua/plenary.nvim", lazy = false }, -- do not lazy load
-	{ "folke/which-key.nvim" },
+	{ "folke/which-key.nvim", event = "VimEnter" },
 	{
 		"folke/neodev.nvim",
 		ft = "lua",
@@ -219,7 +220,7 @@ require("lazy").setup({
 			require("config/LuaSnip")
 		end,
 	},
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ "nvim-tree/nvim-web-devicons", event = "VimEnter" },
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
@@ -302,11 +303,6 @@ require("lazy").setup({
 			require("config/lspsaga")
 		end,
 	},
-	--         use({
-	--             "folke/lsp-colors.nvim",
-	--             module = "lsp-colors",
-	--         })
-	--
 	------ 関数の引数とかdocstringとかをpopupに出す
 	{
 		"ray-x/lsp_signature.nvim",
@@ -508,6 +504,22 @@ require("lazy").setup({
 			set_keymap("n", "<Leader>h", "<Cmd>:HopWord<CR>", { noremap = true, silent = true })
 		end,
 	},
+	{
+		"RRethy/vim-illuminate",
+		event = "BufRead",
+	},
+	{ "norcalli/nvim-colorizer.lua", event = "BufRead" },
+	{
+		"goolord/alpha-nvim",
+		event = "VimEnter",
+		config = function()
+			require("alpha").setup(require("alpha.themes.dashboard").config)
+		end,
+	},
+	{ "petertriho/nvim-scrollbar", event = "VimEnter" },
+	{ "machakann/vim-sandwich", event = "VimEnter" },
+	{ "zsugabubus/crazy8.nvim", event = "VimEnter" },
+	{ "Decodetalkers/csv-tools.lua", ft = "csv" },
 }, lazy_opts)
 
 -- }}}
