@@ -1,38 +1,35 @@
 # dotfiles
 
-this repository has codes of my dotfiles. if you want to know entire install procedure, you should refer to scripts/setup.sh.
+This repository is daikichiba9511's dotfiles. 
 
-But, these code might have some bugs (e.g. install-python etc., Sorry), so be careful please...
-
-I usualy write code such as machine learing model , data science with Neovim in wezterm on Ubuntu (local os and docker container).
-
-I think your that your tasks are ok If being on Ubuntu(local/docker container), because I always write something like code or document in Neovim on Ubuntu.
+If you want to know an install procedure more, you should see scripts/setup.sh.
+I do programming such as machine learing model , data science and documentation with Neovim in wezterm on Ubuntu (local os and docker container) efficiently.
+I think everything is OK on Ubuntu22.04, since I always do something like writing code or documentation in Neovim which is build on Ubuntu.
 
 ## My Environment List
 
 - Ubuntu 22.04
 
 - neovim latest
-  - lazy.nvim
-  - nvim-lsp
-  - nvim-cmp
-  - telescope
-  - sidebar
-  - luasnip
-  - lualine
-  - mason
-  - mason-lspconfig
-  - null-ls
+  - lazy.nvim (package manager)
+  - nvim-cmp (completion)
+  - telescope (fuzzy finder)
+  - sidebar (filer)
+  - luasnip (snipet)
+  - lualine (beautiful status line)
+  - mason (lsp installer)
+  - mason-lspconfig (bridge lsp is installed by mason and nvim-lsp easily)
+  - null-ls (formatter and linter)
 
 etc.
 
-- wezterm
-- zsh
-- starship
+- wezterm (terminal)
+- zsh (shell)
+- starship (prompt)
+- nodejs == 19.x
 
-I have prepared some task files in 'tasks' directory (mostly about install/setup)
-
-If you want to see in details, see prepared tasks, please.
+I have prepared task files in the 'tasks' directory (e.g install prerequire of neovim and so on)
+If you want to know about it more, Please see 'tasks' directory.
 
 ## Screenshot
 
@@ -103,9 +100,17 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 ## For python user
 
 - prerequire
-    - you should install nodejs and python on your environment
-        - install 'Pyright' by executing 'MasonInstall pyright'
-- If you don't prefer to use pyright, you should install other Python Lsp. See details by executing ':Mason', please.
+
+I need to install nodejs and python on your environment since I want to use 'pyright' to check my python code.
+Please see 'tasks/install-nvim.sh' which is the install script to install nodejs
+
+After the installation, Open neovim and then type the command bellow.
+
+```
+:MasonInstall pyright
+```
+
+If you don't prefer to use pyright, you should install other Python Lsp. See details by executing ':Mason', please.
 
 1. Clone this repository
 2. Run 'bash scripts/setup.sh'
@@ -113,8 +118,8 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 4. Type `:Lazy sync`
 5. Close Neovim.
 6. Reopen Neovim and type `:MasonInstall pyright` if you want to use python with LSP support.
-7. If you want to use formatter with opened buffer, execute a command, `pip install black` on your terminal. Neovim format buffer automatically (by using null-ls) when can use `black` on your terminal directly.
 
+Let's enjoy python with neovim !!
 
 # Reference
 
