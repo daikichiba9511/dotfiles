@@ -12,6 +12,9 @@ sheldon ${HOME}/.config
 # zsh
 .zshrc      ${HOME}
 
+# git
+.gitconfig      ${HOME}
+
 # tmux
 .tmux.conf  ${HOME}
 
