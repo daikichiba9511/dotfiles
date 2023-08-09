@@ -1,8 +1,6 @@
 local opt = vim.opt
 local set_keymap = vim.api.nvim_set_keymap
-
--- package はplugins.luaで管理
--- require("plugins")
+-- package はplugins.luaで管理 require("plugins")
 
 -- vim.cmd([[
 --     augroup Packer

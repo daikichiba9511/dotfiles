@@ -377,8 +377,13 @@ local config = {
 	-- color_scheme = "nord",
 	-- color_scheme = "tokyonight",
 	adjust_window_size_when_changing_font_size = false,
-	window_background_opacity = 0.85,
-	text_background_opacity = 0.93,
+
+	-- transparency settings
+	-- window_background_opacity = 0.85,
+	-- text_background_opacity = 0.93,
+	window_background_opacity = 1.0,
+	text_background_opacity = 1.0,
+
 	-- text_blink_rate = 600,
 	status_update_interval = 300000, -- 300s
 	warn_about_missing_glyphs = false,

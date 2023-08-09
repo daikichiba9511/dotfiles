@@ -3,7 +3,13 @@
 # I assummed that this scirpts is running under dotfiles
 
 set -eu
-echo "################### start to setup develop environment  #######################"
+
+#############################################
+# global変数
+#############################################
+SETUP_PYTHON_FLAG=false
+SETUP_RUST_FLAG=false
+SETUP_NERDFONT_FLAG=false
 
 ##############################################
 # helpコマンド用
@@ -22,12 +28,6 @@ usage: $0 [-p] [-r] [-n]
 EOS
 	exit 1
 }
-#############################################
-# global変数
-#############################################
-SETUP_PYTHON_FLAG=false
-SETUP_RUST_FLAG=false
-SETUP_NERDFONT_FLAG=false
 
 ##############################################
 # 引数の解析
@@ -72,6 +72,8 @@ function parse_args() {
 # if [[ "${#ARGS[@]}" ]]
 
 function main() {
+	echo "################### start to setup develop environment  #######################"
+
 	bash tasks/install-pre-ubuntu.sh
 	bash tasks/install-around-zsh.sh
 	bash tasks/install-sheldon.sh

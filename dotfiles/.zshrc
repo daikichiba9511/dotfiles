@@ -177,7 +177,7 @@ function tide() {
 # weztermを使用してpaneをsplitする
 # ====================================
 function wide() {
-    local pane_size=${1:-60}
+    local pane_size=${1:-70}
     wezterm cli split-pane --right --percent "${pane_size}"
     wezterm cli split-pane --bottom
 }
