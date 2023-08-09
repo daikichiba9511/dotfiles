@@ -112,4 +112,19 @@ require("mason-lspconfig").setup_handlers({
 			},
 		})
 	end,
+	["clangd"] = function()
+		lspconfig.clangd.setup({
+			on_attach = on_attach_fn,
+			capabilities = capabilities,
+			-- settings = {
+			-- 	cpp = {
+			-- 		offsetEncoding = "utf-16",
+			-- 	},
+			-- },
+			cmd = {
+				"clangd",
+				"--offset-encoding=utf-16",
+			},
+		})
+	end,
 })

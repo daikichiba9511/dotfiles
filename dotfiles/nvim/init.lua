@@ -50,10 +50,6 @@ for _, ft in ipairs(tab2_ft) do
 	set_tab(ft, 2)
 end
 
--- vim.cmd([[ autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 ]])
--- vim.cmd([[ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 ]])
--- vim.cmd([[ autocmd FileType markdown set shiftwidth=2 tabstop=2 ]])
-
 opt.clipboard = "unnamedplus"
 opt.hidden = true
 
@@ -108,16 +104,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local pystubpath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs"
-if not vim.loop.fs_stat(pystubpath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--depth=1",
-		"https://github.com/microsoft/python-type-stubs.git",
-		pystubpath,
-	})
-end
+-- local pystubpath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs"
+-- if not vim.loop.fs_stat(pystubpath) then
+-- 	vim.fn.system({
+-- 		"git",
+-- 		"clone",
+-- 		"--depth=1",
+-- 		"https://github.com/microsoft/python-type-stubs.git",
+-- 		pystubpath,
+-- 	})
+-- end
 
 Colorscheme = "tokyonight"
 -- Colorscheme = "nightowl"
@@ -460,10 +456,10 @@ require("lazy").setup({
 			require("config/gitsigns")
 		end,
 	},
-	{
-		"microsoft/python-type-stubs",
-		cond = false,
-	},
+	-- {
+	-- 	"microsoft/python-type-stubs",
+	-- 	cond = false,
+	-- },
 	{
 		"akinsho/toggleterm.nvim",
 		-- cmd = "ToggleTerm",
@@ -489,7 +485,7 @@ require("lazy").setup({
 				background_colour = "#1e222a",
 			})
 			vim.notify = require("notify")
-			vim.notify("Config loaded", "info", { title = "Neovim" })
+			vim.notify("Config loaded", "info")
 		end,
 	},
 	{
