@@ -62,17 +62,34 @@ require("mason-lspconfig").setup_handlers({
 					runtime = {
 						version = "LuaJIT",
 					},
+					format = {
+						enable = true,
+						-- formatter = "lua-format",
+						-- formatter = require("stylua-nvim").format,
+					},
+					completion = {
+						autoRequire = true,
+						callSnippet = "Replace",
+						displayContext = 1,
+					},
 					diagnostics = {
-						globals = { "vim" },
+						globals = { "vim", "describe", "it" },
 					},
 					hint = {
 						enable = true,
+						arrayIndex = "Enable",
+						setType = true,
 					},
 					workspace = {
 						checkThirdParty = false,
+						maxPreload = 10000,
+						preloadFileSize = 10000,
 						diagnostics = {
 							globals = { "vim" },
 						},
+					},
+					tlemetry = {
+						enable = false,
 					},
 				},
 			},
@@ -87,6 +104,7 @@ require("mason-lspconfig").setup_handlers({
 				return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
 					or util.path.dirname(fname)
 			end,
+			filetypes = { "python" },
 			settings = {
 				-- pyright = {
 				-- 	autoImportCompletions = false,
@@ -107,6 +125,10 @@ require("mason-lspconfig").setup_handlers({
 						completeFunctionParens = true,
 						-- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
 						extraPaths = { "." },
+						innlayHints = {
+							variableTypes = true,
+							functionReturnTypes = true,
+						},
 					},
 				},
 			},

@@ -10,7 +10,6 @@ local set_keymap = vim.api.nvim_set_keymap
 -- ]])
 --
 -- vim.g.mapleader = " "
-
 opt.termguicolors = true
 
 opt.encoding = "utf-8"
