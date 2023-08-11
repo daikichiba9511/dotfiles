@@ -4,8 +4,8 @@
 
 local opt = vim.opt
 local set_keymap = vim.api.nvim_set_keymap
---
--- vim.g.mapleader = " "
+
+vim.g.mapleader = " " -- <space> is leader key
 opt.termguicolors = true
 
 opt.encoding = "utf-8"
@@ -143,9 +143,9 @@ require("lazy").setup({
 	-- 	vim.cmd.colorscheme("night-owl")
 	-- end,
 	-- },
-	{ "MunifTanjim/nui.nvim",  event = "VimEnter" },
+	{ "MunifTanjim/nui.nvim", event = "VimEnter" },
 	{ "nvim-lua/plenary.nvim", lazy = false }, -- do not lazy load
-	{ "folke/which-key.nvim",  event = "VimEnter" },
+	{ "folke/which-key.nvim", event = "VimEnter" },
 	{
 		"folke/neodev.nvim",
 		ft = "lua",
@@ -169,20 +169,20 @@ require("lazy").setup({
 			require("config/nvim-cmp")
 		end,
 	},
-	{ "hrsh7th/cmp-nvim-lsp",                 event = "InsertEnter" },
-	{ "hrsh7th/cmp-nvim-lsp-signature-help",  event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
 	{ "hrsh7th/cmp-nvim-lsp-document-symbol", event = "InsertEnter" },
-	{ "hrsh7th/cmp-buffer",                   event = "InsertEnter" },
-	{ "hrsh7th/cmp-path",                     event = "InsertEnter" },
-	{ "hrsh7th/cmp-nvim-lua",                 event = "InsertEnter" },
-	{ "hrsh7th/cmp-emoji",                    event = "InsertEnter" },
-	{ "hrsh7th/cmp-calc",                     event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline",                  event = "ModeChanged" },
-	{ "saadparwaiz1/cmp_luasnip",             event = "InsertEnter" },
-	{ "f3fora/cmp-spell",                     event = "InsertEnter" },
-	{ "ray-x/cmp-treesitter",                 event = "InsertEnter" },
-	{ "lukas-reineke/cmp-under-comparator",   event = "InsertEnter" },
-	{ "hrsh7th/cmp-omni",                     event = "InsertEnter" },
+	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
+	{ "hrsh7th/cmp-path", event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
+	{ "hrsh7th/cmp-emoji", event = "InsertEnter" },
+	{ "hrsh7th/cmp-calc", event = "InsertEnter" },
+	{ "hrsh7th/cmp-cmdline", event = "ModeChanged" },
+	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
+	{ "f3fora/cmp-spell", event = "InsertEnter" },
+	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
+	{ "lukas-reineke/cmp-under-comparator", event = "InsertEnter" },
+	{ "hrsh7th/cmp-omni", event = "InsertEnter" },
 	-- {
 	-- 	"zbirenbaum/copilot-cmp",
 	-- 	event = "InsertEnter",
@@ -207,7 +207,7 @@ require("lazy").setup({
 			require("config/LuaSnip")
 		end,
 	},
-	{ "nvim-tree/nvim-web-devicons",                event = "VimEnter" },
+	{ "nvim-tree/nvim-web-devicons", event = "VimEnter" },
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
@@ -429,8 +429,8 @@ require("lazy").setup({
 		end,
 	},
 
-	{ "bfredl/nvim-luadev",        ft = "lua" },
-	{ "folke/lua-dev.nvim",        ft = "lua" },
+	{ "bfredl/nvim-luadev", ft = "lua" },
+	{ "folke/lua-dev.nvim", ft = "lua" },
 	{ "wadackel/nvim-syntax-info", cmd = { "SyntaxInfo" } },
 	{
 		"iamcco/markdown-preview.nvim",
@@ -468,7 +468,7 @@ require("lazy").setup({
 			require("config/copilot")
 		end,
 	},
-	{ "kevinhwang91/nvim-bqf",    event = "VimEnter" },
+	{ "kevinhwang91/nvim-bqf", event = "VimEnter" },
 	{ "lambdalisue/nerdfont.vim", event = "VimEnter" },
 	{
 		"rcarriga/nvim-notify",
@@ -522,8 +522,8 @@ require("lazy").setup({
 			require("scrollbar").setup()
 		end,
 	},
-	{ "machakann/vim-sandwich",      event = "VimEnter" },
-	{ "zsugabubus/crazy8.nvim",      event = "VimEnter" },
+	{ "machakann/vim-sandwich", event = "VimEnter" },
+	{ "zsugabubus/crazy8.nvim", event = "VimEnter" },
 	{ "Decodetalkers/csv-tools.lua", ft = "csv" },
 }, lazy_opts)
 
