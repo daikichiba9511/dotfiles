@@ -96,7 +96,7 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 	["pyright"] = function()
-		vim.notify("pyright setup loaded")
+		-- vim.notify("pyright setup loaded")
 		lspconfig.pyright.setup({
 			on_attach = on_attach_fn,
 			capabilities = capabilities,
