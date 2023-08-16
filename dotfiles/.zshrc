@@ -23,7 +23,8 @@ setopt share_history
 setopt hist_ignore_dups
 
 # -- ビープ音を鳴らさない
-setopt no_beep
+# setopt no_beep
+unsetopt beep
 
 # -- ディレクトリスタック
 DIRSTACKSIZE=100

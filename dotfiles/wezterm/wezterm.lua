@@ -190,13 +190,13 @@ local function display_copy_mode(window, pane)
 	return { { Attribute = { Italic = false } }, { Text = name or "" } }
 end
 
-wezterm.on("update-right-status", function(window, pane)
-	local tmux = update_tmux_style_tab(window, pane)
-	local copy_mode = display_copy_mode(window, pane)
-	update_window_background(window, pane)
-	local status = utils.merge_lists(tmux, copy_mode)
-	window:set_right_status(wezterm.format(status))
-end)
+-- wezterm.on("update-right-status", function(window, pane)
+-- 	local tmux = update_tmux_style_tab(window, pane)
+-- 	local copy_mode = display_copy_mode(window, pane)
+-- 	update_window_background(window, pane)
+-- 	local status = utils.merge_lists(tmux, copy_mode)
+-- 	window:set_right_status(wezterm.format(status))
+-- end)
 
 wezterm.on("toggle-tmux-keybinds", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
