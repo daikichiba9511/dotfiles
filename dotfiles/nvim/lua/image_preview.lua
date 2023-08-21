@@ -59,28 +59,49 @@ local function find_images_in_dir(directory)
 	return image_paths
 end
 
+local function has_valid_extension(fp, ext)
+	return fp:match("^.+%." .. ext .. "$") ~= nil
+end
+
 ---@class ImagePreview
 local M = {}
 
 --- Preview image in terminal using wezterm imgcat
 ---@param fp string
 M.ImagePreview = function(fp)
-	print(fp)
 	local absolte_path = vim.fn.expand(fp)
+	if absolte_path == nil then
+		error("Failed to get absolute path")
+	end
+	local wanted_extensions = { "jpg", "jpeg", "png" }
+	local is_valid_extension = false
+	for _, ext in ipairs(wanted_extensions) do
+		if has_valid_extension(absolte_path, ext) then
+			is_valid_extension = true
+			break
+		end
+	end
+	if not is_valid_extension then
+		error("Invalid extension")
+	end
 
-	local command = "silent !wezterm cli split-pane -- bash -c "
-	command = command .. "'wezterm imgcat "
-	command = command .. "'" .. absolte_path .. "'"
-	command = command .. "; read'"
-	vim.api.nvim_command(command)
+	local command = {
+		"silent ",
+		"!wezterm cli split-pane ",
+		"-- ",
+		"bash ",
+		"-c ",
+		"wezterm imgcat '" .. absolte_path .. "'; read",
+	}
+	vim.api.nvim_command(table.concat(command, ""))
 end
 
 M.setup = function()
-	function wrapped_preview(fp)
+	function WrappedImagePreview(fp)
 		M.ImagePreview(fp)
 	end
 
-	vim.api.nvim_create_user_command("ImgCat", "lua wrapped_preview(<q-args>)", {
+	vim.api.nvim_create_user_command("ImgCat", "lua WrappedImagePreview(<q-args>)", {
 		nargs = 1,
 		-- complete = function(arg_lead, _, _)
 		-- 	local out = {}
