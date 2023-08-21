@@ -16,13 +16,7 @@
 -- 4. https://zenn.dev/kawarimidoll/articles/36b1cc92d00453
 --
 
---- Check if file is in the directory
----@param fp string
----@param directory string
----@return boolean
-local function is_file_in_the_directory(fp, directory)
-	return fp:find(directory, 1, true) == 1
-end
+--- Check if file is in the directory -@param fp string -@param directory string -@return boolean local function is_file_in_the_directory(fp, directory) return fp:find(directory, 1, true) == 1 end
 
 --- Find image files in directory
 ---@param directory string
@@ -91,7 +85,7 @@ M.ImagePreview = function(fp)
 		"-- ",
 		"bash ",
 		"-c ",
-		"wezterm imgcat '" .. absolte_path .. "'; read",
+		"'wezterm imgcat '" .. absolte_path .. "'; read'",
 	}
 	vim.api.nvim_command(table.concat(command, ""))
 end
