@@ -4,10 +4,13 @@
 -- Usage:
 --     :ImgCat /path/to/image.png
 --
--- status: WIP (only works on wezterm)
+-- Status: WIP (only works on wezterm)
 --
 -- TODO:
 -- 1. Add completion for image path
+--
+-- Prerequirements:
+-- - wezterm
 --
 -- Reference
 -- 1. https://zenn.dev/link/comments/d9547142490c77
