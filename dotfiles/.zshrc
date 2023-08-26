@@ -79,7 +79,9 @@ setopt correct
 # ====================================
 # -- git
 # ====================================
-autoload -Uz compinit && compinit  # Gitの補完を有効化
+autoload -Uz compinit && compinit -i # Gitの補完を有効化
+
+export fpath=(~/.zsh/completion $fpath)
 
 # ====================================
 # -- コマンドの実行ごとに改行
