@@ -27,7 +27,13 @@ opt.history = 5000
 opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
-opt.shell = "/usr/bin/zsh"
+
+-- if vim.fn.has("macos") == 1 then
+-- 	opt.shell = "/bin/zsh"
+-- else
+-- 	opt.shell = "/usr/bin/zsh"
+-- end
+opt.shell = "zsh"
 
 ---@param file_type string
 ---@param indent_num number
@@ -38,6 +44,7 @@ local tab2_ft = {
 	"c",
 	"cpp",
 	"typescript",
+	"lua",
 	"markdown",
 }
 for _, ft in ipairs(tab2_ft) do
