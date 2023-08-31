@@ -1,8 +1,8 @@
 [user]
-	email = daikichiba.tech.ml@gmail.com
-	name = daikichiba9511
+    email = daikichiba.tech.ml@gmail.com
+    name = daikichiba9511
 [core]
-	editor = nvim
+    editor = nvim
     pager = delta
 
 [alias]
@@ -17,10 +17,10 @@
     rc = rebase --continue
     s = status
     ss = status -s
-	su = status -u
+    su = status -u
 
 [safe]
-	directory = /workspace/working/
+    directory = /workspace/working/
 [interactive]
     diffFilter = delta --color-only
 [delta]
