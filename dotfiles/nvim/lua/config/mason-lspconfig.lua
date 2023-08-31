@@ -13,6 +13,11 @@ local on_attach_fn = function(client, bufnr)
 
 	local opts = { noremap = true, silent = true }
 
+	-- ignore semantic highlighting
+	-- Ref:
+	-- [1] https://neovim.discourse.group/t/annoying-enforcing-syntax-highlighting-rust-analyzer-lsp/3856
+	client.server_capabilities.semanticTokensProvider = nil
+
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 	buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
@@ -23,7 +28,10 @@ local on_attach_fn = function(client, bufnr)
 	buf_set_keymap("n", "[lsp]wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
 	buf_set_keymap("n", "[lsp]wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
 	buf_set_keymap("n", "[lsp]D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-	-- buf_set_keymap("n", "[lsp]rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts) buf_set_keymap("n", "[lsp]a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts) buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts) buf_set_keymap("n", "[lsp]e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+	-- buf_set_keymap("n", "[lsp]rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	-- buf_set_keymap("n", "[lsp]a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+	-- buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	-- buf_set_keymap("n", "[lsp]e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 	buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -50,7 +58,7 @@ require("mason-lspconfig").setup_handlers({
 		lspconfig[server_name].setup(opts)
 	end,
 	["lua_ls"] = function()
-		lspconfig["lua_ls"].setup({
+		lspconfig.lua_ls.setup({
 			on_attach = on_attach_fn,
 			capabilities = capabilities,
 			settings = {
@@ -59,9 +67,9 @@ require("mason-lspconfig").setup_handlers({
 						enable = false,
 						keyword = false,
 					},
-					runtime = {
-						version = "LuaJIT",
-					},
+					-- runtime = {
+					-- 	version = "LuaJIT",
+					-- },
 					format = {
 						enable = true,
 						-- formatter = "lua-format",
@@ -77,7 +85,7 @@ require("mason-lspconfig").setup_handlers({
 					},
 					hint = {
 						enable = true,
-						arrayIndex = "Enable",
+						arrayIndex = "Auto",
 						setType = true,
 					},
 					workspace = {
@@ -110,8 +118,8 @@ require("mason-lspconfig").setup_handlers({
 				-- 	autoImportCompletions = false,
 				-- },
 				python = {
-					venvPath = ".",
-					pythonPath = "./.venv/bin/python",
+					-- venvPath = ".",
+					-- pythonPath = "./.venv/bin/python",
 					analysis = {
 						typeCheckingMode = "basic",
 						-- indexing = true,
@@ -124,11 +132,11 @@ require("mason-lspconfig").setup_handlers({
 						useLibraryCodeForTypes = true,
 						completeFunctionParens = true,
 						-- stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
-						extraPaths = { "." },
-						innlayHints = {
-							variableTypes = true,
-							functionReturnTypes = true,
-						},
+						-- extraPaths = { "." },
+						-- innlayHints = {
+						-- 	variableTypes = true,
+						-- 	functionReturnTypes = true,
+						-- },
 					},
 				},
 			},
@@ -147,6 +155,14 @@ require("mason-lspconfig").setup_handlers({
 				"clangd",
 				"--offset-encoding=utf-16",
 			},
+		})
+	end,
+
+	["rust_analyzer"] = function()
+		lspconfig.rust_analyzer.setup({
+			on_attach = on_attach_fn,
+			capabilities = capabilities,
+			settings = {},
 		})
 	end,
 })
