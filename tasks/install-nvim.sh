@@ -44,7 +44,7 @@ wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.
 mkdir -p ~/.local/bin/
 tar xzvf /tmp/nvim-linux64.tar.gz -C ~/.local/bin/
 sudo rm /tmp/nvim-linux64.tar.gz
-sudo rm /usr/local/bin/nvim
+[ -e /usr/local/bin/nvim ] && sudo rm /usr/local/bin/nvim
 sudo ln -s ~/.local/bin/nvim-linux64/bin/nvim /usr/local/bin/nvim
 
 if [ ! -e /usr/local/bin/nvim ]; then
