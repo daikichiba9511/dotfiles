@@ -524,6 +524,7 @@ require("lazy").setup({
   { "zsugabubus/crazy8.nvim", event = "VimEnter" },
   { "Decodetalkers/csv-tools.lua", ft = "csv" },
   { "dhruvasagar/vim-table-mode", ft = "markdown" },
+  { "qnighy/satysfi.vim", ft = "satysfi" },
   -- { "simrat39/rust-tools.nvim" },
 }, lazy_opts)
 
