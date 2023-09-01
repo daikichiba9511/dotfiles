@@ -53,11 +53,18 @@ if [ ! -e /usr/local/bin/nvim ]; then
 fi
 
 # for jupyterlab $ pyright $ copilot.vim
+# For Ubuntu
+# Ref:
+# [1] https://github.com/nodesource/distributions
 echo "✨ installing nodejs for jupyterlab & pyright & copilot.vim"
-sudo apt update && sudo apt upgrade -yqq
-sudo apt autoremove
-curl -sL https://deb.nodesource.com/setup_19.x | sudo bash -
-sudo apt upgrade -yqq && sudo apt install -yqq nodejs
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt update
+sudo apt install nodejs -yq
 
 # for nvim-treesitter
 # Ocasionaly, we cannot install tree-sitter by nvim-treesitter, so manually install these packages by npm
