@@ -58,8 +58,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 local python_line_length = "89"
 
 local sources = {
-	-- LuaFormatter off
-	-- null_ls.builtins.completion.spell,
 	null_ls.builtins.formatting.trim_whitespace.with({
 		disabled_filetypes = ignored_filetypes,
 		runtime_condition = function()
@@ -69,31 +67,23 @@ local sources = {
 			end
 		end,
 	}),
-	-- Clang {{
 	null_ls.builtins.formatting.clang_format.with({
 		extra_args = {
 			"-style=google",
 		},
 		condition = function()
-			return vim.fn.executable("clang-format")
+			return vim.fn.executable("clang-format") > 0
 		end,
 	}),
-	-- }}
-
-	-- Lua {{
 	null_ls.builtins.formatting.stylua.with({
 		condition = function()
 			return vim.fn.executable("stylua") > 0
 		end,
 	}),
-	-- }}
-	-- Python {{
 	null_ls.builtins.formatting.black.with({
 		condition = function()
 			return vim.fn.executable("black") > 0
 		end,
-		-- extra_args = { "-t", "py310" },
-		-- extra_args = { "--line-length", python_line_length },
 	}),
 	null_ls.builtins.formatting.isort.with({
 		condition = function()
@@ -105,25 +95,7 @@ local sources = {
 		condition = function()
 			return vim.fn.executable("pflake8") > 0
 		end,
-		-- extra_args = {
-		-- 	"--max-line-length",
-		-- 	python_line_length,
-		-- 	-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
-		-- },
 	}),
-	-- null_ls.builtins.diagnostics.flake8.with({
-	-- 	condition = function()
-	-- 		return vim.fn.executable("flake8") > 0 and vim.fn.executable("pflake8") < 1
-	-- 	end,
-	-- 	extra_args = {
-	-- 		"--max-line-length",
-	-- 		python_line_length,
-	-- 		-- "--ignore" .. "=E203,E266,E501,W503,B905,B907",
-	-- 	},
-	-- }),
-	-- }}
-
-	-- JavaScript {{
 	null_ls.builtins.formatting.prettier.with({
 		condition = function()
 			return vim.fn.executable("prettier") > 0
@@ -134,9 +106,6 @@ local sources = {
 			return vim.fn.executable("eslint") > 0
 		end,
 	}),
-	-- }}
-
-	-- Shell {{
 	null_ls.builtins.formatting.shfmt.with({
 		condition = function()
 			return vim.fn.executable("shfmt") > 0
@@ -147,24 +116,9 @@ local sources = {
 			return vim.fn.executable("shellcheck") > 0
 		end,
 	}),
-	-- }}
-
 	null_ls.builtins.diagnostics.shellcheck.with({
 		condition = function()
 			return vim.fn.executable("shellcheck") > 0
-		end,
-	}),
-	null_ls.builtins.diagnostics.editorconfig_checker.with({
-		condition = function()
-			return vim.fn.executable("ec") > 0
-		end,
-	}),
-	null_ls.builtins.diagnostics.cspell.with({
-		diagnostics_postprocess = function(diagnostic)
-			diagnostic.severity = vim.diagnostic.severity["WARN"]
-		end,
-		condition = function()
-			return vim.fn.executable("cspell") > 0
 		end,
 	}),
 	null_ls.builtins.diagnostics.vale.with({
@@ -175,28 +129,14 @@ local sources = {
 			return vim.fn.executable("vale") > 0
 		end,
 	}),
-	-- null_ls.builtins.diagnostics.codespell.with({
-	-- 	args = spell_args,
-	-- }),
-	-- create
 	null_ls.builtins.formatting.markdownlint.with({
 		condition = function()
 			return vim.fn.executable("markdownlint") > 0
 		end,
 	}),
 	null_ls.builtins.code_actions.gitsigns,
-	-- LuaFormatter on
 }
 
--- ./.nvim/local-null-ls.lua
--- local null_ls = require("null-ls")
--- return {
---   null_ls.builtins.diagnostics.cspell.with({
--- 		diagnostics_postprocess = function(diagnostic)
--- 			diagnostic.severity = vim.diagnostic.severity["WARN"]
--- 		end,
--- 	}),
--- }
 -- FIX: pathを治す
 if file_exists("./.nvim/local-null-ls.lua") then
 	local local_null = dofile("./.nvim/local-null-ls.lua")
