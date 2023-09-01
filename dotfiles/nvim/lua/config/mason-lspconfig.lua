@@ -99,7 +99,7 @@ require("mason-lspconfig").setup_handlers({
     if server_name == "pyright" then
       opts.root_dir = function(fname)
         return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
-          or util.path.dirname(fname)
+            or util.path.dirname(fname)
       end
       opts.filetypes = { "python" }
       opts.settings = {
@@ -133,3 +133,5 @@ require("mason-lspconfig").setup_handlers({
     lspconfig[server_name].setup(opts)
   end,
 })
+
+require("lspconfig")["satysfi-ls"].setup({ autostart = true })
