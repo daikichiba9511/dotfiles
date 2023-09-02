@@ -17,15 +17,14 @@ require("nvim-treesitter.configs").setup({
 		"yaml",
 		"lua",
 		"rust",
-		"julia",
+		-- "julia",
 		"markdown",
 		"markdown_inline",
 		"query",
 		"regex",
 		"vim",
 		"vimdoc",
-		"yaml",
-	}, -- one of 'all', 'language', or a list of languages
+	},               -- one of 'all', 'language', or a list of languages
 	highlight = {
 		enable = true, -- false will disable the whole extension
 		-- disable = {}, -- list of language that will be disabled

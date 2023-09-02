@@ -51,10 +51,10 @@ local on_attach_fn = function(client, bufnr)
   -- end
 end
 
-local opts = { capabilities = capabilities, on_attach = on_attach_fn }
-
 require("mason-lspconfig").setup_handlers({
   function(server_name)
+    local opts = { capabilities = capabilities, on_attach = on_attach_fn }
+
     if server_name == "lua_ls" then
       opts.settings = {
         Lua = {
@@ -93,13 +93,13 @@ require("mason-lspconfig").setup_handlers({
         },
       }
       lspconfig.lua_ls.setup(opts)
-      return
+      -- return
     end
 
     if server_name == "pyright" then
       opts.root_dir = function(fname)
         return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
-            or util.path.dirname(fname)
+          or util.path.dirname(fname)
       end
       opts.filetypes = { "python" }
       opts.settings = {
@@ -117,7 +117,7 @@ require("mason-lspconfig").setup_handlers({
         },
       }
       lspconfig.pyright.setup(opts)
-      return
+      -- return
     end
 
     if server_name == "clangd" then
@@ -127,11 +127,11 @@ require("mason-lspconfig").setup_handlers({
         "--offset-encoding=utf-16",
       }
       lspconfig.clangd.setup(opts)
-      return
+      -- return
     end
 
     lspconfig[server_name].setup(opts)
   end,
 })
 
-require("lspconfig")["satysfi-ls"].setup({ autostart = true })
+-- require("lspconfig")["satysfi-ls"].setup({ autostart = true })
