@@ -526,6 +526,29 @@ require("lazy").setup({
   { "dhruvasagar/vim-table-mode", ft = "markdown" },
   { "qnighy/satysfi.vim", ft = "satysfi" },
   -- { "simrat39/rust-tools.nvim" },
+  { "m-demare/hlargs.nvim" },
+
+  {
+    "epwalsh/obsidian.nvim",
+    lazy = true,
+    event = {
+      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+      "BufReadPre ~/Dropbox/MyValut/**.md",
+      "BufNewFile ~/Dropbox/MyValut/**.md",
+    },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-telescope/telescope.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    opts = {
+      dir = "~/Dropbox/MyValut", -- no need to call 'vim.fn.expand' here
+    },
+  },
 }, lazy_opts)
 
 -- My Image Preview Plugin
