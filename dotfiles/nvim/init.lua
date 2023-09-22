@@ -6,6 +6,7 @@ local set_keymap = vim.api.nvim_set_keymap
 
 vim.g.mapleader = " " -- <space> is leader key
 
+--{{{
 vim.opt.termguicolors = true
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
@@ -47,6 +48,7 @@ vim.opt.hidden = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wrapscan = true
+--}}}
 
 -- vscode neovimで動作を切り替えたい設定
 if vim.g.vscode then
@@ -198,6 +200,8 @@ require("lazy").setup({
   { "ray-x/cmp-treesitter", event = "InsertEnter" },
   { "lukas-reineke/cmp-under-comparator", event = "InsertEnter" },
   { "hrsh7th/cmp-omni", event = "InsertEnter" },
+  { "petertriho/cmp-git", error = "InsertEnter" },
+
   -- {
   -- 	"zbirenbaum/copilot-cmp",
   -- 	event = "InsertEnter",
@@ -567,6 +571,18 @@ require("lazy").setup({
       dir = "~/Dropbox/MyValut", -- no need to call 'vim.fn.expand' here
     },
   },
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    event = "VimEnter",
+    config = function()
+      require("config/octo")
+    end,
+  },
 }, lazy_opts)
 
 -- My Image Preview Plugin
@@ -576,11 +592,11 @@ require("image_preview").setup()
 require("markdowntable2csv").setup()
 
 -- Put Today Date to the current cursorline
-function insert_current_today()
+function InsertCurrentToday()
   local current_date = os.date("%Y-%m-%d")
   vim.api.nvim_put({ current_date }, "c", true, true)
 end
 
-vim.api.nvim_set_keymap("n", "<C-d><C-d>", "<Cmd>lua insert_current_today()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>it", "<Cmd>lua InsertCurrentToday()<CR>", { noremap = true, silent = true })
 
 -- }}}

@@ -376,9 +376,9 @@ local config = {
   -- color_scheme = "nightfox",
   -- color_scheme = "nord",
   -- color_scheme = "tokyonight",
-  -- color_scheme = "nightowl",
-  -- color_scheme = "Catppuccin Mocha",
-  color_scheme = "Catppuccin Mocha (Gogh)",
+  -- color_scheme = "night-owl",
+  color_scheme = "Catppuccin Mocha",
+  -- color_scheme = "Catppuccin Mocha (Gogh)",
   adjust_window_size_when_changing_font_size = false,
 
   use_fancy_tab_bar = true,
