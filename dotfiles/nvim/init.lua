@@ -108,9 +108,9 @@ vim.opt.rtp:prepend(lazypath)
 -- 	})
 -- end
 
--- Colorscheme = "tokyonight"
+Colorscheme = "tokyonight"
 -- Colorscheme = "nightowl"
-Colorscheme = "catppuccin"
+-- Colorscheme = "catppuccin"
 --
 
 local lazy_opts = {
@@ -143,7 +143,7 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       if Colorscheme == "nightowl" then
-        require("config/nightowl")
+        -- require("config/nightowl")
         vim.cmd.colorscheme("night-owl")
       end
     end,
@@ -289,7 +289,7 @@ require("lazy").setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       { "folke/neodev.nvim" },
     },
-    cofnig = function()
+    config = function()
       require("config.nvim-lspconfig")
     end,
   },
@@ -573,6 +573,7 @@ require("lazy").setup({
   },
   {
     "pwntester/octo.nvim",
+    description = "Issue and PR management in Neovim using the GitHub GraphQL API",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
@@ -581,6 +582,18 @@ require("lazy").setup({
     event = "VimEnter",
     config = function()
       require("config/octo")
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("config/nvim-dap")
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    config = function()
+      require("config/nvim-dap-ui")
     end,
   },
 }, lazy_opts)

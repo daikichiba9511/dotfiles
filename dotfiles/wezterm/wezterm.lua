@@ -364,7 +364,7 @@ local local_config = load_local_config("local")
 ---------------------------------------------------------------
 local config = {
   -- font = wezterm.font("Hack Nerd Font Mono", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Bold Nerd Font Complete Mono.ttf, FontConfig
-  -- font = wezterm.font("Hack Nerd Font", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Regular Nerd Font Complete.ttf, FontConfig
+  -- font = wezterm.font("Hack Nerd Font", { weight = "Regular", stretch = "Normal", style = "Normal" }), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Regular Nerd Font Complete.ttf, FontConfig
   -- font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/Unknown Vendor/TrueType/Ricty/Ricty_R
   -- font = wezterm.font("Ricty", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   -- font = wezterm.font("UDEV Gothic 35NFLG"),
@@ -377,7 +377,7 @@ local config = {
   -- color_scheme = "nord",
   -- color_scheme = "tokyonight",
   -- color_scheme = "night-owl",
-  color_scheme = "Catppuccin Mocha",
+  -- color_scheme = "Catppuccin Mocha",
   -- color_scheme = "Catppuccin Mocha (Gogh)",
   adjust_window_size_when_changing_font_size = false,
 
@@ -385,10 +385,10 @@ local config = {
   tab_and_split_indices_are_zero_based = true,
 
   -- transparency settings
-  -- window_background_opacity = 0.90,
-  -- text_background_opacity = 0.91,
-  window_background_opacity = 1.0,
-  text_background_opacity = 1.0,
+  window_background_opacity = 0.93,
+  text_background_opacity = 0.98,
+  -- window_background_opacity = 1.0,
+  -- text_background_opacity = 1.0,
 
   -- text_blink_rate = 600,
   status_update_interval = 300000, -- 300s

@@ -62,6 +62,8 @@ setopt AUTO_PUSHD
 #   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # fi
 
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
 
 # -- 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'

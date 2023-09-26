@@ -1,42 +1,42 @@
 # ~/.config/starship.toml
-format = """
-$username\
-$hostname\
-$directory\
-$git_branch\
-$git_status
-$character
-"""
-
-[directory]
-truncation_length = 10_000
-truncate_to_repo = false
-style = "fg:#FFFFFF bold bg:#406882"
-format = "[ $path ]($style)[$read_only]($read_only_style)"
-
-[username]
-style_user = "bg:#1A374D fg:white bold"
-style_root = "bg:#1A374D fg:red bold"
-format = "[$user]($style)"
-disabled = false
-show_always = true
-
-[hostname]
-ssh_only = false
-format = "[$ssh_symbol on ](bg:#1A374D fg:white bold)[$hostname ](bg:#1A374D fg:white bold)"
-
-[git_branch]
-format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
-style = "fg:#FFFFFF bold bg:#6998AB"
-
-[character]
-success_symbol = "[⟩⟩](fg:#F7FF93 )"
-
-
-[python]
-format = "[$symbol$version]($style) "
-style = "bold green"
-
-[rust]
-format = "[$symbol$version]($style) "
-style = "bold green"
+# format = """
+# $username\
+# $hostname\
+# $directory\
+# $git_branch\
+# $git_status
+# $character
+# """
+#
+# [directory]
+# truncation_length = 10_000
+# truncate_to_repo = false
+# style = "fg:#FFFFFF bold bg:#406882"
+# format = "[ $path ]($style)[$read_only]($read_only_style)"
+#
+# [username]
+# style_user = "bg:#1A374D fg:white bold"
+# style_root = "bg:#1A374D fg:red bold"
+# format = "[$user]($style)"
+# disabled = false
+# show_always = true
+#
+# [hostname]
+# ssh_only = false
+# format = "[$ssh_symbol on ](bg:#1A374D fg:white bold)[$hostname ](bg:#1A374D fg:white bold)"
+#
+# [git_branch]
+# format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
+# style = "fg:#FFFFFF bold bg:#6998AB"
+#
+# [character]
+# success_symbol = "[⟩⟩](fg:#F7FF93 )"
+#
+#
+# [python]
+# format = "[$symbol$version]($style) "
+# style = "bold green"
+#
+# [rust]
+# format = "[$symbol$version]($style) "
+# style = "bold green"

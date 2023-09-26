@@ -1,6 +1,7 @@
 -- require("copilot").setup({})
 
 vim.g.copilot_no_tab_map = true
+vim.g.copilot_filetypes = { markdown = true, gitcommit = true } -- enable copilot completion for markdown and gitcommit files
 
 local keymap = vim.keymap.set
 -- https://github.com/orgs/community/discussions/29817#discussioncomment-4217615

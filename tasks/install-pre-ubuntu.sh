@@ -26,6 +26,16 @@ sudo apt install -y \
 	sqlite3 \
 	libsqlite3-dev
 
+# For yazi
+# Ref:
+# https://yazi-rs.github.io/docs/usage/installation
+# ffmpegthumbnailer: video thumbnail
+# unar: archive preview
+#
+sudo apt install -y \
+	ffmpegthumbnailer \
+	unar
+
 # for telescop.nvim
 wget https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -P /tmp
 sudo dpkg -i /tmp/ripgrep_13.0.0_amd64.deb
