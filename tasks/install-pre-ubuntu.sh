@@ -57,3 +57,7 @@ sudo ln -sf /usr/bin/batcat ~/.local/bin/bat
 wget https://github.com/dandavison/delta/releases/download/0.16.5/delta-0.16.5-x86_64-unknown-linux-musl.tar.gz -P /tmp
 tar xvf /tmp/delta-0.16.5-x86_64-unknown-linux-musl.tar.gz -C "${HOME}/.local/bin"
 sudo ln -s "${HOME}/.local/bin/delta-0.16.5-x86_64-unknown-linux-musl/delta" /usr/local/bin/delta
+
+# For lsd
+wget https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-musl_1.0.0_amd64.deb -P /tmp
+sudo apt install -y /tmp/lsd-musl_1.0.0_amd64.deb
