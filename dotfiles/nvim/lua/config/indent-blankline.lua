@@ -1,45 +1,29 @@
-require("indent_blankline").setup({
-    show_end_of_line = true,
-    space_char_blankline = ' ',
-    show_current_context_start = true,
-    show_current_context = true,
-    use_treesitter = true,
-    buftype_exclude = { "terminal" },
-    filetype_exclude = {
-        "help",
-        "dashboard",
-        "dashpreview",
-        "NvimTree",
-        "neo-tree",
-        "vista",
-        "sagahover",
-        "sagasignature",
-        "packer",
-        "log",
-        "lspsagafinder",
-        "lspinfo",
-        "dapui_scopes",
-        "dapui_breakpoints",
-        "dapui_stacks",
-        "dapui_watches",
-        "dap-repl",
-        "toggleterm",
-        "alpha",
-        "coc-explorer",
+require("ibl").setup({
+  enabled = true,
+  scope = {
+    enabled = true,
+    show_start = false,
+    show_end = true,
+    injected_languages = true,
+  },
+  indent = {
+    char = "│",
+  },
+  exclude = {
+    buftypes = { "terminal" },
+    filetypes = {
+      "help",
+      "lspinfo",
+      "packer",
+      "checkhealth",
+      "man",
+      "gitcommit",
+      "TelescopePrompt",
+      "TelescopeResults",
+      "lspsagafinder",
+      "log",
+      "alpha",
+      "toggleterm",
     },
-    -- char_highlight_list = {
-    --   "IndentBlanklineIndent1", "IndentBlanklineIndent1", "IndentBlanklineIndent1",
-    --   "IndentBlanklineIndent1", "IndentBlanklineIndent1", "IndentBlanklineIndent1",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar", "IndentBlanklineChar",
-    --   "IndentBlanklineChar", "IndentBlanklineChar"
-    -- }
+  },
 })
-
-vim.api.nvim_clear_autocmds({ event = { "TextChanged", "TextChangedI" }, group = "IndentBlanklineAutogroup" })

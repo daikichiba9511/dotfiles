@@ -61,6 +61,9 @@ local tmux_keybinds = {
 }
 
 local default_keybinds = {
+  -- Full Screen
+  -- Ref: https://wezfurlong.org/wezterm/config/lua/keyassignment/ToggleFullScreen.html
+  { key = "n", mods = "SHIFT|CTRL", action = wezterm.action.ToggleFullScreen },
   { key = "c", mods = "CTRL|SHIFT", action = wezterm.action({ CopyTo = "Clipboard" }) },
   { key = "v", mods = "CTRL|SHIFT", action = wezterm.action({ PasteFrom = "Clipboard" }) },
   { key = "Insert", mods = "SHIFT", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
@@ -401,6 +404,10 @@ local config = {
     bottom = 0,
   },
   tab_bar_at_bottom = false,
+  -- Hide title bar
+  -- Ref:
+  -- [1] https://wezfurlong.org/wezterm/config/lua/config/window_decorations.html
+  window_decorations = "RESIZE|INTEGRATED_BUTTONS",
   disable_default_key_bindings = true,
   visual_bell = {
     fade_in_function = "EaseIn",

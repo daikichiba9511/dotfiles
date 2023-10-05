@@ -129,24 +129,25 @@ cmp.setup({
       end
     end, { "i", "s" }),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ["<C-y>"] = cmp.config.disable,                     -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ["<C-q>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
     ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   },
   -- LuaFormatter off
   sources = cmp.config.sources({
-    { name = "nvim_lsp", priority = 100 },
-    { name = "path", priority = 100 },
-    { name = "emoji", insert = true, priority = 60 },
-    { name = "nvim_lua", priority = 50 },
+    { name = "nvim_lsp",                priority = 100 },
+    { name = "path",                    priority = 100 },
+    { name = "emoji",                   insert = true, priority = 60 },
+    { name = "nvim_lua",                priority = 50 },
     { name = "nvim_lsp_signature_help", priority = 80 },
-    { name = "luasnip", priority = 20 }, -- For luasnip users.
+    { name = "luasnip",                 priority = 20 }, -- For luasnip users.
   }, {
-    { name = "buffer", priority = 50 },
-    { name = "spell", priority = 40 },
-    { name = "calc", priority = 50 },
+    { name = "buffer",     priority = 50 },
+    { name = "spell",      priority = 40 },
+    { name = "calc",       priority = 50 },
     { name = "treesitter", priority = 30 },
-    { name = "zsh", priority = 20 },
+    { name = "zsh",        priority = 20 },
+    { name = "git",        priority = 20 },
     { name = "dictionary", keyword_length = 2, priority = 10 },
   }),
   -- LuaFormatter on
@@ -155,16 +156,16 @@ cmp.setup({
 cmp.setup.filetype({ "gitcommit", "markdown" }, {
   sources = cmp.config.sources({
     { name = "nvim_lsp", priority = 100 },
-    { name = "luasnip", priority = 80 }, -- For luasnip users.
-    { name = "rg", priority = 70 },
-    { name = "path", priority = 100 },
-    { name = "emoji", insert = true, priority = 60 },
+    { name = "luasnip",  priority = 80 }, -- For luasnip users.
+    { name = "rg",       priority = 70 },
+    { name = "path",     priority = 100 },
+    { name = "emoji",    insert = true, priority = 60 },
   }, {
-    { name = "buffer", priority = 50 },
-    { name = "spell", priority = 40 },
-    { name = "calc", priority = 50 },
+    { name = "buffer",     priority = 50 },
+    { name = "spell",      priority = 40 },
+    { name = "calc",       priority = 50 },
     { name = "treesitter", priority = 30 },
-    { name = "mocword", priority = 60 },
+    { name = "mocword",    priority = 60 },
     { name = "dictionary", keyword_length = 2, priority = 10 },
   }),
 })
