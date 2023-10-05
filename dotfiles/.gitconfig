@@ -20,7 +20,7 @@
     su = status -u
 
 [safe]
-    directory = /workspace/working/
+    directory = /workspace/working
 [interactive]
     diffFilter = delta --color-only
 [delta]
