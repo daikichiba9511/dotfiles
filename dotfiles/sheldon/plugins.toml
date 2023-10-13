@@ -19,8 +19,11 @@ shell = "zsh"
 # [plugins.base16]
 # github = "chriskempson/base16-shell"
 
-[plugins.syntaxhighlight]
-github = "zsh-users/zsh-syntax-highlighting"
+# [plugins.syntaxhighlight]
+# github = "zsh-users/zsh-syntax-highlighting"
+
+[plugins.fast-syntaxhighlight]
+github = "zdharma/fast-syntax-highlighting"
 
 [plugins.truecolor]
 github = "chrissicool/zsh-256color"

@@ -30,3 +30,5 @@
     line-numbers-left-style = cyan
 [merge]
     conflictstyle = diff3
+[init]
+	defaultBranch = main

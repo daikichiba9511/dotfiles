@@ -28,18 +28,6 @@ vim.opt.autoread = true
 vim.opt.wildmenu = true
 vim.opt.history = 5000
 
----@param ft string
-local set_2spaces = function(ft)
-  vim.cmd([[ autocmd FileType ]] .. ft .. [[ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab]])
-end
-
-set_2spaces("yaml")
-set_2spaces("lua")
-set_2spaces("c")
-set_2spaces("c++")
-set_2spaces("javascript")
-set_2spaces("typescritpt")
-
 -- if vim.fn.has("macos") == 1 then
 -- 	opt.shell = "/bin/zsh"
 -- else
@@ -72,7 +60,20 @@ else
 end
 
 vim.opt.list = true -- show tabs
-vim.opt.listchars = { tab = "-»", space = "·" }
+vim.opt.listchars = { tab = "»»", space = "·" }
+
+---@param ft string
+local set_2spaces = function(ft)
+  vim.cmd([[ autocmd FileType ]] .. ft .. [[ setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab]])
+end
+
+set_2spaces("yaml")
+set_2spaces("lua")
+set_2spaces("c")
+set_2spaces("c++")
+set_2spaces("javascript")
+set_2spaces("typescritpt")
+set_2spaces("markdown")
 
 -- buffer operations
 set_keymap("i", "jj", "<ESC>", { silent = true })
@@ -171,9 +172,9 @@ require("lazy").setup({
       end
     end,
   },
-  { "MunifTanjim/nui.nvim", event = "VimEnter" },
+  { "MunifTanjim/nui.nvim",  event = "VimEnter" },
   { "nvim-lua/plenary.nvim", lazy = false }, -- do not lazy load
-  { "folke/which-key.nvim", event = "VimEnter" },
+  { "folke/which-key.nvim",  event = "VimEnter" },
   {
     "folke/neodev.nvim",
     ft = "lua",
@@ -185,7 +186,7 @@ require("lazy").setup({
   -- Completion using nvim-cmp {{
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter, CmdlineEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     version = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -197,20 +198,20 @@ require("lazy").setup({
       require("config/nvim-cmp")
     end,
   },
-  { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-  { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
+  { "hrsh7th/cmp-nvim-lsp",                 event = "InsertEnter" },
+  { "hrsh7th/cmp-nvim-lsp-signature-help",  event = "InsertEnter" },
   { "hrsh7th/cmp-nvim-lsp-document-symbol", event = "InsertEnter" },
-  { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-  { "hrsh7th/cmp-path", event = "InsertEnter" },
-  { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
-  { "hrsh7th/cmp-emoji", event = "InsertEnter" },
-  { "hrsh7th/cmp-calc", event = "InsertEnter" },
-  { "hrsh7th/cmp-cmdline", event = "ModeChanged" },
-  { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
-  { "f3fora/cmp-spell", event = "InsertEnter" },
-  { "ray-x/cmp-treesitter", event = "InsertEnter" },
-  { "lukas-reineke/cmp-under-comparator", event = "InsertEnter" },
-  { "hrsh7th/cmp-omni", event = "InsertEnter" },
+  { "hrsh7th/cmp-buffer",                   event = "InsertEnter" },
+  { "hrsh7th/cmp-path",                     event = "InsertEnter" },
+  { "hrsh7th/cmp-nvim-lua",                 event = "InsertEnter" },
+  { "hrsh7th/cmp-emoji",                    event = "InsertEnter" },
+  { "hrsh7th/cmp-calc",                     event = "InsertEnter" },
+  { "hrsh7th/cmp-cmdline",                  event = "ModeChanged" },
+  { "saadparwaiz1/cmp_luasnip",             event = "InsertEnter" },
+  { "f3fora/cmp-spell",                     event = "InsertEnter" },
+  { "ray-x/cmp-treesitter",                 event = "InsertEnter" },
+  { "lukas-reineke/cmp-under-comparator",   event = "InsertEnter" },
+  { "hrsh7th/cmp-omni",                     event = "InsertEnter" },
   {
     "petertriho/cmp-git",
     event = "InsertEnter",
@@ -218,7 +219,7 @@ require("lazy").setup({
       require("cmp_git").setup()
     end,
   },
-  { "tamago324/cmp-zsh", event = "InsertEnter" },
+  { "tamago324/cmp-zsh",           event = "InsertEnter" },
 
   -- {
   -- 	"zbirenbaum/copilot-cmp",
@@ -467,9 +468,9 @@ require("lazy").setup({
     end,
   },
 
-  { "bfredl/nvim-luadev", ft = "lua" },
-  { "folke/lua-dev.nvim", ft = "lua" },
-  { "wadackel/nvim-syntax-info", cmd = { "SyntaxInfo" } },
+  { "bfredl/nvim-luadev",                         ft = "lua" },
+  { "folke/lua-dev.nvim",                         ft = "lua" },
+  { "wadackel/nvim-syntax-info",                  cmd = { "SyntaxInfo" } },
   {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown" },
@@ -506,7 +507,7 @@ require("lazy").setup({
       require("config/copilot")
     end,
   },
-  { "kevinhwang91/nvim-bqf", event = "VimEnter" },
+  { "kevinhwang91/nvim-bqf",    event = "VimEnter" },
   { "lambdalisue/nerdfont.vim", event = "VimEnter" },
   {
     "rcarriga/nvim-notify",
@@ -560,11 +561,11 @@ require("lazy").setup({
       require("scrollbar").setup()
     end,
   },
-  { "machakann/vim-sandwich", event = "VimEnter" },
-  { "zsugabubus/crazy8.nvim", event = "VimEnter" },
+  { "machakann/vim-sandwich",      event = "VimEnter" },
+  -- { "zsugabubus/crazy8.nvim",      event = "VimEnter" },
   { "Decodetalkers/csv-tools.lua", ft = "csv" },
-  { "dhruvasagar/vim-table-mode", ft = "markdown" },
-  { "qnighy/satysfi.vim", ft = "satysfi" },
+  { "dhruvasagar/vim-table-mode",  ft = "markdown" },
+  { "qnighy/satysfi.vim",          ft = "satysfi" },
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
@@ -581,8 +582,8 @@ require("lazy").setup({
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
       "BufReadPre "
-        .. vim.fn.expand("~")
-        .. "/Dropbox/MyValut/**.md",
+      .. vim.fn.expand("~")
+      .. "/Dropbox/MyValut/**.md",
       "BufNewFile " .. vim.fn.expand("~") .. "/Dropbox/MyValut/**.md",
     },
     dependencies = {
@@ -674,11 +675,11 @@ require("lazy").setup({
         },
         -- you can enable a preset for easier configuration
         presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
-          command_palette = true, -- position the cmdline and popupmenu together
+          bottom_search = true,         -- use a classic bottom cmdline for search
+          command_palette = true,       -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
+          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false,       -- add a border to hover docs and signature help
         },
       })
     end,
