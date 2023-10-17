@@ -80,7 +80,7 @@ set_keymap("i", "jj", "<ESC>", { silent = true })
 set_keymap("n", "<C-j>", ":bprev<CR>", { noremap = true, silent = true })
 set_keymap("n", "<C-k>", ":bnext<CR>", { noremap = true, silent = true })
 set_keymap("n", "<C-k>", ":bnext<CR>", { noremap = true, silent = true })
-set_keymap("n", "<C-x>", ":bd<CR>", { noremap = true, silent = true })
+set_keymap("n", "<C-x>", ":Bdelete<CR>", { noremap = true, silent = true })
 
 -- [lsp]
 set_keymap("n", ";", "<Nop>", { noremap = true, silent = true })
@@ -138,7 +138,7 @@ local lazy_opts = {
 
 -- plugins {{{
 require("lazy").setup({
-  -- colorscheme
+  -- colorscheme {{{
   {
     "folke/tokyonight.nvim",
     priority = 1000,
@@ -172,6 +172,20 @@ require("lazy").setup({
       end
     end,
   },
+  {
+    "loctvl842/monokai-pro.nvim",
+    config = function()
+      -- require("monokai-pro").setup()
+    end,
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    config = function()
+      -- vim.cmd("colorscheme nightfox")
+    end,
+  },
+  -- }}}
+
   { "MunifTanjim/nui.nvim",  event = "VimEnter" },
   { "nvim-lua/plenary.nvim", lazy = false }, -- do not lazy load
   { "folke/which-key.nvim",  event = "VimEnter" },
@@ -182,7 +196,6 @@ require("lazy").setup({
       require("neodev").setup()
     end,
   },
-
   -- Completion using nvim-cmp {{
   {
     "hrsh7th/nvim-cmp",
