@@ -3,6 +3,27 @@ local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local util = require("lspconfig/util")
 
+local function ruff_format(fname)
+  vim.lsp.buf.execute_command({
+    command = "ruff.applyFormat",
+    -- arguments = { uri = vim.uri_from_bufnr(bufnr) },
+    arguments = { uri = vim.uri_from_fname(fname) },
+    description = "Ruff: Format texts",
+  })
+end
+vim.api.nvim_create_user_command(
+  "RuffFormat",
+  "silent !ruff format --preview %",
+  -- "!ruff format --preview %",
+  { desc = "Ruff Format (alpha) defined in mason-lspconfig" }
+)
+vim.api.nvim_create_autocmd({ "BufWritePost" }, { pattern = "*.py", command = "RuffFormat" })
+
+-- vim.api.nvim_create_autocmd(
+--   { "BufWritePost" },
+--   { pattern = { "*.py" }, callback = ruff_format, desc = "Ruff Format (alpha) defined in mason-config" }
+-- )
+
 local on_attach_fn = function(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -14,6 +35,12 @@ local on_attach_fn = function(client, bufnr)
   -- ruffのときはhover off
   if client.name == "ruff_lsp" then
     client.resolved_capabilities.hover = false
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup("UserRuffLspCFG", {}),
+      callback = function(ev)
+        ruff_format(ev.match)
+      end,
+    })
   end
 
   local opts = { noremap = true, silent = true }
@@ -127,16 +154,19 @@ require("mason-lspconfig").setup_handlers({
 
     if server_name == "ruff_lsp" then
       opts.filetypes = { "python" }
-      opts.settings = {
-        lint = {
-          run = "onSave",
-          -- args = { "--config=./pyproject.toml" },
+      opts.init_options = {
+        settings = {
+          lint = {
+            run = "onSave",
+            -- args = { "--config=./pyproject.toml" },
+          },
+          -- fixAll = true,
+          organizeImports = true,
+          args = {},
         },
-        -- fixAll = true,
-        organizeImports = true,
-        args = {},
       }
       lspconfig.ruff_lsp.setup(opts)
+
       -- return
     end
 
