@@ -57,7 +57,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- Python settings
 local python_line_length = "89"
 
-ruff_is_executable = vim.fn.executable("ruff")
+local ruff_is_executable = vim.fn.executable("ruff")
 
 local sources = {
   null_ls.builtins.formatting.trim_whitespace.with({
@@ -98,11 +98,16 @@ local sources = {
       return vim.fn.executable("pflake8") > 0 and not ruff_is_executable
     end,
   }),
-  null_ls.builtins.formatting.ruff.with({
-    condition = function()
-      return ruff_is_executable
-    end,
-  }),
+  -- null_ls.builtins.diagnostics.ruff.with({
+  --   condition = function()
+  --     return ruff_is_executable
+  --   end,
+  -- }),
+  -- null_ls.builtins.formatting.ruff.with({
+  --   condition = function()
+  --     return ruff_is_executable
+  --   end,
+  -- }),
   null_ls.builtins.formatting.prettier.with({
     condition = function()
       return vim.fn.executable("prettier") > 0

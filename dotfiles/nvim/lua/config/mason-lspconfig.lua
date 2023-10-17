@@ -11,6 +11,11 @@ local on_attach_fn = function(client, bufnr)
   -- 	vim.api.nvim_buf_set_option(bufnr, ...)
   -- end
 
+  -- ruffのときはhover off
+  if client.name == "ruff_lsp" then
+    client.resolved_capabilities.hover = false
+  end
+
   local opts = { noremap = true, silent = true }
 
   -- ignore semantic highlighting
@@ -28,10 +33,10 @@ local on_attach_fn = function(client, bufnr)
   buf_set_keymap("n", "[lsp]wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
   buf_set_keymap("n", "[lsp]wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
   buf_set_keymap("n", "[lsp]D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  -- buf_set_keymap("n", "[lsp]rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  -- buf_set_keymap("n", "[lsp]a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  -- buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  -- buf_set_keymap("n", "[lsp]e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  buf_set_keymap("n", "[lsp]rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  buf_set_keymap("n", "[lsp]a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  buf_set_keymap("n", "[lsp]e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
   buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -99,7 +104,7 @@ require("mason-lspconfig").setup_handlers({
     if server_name == "pyright" then
       opts.root_dir = function(fname)
         return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
-            or util.path.dirname(fname)
+          or util.path.dirname(fname)
       end
       opts.filetypes = { "python" }
       opts.settings = {
@@ -117,6 +122,21 @@ require("mason-lspconfig").setup_handlers({
         },
       }
       lspconfig.pyright.setup(opts)
+      -- return
+    end
+
+    if server_name == "ruff_lsp" then
+      opts.filetypes = { "python" }
+      opts.settings = {
+        lint = {
+          run = "onSave",
+          -- args = { "--config=./pyproject.toml" },
+        },
+        -- fixAll = true,
+        organizeImports = true,
+        args = {},
+      }
+      lspconfig.ruff_lsp.setup(opts)
       -- return
     end
 
