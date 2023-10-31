@@ -30,5 +30,9 @@
     line-numbers-left-style = cyan
 [merge]
     conflictstyle = diff3
+    tool = vimdiff
 [init]
 	defaultBranch = main
+[mergetool]
+  cmd = "nvim -d $MERGED $LOCAL $REMOTE -c 'wincmd J | wincmd ='"
+  keepBackup = false

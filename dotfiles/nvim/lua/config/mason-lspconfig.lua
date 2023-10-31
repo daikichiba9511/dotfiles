@@ -131,7 +131,7 @@ require("mason-lspconfig").setup_handlers({
     if server_name == "pyright" then
       opts.root_dir = function(fname)
         return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
-          or util.path.dirname(fname)
+            or util.path.dirname(fname)
       end
       opts.filetypes = { "python" }
       opts.settings = {
@@ -179,6 +179,18 @@ require("mason-lspconfig").setup_handlers({
       lspconfig.clangd.setup(opts)
       -- return
     end
+
+    -- Terraform {{{
+    if server_name == "terraformls" then
+      lspconfig.terraformls.setup(opts)
+      vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+        pattern = { "*.tf", "*.tfvars" },
+        callback = function()
+          vim.lsp.buf.format()
+        end,
+      })
+    end
+    --}}}
 
     -- if server_name == "rust_analyzer" then
     --   opts.settings = {
