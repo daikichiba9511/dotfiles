@@ -36,3 +36,5 @@
 [mergetool]
   cmd = "nvim -d $MERGED $LOCAL $REMOTE -c 'wincmd J | wincmd ='"
   keepBackup = false
+[commit]
+  verbose = true
