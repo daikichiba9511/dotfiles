@@ -28,7 +28,7 @@ etc.
 - starship (prompt)
 - nodejs == 19.x
 
-I have prepared task files in the 'tasks' directory (e.g install prerequire of neovim and so on)
+I have prepared task files in the 'tasks' directory (For example, install prerequires of neovim)
 If you want to know about it more, Please see 'tasks' directory.
 
 ## Screenshot
@@ -101,10 +101,10 @@ git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles
 
 - prerequire
 
-I need to install nodejs and python on your environment since I want to use 'pyright' to check my python code.
+When you want to use statistic analyze about python code, you need to install nodejs and python on your environment since we need to use 'pyright' (most recommend choice for now...)
 Please see 'tasks/install-nvim.sh' which is the install script to install nodejs
 
-After the installation, Open neovim and then type the command bellow.
+After the installation, Please open neovim and then type the command bellow.
 
 ```
 :MasonInstall pyright
