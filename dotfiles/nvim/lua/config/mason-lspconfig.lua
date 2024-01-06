@@ -83,6 +83,27 @@ local on_attach_fn = function(client, bufnr)
   -- end
 end
 
+--- Specialized root pattern that allows for an exclustion
+---@param opt { root: string[], exclude: string[] }
+---@return fun(file_name: string): string | nil
+---
+--- Ref:
+--- [1] https://www.npbee.me/posts/deno-and-typescript-in-a-monorepo-neovim-lsp
+local function root_pattern_exclude(opt)
+  local lsputil = require("lspconfig.util")
+
+  return function(fname)
+    local excluded_root = lsputil.root_pattern(opt.exclude)(fname)
+    local included_root = lsputil.root_pattern(opt.root)(fname)
+
+    if excluded_root then
+      return nil
+    else
+      return included_root
+    end
+  end
+end
+
 require("mason-lspconfig").setup_handlers({
   function(server_name)
     local opts = { capabilities = capabilities, on_attach = on_attach_fn }
@@ -131,7 +152,7 @@ require("mason-lspconfig").setup_handlers({
     if server_name == "pyright" then
       opts.root_dir = function(fname)
         return util.root_pattern(".git", "setup.py", "pyproject.toml", "requirements.txt")(fname)
-            or util.path.dirname(fname)
+          or util.path.dirname(fname)
       end
       opts.filetypes = { "python" }
       opts.settings = {
@@ -191,6 +212,32 @@ require("mason-lspconfig").setup_handlers({
       })
     end
     --}}}
+
+    if server_name == "denols" then
+      opts.filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+      opts.root_dir = util.root_pattern("deno.json", "deno.jsonc", "deno.lock")
+      opts.init_options = {
+        lint = true,
+        suggest = {
+          imports = {
+            hosts = {
+              ["https://deno.land"] = true,
+            },
+          },
+        },
+      }
+      lspconfig.denols.setup(opts)
+    end
+
+    if server_name == "tsserver" then
+      opts.filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" }
+      opts.root_dir = root_pattern_exclude({
+        root = { "package.json" },
+        exclude = { "deno.json", "deno.jsonc" },
+      })
+      opts.single_file_support = false
+      lspconfig.tsserver.setup(opts)
+    end
 
     -- if server_name == "rust_analyzer" then
     --   opts.settings = {

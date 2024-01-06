@@ -1,7 +1,6 @@
 export CLICOLOR=1
 echo hello. ${USER}
 
-
 # -- vim mode
 # bindkey -v
 
@@ -30,38 +29,6 @@ unsetopt beep
 DIRSTACKSIZE=100
 setopt AUTO_PUSHD
 
-# -- zplug {{{
-# export ZPLUG_HOME=${HOME}/.zplug
-# source $ZPLUG_HOME/init.zsh
-# # -- zsh plugins {{
-# # syntax highlight
-# zplug "zsh-users/zsh-syntax-highlighting", defer:2
-# zplug "chrissicool/zsh-256color"
-#
-# # assist input
-# zplug "zsh-users/zsh-history-substring-search"
-# zplug "zsh-users/zsh-autosuggestions"
-# zplug "zsh-users/zsh-completions"
-# # }}
-#
-# # Install plugins if there are plugins that have not been installed
-# if ! zplug check --verbose; then
-#     printf "Install? [y/N]: "
-#     if read -q; then
-#         echo; zplug install
-#     fi
-# fi
-#
-# # }}}
-#
-# # Then, source plugins and add commands to $PATH
-# zplug load --verbose
-#
-# # -- zsh-syntax-highlighting
-# if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-#   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# fi
-
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 
@@ -85,19 +52,6 @@ autoload -Uz compinit && compinit -i # Gitの補完を有効化
 
 export fpath=(~/.zsh/completion $fpath)
 
-# ====================================
-# -- コマンドの実行ごとに改行
-# ====================================
-function precmd() {
-
-    # Print a newline before the prompt, unless it's the
-    # first prompt in the process.
-    if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
-        NEW_LINE_BEFORE_PROMPT=1
-    elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
-        echo ""
-    fi
-}
 
 # ====================================
 # For neovim
@@ -344,6 +298,107 @@ function nvim-profiler() {
 # ====================================
 # -- starship : should be put on last line
 # ====================================
-eval $(starship init zsh)
+# eval $(starship init zsh)
+#
 
+# ====================================
+# -- Prompt Customization
+# ====================================
+# カラー設定
+CYAN="%F{cyan}"
+BLUE="%F{blue}"
+LIGHT_BLUE="%F{lightblue}"
+GREEN="%F{green}"
+YELLOW="%F{yellow}"
+WHITE="%F{255}"
+RED="%F{red}"
+
+# Background Color
+BG_CYAN="%K{26}"
+BG_BLUE="%K{blue}"
+BG_BLACK="%K{black}"
+BG_LIGHT_BLUE="%K{031}"
+BG_GRAY="%K{237}"
+
+# リセット
+RESET="%f"
+BG_RESET="%k"
+
+CMD_STATUS_COLOR="%F{green}"
+
+function set_cmd_status_color() {
+    if [ $? -eq 0 ]; then
+        CMD_STATUS_COLOR="%F{green}"
+    else
+        CMD_STATUS_COLOR="%F{red}"
+    fi
+}
+
+
+GIT_BRANCH_PROMPT=""
+
+function git-current-branch() {
+    local branch_name st branch_status
+    branch_name=$(git symbolic-ref --short HEAD 2> /dev/null)
+    if [ ! -e ".git" ]; then
+        return
+    fi
+
+    st=$(git status 2> /dev/null)
+
+    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+        # すべてコミット済み
+        branch_status="${GREEN}"
+    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
+        # Untracked filesがある
+        branch_status="${RED}"
+    elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
+        # Staged changesがある
+        branch_status="${YELLOW}"
+    elif [[ -n `echo "$st" | grep "^Changes not staged"` ]]; then
+        # Unstaged changesがある
+        branch_status="${RED}"
+    else
+        # その他
+        branch_status="${CYAN}"
+    fi
+
+    echo "${branch_status}${branch_name}${RESET}"
+    # GIT_BRANCH_PROMPT="${branch_status}${branch_name}${RESET}"
+}
+
+
+function prompt() {
+    # sheldon使えば簡単に設定できるけどインストールできない環境があったりするのでプラグイン使わない
+    # %n: ユーザ名
+    # %m: ホスト名の最初の部分
+    # %1~: カレントディレクトリ
+    # %#: ユーザー権限によって表示を変える (#: root, $: 一般ユーザ)
+
+
+    # 各々のプロンプトの設定
+    local USER_PROMPT="${BG_BLACK}${YELLOW} %n@%m  ${RESET}${BG_RESET}"
+    local DIR_POMPT="${BG_LIGHT_BLUE}${WHITE} %1~ ${RESET}${BG_RESET}"
+    if [ -e ".git" ]; then
+        # gitリポジトリの場合
+        local GIT_BRANCH_PROMPT="${BG_GRAY}${WHITE} on $(git-current-branch) ${RESET}${BG_RESET}"
+    else
+        # gitリポジトリでない場合
+        local GIT_BRANCH_PROMPT=""
+    fi
+    local CMD_PROMPT="${CMD_STATUS_COLOR}%(!.#.$) ${RESET}"
+
+    # 改行がそのまま表示される
+    PROMPT="${USER_PROMPT}${DIR_POMPT}${GIT_BRANCH_PROMPT}
+${CMD_PROMPT}"
+}
+
+function precmd() {
+    set_cmd_status_color
+    # コマンドの実行後にpromptを実行したいのでhookを設定
+    prompt
+}
+
+# コマンドの実行後にpromptを実行したいのでhookを設定
+add-zsh-hook precmd precmd
 
