@@ -305,11 +305,6 @@ function nvim-profiler() {
   cat $time_file | sort -n -k 2 | tail -n 20
 }
 
-# ====================================
-# -- starship : should be put on last line
-# ====================================
-eval $(starship init zsh)
-#
 
 # ====================================
 # -- Prompt Customization
@@ -412,3 +407,9 @@ ${CMD_PROMPT}"
 # コマンドの実行後にpromptを実行したいのでhookを設定
 # add-zsh-hook precmd precmd
 
+
+# ====================================
+# -- starship : should be put on last line
+# ====================================
+eval $(starship init zsh)
+#
