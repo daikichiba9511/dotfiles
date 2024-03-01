@@ -119,4 +119,7 @@ return {
       })
     end,
   },
+  {
+    "famiu/bufdelete.nvim",
+  },
 }

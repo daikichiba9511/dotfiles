@@ -6,6 +6,7 @@ return {
       colorscheme = "tokyonight",
       -- colorscheme = "nightfox",
       -- colorscheme = "onedark",
+      -- colorscheme = "catppuccin",
     },
   },
   {
@@ -27,11 +28,17 @@ return {
   },
   {
     "catppuccin/nvim",
-    name = "catppuccin",
     opts = {
-      transparent_background = false,
+      flavour = "mocha",
+      background = {
+        light = "latte",
+        black = "mocha",
+      },
+      transparent_background = true, -- disables setting the background color.
       no_italics = true,
+      no_bold = true,
     },
+    name = "catppuccin",
   },
   {
     "navarasu/onedark.nvim",

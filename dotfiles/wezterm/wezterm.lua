@@ -336,10 +336,10 @@ end
 -- Reference:
 -- https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
 -- https://coralpink.github.io/commentary/wezterm/right-status.html
-wezterm.on("update-status", function(window, pane)
-  LeftUpdate(window, pane)
-  RightUpdate(window, pane)
-end)
+-- wezterm.on("update-status", function(window, pane)
+--   LeftUpdate(window, pane)
+--   RightUpdate(window, pane)
+-- end)
 
 ---------------------------------------------------------------
 --- load local_config
@@ -389,9 +389,9 @@ local config = {
 
   -- transparency settings
   window_background_opacity = 0.80,
-  -- text_background_opacity = 0.80,
+  text_background_opacity = 0.80,
   -- window_background_opacity = 1.0,
-  text_background_opacity = 1.0,
+  -- text_background_opacity = 1.0,
 
   -- text_blink_rate = 600,
   status_update_interval = 300000, -- 300s

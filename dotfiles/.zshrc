@@ -223,6 +223,16 @@ alias v="nvim"
 
 
 # ====================================
+# -- VSCode
+# ====================================
+function cf() {
+  local filename=$(fzf --preview 'bat --color=always {1}')
+  if [ $? = 0 ]; then
+      code "${filename}"
+  fi
+}
+
+# ====================================
 # asdf
 # ====================================
 # . "${HOME}/.asdf/asdf.sh"
@@ -298,7 +308,7 @@ function nvim-profiler() {
 # ====================================
 # -- starship : should be put on last line
 # ====================================
-# eval $(starship init zsh)
+eval $(starship init zsh)
 #
 
 # ====================================
@@ -335,7 +345,7 @@ function set_cmd_status_color() {
 }
 
 
-GIT_BRANCH_PROMPT=""
+# GIT_BRANCH_PROMPT=""
 
 function git-current-branch() {
     local branch_name st branch_status
@@ -393,12 +403,12 @@ function prompt() {
 ${CMD_PROMPT}"
 }
 
-function precmd() {
-    set_cmd_status_color
-    # コマンドの実行後にpromptを実行したいのでhookを設定
-    prompt
-}
+# function precmd() {
+#     set_cmd_status_color
+#     # コマンドの実行後にpromptを実行したいのでhookを設定
+#     prompt
+# }
 
 # コマンドの実行後にpromptを実行したいのでhookを設定
-add-zsh-hook precmd precmd
+# add-zsh-hook precmd precmd
 
