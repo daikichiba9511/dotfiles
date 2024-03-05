@@ -1,5 +1,5 @@
 format = """
- $username$hostname$directory$git_branch$git_status$cmd_duration
+ $username$hostname$directory$git_branch$git_status$docker_context$cmd_duration
  $character
 """
 [username]
