@@ -26,7 +26,7 @@ format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff8247 bold bg:#6998AB)[ $b
 style = "fg:#FFFFFF bold bg:#6998AB"
 
 [git_status]
-format='[ \[$all_status$ahead_behind\] ](fg:#f7ff93 bold bg:#88abba)[](fg:#88abba)'
+format='[ \[$all_status$ahead_behind\] ](fg:#f7ff93 bold bg:#88abba)[ ](fg:#88abba)'
 
 [character]
 success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
