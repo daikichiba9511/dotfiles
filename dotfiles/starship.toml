@@ -47,4 +47,3 @@ style = "bold green"
 format = "[$symbol$version]($style) "
 style = "bold green"
 
-
