@@ -411,5 +411,5 @@ ${CMD_PROMPT}"
 # ====================================
 # -- starship : should be put on last line
 # ====================================
-eval $(starship init zsh)
+eval "$(starship init zsh)"
 #

@@ -1,36 +1,35 @@
 format = """
-$username\
-$hostname\
-$directory\
-$git_branch\
-$git_status\
-$cmd_duration
-$character
+ $username$hostname$directory$git_branch$git_status$cmd_duration
+ $character
 """
+[username]
+style_user = "bg:#1A374D fg:white bold"
+style_root = "bg:#1A374D fg:red bold"
+format = "[ $user]($style)"
+disabled = false
+show_always = true
 
 [directory]
 truncation_length = 10_000
 truncate_to_repo = false
 style = "fg:#FFFFFF bold bg:#406882"
-format = "[ $path ]($style)[$read_only]($read_only_style)"
+format = "[](bg:#406882 fg:#1A374D)[ $path ]($style)[$read_only]($read_only_style)"
 
-[username]
-style_user = "bg:#1A374D fg:white bold"
-style_root = "bg:#1A374D fg:red bold"
-format = "[$user]($style)"
-disabled = false
-show_always = true
 
 [hostname]
 ssh_only = false
-format = "[$ssh_symbol on ](bg:#1A374D fg:white bold)[$hostname ](bg:#1A374D fg:white bold)"
+format = "[$ssh_symbol](bg:#1A374D fg:white bold)[ on ](bg:#1A374D fg:#ff8247 bold)[$hostname ](bg:#1A374D fg:white bold)"
 
 [git_branch]
-format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
+# format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
+format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff8247 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)[](fg:#6998AB bg:#88abba)"
 style = "fg:#FFFFFF bold bg:#6998AB"
 
+[git_status]
+format='[ \[$all_status$ahead_behind\] ](fg:#f7ff93 bold bg:#88abba)[](fg:#88abba)'
+
 [character]
-success_symbol = "[⟩⟩](fg:#F7FF93 )"
+success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
 
 
 [python]

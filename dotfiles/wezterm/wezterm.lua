@@ -389,7 +389,7 @@ local config = {
 
   -- transparency settings
   window_background_opacity = 0.80,
-  text_background_opacity = 0.80,
+  text_background_opacity = 1.0,
   -- window_background_opacity = 1.0,
   -- text_background_opacity = 1.0,
 
