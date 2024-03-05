@@ -30,6 +30,7 @@ format='[ \[$all_status$ahead_behind\] ](fg:#f7ff93 bold bg:#88abba)[ ](fg:#8
 
 [character]
 success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
+error_symbol = "[✘](fg:red bold)"
 
 
 [python]
