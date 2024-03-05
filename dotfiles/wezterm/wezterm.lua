@@ -131,67 +131,67 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 end)
 
 -- https://github.com/wez/wezterm/issues/1680
-local function update_window_background(window, pane)
-  local overrides = window:get_config_overrides() or {}
-  -- If there's no foreground process, assume that we are "wezterm connect" or "wezterm ssh"
-  -- and use a different background color
-  -- if pane:get_foreground_process_name() == nil then
-  --  -- overrides.colors = { background = "blue" }
-  --  overrides.color_scheme = "Red Alert"
-  -- end
-
-  if overrides.color_scheme == nil then
-    return
-  end
-  if pane:get_user_vars().production == "1" then
-    overrides.color_scheme = "TokyoNight"
-  end
-  window:set_config_overrides(overrides)
-end
-
-local function update_tmux_style_tab(window, pane)
-  local cwd_uri = pane:get_current_working_dir()
-  local cwd = ""
-  local hostname = ""
-  if cwd_uri then
-    cwd_uri = cwd_uri:sub(8)
-    local slash = cwd_uri:find("/")
-    if slash then
-      hostname = cwd_uri:sub(1, slash - 1)
-      -- Remove the domain name portion of the hostname
-      local dot = hostname:find("[.]")
-      if dot then
-        hostname = hostname:sub(1, dot - 1)
-      end
-      if hostname ~= "" then
-        hostname = "@" .. hostname
-      end
-      -- and extract the cwd from the uri
-      cwd = utils.convert_home_dir(cwd)
-    end
-  end
-  return {
-    { Attribute = { Underline = "Single" } },
-    { Attribute = { Italic = true } },
-    { Text = cwd .. hostname },
-  }
-end
-
-local function display_ime_on_right_status(window, pane)
-  local compose = window:composition_status()
-  if compose then
-    compose = "COMPOSING: " .. compose
-  end
-  window:set_right_status(compose)
-end
-
-local function display_copy_mode(window, pane)
-  local name = window:active_key_table()
-  if name then
-    name = "Mode: " .. name
-  end
-  return { { Attribute = { Italic = false } }, { Text = name or "" } }
-end
+-- local function update_window_background(window, pane)
+--   local overrides = window:get_config_overrides() or {}
+--   -- If there's no foreground process, assume that we are "wezterm connect" or "wezterm ssh"
+--   -- and use a different background color
+--   -- if pane:get_foreground_process_name() == nil then
+--   --  -- overrides.colors = { background = "blue" }
+--   --  overrides.color_scheme = "Red Alert"
+--   -- end
+--
+--   if overrides.color_scheme == nil then
+--     return
+--   end
+--   if pane:get_user_vars().production == "1" then
+--     overrides.color_scheme = "TokyoNight"
+--   end
+--   window:set_config_overrides(overrides)
+-- end
+--
+-- local function update_tmux_style_tab(window, pane)
+--   local cwd_uri = pane:get_current_working_dir()
+--   local cwd = ""
+--   local hostname = ""
+--   if cwd_uri then
+--     cwd_uri = cwd_uri:sub(8)
+--     local slash = cwd_uri:find("/")
+--     if slash then
+--       hostname = cwd_uri:sub(1, slash - 1)
+--       -- Remove the domain name portion of the hostname
+--       local dot = hostname:find("[.]")
+--       if dot then
+--         hostname = hostname:sub(1, dot - 1)
+--       end
+--       if hostname ~= "" then
+--         hostname = "@" .. hostname
+--       end
+--       -- and extract the cwd from the uri
+--       cwd = utils.convert_home_dir(cwd)
+--     end
+--   end
+--   return {
+--     { Attribute = { Underline = "Single" } },
+--     { Attribute = { Italic = true } },
+--     { Text = cwd .. hostname },
+--   }
+-- end
+--
+-- local function display_ime_on_right_status(window, pane)
+--   local compose = window:composition_status()
+--   if compose then
+--     compose = "COMPOSING: " .. compose
+--   end
+--   window:set_right_status(compose)
+-- end
+--
+-- local function display_copy_mode(window, pane)
+--   local name = window:active_key_table()
+--   if name then
+--     name = "Mode: " .. name
+--   end
+--   return { { Attribute = { Italic = false } }, { Text = name or "" } }
+-- end
 
 -- wezterm.on("update-right-status", function(window, pane)
 -- 	local tmux = update_tmux_style_tab(window, pane)
@@ -387,11 +387,18 @@ local config = {
   use_fancy_tab_bar = true,
   tab_and_split_indices_are_zero_based = true,
 
+  send_composed_key_when_left_alt_is_pressed = true,
+  -- debug_key_events = true,
+
   -- transparency settings
   window_background_opacity = 0.80,
   text_background_opacity = 1.0,
   -- window_background_opacity = 1.0,
   -- text_background_opacity = 1.0,
+  -- text_background_opacity = 1.0,
+
+  native_macos_fullscreen_mode = true,
+  macos_window_background_blur = 20,
 
   -- text_blink_rate = 600,
   status_update_interval = 300000, -- 300s
@@ -404,6 +411,7 @@ local config = {
     bottom = 0,
   },
   tab_bar_at_bottom = false,
+
   -- Hide title bar
   -- Ref:
   -- [1] https://wezfurlong.org/wezterm/config/lua/config/window_decorations.html
