@@ -382,6 +382,12 @@ local config = {
   -- color_scheme = "night-owl",
   -- color_scheme = "Catppuccin Mocha",
   -- color_scheme = "Catppuccin Mocha (Gogh)",
+  -- color_scheme = "ayu",
+  -- color_scheme = "Bitmute (terminal.sexy)",
+  -- color_scheme = "Breath Darker (Gogh)",
+  -- color_scheme = "Broadcast (Gogh)",
+  -- color_scheme = "Brogrammer",
+  -- color_scheme = "3024 (base16)",
   adjust_window_size_when_changing_font_size = false,
 
   use_fancy_tab_bar = true,
