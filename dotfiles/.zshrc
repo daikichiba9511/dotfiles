@@ -141,8 +141,10 @@ function wide() {
     wezterm cli split-pane --bottom
 }
 
+# pathを通す
 export PATH="$PATH:$HOME/.local/bin"
 export PATH=/usr/local/bin:$PATH
+export PATH="${PATH}:$HOME/.fzf_bin/bin"  # for fzf installed via ~/.fzf_bin/install
 
 if type "xsel" > /dev/null; then
     alias pbcopy='xsel  --clipboard --input'
@@ -226,22 +228,35 @@ function fn {
 # - wezterm/img2sixel
 # ====================================
 function fic() {
+    local is_in_tmux=$([ "${TMUX}" = "" ] && echo "false" || echo "true")
+
     local img_cat_cmd="wezterm imgcat"
-    if command -v "wezterm" > /dev/null; then
-      img_cat_cmd="wezterm imgcat"
-    elif command -v "img2sixel" > /dev/null; then
+    if [ "${is_in_tmux}" = "true" ]; then
       img_cat_cmd="img2sixel"
     else
-      echo "No image viewer is found."
-      return 1
+      if command -v "wezterm" > /dev/null; then
+        img_cat_cmd="wezterm imgcat"
+      elif command -v "img2sixel" > /dev/null; then
+        img_cat_cmd="img2sixel"
+      else
+        echo "No image viewer is found."
+        return 1
+      fi
     fi
 
     # I want to use 'wezterm imgcat' to preview images, but It does'n work well with latest fzf
     # Please see below issue for more detail.
     # https://github.com/junegunn/fzf/issues/3646
+    local filenames=$(fd -I -e "png" -e "jpg")
+    if [[ "${filenames}" = "" ]]; then
+      echo "No such file to preview images."
+      return 0
+    fi
+
+    # alternative cmd to peview: fzf --preview 'fzf-preview.sh {}'
     local filename=$(
-      fd -e "png" -e "jpg" -I |
-        fzf --preview 'chafa -f iterm -s ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} {}'
+      echo "${filenames[@]}" |
+        fzf --preview 'chafa -f sixel -s ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} {}'
     )
     if [[ "${filename}" = "" ]]; then
       echo "No file is selected."
