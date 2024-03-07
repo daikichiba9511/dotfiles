@@ -1,5 +1,5 @@
 export CLICOLOR=1
-echo hello. ${USER}
+echo Hello ${USER}
 
 # -- vim mode
 # bindkey -v
@@ -173,6 +173,10 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 
 alias lg="lazygit"
 
+# ====================================
+# fzf
+# ====================================
+alias fzf='fzf --border=rounded'
 
 # ====================================
 # logをつける用のマークダウンを生成する
@@ -204,6 +208,50 @@ function fn {
     local filename=$(fzf --preview 'bat --color=always {1} --highlight-line {2}')
     if [ $? = 0 ]; then
         nvim "${filename}"
+    fi
+}
+
+# ====================================
+# fuzzy image cat
+# fzfで見つけた画像を表示する
+#
+# 探す拡張子は以下
+# - "png"
+# - "jpg"
+#
+# depends on:
+# - fzf
+#   - chafa (to preview images)
+# - fd
+# - wezterm/img2sixel
+# ====================================
+function fic() {
+    local img_cat_cmd="wezterm imgcat"
+    if command -v "wezterm" > /dev/null; then
+      img_cat_cmd="wezterm imgcat"
+    elif command -v "img2sixel" > /dev/null; then
+      img_cat_cmd="img2sixel"
+    else
+      echo "No image viewer is found."
+      return 1
+    fi
+
+    # I want to use 'wezterm imgcat' to preview images, but It does'n work well with latest fzf
+    # Please see below issue for more detail.
+    # https://github.com/junegunn/fzf/issues/3646
+    local filename=$(
+      fd -e "png" -e "jpg" -I |
+        fzf --preview 'chafa -f iterm -s ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} {}'
+    )
+    if [[ "${filename}" = "" ]]; then
+      echo "No file is selected."
+      return 0
+    fi
+
+
+    if [ $? = 0 ]; then
+        echo "-- ${img_cat_cmd} ${filename} --"
+        /usr/bin/env bash -c "${img_cat_cmd} ${filename}"
     fi
 }
 
@@ -257,143 +305,143 @@ export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-t
 # measurement utils
 # Ref: https://zenn.dev/yutakatay/articles/zsh-neovim-speedcheck
 # =====================================
-function nvim-startuptime() {
-  local file=$1
-  local total_msec=0
-  local msec
-  local i
-  for i in $(seq 1 10); do
-    msec=$({(TIMEFMT='%mE'; time nvim --headless -c q $file ) 2>&3;} 3>/dev/stdout >/dev/null)
-    msec=$(echo $msec | tr -d "ms")
-    echo "${(l:2:)i}: ${msec} [ms]"
-    total_msec=$(( $total_msec + $msec ))
-  done
-  local average_msec
-  average_msec=$(( ${total_msec} / 10 ))
-  echo "\naverage: ${average_msec} [ms]"
-}
-
-function nvim-startuptime-slower-than-default() {
-  local file=$1
-  local time_file_rc
-  time_file_rc=$(mktemp --suffix "_nvim_startuptime_rc.txt")
-  local time_rc
-  time_rc=$(nvim --headless --startuptime ${time_file_rc} -c "quit" $file > /dev/null && tail -n 1 ${time_file_rc} | cut -d " " -f1)
-
-  local time_file_norc
-  time_file_norc=$(mktemp --suffix "_nvim_startuptime_norc.txt")
-  local time_norc
-  time_norc=$(nvim --headless --noplugin -u NONE --startuptime ${time_file_norc} -c "quit" $file > /dev/null && tail -n 1 ${time_file_norc} | cut -d " " -f1)
-
-  echo "my vimrc: ${time_rc}s\ndefault neovim: ${time_norc}s\n"
-  local result
-  result=$(scale=3 echo "${time_rc} / ${time_norc}" | bc)
-  echo "${result}x slower your Neovim than the default."
-}
-
-function nvim-profiler() {
-  local file=$1
-  local time_file
-  time_file=$(mktemp --suffix "_nvim_startuptime.txt")
-  echo "output: $time_file"
-  time nvim --headless --startuptime $time_file -c q $file
-  tail -n 1 $time_file | cut -d " " -f1 | tr -d "\n" && echo " [ms]\n"
-  cat $time_file | sort -n -k 2 | tail -n 20
-}
+# function nvim-startuptime() {
+#   local file=$1
+#   local total_msec=0
+#   local msec
+#   local i
+#   for i in $(seq 1 10); do
+#     msec=$({(TIMEFMT='%mE'; time nvim --headless -c q $file ) 2>&3;} 3>/dev/stdout >/dev/null)
+#     msec=$(echo $msec | tr -d "ms")
+#     echo "${(l:2:)i}: ${msec} [ms]"
+#     total_msec=$(( $total_msec + $msec ))
+#   done
+#   local average_msec
+#   average_msec=$(( ${total_msec} / 10 ))
+#   echo "\naverage: ${average_msec} [ms]"
+# }
+#
+# function nvim-startuptime-slower-than-default() {
+#   local file=$1
+#   local time_file_rc
+#   time_file_rc=$(mktemp --suffix "_nvim_startuptime_rc.txt")
+#   local time_rc
+#   time_rc=$(nvim --headless --startuptime ${time_file_rc} -c "quit" $file > /dev/null && tail -n 1 ${time_file_rc} | cut -d " " -f1)
+#
+#   local time_file_norc
+#   time_file_norc=$(mktemp --suffix "_nvim_startuptime_norc.txt")
+#   local time_norc
+#   time_norc=$(nvim --headless --noplugin -u NONE --startuptime ${time_file_norc} -c "quit" $file > /dev/null && tail -n 1 ${time_file_norc} | cut -d " " -f1)
+#
+#   echo "my vimrc: ${time_rc}s\ndefault neovim: ${time_norc}s\n"
+#   local result
+#   result=$(scale=3 echo "${time_rc} / ${time_norc}" | bc)
+#   echo "${result}x slower your Neovim than the default."
+# }
+#
+# function nvim-profiler() {
+#   local file=$1
+#   local time_file
+#   time_file=$(mktemp --suffix "_nvim_startuptime.txt")
+#   echo "output: $time_file"
+#   time nvim --headless --startuptime $time_file -c q $file
+#   tail -n 1 $time_file | cut -d " " -f1 | tr -d "\n" && echo " [ms]\n"
+#   cat $time_file | sort -n -k 2 | tail -n 20
+# }
 
 
 # ====================================
 # -- Prompt Customization
 # ====================================
 # カラー設定
-CYAN="%F{cyan}"
-BLUE="%F{blue}"
-LIGHT_BLUE="%F{lightblue}"
-GREEN="%F{green}"
-YELLOW="%F{yellow}"
-WHITE="%F{255}"
-RED="%F{red}"
-
-# Background Color
-BG_CYAN="%K{26}"
-BG_BLUE="%K{blue}"
-BG_BLACK="%K{black}"
-BG_LIGHT_BLUE="%K{031}"
-BG_GRAY="%K{237}"
-
-# リセット
-RESET="%f"
-BG_RESET="%k"
-
-CMD_STATUS_COLOR="%F{green}"
-
-function set_cmd_status_color() {
-    if [ $? -eq 0 ]; then
-        CMD_STATUS_COLOR="%F{green}"
-    else
-        CMD_STATUS_COLOR="%F{red}"
-    fi
-}
-
-
-# GIT_BRANCH_PROMPT=""
-
-function git-current-branch() {
-    local branch_name st branch_status
-    branch_name=$(git symbolic-ref --short HEAD 2> /dev/null)
-    if [ ! -e ".git" ]; then
-        return
-    fi
-
-    st=$(git status 2> /dev/null)
-
-    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-        # すべてコミット済み
-        branch_status="${GREEN}"
-    elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-        # Untracked filesがある
-        branch_status="${RED}"
-    elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
-        # Staged changesがある
-        branch_status="${YELLOW}"
-    elif [[ -n `echo "$st" | grep "^Changes not staged"` ]]; then
-        # Unstaged changesがある
-        branch_status="${RED}"
-    else
-        # その他
-        branch_status="${CYAN}"
-    fi
-
-    echo "${branch_status}${branch_name}${RESET}"
-    # GIT_BRANCH_PROMPT="${branch_status}${branch_name}${RESET}"
-}
-
-
-function prompt() {
-    # sheldon使えば簡単に設定できるけどインストールできない環境があったりするのでプラグイン使わない
-    # %n: ユーザ名
-    # %m: ホスト名の最初の部分
-    # %1~: カレントディレクトリ
-    # %#: ユーザー権限によって表示を変える (#: root, $: 一般ユーザ)
-
-
-    # 各々のプロンプトの設定
-    local USER_PROMPT="${BG_BLACK}${YELLOW} %n@%m  ${RESET}${BG_RESET}"
-    local DIR_POMPT="${BG_LIGHT_BLUE}${WHITE} %1~ ${RESET}${BG_RESET}"
-    if [ -e ".git" ]; then
-        # gitリポジトリの場合
-        local GIT_BRANCH_PROMPT="${BG_GRAY}${WHITE} on $(git-current-branch) ${RESET}${BG_RESET}"
-    else
-        # gitリポジトリでない場合
-        local GIT_BRANCH_PROMPT=""
-    fi
-    local CMD_PROMPT="${CMD_STATUS_COLOR}%(!.#.$) ${RESET}"
-
-    # 改行がそのまま表示される
-    PROMPT="${USER_PROMPT}${DIR_POMPT}${GIT_BRANCH_PROMPT}
-${CMD_PROMPT}"
-}
-
+# CYAN="%F{cyan}"
+# BLUE="%F{blue}"
+# LIGHT_BLUE="%F{lightblue}"
+# GREEN="%F{green}"
+# YELLOW="%F{yellow}"
+# WHITE="%F{255}"
+# RED="%F{red}"
+#
+# # Background Color
+# BG_CYAN="%K{26}"
+# BG_BLUE="%K{blue}"
+# BG_BLACK="%K{black}"
+# BG_LIGHT_BLUE="%K{031}"
+# BG_GRAY="%K{237}"
+#
+# # リセット
+# RESET="%f"
+# BG_RESET="%k"
+#
+# CMD_STATUS_COLOR="%F{green}"
+#
+# function set_cmd_status_color() {
+#     if [ $? -eq 0 ]; then
+#         CMD_STATUS_COLOR="%F{green}"
+#     else
+#         CMD_STATUS_COLOR="%F{red}"
+#     fi
+# }
+#
+#
+# # GIT_BRANCH_PROMPT=""
+#
+# function git-current-branch() {
+#     local branch_name st branch_status
+#     branch_name=$(git symbolic-ref --short HEAD 2> /dev/null)
+#     if [ ! -e ".git" ]; then
+#         return
+#     fi
+#
+#     st=$(git status 2> /dev/null)
+#
+#     if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+#         # すべてコミット済み
+#         branch_status="${GREEN}"
+#     elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
+#         # Untracked filesがある
+#         branch_status="${RED}"
+#     elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
+#         # Staged changesがある
+#         branch_status="${YELLOW}"
+#     elif [[ -n `echo "$st" | grep "^Changes not staged"` ]]; then
+#         # Unstaged changesがある
+#         branch_status="${RED}"
+#     else
+#         # その他
+#         branch_status="${CYAN}"
+#     fi
+#
+#     echo "${branch_status}${branch_name}${RESET}"
+#     # GIT_BRANCH_PROMPT="${branch_status}${branch_name}${RESET}"
+# }
+#
+#
+# function prompt() {
+#     # sheldon使えば簡単に設定できるけどインストールできない環境があったりするのでプラグイン使わない
+#     # %n: ユーザ名
+#     # %m: ホスト名の最初の部分
+#     # %1~: カレントディレクトリ
+#     # %#: ユーザー権限によって表示を変える (#: root, $: 一般ユーザ)
+#
+#
+#     # 各々のプロンプトの設定
+#     local USER_PROMPT="${BG_BLACK}${YELLOW} %n@%m  ${RESET}${BG_RESET}"
+#     local DIR_POMPT="${BG_LIGHT_BLUE}${WHITE} %1~ ${RESET}${BG_RESET}"
+#     if [ -e ".git" ]; then
+#         # gitリポジトリの場合
+#         local GIT_BRANCH_PROMPT="${BG_GRAY}${WHITE} on $(git-current-branch) ${RESET}${BG_RESET}"
+#     else
+#         # gitリポジトリでない場合
+#         local GIT_BRANCH_PROMPT=""
+#     fi
+#     local CMD_PROMPT="${CMD_STATUS_COLOR}%(!.#.$) ${RESET}"
+#
+#     # 改行がそのまま表示される
+#     PROMPT="${USER_PROMPT}${DIR_POMPT}${GIT_BRANCH_PROMPT}
+# ${CMD_PROMPT}"
+# }
+#
 # function precmd() {
 #     set_cmd_status_color
 #     # コマンドの実行後にpromptを実行したいのでhookを設定
