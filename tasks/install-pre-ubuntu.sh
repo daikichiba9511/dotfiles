@@ -61,3 +61,7 @@ sudo ln -s "${HOME}/.local/bin/delta-0.16.5-x86_64-unknown-linux-musl/delta" /us
 # For lsd
 wget https://github.com/lsd-rs/lsd/releases/download/v1.0.0/lsd-musl_1.0.0_amd64.deb -P /tmp
 sudo apt install -y /tmp/lsd-musl_1.0.0_amd64.deb
+
+# For fzf
+# update to the latest version
+cd "${HOME}/.fzf_bin" && ./install && sudo apt remove fzf

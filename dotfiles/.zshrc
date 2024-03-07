@@ -169,14 +169,10 @@ fi
 # -- git
 # ====================================
 alias g="git"
-# alias gs="git status -u"
-# alias ga="git add -v"
-# alias gcm="git commit"
-# alias gdf="git diff"
-alias gps="git push"
-alias gpl="git pull"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-# alias gco="git checkout"
+
+alias lg="lazygit"
+
 
 # ====================================
 # logをつける用のマークダウンを生成する
