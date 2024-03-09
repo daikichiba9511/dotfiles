@@ -198,10 +198,11 @@ function cdlog() {
 # fzfで見つけたファイルをvscodeで開く
 # ====================================
 function fv {
-    local filename=$(fzf --preview 'bat --color=always {1} --highlight-line {2}')
-    if [ $? = 0 ]; then
+    local filename=$(fzf --preview 'bat --color=always {}')
+    if [ $filename != "" ]; then
         code "${filename}"
-    fi }
+    fi 
+}
 # ====================================
 # fuzzy search files and open with neovim
 # fzfで見つけたファイルをvscodeで開く
