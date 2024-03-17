@@ -371,7 +371,7 @@ local config = {
   -- font = wezterm.font("Ricty", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   -- font = wezterm.font("UDEV Gothic 35NFLG"),
   -- font = wezterm.font("HackGenNerd", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
-  font = wezterm.font("HackGenNerd Console", { weight = "Regular", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
+  font = wezterm.font_with_fallback({ "HackGenNerd Console", "Cica" }),
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
