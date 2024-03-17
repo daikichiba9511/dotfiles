@@ -361,6 +361,21 @@ local function load_local_config(module)
 end
 
 local local_config = load_local_config("local")
+
+local function get_fonts()
+  if wezterm.target_triple == "aarch64-apple-darwin" then
+    return {
+      "HackGen Console NF",
+      "HackGenNerd Console",
+    }
+  else
+    return {
+      "HackGenNerd Console",
+      "HackGen Console NF",
+    }
+  end
+end
+
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
@@ -372,11 +387,13 @@ local config = {
   -- font = wezterm.font("UDEV Gothic 35NFLG"),
   -- font = wezterm.font("HackGenNerd", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
   -- font = wezterm.font_with_fallback({ "HackGenNerd Console", "Cica" }),
-  font = wezterm.font_with_fallback(
-    -- { "HackGenNerd Console", "Cica" }
-    -- { "HackGenNerd Console", "HackGen Console NF" }
-    { "HackGen Console NF", "HackGenNerd Console" }
-  ),
+  -- font = wezterm.font_with_fallback(
+  --   -- { "HackGenNerd Console", "Cica" }
+  --   { "HackGenNerd Console", "HackGen Console NF" }
+  --   -- { "HackGen Console NF", "HackGenNerd Console" }
+  -- ),
+
+  font = wezterm.font_with_fallback(get_fonts()),
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
