@@ -148,4 +148,25 @@ return {
   {
     "jmbuhr/otter.nvim",
   },
+  -- Obsidian
+  {
+    "epwalsh/obsidian.nvim",
+    opts = {
+      workspaces = {
+        {
+          name = "MyVault",
+          path = "~/Dropbox/MyValut/",
+        },
+      },
+    },
+  },
+  -- ToggleTerm
+  {
+    "akinsho/toggleterm.nvim",
+    opts = {
+      size = 20,
+      open_mapping = "<leader>tt",
+      hide_numbers = true,
+    },
+  },
 }

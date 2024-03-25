@@ -270,6 +270,27 @@ function fic() {
         /usr/bin/env bash -c "${img_cat_cmd} ${filename}"
     fi
 }
+# ====================================
+# -- fuzzy hisotry command
+# ====================================
+function fhc() {
+  cmd=$(history -5000 | tac |  fzf | sed 's/ *[0-9]* *//')
+  if [ $? = 0 ]; then
+    echo "executing: ${cmd}"
+    eval "${cmd}"
+  else 
+    echo "no command is selected."
+  fi
+}
+
+function fzf-hisotry-search() {
+  fhc
+  zle redisplay
+}
+
+# <C-R> で fzfを使った逆検索を実行
+zle -N fzf-hisotry-search
+bindkey '^R' fzf-hisotry-search
 
 # ====================================
 # -- vim
