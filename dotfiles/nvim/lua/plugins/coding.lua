@@ -161,12 +161,12 @@ return {
     },
   },
   -- ToggleTerm
-  {
-    "akinsho/toggleterm.nvim",
-    opts = {
-      size = 20,
-      open_mapping = "<leader>tt",
-      hide_numbers = true,
-    },
-  },
+  -- {
+  --   "akinsho/toggleterm.nvim",
+  --   opts = {
+  --     size = 20,
+  --     open_mapping = "<leader>tt",
+  --     hide_numbers = true,
+  --   },
+  -- },
 }

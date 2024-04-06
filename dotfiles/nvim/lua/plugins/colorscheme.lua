@@ -12,7 +12,8 @@ return {
   {
     "folke/tokyonight.nvim",
     opts = {
-      style = "night",
+      -- style = "night",
+      style = "moon",
       styles = {
         comments = { italic = false },
         keywords = { italic = false },
