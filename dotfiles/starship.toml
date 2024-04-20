@@ -13,7 +13,7 @@ $cmd_duration
 """
 [os]
 disabled = false
-style = "bg:#1a374d fg:white bold"
+style = "bg:#1a374d fg:#FFFFFF bold"
 format = "[$symbol ]($style)"
 
 [os.symbols]
@@ -38,7 +38,7 @@ Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
 [username]
-style_user = "bg:#1A374D fg:white bold"
+style_user = "bg:#1A374D fg:#FFFFFF bold"
 style_root = "bg:#1A374D fg:red bold"
 format = "[ $user ]($style)"
 disabled = false
@@ -50,10 +50,9 @@ truncate_to_repo = false
 style = "fg:#FFFFFF bold bg:#406882"
 format = "[](bg:#406882 fg:#1A374D)[ $path ]($style)[$read_only]($read_only_style)"
 
-
 [hostname]
 ssh_only = false
-format = "[$ssh_symbol](bg:#1A374D fg:white bold)[on ](bg:#1A374D fg:#ff8247 bold)[$hostname ](bg:#1A374D fg:white bold)"
+format = "[$ssh_symbol](bg:#1A374D fg:#FFFFFF bold)[on ](bg:#1A374D fg:#ff8247 bold)[$hostname ](bg:#1A374D fg:#FFFFFF bold)"
 
 [git_branch]
 # format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
