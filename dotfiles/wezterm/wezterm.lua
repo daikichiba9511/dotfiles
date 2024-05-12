@@ -397,7 +397,7 @@ local config = {
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
-  font_size = 13.0,
+  font_size = 12.0,
   -- color_scheme = "iceberg-dark",
   -- color_scheme = "nightfox",
   -- color_scheme = "nord",
