@@ -1,5 +1,5 @@
-#!/bin/sh
-set -eu
+#!/usr/bin/env bash
+set -eux -o pipefail -o posix
 
 if which sudo >/dev/null 2>&1; then
 	echo "this envrionment has sudo.. so continue to install"
