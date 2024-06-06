@@ -67,5 +67,6 @@ sudo apt install -y /tmp/lsd-musl_1.0.0_amd64.deb
 # cd "${HOME}/.fzf_bin" && ./install && sudo apt remove fzf
 # wget https://github.com/junegunn/fzf/releases/download/0.46.1/fzf-0.46.1-linux_amd64.tar.gz -P /tmp
 # tar xvf /tmp/fzf-0.46.1-linux_amd64.tar.gz -C "${HOME}/.fzf_bin"
+[ -d "${HOME}/.fzf" ] && rm -rf "${HOME}/.fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
 "$HOME/.fzf/install" --all
