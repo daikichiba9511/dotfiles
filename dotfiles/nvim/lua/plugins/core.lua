@@ -1,6 +1,7 @@
 local opt = vim.opt
 local keymap = vim.api.nvim_set_keymap
 
+opt.clipboard = "unnamedplus"
 opt.list = true
 opt.listchars = { tab = "»»", space = "·" }
 
