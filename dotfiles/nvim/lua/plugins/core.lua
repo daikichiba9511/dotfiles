@@ -4,7 +4,8 @@ local keymap = vim.api.nvim_set_keymap
 opt.shell = "zsh"
 opt.clipboard = "unnamedplus"
 opt.list = true
-opt.listchars = { tab = "»»", space = "·" }
+-- opt.listchars = { tab = "»»", space = "·" }
+opt.listchars = { tab = "»»" }
 
 keymap("n", "<C-x>", "<Cmd>lua require('bufdelete').bufwipeout(0, true)<CR>", { noremap = true, silent = true })
 
