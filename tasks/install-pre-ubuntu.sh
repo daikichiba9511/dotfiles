@@ -26,6 +26,7 @@ sudo apt install -y \
 	sqlite3 \
 	libsqlite3-dev
 
+
 # For yazi
 # Ref:
 # https://yazi-rs.github.io/docs/usage/installation
