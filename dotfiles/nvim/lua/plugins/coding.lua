@@ -173,7 +173,7 @@ return {
     "akinsho/toggleterm.nvim",
     opts = {
       size = 40,
-      open_mapping = "<leader>tt",
+      -- open_mapping = "<leader>tt",
       hide_numbers = true,
     },
   },
