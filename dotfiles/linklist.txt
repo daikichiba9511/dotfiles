@@ -3,8 +3,7 @@
 nvim        ${HOME}/.config/nvim
 
 # vim
-# .vimrc ${HOME}
-# .dein.toml ${HOME}/.vim
+.vimrc ${HOME}
 
 # zsh
 .zshrc      ${HOME}

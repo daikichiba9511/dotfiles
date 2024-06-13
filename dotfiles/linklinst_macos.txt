@@ -2,6 +2,9 @@
 # neovim
 nvim        ${HOME}/.config
 
+# vim
+.vimrc ${HOME}
+
 # zsh
 .zshrc      ${HOME}
 
@@ -9,7 +12,7 @@ nvim        ${HOME}/.config
 .tmux.conf  ${HOME}
 
 # coc
-coc       ${HOME}/.config/coc
+# coc       ${HOME}/.config/coc
 
 # alacritty
 # alacritty/alacritty.yml ${HOME}/.config/alacritty
