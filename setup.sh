@@ -74,9 +74,13 @@ function parse_args() {
 function main() {
 	echo "################### start to setup develop environment  #######################"
 
+	echo "################### start to install prerequire tools  #######################"
 	bash tasks/install-pre-ubuntu.sh
+	echo "################### start to install tools about zsh  #######################"
 	bash tasks/install-around-zsh.sh
+	echo "################### start to install shelldon  #######################"
 	bash tasks/install-sheldon.sh
+	echo "################### start to install neovim  #######################"
 	bash tasks/install-nvim.sh
 
 	if "${SETUP_PYTHON_FLAG}"; then
