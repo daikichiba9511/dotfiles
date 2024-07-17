@@ -203,6 +203,18 @@ function install_sheldon() {
   fi
 }
 
+function install_lazygit() {
+  log INFO 'Install lazygit ✅'
+  if [[ "${OS_TYPE}" = 'Linux' ]]; then
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf /tmp/lazygit.tar.gz /tmp/lazygit
+    sudo install /tmp/lazygit /usr/local/bin
+  elif [[ "${OS_TYPE}" = 'Mac' ]]; then
+    arch -arm64 brew install lazygit
+  fi
+}
+
 function install_neovim() {
   log INFO 'Install neovim ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
@@ -270,6 +282,7 @@ function main() {
   install_delta
   install_sheldon
   install_starship
+  install_lazygit
   install_neovim
 
   # デフォルトのshellをzshにする
