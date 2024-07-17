@@ -2,30 +2,29 @@
 set -eux -o pipefail -o posix
 
 if which sudo >/dev/null 2>&1; then
-	echo "this envrionment has sudo.. so continue to install"
+  echo "this envrionment has sudo.. so continue to install"
 else
-	apt install -y sudo
+  apt install -y sudo
 fi
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y \
-	zsh \
-	gcc \
-	g++ \
-	make \
-	cmake \
-	git \
-	vim \
-	tmux \
-	bat \
-	curl \
-	wget \
-	unzip \
-	skkdic \
-	fd-find \
-	sqlite3 \
-	libsqlite3-dev
-
+  zsh \
+  gcc \
+  g++ \
+  make \
+  cmake \
+  git \
+  vim \
+  tmux \
+  bat \
+  curl \
+  wget \
+  unzip \
+  skkdic \
+  fd-find \
+  sqlite3 \
+  libsqlite3-dev
 
 # For yazi
 # Ref:
@@ -34,8 +33,8 @@ sudo apt install -y \
 # unar: archive preview
 #
 sudo apt install -y \
-	ffmpegthumbnailer \
-	unar
+  ffmpegthumbnailer \
+  unar
 
 # for telescop.nvim
 wget https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -P /tmp
