@@ -1,3 +1,34 @@
+---@return string
+local function get_os_type()
+  local handle = io.popen("uname")
+  if handle == nil then
+    return "unknown"
+  end
+  local result = handle:read("*a")
+  handle:close()
+
+  if result:match("Darwin") then
+    return "macos"
+  elseif result:match("Linux") then
+    return "Linux"
+  else
+    return "unknown"
+  end
+end
+
+---@return string | nil
+local function set_vault_path()
+  local os_type = get_os_type()
+  if os_type == "Linux" then
+    return "~/Dropbox/MyVault"
+  elseif os_type == "macos" then
+    return "~/MyVault"
+  else
+    vim.notify("DETECTED: Unknown OS Type when settting your vault path")
+    return
+  end
+end
+
 return {
   -- treesiter
   {
@@ -155,7 +186,7 @@ return {
       workspaces = {
         {
           name = "MyVault",
-          path = "~/Dropbox/MyValut/",
+          path = set_vault_path(),
         },
       },
     },

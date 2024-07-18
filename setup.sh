@@ -233,6 +233,20 @@ function install_neovim() {
   fi
 }
 
+function install_nodejs() {
+  log INFO 'Install nodejs@22 ✅'
+  if [[ "${OS_TYPE}" = 'Linux' ]]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    nvm install 22
+
+  elif [[ "${OS_TYPE}" = 'Mac' ]]; then
+    if [[ -x "$(commnd -v node) " ]]; then
+      brew uninstall node@22
+    fi
+    brew install node@22
+  fi
+}
+
 # ${#<配列変数>} 配列のサイズ取得
 # if [[ "${#ARGS[@]}" ]]
 
@@ -284,6 +298,7 @@ function main() {
   install_starship
   install_lazygit
   install_neovim
+  install_nodejs
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
