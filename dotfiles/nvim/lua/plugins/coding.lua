@@ -237,13 +237,25 @@ return {
       },
     },
   },
+  -- symbolのレンダリングの位置が日本語だと微妙なので。。
+  -- {
+  --   "MeanderingProgrammer/markdown.nvim",
+  --   name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   config = function()
+  --     require("render-markdown").setup({
+  --       bullet = {
+  --         icons = { "● ", "○ ", "◆ ", "◇ " },
+  --       },
+  --     })
+  --   end,
+  -- },
   {
-    "MeanderingProgrammer/markdown.nvim",
-    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("render-markdown").setup()
-    end,
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {
+      markdown = { bullets = { "● ", "○ ", "◆ ", "◇ " } },
+    },
   },
   -- ToggleTerm
   {
