@@ -1,4 +1,4 @@
-local opt = vim.opt
+local opt = vim.o
 local keymap = vim.api.nvim_set_keymap
 
 opt.shell = "zsh"
