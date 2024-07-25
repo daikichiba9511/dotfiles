@@ -39,7 +39,7 @@ function log() {
     ;;
   esac
 
-  echo "[${color}${level}${reset}] : [$(date '+%Y-%m-%d %H:%M:%S')] : $*"
+  echo -e "[${color}${level}${reset}] : [$(date '+%Y-%m-%d %H:%M:%S')] : $*"
 }
 
 ##############################################
