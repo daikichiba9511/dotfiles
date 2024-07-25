@@ -260,7 +260,7 @@ function install_nodejs() {
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     # source "${HOME}/.profile"
     bash "${HOME}/.nvm/nvm.sh"
-    /usr/nvm install 22
+    nvm install 22
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     if [[ -x "$(commnd -v node) " ]]; then
