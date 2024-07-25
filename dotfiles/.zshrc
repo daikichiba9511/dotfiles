@@ -90,8 +90,10 @@ fi
 # ====================================
 # -- Rust
 # ====================================
-export PATH=$HOME/.config/coc/extensions/node_modules:$PATH
-. "$HOME/.cargo/env"
+if [[ -d "$HOME/.cargo" ]]; then
+  # export PATH="$HOME/.cargo/bin:$PATH"
+  . "$HOME/.cargo/env"
+fi
 
 # ====================================
 # -- Go
