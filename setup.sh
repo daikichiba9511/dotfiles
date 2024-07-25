@@ -258,8 +258,8 @@ function install_nodejs() {
   log INFO 'Install nodejs@22 ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    source "${HOME}/.profile"
-    # bash "${HOME}/.nvm/nvm.sh"
+    # source "${HOME}/.profile"
+    bash "${HOME}/.nvm/nvm.sh"
     /usr/nvm install 22
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
