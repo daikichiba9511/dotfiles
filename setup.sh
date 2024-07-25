@@ -227,9 +227,10 @@ function install_lazygit() {
   log INFO 'Install lazygit ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-    curl -Lo /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-    tar xf /tmp/lazygit.tar.gz /tmp/lazygit
-    sudo install /tmp/lazygit /usr/local/bin
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+    sudo rm lazygit.tar.gz lazygit
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install lazygit
   fi
