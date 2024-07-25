@@ -19,7 +19,27 @@ OS_TYPE='Linux'
 function log() {
   local level="${1}"
   shift
-  echo "[${level}] : [$(date '+%Y-%m-%d %H:%M:%S')] : $*"
+  local color
+  local reset="\033[0m"
+  case "${level}" in
+  INFO)
+    color="\033[0;32m" # Green
+    ;;
+  WARN)
+    color="\033[0;33m" # Yellow
+    ;;
+  ERROR)
+    color="\033[0;31m" # Red
+    ;;
+  DEBUG)
+    color="\033[0;36m" # Cyan
+    ;;
+  *)
+    color="\033[0;37m" # White
+    ;;
+  esac
+
+  echo "[${color}${level}${reset}] : [$(date '+%Y-%m-%d %H:%M:%S')] : $*"
 }
 
 ##############################################
@@ -305,6 +325,7 @@ function main() {
   fi
 
   # Ubuntu & Mac(M3)
+  mkdir -p "${HOME}/.local/bin"
   install_ripgrep
   install_lsd
   install_bat

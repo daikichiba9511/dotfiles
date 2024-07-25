@@ -78,16 +78,20 @@ export JULIA_NUM_THREADS=4
 # ====================================
 # -- Python (pyenv)
 # ====================================
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init --path)"
+fi
+if [[ -d "$HOME/.rye" ]]; then
+  . "$HOME/.rye/env"
 fi
 
 # ====================================
 # -- Rust
 # ====================================
 export PATH=$HOME/.config/coc/extensions/node_modules:$PATH
+. "$HOME/.cargo/env"
 
 # ====================================
 # -- Go
