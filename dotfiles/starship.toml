@@ -61,10 +61,11 @@ style = "fg:#FFFFFF bold bg:#6998AB"
 
 [git_status]
 format = '[ \[$all_status$ahead_behind \] ](fg:#f7ff93 bold bg:#88abba )[ ](fg:#88abba)'
-behind = '[\[UP TO DATE\]](fg:green bold bg:#88abba)'
-ahead = '[$count BIHIND](fg:red bold bg:#88abba)'
+up_to_date = ' [\[UPTODATE\]](fg:green bold bg:#88abba)'
+behind = ' [$count BIHIND](fg:red bold bg:#88abba)'
+ahead = ' [$count AHEAD](fg:red bold bg:#88abba)'
 modified = ' [$count MODIFIED](fg:#ff8247 bold bg:#88abba)'
-staged = '[$count STAGING](fg:green bold bg:#88abba)'
+staged = ' [$count STAGING](fg:green bold bg:#88abba)'
 
 [character]
 success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
