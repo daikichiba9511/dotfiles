@@ -37,14 +37,6 @@ etc.
 - starship (prompt)
 - nodejs == 22.x
 
-## Screenshot
-
-- screenshot on macos
-
-![screenshot-on-macos](./assets/neovim-tokyonight-20221124.png)
-
-![screenshot-telescope-on-macos](./assets/neovim-tokyonight-telescope-20221124.png)
-
 ## How
 
 - procedure
