@@ -60,7 +60,11 @@ format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff8247 bold bg:#6998AB)[ $b
 style = "fg:#FFFFFF bold bg:#6998AB"
 
 [git_status]
-format='[ \[$all_status$ahead_behind\] ](fg:#f7ff93 bold bg:#88abba)[ ](fg:#88abba)'
+format = '[ \[$all_status$ahead_behind \] ](fg:#f7ff93 bold bg:#88abba )[ ](fg:#88abba)'
+behind = '[\[UP TO DATE\]](fg:green bold bg:#88abba)'
+ahead = '[$count BIHIND](fg:red bold bg:#88abba)'
+modified = ' [$count MODIFIED](fg:#ff8247 bold bg:#88abba)'
+staged = '[$count STAGING](fg:green bold bg:#88abba)'
 
 [character]
 success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
@@ -77,4 +81,3 @@ style = "bold green"
 [rust]
 format = "[$symbol$version]($style) "
 style = "bold green"
-
