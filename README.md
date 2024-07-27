@@ -57,13 +57,13 @@ etc.
 one-line commands
 
 ```sh
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && bash setup.sh && cd -
+git clone --depth 1 git@github.com:daikichiba9511/dotfiles.git ~/dotfiles && cd ~/dotfiles && bash setup.sh && cd -
 ```
 
 ### 1. clone this repository
 
 ```sh
-git clone git@github.com:daikichiba9511/dotfiles.git ~/dotfiles
+git clone --depth 1 git@github.com:daikichiba9511/dotfiles.git ~/dotfiles
 ```
 
 ### 2. move
