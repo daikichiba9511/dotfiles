@@ -54,6 +54,7 @@ fi
 
 # -- sheldon : zsh plugin manager
 eval "$(sheldon source)"
+
 # -- git
 alias g="git"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -197,26 +198,6 @@ export PATH="${PATH}:${HOME}/.fzf_bin/bin"  # for fzf installed via ~/.fzf_bin/i
 export FZF_TMUX=1
 export FZF_TMUX_OPTS="-p 80%"
 
-# export FZF_DEFAULT_OPTS=$(cat << "EOS"
-# --bind "ctrl-y:execute-silent(echo {+} | pbcopy)"
-# --bind "ctrl-v:execute(echo {+} | xargs -o nvim)"
-# --bind "ctrl-t:toggle-preview"
-# --preview "
-# if file --mime-type {} | grep -qF image/; then
-#   img2sixel {}
-#   # img2sixel -w ${FZF_PREVIEW_COLUMNS} -h ${FZF_PREVIEW_LINES} {}
-#   # fzf-preview.sh {}
-#   # chafa -f iterm -s ${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES} {}
-#   echo
-# else
-#   bat --style=numbers --color=always --line-range :500 {}
-# fi
-# "
-# --preview-window=down,border-top
-# --reverse
-# --border=rounded
-# EOF
-# )
 export FZF_DEFAULT_OPTS=$(cat << "EOF"
 --bind "ctrl-y:execute-silent(echo {+} | pbcopy)"
 --bind "ctrl-v:execute(echo {+} | xargs -o nvim)"
