@@ -286,6 +286,16 @@ function install_github_cli() {
   fi
 }
 
+function install_fd-find() {
+  log INFO 'Install fd-find ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    sudo apt install fd-find
+    ln -s "$(which fdfind)" ~/.local/bin/fd
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    arch -arm64 brew install fd
+  fi
+}
+
 # ${#<配列変数>} 配列のサイズ取得
 # if [[ "${#ARGS[@]}" ]]
 
@@ -308,7 +318,7 @@ function main() {
     install_package curl
     install_package wget
     install_package unzip
-    install_package fd-find
+
     install_package sqlite3
     install_package libsqlite3-dev
 
@@ -324,7 +334,6 @@ function main() {
       tmux \
       curl \
       wget \
-      fd \
       sqlite3
   fi
 
@@ -332,6 +341,7 @@ function main() {
   mkdir -p "${HOME}/.local/bin"
   install_ripgrep
   install_lsd
+  install_fd-find
   install_bat
   install_delta
   install_fzf
