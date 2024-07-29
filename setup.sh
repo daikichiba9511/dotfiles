@@ -286,7 +286,7 @@ function install_github_cli() {
   fi
 }
 
-function install_fd-find() {
+function install_fdfind() {
   log INFO 'Install fd-find ✅'
   if [[ ${OS_TYPE} = 'Linux' ]]; then
     sudo apt install fd-find
@@ -341,7 +341,7 @@ function main() {
   mkdir -p "${HOME}/.local/bin"
   install_ripgrep
   install_lsd
-  install_fd-find
+  install_fdfind
   install_bat
   install_delta
   install_fzf
