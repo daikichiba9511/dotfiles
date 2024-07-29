@@ -172,6 +172,8 @@ function install_bat() {
   log INFO "Install 'bat' ✅"
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
     install_package bat
+    # /usr/bin/batcatでインストールされるので ~/.local/bin/batにリンク貼る
+    ls -s /usr/bin/batcat ~/.local/bin/bat
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install bat
   fi
@@ -332,6 +334,7 @@ function main() {
   install_lsd
   install_bat
   install_delta
+  install_fzf
   install_sheldon
   install_starship
   install_lazygit
