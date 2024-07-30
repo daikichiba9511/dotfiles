@@ -173,7 +173,9 @@ function install_bat() {
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
     install_package bat
     # /usr/bin/batcatでインストールされるので ~/.local/bin/batにリンク貼る
-    ls -s /usr/bin/batcat ~/.local/bin/bat
+    [ -f ~/.local/bin/bat ] && rm -f ~/.local/bin/bat
+    [ -f /usr/bin/batcat ] && sudo rm -f /usr/bin/bat
+    ln -s /usr/bin/batcat ~/.local/bin/bat
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install bat
   fi
@@ -290,6 +292,7 @@ function install_fdfind() {
   log INFO 'Install fd-find ✅'
   if [[ ${OS_TYPE} = 'Linux' ]]; then
     sudo apt install fd-find
+    [ -f ~/.local/bin/fd ] && rm -f ~/.local/bin/fd
     ln -s "$(which fdfind)" ~/.local/bin/fd
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
     arch -arm64 brew install fd
