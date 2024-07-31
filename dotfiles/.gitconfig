@@ -1,36 +1,37 @@
 [user]
-    email = daikichiba.tech.ml@gmail.com
-    name = daikichiba9511
+  email = daikichiba.tech.ml@gmail.com
+  name = daikichiba9511
+  signingkey = 18F29E9CF0F33872
 [core]
-    editor = nvim
-    pager = delta
+  editor = nvim
+  pager = delta
 
 [alias]
-    a = add --verbose
-    cm = commit
-    df = diff
-    sw = switch
-    cob = checkout -b
-    pl = pull
-    po = push origin
-    ri = rebase -i
-    rc = rebase --continue
-    s = status
-    ss = status -s
-    su = status -u
+  a = add --verbose
+  cm = commit
+  df = diff
+  sw = switch
+  cob = checkout -b
+  pl = pull
+  po = push origin
+  ri = rebase -i
+  rc = rebase --continue
+  s = status
+  ss = status -s
+  su = status -u
 
 [safe]
-    directory = /workspace/working
+  directory = /workspace/working
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 [delta]
-    line-numbers = true
-    dark = true
+  line-numbers = true
+  dark = true
 [delta "line-number"]
-    line-numbers-left-style = cyan
+  line-numbers-left-style = cyan
 [merge]
-    conflictstyle = diff3
-    tool = vimdiff
+  conflictstyle = diff3
+  tool = vimdiff
 [init]
 	defaultBranch = main
 [mergetool]
@@ -38,3 +39,4 @@
   keepBackup = false
 [commit]
   verbose = true
+  gpgsing = true
