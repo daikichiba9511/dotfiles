@@ -39,4 +39,4 @@
   keepBackup = false
 [commit]
   verbose = true
-  gpgsing = true
+  gpgsign = true
