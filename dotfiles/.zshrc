@@ -57,6 +57,17 @@ fi
 eval "$(sheldon source)"
 
 # -- git
+# 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# -- 補完候補を詰めて表示
+setopt list_packed
+autoload colors
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+autoload -Uz compinit && compinit -i # Gitの補完を有効化
+export fpath=(~/.zsh/completion $fpath)
+fpath+=~/.zfunc
+
+
 alias g="git"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias lg="lazygit"
@@ -132,16 +143,9 @@ unsetopt beep
 # -- ディレクトリスタック
 DIRSTACKSIZE=100
 setopt AUTO_PUSHD
-# -- 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-# -- 補完候補を詰めて表示
-setopt list_packed
 # --コマンドのスペルを訂正
 setopt correct
 
-# -- Git
-autoload -Uz compinit && compinit -i # Gitの補完を有効化
-export fpath=(~/.zsh/completion $fpath)
 # -- Julia
 export JULIA_VER=1.7.1
 export JULIA_NUM_THREADS=4
@@ -334,5 +338,6 @@ export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:${LD_LIBRARY_PATH}
 export PATH=/usr/local/cuda-11.8/bin:${PATH}
 #--- nnn
 export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
+
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
