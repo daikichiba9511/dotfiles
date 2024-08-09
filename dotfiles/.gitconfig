@@ -1,7 +1,7 @@
 [user]
   email = daikichiba.tech.ml@gmail.com
   name = daikichiba9511
-  signingkey = 18F29E9CF0F33872
+  signingkey = E8E94E2A3C8A9567
 [core]
   editor = nvim
   pager = delta
