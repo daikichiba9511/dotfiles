@@ -201,18 +201,6 @@ return {
   --   },
   --   -- See Commands section for default commands if you want to lazy load on them
   -- },
-  { import = "lazyvim.plugins.extras.coding.copilot" },
-  { import = "lazyvim.plugins.extras.coding.copilot-chat" },
-  { import = "lazyvim.plugins.extras.editor.telescope" },
-  -- 言語ごとの設定
-  { import = "lazyvim.plugins.extras.lang.clangd" },
-  { import = "lazyvim.plugins.extras.lang.python" },
-  { import = "lazyvim.plugins.extras.lang.rust" },
-  { import = "lazyvim.plugins.extras.lang.sql" },
-  { import = "lazyvim.plugins.extras.lang.terraform" },
-  { import = "lazyvim.plugins.extras.lang.toml" },
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-  { import = "lazyvim.plugins.extras.lang.yaml" },
 
   -- Bufdelete
   {
