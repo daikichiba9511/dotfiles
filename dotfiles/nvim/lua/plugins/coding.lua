@@ -254,4 +254,34 @@ return {
       hide_numbers = true,
     },
   },
+  -- {
+  --   "3rd/image.nvim",
+  --   -- Disable on Windows system
+  --   cond = function()
+  --     return vim.fn.has("win32") ~= 1
+  --   end,
+  --   dependencies = {
+  --     "leafo/magick",
+  --   },
+  --   opts = {
+  --     -- image.nvim config
+  --   },
+  -- },
+  -- {
+  --   "3rd/diagram.nvim",
+  --   dependencies = {
+  --     "3rd/image.nvim",
+  --   },
+  --   opts = { -- you can just pass {}, defaults below
+  --     renderer_options = {
+  --       mermaid = {
+  --         background = nil, -- nil | "transparent" | "white" | "#hex"
+  --         theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
+  --       },
+  --     },
+  --     integrations = {
+  --       require("diagram.integrations.markdown"),
+  --     },
+  --   },
+  -- },
 }
