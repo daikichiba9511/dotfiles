@@ -109,7 +109,8 @@ augroup END
 call plug#begin()
 
 " カラースキーム
-Plug 'cocopon/iceberg.vim'
+" Plug 'cocopon/iceberg.vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 " Lsp系
 Plug 'prabirshrestha/vim-lsp'
@@ -131,6 +132,8 @@ call plug#end()
 " }}}
 
 " カラースキーム
-set background=dark
-colorscheme iceberg
+" set background=dark
+" colorscheme iceberg
+colorscheme catppuccin_mocha
+
 
