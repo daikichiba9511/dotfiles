@@ -34,7 +34,7 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export PATH="${PATH}:./node_modules/.bin"
 export XDG_STATE_HOME="${HOME}/.local/state"
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin"
-export GPG_TTY="${TTY}"  # 署名付きコミットをするために必要
+export GPG_TTY="$(tty)"  # 署名付きコミットをするために必要
 
 if type "xsel" > /dev/null; then
     alias pbcopy='xsel  --clipboard --input'
