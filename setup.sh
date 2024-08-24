@@ -261,7 +261,9 @@ function install_neovim() {
 function install_nodejs() {
   log INFO 'Install nodejs@22 ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    export NVM_DIR="${HOME}/.nvm"
+    [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | sudo bash
     # source "${HOME}/.bashrc"
     # nvm install 22
 
