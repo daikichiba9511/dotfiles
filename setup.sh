@@ -263,6 +263,7 @@ function install_nodejs() {
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
     export NVM_DIR="${HOME}/.nvm"
     [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
+    mkdir -p "${NVM_DIR}"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     source "${HOME}/.zshrc"
     # nvm install 22
