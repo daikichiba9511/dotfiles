@@ -305,6 +305,9 @@ function install_fdfind() {
 function main() {
   log INFO "################### start to setup develop environment  #######################"
 
+  log INFO '###### Sync dotfiles to your environment #######'
+  bash tasks/link.sh
+
   log INFO "################### start to install prerequire tools  #######################"
   if [ "${OS_TYPE}" = 'Linux' ]; then
     install_package sudo
@@ -354,16 +357,13 @@ function main() {
   install_starship
   install_lazygit
   install_neovim
-  install_nodejs
   install_github_cli
+  install_nodejs
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
     sudo chsh "${USER}" -s "$(which zsh)"
   fi
-
-  log INFO '###### Sync dotfiles to your environment #######'
-  bash tasks/link.sh
 
   log INFO '=================== ✅Finished setup of develop environment  ================='
 }
