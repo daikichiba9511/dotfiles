@@ -321,9 +321,10 @@ return {
   -- },
   {
     "ojroques/nvim-osc52",
-    keys = {
-      { "n", "<leader>c", 'require("osc52").copy_operator', { expr = true } },
-      { "v", "<leader>c", 'require("osc52").copy_visual' },
-    },
+    config = function()
+      vim.keymap.set("n", "<leader>ctl", require("osc52").copy_operator, { expr = true, desc = "Copy text object" })
+      vim.keymap.set("n", "<leader>cc", "<leader>c_", { remap = true })
+      vim.keymap.set("v", "<leader>ctl", require("osc52").copy_visual, { desc = "Copy visual selection" })
+    end,
   },
 }
