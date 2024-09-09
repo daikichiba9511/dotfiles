@@ -418,7 +418,7 @@ local config = {
 
   send_composed_key_when_left_alt_is_pressed = true,
   -- debug_key_events = true,
-
+  macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
   -- transparency settings
   window_background_opacity = 0.80,
   text_background_opacity = 1.0,
