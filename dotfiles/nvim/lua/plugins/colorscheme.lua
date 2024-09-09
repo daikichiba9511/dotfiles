@@ -3,10 +3,10 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "carbonfox",
-      colorscheme = "tokyonight",
+      -- colorscheme = "tokyonight",
       -- colorscheme = "nightfox",
       -- colorscheme = "onedark",
-      -- colorscheme = "catppuccin",
+      colorscheme = "catppuccin",
     },
   },
   {
@@ -38,8 +38,13 @@ return {
       transparent_background = true, -- disables setting the background color.
       no_italics = true,
       no_bold = true,
+      no_underline = true,
+      styles = {
+        comments = {},
+        keywords = {},
+      },
+      name = "catppuccin",
     },
-    name = "catppuccin",
   },
   {
     "navarasu/onedark.nvim",

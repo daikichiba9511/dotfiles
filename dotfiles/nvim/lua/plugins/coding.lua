@@ -226,24 +226,59 @@ return {
     },
   },
   -- symbolのレンダリングの位置が日本語だと微妙なので。。
-  -- {
-  --   "MeanderingProgrammer/markdown.nvim",
-  --   name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  --   config = function()
-  --     require("render-markdown").setup({
-  --       bullet = {
-  --         icons = { "● ", "○ ", "◆ ", "◇ " },
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("render-markdown").setup({
+        file_types = { "markdown", "norg", "rmd", "org" },
+        code = {
+          sign = false,
+          width = "block",
+          right_pad = 1,
+        },
+        heading = {
+          sign = false,
+          icons = {},
+        },
+        bullet = {
+          enabled = true,
+          icons = { "●", "○", "◆", "◇" },
+          right_pad = 1,
+        },
+      })
+    end,
+  },
   -- {
   --   "lukas-reineke/headlines.nvim",
   --   dependencies = "nvim-treesitter/nvim-treesitter",
   --   opts = {
   --     markdown = { bullets = { "● ", "○ ", "◆ ", "◇ " } },
   --   },
+  -- },
+  -- {
+  --   "MeanderingProgrammer/render-markdown.nvim",
+  --   opts = {
+  --     file_types = { "markdown", "norg", "rmd", "org" },
+  --     code = {
+  --       sign = false,
+  --       width = "block",
+  --       right_pad = 1,
+  --     },
+  --     heading = {
+  --       sign = false,
+  --       icons = {},
+  --     },
+  --     bullet = {
+  --       enabled = true,
+  --       icons = { "●", "○", "◆", "◇" },
+  --       right_pad = 2,
+  --     },
+  --   },
+  -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+  -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+  --   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
   -- },
   -- ToggleTerm
   {
@@ -284,4 +319,11 @@ return {
   --     },
   --   },
   -- },
+  {
+    "ojroques/nvim-osc52",
+    keys = {
+      { "n", "<leader>c", 'require("osc52").copy_operator', { expr = true } },
+      { "v", "<leader>c", 'require("osc52").copy_visual' },
+    },
+  },
 }
