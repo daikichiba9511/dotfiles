@@ -5,14 +5,38 @@
 local wezterm = require("wezterm")
 local utils = require("utils")
 
+local function get_os_type()
+  local handle = io.popen("uname")
+  if handle == nil then
+    return "unknown"
+  end
+  local result = handle:read("*a")
+  handle:close()
+
+  -- log(string.format("DETECTED: OS Type %s", result), "INFO", true)
+  if result:match("Darwin") then
+    return "macos"
+  elseif result:match("Linux") then
+    return "Linux"
+  else
+    return "unknown"
+  end
+end
+
+local os_type = get_os_type()
+-- OPT単体だとmacだと入力が変わってしまうのでOPT+h/j/k/lの入力がうまく行かない
+-- Reference:
+-- [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
+local mod_key_mac_or_linux = os_type == "macos" and "OPT|CMD" or "ALT"
+
 ---------------------------------------------------------------
 --- keybinds
 ---------------------------------------------------------------
 local tmux_keybinds = {
-  { key = "k", mods = "ALT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-  { key = "j", mods = "ALT", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
-  { key = "h", mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
-  { key = "l", mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+  { key = "k", mods = mod_key_mac_or_linux, action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
+  { key = "j", mods = mod_key_mac_or_linux, action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
+  { key = "h", mods = mod_key_mac_or_linux, action = wezterm.action({ ActivateTabRelative = -1 }) },
+  { key = "l", mods = mod_key_mac_or_linux, action = wezterm.action({ ActivateTabRelative = 1 }) },
   { key = "h", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = -1 }) },
   { key = "l", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = 1 }) },
   { key = "k", mods = "ALT|CTRL", action = "ActivateCopyMode" },
@@ -417,6 +441,7 @@ local config = {
   tab_and_split_indices_are_zero_based = true,
 
   send_composed_key_when_left_alt_is_pressed = true,
+  send_composed_key_when_right_alt_is_pressed = false,
   -- debug_key_events = true,
   macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
   -- transparency settings
