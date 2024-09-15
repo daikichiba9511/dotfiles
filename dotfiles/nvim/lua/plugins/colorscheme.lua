@@ -1,3 +1,6 @@
+vim.opt.termguicolors = true
+vim.opt.background = "dark"
+
 return {
   {
     "LazyVim/LazyVim",
@@ -12,8 +15,8 @@ return {
   {
     "folke/tokyonight.nvim",
     opts = {
-      -- style = "night",
-      style = "moon",
+      style = "night",
+      -- style = "moon",
       styles = {
         comments = { italic = false },
         keywords = { italic = false },

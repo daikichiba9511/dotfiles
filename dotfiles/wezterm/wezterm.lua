@@ -27,7 +27,7 @@ local os_type = get_os_type()
 -- OPT単体だとmacだと入力が変わってしまうのでOPT+h/j/k/lの入力がうまく行かない
 -- Reference:
 -- [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
-local mod_key_mac_or_linux = os_type == "macos" and "OPT|CMD" or "ALT"
+local mod_key_mac_or_linux = os_type == "macos" and "CTRL|CMD" or "ALT"
 
 ---------------------------------------------------------------
 --- keybinds

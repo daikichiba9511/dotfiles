@@ -302,6 +302,18 @@ function install_fdfind() {
   fi
 }
 
+function install_yazi() {
+  log INFO 'Install yazi ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    wget https://github.com/sxyazi/yazi/releases/download/v0.3.3/yazi-x86_64-unknown-linux-gnu.zip -P /tmp
+    unzip /tmp/yazi-x86_64-unknown-linux-gnu.zip -d "${HOME}/.local/bin"
+    mv "${HOME}/.local/bin/yazi-x86_64-unknown-linux-gnu" "${HOME}/.local/bin/yazi"
+    rm /tmp/yazi-x86_64-unknown-linux-gnu.zip
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    arch -arm64 brew install --HEAD yazi
+  fi
+}
+
 # ${#<配列変数>} 配列のサイズ取得
 # if [[ "${#ARGS[@]}" ]]
 
