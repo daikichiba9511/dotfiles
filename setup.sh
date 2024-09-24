@@ -316,6 +316,7 @@ function install_yazi() {
 
 function install_tmux_plugin_manager() {
   log INFO 'Install tmux plugin manager ✅'
+  [ -d "${HOME}/.tmux/plugins/tpm" ] && rm -rf "${HOME}/.tmux/plugins/tpm"
   git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 }
 
