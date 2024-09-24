@@ -307,11 +307,16 @@ function install_yazi() {
   if [[ ${OS_TYPE} = 'Linux' ]]; then
     wget https://github.com/sxyazi/yazi/releases/download/v0.3.3/yazi-x86_64-unknown-linux-gnu.zip -P /tmp
     unzip /tmp/yazi-x86_64-unknown-linux-gnu.zip -d "${HOME}/.local/bin"
-    mv "${HOME}/.local/bin/yazi-x86_64-unknown-linux-gnu" "${HOME}/.local/bin/yazi"
+    sudo ln -s "${HOME}/.local/bin/yazi-x86_64-unknown-linux-gnu/yazi" "${HOME}/.local/bin/yazi"
     rm /tmp/yazi-x86_64-unknown-linux-gnu.zip
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
     arch -arm64 brew install --HEAD yazi
   fi
+}
+
+function install_tmux_plugin_manager() {
+  log INFO 'Install tmux plugin manager ✅'
+  git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 }
 
 # ${#<配列変数>} 配列のサイズ取得
@@ -374,6 +379,7 @@ function main() {
   install_neovim
   install_github_cli
   install_nodejs
+  install_tmux_plugin_manager
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
