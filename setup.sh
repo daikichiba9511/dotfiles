@@ -379,8 +379,8 @@ function main() {
   install_lazygit
   install_neovim
   install_github_cli
-  install_nodejs
   install_tmux_plugin_manager
+  install_nodejs
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
