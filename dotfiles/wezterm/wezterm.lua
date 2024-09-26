@@ -62,7 +62,7 @@ local tmux_keybinds = {
       SplitHorizontal = { domain = "CurrentPaneDomain" },
     }),
   },
-  { key = "w", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
+  { key = "w", mods = mod_key_mac_or_linux, action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
   { key = "h", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
   { key = "l", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
   { key = "k", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
@@ -123,37 +123,37 @@ end
 ---------------------------------------------------------------
 --- wezterm on
 ---------------------------------------------------------------
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local user_title = tab.active_pane.user_vars.panetitle
-  if user_title ~= nil and #user_title > 0 then
-    return {
-      { Text = tab.tab_index + 1 .. ":" .. user_title },
-    }
-  end
-
-  local title = wezterm.truncate_right(utils.basename(tab.active_pane.foreground_process_name), max_width)
-  if title == "" then
-    -- local uri = utils.convert_home_dir(tab.active_pane.current_working_dir)
-    -- local basename = utils.basename(uri)
-    -- if basename == "" then
-    --  basename = uri
-    -- end
-    -- title = wezterm.truncate_right(basename, max_width)
-    local dir = string.gsub(tab.active_pane.title, "(.*[: ])(.*)", "%2")
-    title = wezterm.truncate_right(dir, max_width)
-  end
-
-  -- https://github.com/wez/wezterm/issues/1881
-  local pane = tab.active_pane
-  if pane.domain_name then
-    title = title .. " - (" .. pane.domain_name .. ")"
-  end
-
-  return {
-    { Text = tab.tab_index + 1 .. ":" .. title },
-  }
-end)
-
+-- wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+--   local user_title = tab.active_pane.user_vars.panetitle
+--   if user_title ~= nil and #user_title > 0 then
+--     return {
+--       { Text = tab.tab_index + 1 .. ":" .. user_title },
+--     }
+--   end
+--
+--   local title = wezterm.truncate_right(utils.basename(tab.active_pane.foreground_process_name), max_width)
+--   if title == "" then
+--     -- local uri = utils.convert_home_dir(tab.active_pane.current_working_dir)
+--     -- local basename = utils.basename(uri)
+--     -- if basename == "" then
+--     --  basename = uri
+--     -- end
+--     -- title = wezterm.truncate_right(basename, max_width)
+--     local dir = string.gsub(tab.active_pane.title, "(.*[: ])(.*)", "%2")
+--     title = wezterm.truncate_right(dir, max_width)
+--   end
+--
+--   -- https://github.com/wez/wezterm/issues/1881
+--   local pane = tab.active_pane
+--   if pane.domain_name then
+--     title = title .. " - (" .. pane.domain_name .. ")"
+--   end
+--
+--   return {
+--     { Text = tab.tab_index + 1 .. ":" .. title },
+--   }
+-- end)
+--
 -- https://github.com/wez/wezterm/issues/1680
 -- local function update_window_background(window, pane)
 --   local overrides = window:get_config_overrides() or {}
@@ -400,6 +400,35 @@ local function get_fonts()
   end
 end
 
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local background = "#5c6d74"
+  local foreground = "#FFFFFF"
+  local edge_background = "none"
+
+  if tab.is_active then
+    background = "#ae8b2d"
+    foreground = "#FFFFFF"
+  end
+
+  local edge_foreground = background
+  local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+
+  return {
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_LEFT_ARROW },
+    { Background = { Color = background } },
+    { Foreground = { Color = foreground } },
+    { Text = title },
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_RIGHT_ARROW },
+  }
+end)
+
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
@@ -437,9 +466,23 @@ local config = {
   -- color_scheme = "3024 (base16)",
   adjust_window_size_when_changing_font_size = false,
 
+  hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = true,
   tab_and_split_indices_are_zero_based = true,
-
+  show_new_tab_button_in_tab_bar = false,
+  show_close_tab_button_in_tabs = false,
+  colors = {
+    tab_bar = {
+      inactive_tab_edge = "none",
+    },
+  },
+  window_frame = {
+    inactive_titlebar_bg = "none",
+    active_titlebar_bg = "none",
+  },
+  window_background_gradient = {
+    colors = { "#000000" },
+  },
   send_composed_key_when_left_alt_is_pressed = true,
   send_composed_key_when_right_alt_is_pressed = false,
   -- debug_key_events = true,
@@ -469,7 +512,8 @@ local config = {
   -- Hide title bar
   -- Ref:
   -- [1] https://wezfurlong.org/wezterm/config/lua/config/window_decorations.html
-  window_decorations = "RESIZE|INTEGRATED_BUTTONS",
+  -- window_decorations = "RESIZE|INTEGRATED_BUTTONS",
+  window_decorations = "RESIZE",
   disable_default_key_bindings = true,
   visual_bell = {
     fade_in_function = "EaseIn",
