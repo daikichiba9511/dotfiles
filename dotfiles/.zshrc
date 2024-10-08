@@ -209,10 +209,13 @@ export FZF_DEFAULT_OPTS=$(cat << "EOF"
 --bind "ctrl-t:toggle-preview"
 --preview "
 if file --mime-type {} | grep -qF image/; then
-  img2sixel {}
+  # dim=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}
+  dim=400x400
+  height=$(echo $dim | cut -d x -f 2)
+  width=$(echo $dim | cut -d x -f 1)
+  img2sixel --height=$height --width=$width {}
   # img2sixel -w \${FZF_PREVIEW_COLUMNS} -h \${FZF_PREVIEW_LINES} {}
   # fzf-preview.sh {}
-  # chafa -f iterm -s \${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES} {}
   echo
 else
   bat --style=numbers --color=always --line-range :500 {}
@@ -330,6 +333,7 @@ function fic() {
         eval "${img_cat_cmd} '${filename}'"
     fi
 }
+
 #--- Haskell
 [ -f "/home/d-chiba/.ghcup/env" ] && source "/home/d-chiba/.ghcup/env" # ghcup-env
 #--- Cuda
