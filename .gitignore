@@ -9,3 +9,4 @@ dotfiles/nvim/pack
 dotfiles/nvim/plugin
 startuptime.log
 *.log
+yazi
