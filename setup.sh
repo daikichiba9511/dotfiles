@@ -324,7 +324,7 @@ function install_wezterm() {
   log INFO 'Install wezterm ✅'
   if [[ ${OS_TYPE} = 'Linux' ]]; then
     wget https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu22.04.deb -P /tmp
-    sudo apt install /tmp/wezterm-nightly.Ubuntu22.04.deb
+    sudo apt install -yq /tmp/wezterm-nightly.Ubuntu22.04.deb
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
     brew install --cask wezterm-nightly
   fi
