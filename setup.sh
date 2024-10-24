@@ -361,7 +361,7 @@ function main() {
 
     install_package powerline
     install_package fonts-powerline
-    install_package python3.9-venv # for ruff
+    install_package python3-venv # for ruff
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install \
