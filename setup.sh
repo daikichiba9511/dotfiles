@@ -320,6 +320,16 @@ function install_tmux_plugin_manager() {
   git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 }
 
+function install_wezterm() {
+  log INFO 'Install wezterm ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    wget https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu22.04.deb -P /tmp
+    sudo apt install /tmp/wezterm-nightly.Ubuntu22.04.deb
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    brew install --cask wezterm-nightly
+  fi
+}
+
 # ${#<配列変数>} 配列のサイズ取得
 # if [[ "${#ARGS[@]}" ]]
 
@@ -351,7 +361,7 @@ function main() {
 
     install_package powerline
     install_package fonts-powerline
-    install_package python3-venv # for ruff
+    install_package python3.9-venv # for ruff
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install \
@@ -380,6 +390,7 @@ function main() {
   install_neovim
   install_github_cli
   install_tmux_plugin_manager
+  install_wezterm
   install_nodejs
 
   # デフォルトのshellをzshにする
