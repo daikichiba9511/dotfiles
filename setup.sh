@@ -314,6 +314,20 @@ function install_yazi() {
   fi
 }
 
+function install_tmux() {
+  log INFO 'Install tmux ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    wget https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz -P /tmp
+    cd /tmp
+    tar -zxf tmux-*.tar.gz
+    cd tmux-*/
+    ./configure --prefix="${HOME}/.local"
+    make && sudo make install
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    brew install tmux
+  fi
+}
+
 function install_tmux_plugin_manager() {
   log INFO 'Install tmux plugin manager ✅'
   [ -d "${HOME}/.tmux/plugins/tpm" ] && rm -rf "${HOME}/.tmux/plugins/tpm"
@@ -350,7 +364,7 @@ function main() {
     install_package cmake
     install_package git
     install_package vim
-    install_package tmux
+    # install_package tmux
     install_package bat
     install_package curl
     install_package wget
