@@ -28,6 +28,7 @@ local os_type = get_os_type()
 -- Reference:
 -- [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
 local mod_key_mac_or_linux = os_type == "macos" and "CTRL|CMD" or "ALT"
+local mod_key2_mac_or_linux = os_type == "macos" and "CTRL|SHIFT" or "ALT|SHIFT"
 
 ---------------------------------------------------------------
 --- keybinds
@@ -63,10 +64,10 @@ local tmux_keybinds = {
     }),
   },
   { key = "w", mods = mod_key_mac_or_linux, action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
-  { key = "h", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-  { key = "l", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-  { key = "k", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-  { key = "j", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  { key = "h", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  { key = "l", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  { key = "k", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  { key = "j", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Down" }) },
   { key = "h", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
   { key = "l", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
   { key = "k", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
@@ -414,7 +415,12 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   end
 
   local edge_foreground = background
-  local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+  local active_tab_tilte = tab.active_pane.title
+  -- ssh接続の時は@接続先を追加したい
+  -- if active_tab_tilte == "ssh" then
+  --   active_tab_tilte = active_tab_tilte .. " @ " .. wezterm.hostname()
+  -- end
+  local title = "   " .. wezterm.truncate_right(active_tab_tilte, max_width - 1) .. "   "
 
   return {
     { Background = { Color = edge_background } },
