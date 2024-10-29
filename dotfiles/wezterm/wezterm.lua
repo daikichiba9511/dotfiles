@@ -53,12 +53,13 @@ local tmux_keybinds = {
   { key = "9", mods = "ALT", action = wezterm.action({ ActivateTab = 8 }) },
   {
     key = "-",
-    mods = "ALT",
+    -- mods = "ALT",
+    mods = mod_key_mac_or_linux,
     action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }),
   },
   {
     key = "\\",
-    mods = "ALT",
+    mods = mod_key_mac_or_linux,
     action = wezterm.action({
       SplitHorizontal = { domain = "CurrentPaneDomain" },
     }),

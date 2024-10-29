@@ -265,8 +265,8 @@ function install_nodejs() {
     [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
     mkdir -p "${NVM_DIR}"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    source "${HOME}/.zshrc"
-    nvm install 22
+    # source "${HOME}/.zshrc"
+    # nvm install 22
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     if [[ -x "$(commnd -v node) " ]]; then
@@ -317,6 +317,7 @@ function install_yazi() {
 function install_tmux() {
   log INFO 'Install tmux ✅'
   if [[ ${OS_TYPE} = 'Linux' ]]; then
+    sudo apt-get install -yq libevent-dev ncurses-dev build-essential bison pkg-config
     wget https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz -P /tmp
     cd /tmp
     tar -zxf tmux-*.tar.gz
@@ -376,6 +377,7 @@ function main() {
     install_package powerline
     install_package fonts-powerline
     install_package python3-venv # for ruff
+    # install_package python3.9-venv # for ruff
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install \
@@ -403,6 +405,7 @@ function main() {
   install_lazygit
   install_neovim
   install_github_cli
+  install_tmux
   install_tmux_plugin_manager
   install_wezterm
   install_nodejs
