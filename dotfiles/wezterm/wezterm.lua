@@ -362,10 +362,10 @@ end
 -- Reference:
 -- https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
 -- https://coralpink.github.io/commentary/wezterm/right-status.html
-wezterm.on("update-status", function(window, pane)
-  LeftUpdate(window, pane)
-  RightUpdate(window, pane)
-end)
+-- wezterm.on("update-status", function(window, pane)
+-- LeftUpdate(window, pane)
+-- RightUpdate(window, pane)
+-- end)
 
 ---------------------------------------------------------------
 --- load local_config
@@ -457,7 +457,7 @@ local config = {
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
-  font_size = 13.0,
+  font_size = 16,
   -- color_scheme = "iceberg-dark",
   -- color_scheme = "nightfox",
   -- color_scheme = "nord",

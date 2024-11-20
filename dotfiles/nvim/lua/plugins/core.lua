@@ -7,6 +7,7 @@ opt.list = true
 -- opt.listchars = { tab = "»»", space = "·" }
 -- opt.listchars = { tab = "»»" }
 opt.listchars = "tab:»»"
+opt.cmdheight = 0
 
 keymap("n", "<C-x>", "<Cmd>lua require('bufdelete').bufwipeout(0, true)<CR>", { noremap = true, silent = true })
 
