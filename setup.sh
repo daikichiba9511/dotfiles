@@ -357,7 +357,7 @@ function main() {
   log INFO "################### start to install prerequire tools  #######################"
   if [ "${OS_TYPE}" = 'Linux' ]; then
     install_package sudo
-    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get update -yq && sudo apt-get upgrade -yq
     install_package zsh
     install_package gcc
     install_package g++
