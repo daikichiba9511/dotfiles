@@ -7,6 +7,8 @@ nvim        ${HOME}/.config/nvim
 
 # zsh
 .zshrc      ${HOME}
+lazy.zsh    ${HOME}/.config/zsh
+nolazy.zsh    ${HOME}/.config/zsh
 
 # tmux
 .tmux.conf  ${HOME}
