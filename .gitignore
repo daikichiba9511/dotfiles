@@ -10,3 +10,4 @@ dotfiles/nvim/plugin
 startuptime.log
 *.log
 yazi
+*.zwc

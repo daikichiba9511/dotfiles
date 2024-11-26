@@ -11,6 +11,8 @@ sheldon ${HOME}/.config
 
 # zsh
 .zshrc      ${HOME}
+lazy.zsh    ${HOME}/.config/zsh
+nolazy.zsh    ${HOME}/.config/zsh
 
 # git
 .gitconfig      ${HOME}

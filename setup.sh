@@ -265,8 +265,8 @@ function install_nodejs() {
     [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
     mkdir -p "${NVM_DIR}"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    source "${HOME}/.zshrc"
-    nvm install 22
+    # source "${HOME}/.zshrc"
+    # nvm install 22
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     if [[ -x "$(commnd -v node) " ]]; then
@@ -314,10 +314,35 @@ function install_yazi() {
   fi
 }
 
+function install_tmux() {
+  log INFO 'Install tmux ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    sudo apt-get install -yq libevent-dev ncurses-dev build-essential bison pkg-config
+    wget https://github.com/tmux/tmux/releases/download/3.5a/tmux-3.5a.tar.gz -P /tmp
+    cd /tmp
+    tar -zxf tmux-*.tar.gz
+    cd tmux-*/
+    ./configure --prefix="${HOME}/.local"
+    make && sudo make install
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    brew install tmux
+  fi
+}
+
 function install_tmux_plugin_manager() {
   log INFO 'Install tmux plugin manager ✅'
   [ -d "${HOME}/.tmux/plugins/tpm" ] && rm -rf "${HOME}/.tmux/plugins/tpm"
   git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+}
+
+function install_wezterm() {
+  log INFO 'Install wezterm ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    wget https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu22.04.deb -P /tmp
+    sudo apt install -yq /tmp/wezterm-nightly.Ubuntu22.04.deb
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    brew install --cask wezterm-nightly
+  fi
 }
 
 # ${#<配列変数>} 配列のサイズ取得
@@ -332,7 +357,7 @@ function main() {
   log INFO "################### start to install prerequire tools  #######################"
   if [ "${OS_TYPE}" = 'Linux' ]; then
     install_package sudo
-    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get update -yq && sudo apt-get upgrade -yq
     install_package zsh
     install_package gcc
     install_package g++
@@ -340,7 +365,7 @@ function main() {
     install_package cmake
     install_package git
     install_package vim
-    install_package tmux
+    # install_package tmux
     install_package bat
     install_package curl
     install_package wget
@@ -352,6 +377,7 @@ function main() {
     install_package powerline
     install_package fonts-powerline
     install_package python3-venv # for ruff
+    # install_package python3.9-venv # for ruff
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     arch -arm64 brew install \
@@ -379,7 +405,9 @@ function main() {
   install_lazygit
   install_neovim
   install_github_cli
+  install_tmux
   install_tmux_plugin_manager
+  install_wezterm
   install_nodejs
 
   # デフォルトのshellをzshにする

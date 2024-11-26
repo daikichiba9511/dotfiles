@@ -44,13 +44,57 @@ end
 local function set_vault_path()
   local os_type = get_os_type()
   if os_type == "Linux" then
-    return "~/Dropbox/MyVault"
+    if vim.fn.isdirectory("~/Dropbox/MyVault") == 1 then
+      return "~/Dropbox/MyVault"
+    else
+      return
+    end
   elseif os_type == "macos" then
     return "~/MyVault"
   else
     log("DETECTED: Unknown OS Type when settting your vault path", "WARNING", true)
     return
   end
+end
+
+local function get_abs_path(state)
+  local abs_path = state.tree:get_node().path
+  return abs_path
+end
+
+local function get_relative_path(state)
+  local abs_path = state.tree:get_node().path
+  local rel_path = vim.fn.fnamemodify(abs_path, ":.:")
+  return rel_path
+end
+
+local function set_to_clipboard(value)
+  vim.notify("set to clipboard: " .. value)
+  vim.fn.setreg("+", value)
+end
+
+local function set_to_clipboard_from_remote(value)
+  require("osc52").copy(value)
+end
+
+local function set_relative_path_to_clipboard(state)
+  local rel_path = get_relative_path(state)
+  set_to_clipboard(rel_path)
+end
+
+local function set_absolute_path_to_clipboard(state)
+  local abs_path = get_abs_path(state)
+  set_to_clipboard(abs_path)
+end
+
+local function set_relative_path_to_clipboard_from_remote(state)
+  local rel_path = get_relative_path(state)
+  set_to_clipboard_from_remote(rel_path)
+end
+
+local function set_absolute_path_to_clipboard_from_remote(state)
+  local abs_path = get_abs_path(state)
+  set_to_clipboard_from_remote(abs_path)
 end
 
 return {
@@ -349,6 +393,22 @@ return {
           window = {
             mappings = {
               ["<leader>p"] = "image_wezterm", -- " or another map
+              ["<leader>yr"] = {
+                set_relative_path_to_clipboard,
+                desc = "Copy relative path to clipboard",
+              },
+              ["<leader>ya"] = {
+                set_absolute_path_to_clipboard,
+                desc = "Copy absolute path to clipboard",
+              },
+              ["<leader>ylr"] = {
+                set_relative_path_to_clipboard_from_remote,
+                desc = "Copy relative path to local clipboard from remote",
+              },
+              ["<leader>yla"] = {
+                set_absolute_path_to_clipboard_from_remote,
+                desc = "Copy absolute path to local clipboard from remote",
+              },
             },
           },
           commands = {

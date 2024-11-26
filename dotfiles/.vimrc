@@ -48,7 +48,7 @@ set wildmenu
 set autoread
 set title
 
-set clipboard+=unnamedplus
+set clipboard+=unnamed
 set nrformats=
 " }}}
 

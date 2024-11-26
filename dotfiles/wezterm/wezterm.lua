@@ -28,6 +28,7 @@ local os_type = get_os_type()
 -- Reference:
 -- [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
 local mod_key_mac_or_linux = os_type == "macos" and "CTRL|CMD" or "ALT"
+local mod_key2_mac_or_linux = os_type == "macos" and "CTRL|SHIFT" or "ALT|SHIFT"
 
 ---------------------------------------------------------------
 --- keybinds
@@ -52,21 +53,22 @@ local tmux_keybinds = {
   { key = "9", mods = "ALT", action = wezterm.action({ ActivateTab = 8 }) },
   {
     key = "-",
-    mods = "ALT",
+    -- mods = "ALT",
+    mods = mod_key_mac_or_linux,
     action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }),
   },
   {
     key = "\\",
-    mods = "ALT",
+    mods = mod_key_mac_or_linux,
     action = wezterm.action({
       SplitHorizontal = { domain = "CurrentPaneDomain" },
     }),
   },
   { key = "w", mods = mod_key_mac_or_linux, action = wezterm.action({ CloseCurrentPane = { confirm = true } }) },
-  { key = "h", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-  { key = "l", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-  { key = "k", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-  { key = "j", mods = "ALT|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  { key = "h", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  { key = "l", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  { key = "k", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  { key = "j", mods = mod_key2_mac_or_linux, action = wezterm.action({ ActivatePaneDirection = "Down" }) },
   { key = "h", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Left", 1 } }) },
   { key = "l", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Right", 1 } }) },
   { key = "k", mods = "ALT|SHIFT|CTRL", action = wezterm.action({ AdjustPaneSize = { "Up", 1 } }) },
@@ -360,10 +362,10 @@ end
 -- Reference:
 -- https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
 -- https://coralpink.github.io/commentary/wezterm/right-status.html
-wezterm.on("update-status", function(window, pane)
-  LeftUpdate(window, pane)
-  RightUpdate(window, pane)
-end)
+-- wezterm.on("update-status", function(window, pane)
+-- LeftUpdate(window, pane)
+-- RightUpdate(window, pane)
+-- end)
 
 ---------------------------------------------------------------
 --- load local_config
@@ -404,17 +406,26 @@ local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local background = "#5c6d74"
-  local foreground = "#FFFFFF"
+  -- local background = "#5c6d74"
+  -- local foreground = "#FFFFFF"
+  -- local foreground = "#cdd6f4"
+  local foreground = "#313244"
+  local background = "#89b4fa"
   local edge_background = "none"
 
   if tab.is_active then
-    background = "#ae8b2d"
-    foreground = "#FFFFFF"
+    -- background = "#ae8b2d"
+    -- foreground = "#FFFFFF"
+    background = "#a6e3a1"
   end
 
   local edge_foreground = background
-  local title = "   " .. wezterm.truncate_right(tab.active_pane.title, max_width - 1) .. "   "
+  local active_tab_tilte = tab.active_pane.title
+  -- ssh接続の時は@接続先を追加したい
+  -- if active_tab_tilte == "ssh" then
+  --   active_tab_tilte = active_tab_tilte .. " @ " .. wezterm.hostname()
+  -- end
+  local title = "   " .. wezterm.truncate_right(active_tab_tilte, max_width - 1) .. "   "
 
   return {
     { Background = { Color = edge_background } },
@@ -450,7 +461,7 @@ local config = {
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
-  font_size = 13.0,
+  font_size = 16,
   -- color_scheme = "iceberg-dark",
   -- color_scheme = "nightfox",
   -- color_scheme = "nord",
