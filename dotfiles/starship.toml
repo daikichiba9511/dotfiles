@@ -52,23 +52,23 @@ format = "[](bg:#406882 fg:#1A374D)[ $path ]($style)[$read_only]($read_only_s
 
 [hostname]
 ssh_only = false
-format = "[$ssh_symbol](bg:#1A374D fg:#FFFFFF bold)[on ](bg:#1A374D fg:#ff8247 bold)[$hostname ](bg:#1A374D fg:#FFFFFF bold)"
+format = "[$ssh_symbol](bg:#1A374D fg:#FFFFFF bold)[on ](bg:#1A374D fg:#ff914d bold)[$hostname ](bg:#1A374D fg:#FFFFFF bold)"
 
 [git_branch]
 # format = "[ $symbol](fg:#F7FF93 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)"
-format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff8247 bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)[](fg:#6998AB bg:#88abba)"
+format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff914d bold bg:#6998AB)[ $branch (:$remote_branch) ]($style)[](fg:#6998AB bg:#87b7cf)"
 style = "fg:#FFFFFF bold bg:#6998AB"
 
 [git_status]
-format = '[ \[$all_status$ahead_behind \] ](fg:#f7ff93 bold bg:#88abba )[ ](fg:#88abba)'
-up_to_date = ' [UPTODATE](fg:#f7ff93 bold bg:#88abba)'
-behind = ' [$count BIHIND](fg:#ff8247 bold bg:#88abba)'
-ahead = ' [$count AHEAD](fg:red bold bg:#88abba)'
-modified = ' [$count MODIFIED](fg:#ff8247 bold bg:#88abba)'
-staged = ' [$count STAGING](fg:green bold bg:#88abba)'
+format = '[ \[$all_status$ahead_behind \] ](fg:#ffed85 bold bg:#87b7cf)[ ](fg:#87b7cf)'
+up_to_date = ' [UPTODATE](fg:#ffed85 bold bg:#87b7cf'
+behind = ' [$count BIHIND](fg:#e67e22 bold bg:#87b7cf)'
+ahead = ' [$count AHEAD](fg:#d64040 bold bg:#87b7cf)'
+modified = ' [$count MODIFIED](fg:#e67e22 bold bg:#87b7cf)'
+staged = ' [$count STAGING](fg:#a6e3a1 bold bg:#87b7cf)'
 
 [character]
-success_symbol = "[⟩](fg:#ff8247)[⟩](fg:#F7FF93 )"
+success_symbol = "[⟩](fg:#e67e22)[⟩](fg:#ffed85 )"
 error_symbol = "[✘ ](fg:red bold)"
 
 [container]
