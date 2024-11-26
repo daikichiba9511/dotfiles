@@ -60,7 +60,7 @@ format = "[](bg:#6998AB fg:#406882)[ $symbol](fg:#ff914d bold bg:#6998AB)[ $b
 style = "fg:#FFFFFF bold bg:#6998AB"
 
 [git_status]
-format = ' \[$all_status $ahead_behind\](fg:#ffed85 bold bg:#87b7cf)[ ](fg:#87b7cf)'
+format = '[ $all_status $ahead_behind ](fg:#ffed85 bold bg:#87b7cf)[ ](fg:#87b7cf)'
 up_to_date = ' [UPTODATE](fg:#ffed85 bold bg:#87b7cf'
 behind = ' [$count BIHIND](fg:#e67e22 bold bg:#87b7cf)'
 ahead = ' [$count AHEAD](fg:#d64040 bold bg:#87b7cf)'
