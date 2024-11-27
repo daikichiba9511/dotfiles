@@ -122,7 +122,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " ファイラ
-Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern.vim'
 
 " Fuzzy Finder系
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
