@@ -31,6 +31,10 @@ source "$sheldon_cache"
 # 使い終わった変数を削除
 unset cache_dir sheldon_cache sheldon_toml
 
+#--- Node.js
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # 読み込み
 source $ZSHRC_DIR/nonlazy.zsh

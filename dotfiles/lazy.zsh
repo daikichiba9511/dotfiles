@@ -119,11 +119,6 @@ export PATH=/usr/local/cuda-11.8/bin:${PATH}
 #--- nnn
 export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
 
-#--- Node.js
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 
 # --- measurement utils
 # Ref: https://zenn.dev/yutakatay/articles/zsh-neovim-speedcheck
