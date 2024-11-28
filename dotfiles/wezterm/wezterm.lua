@@ -391,13 +391,13 @@ local local_config = load_local_config("local")
 local function get_fonts()
   if wezterm.target_triple == "aarch64-apple-darwin" then
     return {
-      "HackGen Console NF",
+      "HackGen35 Console NF",
       "HackGenNerd Console",
     }
   else
     return {
       "HackGenNerd Console",
-      "HackGen Console NF",
+      "HackGen35 Console NF",
     }
   end
 end
