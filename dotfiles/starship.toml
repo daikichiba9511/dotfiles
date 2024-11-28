@@ -1,6 +1,20 @@
+# mac x VSCode terminalでlogoのglyphが表示されないのでしばらく表示しない
+# format = """
+#  [](fg:#1a374d)\
+# $os\
+# $username\
+# $hostname\
+# $directory\
+# $git_branch\
+# $git_status\
+# $container\
+# $docker_context\
+# $cmd_duration
+#  $character
+# """
+
 format = """
  [](fg:#1a374d)\
-$os\
 $username\
 $hostname\
 $directory\
