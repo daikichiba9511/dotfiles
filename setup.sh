@@ -324,6 +324,7 @@ function install_tmux() {
     cd tmux-*/
     ./configure --prefix="${HOME}/.local"
     make && sudo make install
+    sudo chown -R "${USER}:${USER}" "${HOME}/.local"
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
     brew install tmux
   fi
