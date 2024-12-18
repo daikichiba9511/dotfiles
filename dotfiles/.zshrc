@@ -42,5 +42,7 @@ zsh-defer source $ZSHRC_DIR/lazy.zsh
 # オーバーライドしたsourceを元に戻す
 zsh-defer unfunction source
 
+export SHELL=$(which zsh)
+
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
