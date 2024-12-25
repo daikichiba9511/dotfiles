@@ -6,17 +6,17 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "carbonfox",
-      -- colorscheme = "tokyonight",
+      colorscheme = "tokyonight",
       -- colorscheme = "nightfox",
       -- colorscheme = "onedark",
-      colorscheme = "catppuccin",
+      -- colorscheme = "catppuccin",
     },
   },
   {
     "folke/tokyonight.nvim",
     opts = {
-      style = "night",
-      -- style = "moon",
+      -- style = "night",
+      style = "moon",
       styles = {
         comments = { italic = false },
         keywords = { italic = false },
