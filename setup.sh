@@ -261,12 +261,13 @@ function install_neovim() {
 function install_nodejs() {
   log INFO 'Install nodejs@22 ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
-    export NVM_DIR="${HOME}/.nvm"
-    [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
-    mkdir -p "${NVM_DIR}"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    # export NVM_DIR="${HOME}/.nvm"
+    # [ -d "${NVM_DIR}" ] && rm -rf "${NVM_DIR}"
+    # mkdir -p "${NVM_DIR}"
+    # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     # source "${HOME}/.zshrc"
     # nvm install 22
+    "${HOME}"/.local/bin/mise use node@22
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
     if [[ -x "$(commnd -v node) " ]]; then
@@ -344,6 +345,12 @@ function install_wezterm() {
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
     brew install --cask wezterm-nightly
   fi
+}
+
+function install_mise() {
+  log INFO 'Install mise ✅'
+  # install mise into $HOME/.local/bin
+  curl https://mise.run | sh
 }
 
 # ${#<配列変数>} 配列のサイズ取得

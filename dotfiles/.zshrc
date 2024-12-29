@@ -44,5 +44,7 @@ zsh-defer unfunction source
 
 export SHELL=$(which zsh)
 
+[ -f "${HOME}/.local/bin/mise" ] && eval "$(~/.local/bin/mise activate zsh)"
+
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
