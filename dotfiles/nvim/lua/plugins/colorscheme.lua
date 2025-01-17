@@ -6,10 +6,10 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "carbonfox",
-      colorscheme = "tokyonight",
+      -- colorscheme = "tokyonight",
       -- colorscheme = "nightfox",
       -- colorscheme = "onedark",
-      -- colorscheme = "catppuccin",
+      colorscheme = "catppuccin",
     },
   },
   {
@@ -32,6 +32,8 @@ return {
   },
   {
     "catppuccin/nvim",
+    priority = 1000,
+    name = "catppuccin",
     opts = {
       flavour = "mocha",
       background = {
@@ -46,7 +48,36 @@ return {
         comments = {},
         keywords = {},
       },
-      name = "catppuccin",
+      integrations = {
+        cmp = true,
+        gitsigns = true,
+        treesitter = true,
+        harpoon = true,
+        telescope = true,
+        mason = true,
+        noice = true,
+        notify = true,
+        which_key = true,
+        fidget = true,
+        native_lsp = {
+          enabled = true,
+          virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            information = { "italic" },
+          },
+          underlines = {
+            errors = { "underline" },
+            hints = { "underline" },
+            warnings = { "underline" },
+            information = { "underline" },
+          },
+          inlay_hints = {
+            background = true,
+          },
+        },
+      },
     },
   },
   {
