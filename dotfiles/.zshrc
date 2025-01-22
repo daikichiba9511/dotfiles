@@ -32,9 +32,14 @@ source "$sheldon_cache"
 unset cache_dir sheldon_cache sheldon_toml
 
 #--- Node.js
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if type mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
+fi
 
 # 読み込み
 source $ZSHRC_DIR/nonlazy.zsh
@@ -48,3 +53,5 @@ export SHELL=$(which zsh)
 
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
