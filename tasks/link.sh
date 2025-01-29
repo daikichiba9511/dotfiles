@@ -40,7 +40,11 @@ __remove_linklist_comment "${linklist}" | while read -r target link; do
   target=$(eval echo "${PWD}/${target}")
   link=$(eval echo "${link}")
   # シンボリックリンクを作成
-  mkdir -p "$(dirname "${link}")"
+  dir_name="${link}"
+  if [[ -f "${dir_name}" ]]; then
+    dir_name=$(dirname "${link}")
+  fi
+  mkdir -p "${dir_name}"
   echo "target:${target} --> dst:${link}"
   ln -fsn "${target}" "${link}"
 done
