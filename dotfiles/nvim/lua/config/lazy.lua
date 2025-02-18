@@ -14,7 +14,6 @@ require("lazy").setup({
     -- { import = "lazyvim.plugins.extras.lang.typescript" },
     -- { import = "lazyvim.plugins.extras.lang.json" },
     -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    { import = "plugins" },
     -- import/override with your plugins
     { import = "lazyvim.plugins.extras.ai.copilot" },
     { import = "lazyvim.plugins.extras.ai.copilot-chat" },
@@ -29,6 +28,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.yaml" },
     -- { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "plugins" },
   },
   concurrency = 10,
   defaults = {
