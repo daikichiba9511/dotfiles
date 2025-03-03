@@ -73,7 +73,7 @@ function fic() {
 
     local img_cat_cmd="wezterm imgcat"
     if [ "${is_in_tmux}" = "true" ] && command -v "wezterm" > /dev/null; then
-      img_cat_cmd="wezterm"
+      img_cat_cmd="wezterm imgcat"
     elif [ "${is_in_tmux}" = "true" ] && ! command -v "wezterm" > /dev/null; then
       img_cat_cmd="img2sixel"
     else
