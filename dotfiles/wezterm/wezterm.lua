@@ -104,6 +104,7 @@ local default_keybinds = {
   { key = "e", mods = "ALT", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
   { key = "q", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
   { key = "x", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
+  { key = "h", mods = "CMD", action = wezterm.action.HideApplication },
   {
     key = "r",
     mods = "ALT",

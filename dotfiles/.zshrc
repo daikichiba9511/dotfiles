@@ -1,6 +1,10 @@
 export CLICOLOR=1
 echo Hello ${USER}
 
+zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+fpath=(~/.zsh $fpath)
+autoload -Uz compinit && compinit
+
 # Reference:
 # 1. https://zenn.dev/fuzmare/articles/zsh-plugin-manager-cache
 ZSHRC_DIR=${${(%):-%N}:A:h}

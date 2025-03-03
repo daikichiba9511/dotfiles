@@ -1,7 +1,7 @@
 --- ログを出力する関数
 ---
----@param msg string
----@param level string
+---@param msg string messages to log
+---@param level string logging level
 ---@param notice boolean | nil default false
 local function log(msg, level, notice)
   if notice == nil then
@@ -9,7 +9,7 @@ local function log(msg, level, notice)
   end
 
   local date = os.date("%Y-%m-%d %H:%M:%S")
-  local _msg = string.format("[lazyvim] : [%s] : [%s] : %s", level, date, msg)
+  local _msg = string.format("[%s] : [%s] : %s", level, date, msg)
   if notice then
     vim.notify(_msg)
   else
@@ -17,7 +17,7 @@ local function log(msg, level, notice)
   end
 end
 
----OSのタイプを判定する関数、macosならmacos, linuxならLinuxを、それ以外はunknownを返す
+--- OSのタイプを判定する関数、macosならmacos, linuxならLinuxを、それ以外はunknownを返す
 ---
 ---@return string
 local function get_os_type()
@@ -57,45 +57,78 @@ local function set_vault_path()
   end
 end
 
+---現在のノードの絶対パスを取得する関数
+---@param state any
+---@return unknown
 local function get_abs_path(state)
   local abs_path = state.tree:get_node().path
   return abs_path
 end
 
+---現在のノードの相対パスを取得する関数
+---@param state any
+---@return unknown
 local function get_relative_path(state)
   local abs_path = state.tree:get_node().path
   local rel_path = vim.fn.fnamemodify(abs_path, ":.:")
   return rel_path
 end
 
+---クリップボードに値をセットする関数
+---@param value string
+---@return nil
 local function set_to_clipboard(value)
   vim.notify("set to clipboard: " .. value)
   vim.fn.setreg("+", value)
 end
 
+---クリップボードに値をセットする関数で、osc52を使うことでリモートでも使えるよう
+---@return nil
 local function set_to_clipboard_from_remote(value)
   require("osc52").copy(value)
 end
 
+---相対パスをクリップボードにセットする関数
+---@param state any
+---@return nil
 local function set_relative_path_to_clipboard(state)
   local rel_path = get_relative_path(state)
   set_to_clipboard(rel_path)
 end
 
+---絶対パスをクリップボードにセットする関数
+---@param state any
+---@return nil
 local function set_absolute_path_to_clipboard(state)
   local abs_path = get_abs_path(state)
   set_to_clipboard(abs_path)
 end
 
+---相対パスをリモートからクリップボードにセットする関数
+---@param state any
+---@return nil
 local function set_relative_path_to_clipboard_from_remote(state)
   local rel_path = get_relative_path(state)
   set_to_clipboard_from_remote(rel_path)
 end
 
+---絶対パスをリモートからクリップボードにセットする関数
+---@param state any
+---@return nil
 local function set_absolute_path_to_clipboard_from_remote(state)
   local abs_path = get_abs_path(state)
   set_to_clipboard_from_remote(abs_path)
 end
+
+vim.api.nvim_create_user_command("InitLua", function()
+  vim.cmd.edit(vim.fn.stdpath("config") .. "/init.lua")
+end, { desc = "Open init.lua" })
+
+vim.api.nvim_create_user_command("CopyLastCmd", function()
+  vim.fn.setreg("*", vim.fn.getreg(":"))
+  -- unless vim.opt.clipboard has unnamed
+  -- vim.fn.setreg('', vim.fn.getreg(':'))
+end, { desc = "Copy last used command" })
 
 return {
   -- treesiter
