@@ -9,18 +9,24 @@ autoload -Uz compinit && compinit
 # 1. https://zenn.dev/fuzmare/articles/zsh-plugin-manager-cache
 ZSHRC_DIR=${${(%):-%N}:A:h}
 # source command override technique
-function source {
-  ensure_zcompiled $1
-  builtin source $1
-}
 function ensure_zcompiled {
   local compiled="$1.zwc"
+
+  # skip filedescriptor like /proc/self/fd/N
+  if [[ $1 =~ ^/proc ]]; then
+    return
+  fi
+
   if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
     echo "\033[1;36mCompiling\033[m $1"
     zcompile $1
   fi
 }
-ensure_zcompiled ~/.zshrc
+
+function source {
+  ensure_zcompiled $1
+  builtin source $1
+}
 
 # -- sheldon : zsh plugin manager
 cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}
@@ -40,17 +46,18 @@ unset cache_dir sheldon_cache sheldon_toml
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-if type mise &>/dev/null; then
-  eval "$(mise activate zsh)"
-  eval "$(mise activate --shims)"
-fi
-
 # 読み込み
 source $ZSHRC_DIR/nonlazy.zsh
 zsh-defer source $ZSHRC_DIR/lazy.zsh
 # オーバーライドしたsourceを元に戻す
 zsh-defer unfunction source
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if type mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
+fi
 export SHELL=$(which zsh)
 
 [ -f "${HOME}/.local/bin/mise" ] && eval "$(~/.local/bin/mise activate zsh)"
@@ -58,4 +65,3 @@ export SHELL=$(which zsh)
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

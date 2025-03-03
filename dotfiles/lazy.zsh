@@ -72,7 +72,9 @@ function fic() {
     local is_in_tmux=$([ "${TMUX}" = "" ] && echo "false" || echo "true")
 
     local img_cat_cmd="wezterm imgcat"
-    if [ "${is_in_tmux}" = "true" ]; then
+    if [ "${is_in_tmux}" = "true" ] && command -v "wezterm" > /dev/null; then
+      img_cat_cmd="wezterm"
+    elif [ "${is_in_tmux}" = "true" ] && ! command -v "wezterm" > /dev/null; then
       img_cat_cmd="img2sixel"
     else
       if command -v "wezterm" > /dev/null; then
