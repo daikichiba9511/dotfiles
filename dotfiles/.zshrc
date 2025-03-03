@@ -16,6 +16,9 @@ function ensure_zcompiled {
   if [[ $1 =~ ^/proc ]]; then
     return
   fi
+  if [[ $1 =~ ^/dev ]]; then
+    return
+  fi
 
   if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
     echo "\033[1;36mCompiling\033[m $1"
