@@ -244,11 +244,12 @@ function install_neovim() {
   log INFO 'Install neovim ✅'
   if [[ "${OS_TYPE}" = 'Linux' ]]; then
 
-    wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -P /tmp
-    tar xzvf /tmp/nvim-linux64.tar.gz -C ~/.local/bin/
-    sudo rm /tmp/nvim-linux64.tar.gz
-    [ -e /usr/local/bin/nvim ] && sudo rm /usr/local/bin/nvim
-    sudo ln -s ~/.local/bin/nvim-linux64/bin/nvim /usr/local/bin/nvim
+    local file_name="nvim-linux-x86_64.tar.gz"
+    wget "https://github.com/neovim/neovim/releases/download/stable/${file_name}" -P /tmp
+    tar xzvf "/tmp/${file_name}" -C ~/.local/bin/
+    sudo rm "/tmp/${file_name}"
+    [ -f /usr/local/bin/nvim ] && sudo rm /usr/local/bin/nvim
+    sudo ln -s "~/.local/bin/${file_name}/bin/nvim" /usr/local/bin/nvim
 
   elif [[ "${OS_TYPE}" = 'Mac' ]]; then
 
@@ -413,6 +414,7 @@ function main() {
   install_lazygit
   install_neovim
   install_github_cli
+  install_mise
   install_tmux
   install_tmux_plugin_manager
   install_wezterm
