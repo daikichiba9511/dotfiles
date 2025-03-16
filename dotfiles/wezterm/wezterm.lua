@@ -462,7 +462,7 @@ local config = {
 
   -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
   use_ime = true,
-  font_size = 16,
+  font_size = 15,
   -- color_scheme = "iceberg-dark",
   -- color_scheme = "nightfox",
   -- color_scheme = "nord",
@@ -500,7 +500,7 @@ local config = {
   -- debug_key_events = true,
   macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
   -- transparency settings
-  window_background_opacity = 0.80,
+  window_background_opacity = 0.85,
   text_background_opacity = 1.0,
   -- window_background_opacity = 1.0,
   -- text_background_opacity = 1.0,
