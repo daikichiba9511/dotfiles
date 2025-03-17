@@ -43,17 +43,26 @@ end
 ---@return string | nil
 local function set_vault_path()
   local os_type = get_os_type()
+  local exists_myvault = (vim.fn.isdirectory("~/Dropbox/MyVault") == 1 or vim.fn.isdirectory("~/MyVault") == 1)
   if os_type == "Linux" then
-    if vim.fn.isdirectory("~/Dropbox/MyVault") == 1 then
-      return "~/Dropbox/MyVault"
-    else
-      return
-    end
+    return exists_myvault and "~/Dropbox/MyVault" or nil
   elseif os_type == "macos" then
-    return "~/MyVault"
+    return exists_myvault and "~/MyVault" or nil
   else
     log("DETECTED: Unknown OS Type when settting your vault path", "WARNING", true)
-    return
+    return ""
+  end
+end
+
+local function set_workspace()
+  local path = set_vault_path()
+  if path ~= nil then
+    return { workspace = {
+      name = "MyVault",
+      path = path,
+    } }
+  else
+    return {}
   end
 end
 
@@ -293,13 +302,10 @@ return {
   -- Obsidian
   {
     "epwalsh/obsidian.nvim",
+    lazy = true,
+    version = "*",
     opts = {
-      workspaces = {
-        {
-          name = "MyVault",
-          path = set_vault_path(),
-        },
-      },
+      set_workspace(),
     },
   },
   -- symbolのレンダリングの位置が日本語だと微妙なので。。
