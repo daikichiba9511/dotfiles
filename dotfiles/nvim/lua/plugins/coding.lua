@@ -221,19 +221,20 @@ return {
   -- },
 
   -- copilot
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   build = ":Copilot auth",
-  --   opts = {
-  --     suggestion = { enabled = true },
-  --     panel = { enabled = false },
-  --     filetypes = {
-  --       markdown = true,
-  --       help = true,
-  --     },
-  --   },
-  -- },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = true },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        gitcommit = true,
+        help = true,
+      },
+    },
+  },
   -- {
   --   "zbirenbaum/copilot-cmp",
   --   config = function()
