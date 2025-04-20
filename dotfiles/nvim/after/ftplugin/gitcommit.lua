@@ -6,7 +6,7 @@ end
 --- 1. https://zenn.dev/vim_jp/articles/041300c0f9cc50
 local commit_bufnr = vim.api.nvim_get_current_buf()
 if lazy_has("CopilotChat.nvim") then
-  vim.keymap.set("n", "<leader>ga", "<cmd>CopilotChatCommit<CR>", { buffer = commit_bufnr })
+  vim.keymap.set("n", "<leader>c", "<cmd>CopilotChatCommit<CR>", { buffer = commit_bufnr })
   vim.schedule(function()
     require("CopilotChat")
     vim.cmd.CopilotChatCommit()

@@ -183,6 +183,7 @@ if [[ ! $(command -v imgcat) ]] && [[ $(command -v img2sixel) ]]; then
   alias imgcat="img2sixel"
 fi
 
+
 function log() {
   local level="${1}"
   shift
