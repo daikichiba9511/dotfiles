@@ -58,6 +58,7 @@ zsh-defer unfunction source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if type mise &>/dev/null; then
+  export PATH="${HOME}/.local/sahre/mise/shims:${PATH}"
   eval "$(mise activate zsh)"
   eval "$(mise activate --shims)"
 fi
