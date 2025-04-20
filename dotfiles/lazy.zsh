@@ -121,6 +121,9 @@ export PATH=/usr/local/cuda-11.8/bin:${PATH}
 #--- nnn
 export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
 
+# --- Environment
+export PATH="/usr/local/bin:${PATH}"
+
 
 # --- measurement utils
 # Ref: https://zenn.dev/yutakatay/articles/zsh-neovim-speedcheck
