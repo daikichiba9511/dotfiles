@@ -226,7 +226,17 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     opts = {
-      suggestion = { enabled = true },
+      suggestion = {
+        enabled = true,
+        keymap = {
+          accept = "<C-g>",
+          accept_word = false,
+          accept_line = false,
+          next = "<C-]>",
+          prev = "<C-[>",
+          dismiss = "<C-e>",
+        },
+      },
       panel = { enabled = false },
       filetypes = {
         markdown = true,
@@ -274,6 +284,17 @@ return {
   --     })
   --   end,
   -- },
+  -- {
+  --   "github/copilot.vim",
+  --   -- lazy = true,
+  --   cmd = { "Copilot", "Copilot setup" },
+  --   config = function()
+  --     vim.g.copilot_no_tab_map = true
+  --     vim.g.copilot_assume_mapped = true
+  --     vim.keymap.set("i", "<C-g>", 'copilot#Accept("<CR>")', { expr = true, silent = true, script = true })
+  --     vim.keymap.set("i", "<C-G>", "copilot#Dismiss()", { expr = true, silent = true, script = true })
+  --   end,
+  -- },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     -- branch = "canary",
@@ -289,6 +310,7 @@ return {
       model = "claude-3.7-sonnet",
       -- See Configuration section for rest
     },
+    agent = "claude-3.7-sonnet",
     -- See Commands section for default commands if you want to lazy load on them
   },
 
