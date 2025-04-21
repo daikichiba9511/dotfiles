@@ -3,6 +3,7 @@ echo Hello ${USER}
 
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 fpath=(~/.zsh $fpath)
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 autoload -Uz compinit && compinit
 
 # Reference:
@@ -68,6 +69,7 @@ fi
 
 alias v='nvim'
 alias lg='lazygit'
+alias g='git'
 
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
