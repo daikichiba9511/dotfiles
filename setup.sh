@@ -426,7 +426,9 @@ function main() {
 
   # miseのinstallに回せるツール
   mise install
-  # mise completion zsh >/usr/local/share/zsh/site-functions/_mise
+  if [[ $(uname -s) == 'Darwin' ]]; then
+    mise completion zsh >/opt/homebrew/share/zsh/site-functions/_mise
+  fi
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
