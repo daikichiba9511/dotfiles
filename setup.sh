@@ -340,6 +340,10 @@ function install_tmux_plugin_manager() {
 
 function install_wezterm() {
   log INFO 'Install wezterm ✅'
+  if command -v wezterm >/dev/null 2>&1; then
+    log INFO 'Wezterm is already installed. ⭕️'
+    return
+  fi
   if [[ ${OS_TYPE} = 'Linux' ]]; then
     wget https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu22.04.deb -P /tmp
     sudo apt install -yq /tmp/wezterm-nightly.Ubuntu22.04.deb
@@ -375,7 +379,6 @@ function main() {
     install_package git
     install_package vim
     # install_package tmux
-    install_package bat
     install_package curl
     install_package wget
     install_package unzip
@@ -403,22 +406,27 @@ function main() {
 
   # Ubuntu & Mac(M3)
   mkdir -p "${HOME}/.local/bin"
-  install_ripgrep
-  install_lsd
-  install_fdfind
-  install_bat
-  install_delta
-  install_fzf
   install_sheldon
   install_starship
-  install_lazygit
   install_neovim
-  install_github_cli
   install_mise
-  install_tmux
   install_tmux_plugin_manager
   install_wezterm
-  install_nodejs
+
+  # install_lsd
+  # install_fdfind
+  # install_ripgrep
+  # install_bat
+  # install_delta
+  # install_fzf
+  # install_github_cli
+  # install_tmux
+  # install_lazygit
+  # install_nodejs
+
+  # miseのinstallに回せるツール
+  mise install
+  # mise completion zsh >/usr/local/share/zsh/site-functions/_mise
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then

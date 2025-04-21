@@ -219,13 +219,19 @@ return {
     opts = {
       debug = false, -- Enable debugging
       chat_autocomplete = true,
-      -- model = "gemini-2.5-pro",
+      model = "gemini-2.5-pro",
       -- agent = "gemini-2.5-pro",
-      model = "claude-3.7-sonnet",
+      -- model = "claude-3.7-sonnet",
       mappings = {
         accept_diff = {
           normal = "<leader>ad",
           insert = "<leader>ad",
+        },
+      },
+      prompts = {
+        Explain = {
+          prompt = "Write an explanation for the selected code as paragraphs of text step by step in Japanese.",
+          system_prompt = "COPILOT_EXPLAIN",
         },
       },
     },
