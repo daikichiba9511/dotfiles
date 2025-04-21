@@ -155,7 +155,8 @@ end)
 ---------------------------------------------------------------
 local config = {
   font = wezterm.font_with_fallback({
-    "HackGen Console NF",
+    "HackGen35 Console NFJ",
+    "HackGen Console NFJ",
     "HackGenNerd Console",
     "Cica",
   }),
