@@ -3,6 +3,7 @@ echo Hello ${USER}
 
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 fpath=(~/.zsh $fpath)
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 autoload -Uz compinit && compinit
 
 # Reference:
@@ -57,14 +58,18 @@ zsh-defer unfunction source
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export SHELL=$(which zsh)
+export PATH="${HOME}/.local/bin:${PATH}"
+
 if type mise &>/dev/null; then
-  export PATH="${HOME}/.local/sahre/mise/shims:${PATH}"
+  export PATH="${HOME}/.local/share/mise/shims:${PATH}"
   eval "$(mise activate zsh)"
   eval "$(mise activate --shims)"
 fi
-export SHELL=$(which zsh)
 
-[ -f "${HOME}/.local/bin/mise" ] && eval "$(~/.local/bin/mise activate zsh)"
+alias v='nvim'
+alias lg='lazygit'
+alias g='git'
 
 # -- starship : should be put on last line
 eval "$(starship init zsh)"

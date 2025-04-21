@@ -1,0 +1,25 @@
+[tools]
+# -- Cores
+node = "22"
+deno = "latest"
+python = "3.12"
+rust = "latest"
+
+# -- Tools
+uv = "latest"
+aws-cli = "latest"
+# vim = "latest"  # macでうまく入らないので
+"asdf:mise-plugins/mise-tmux" = "latest"
+ripgrep = "latest"
+lsd = "latest"
+fd = "latest"
+bat = "latest"
+delta = "latest"
+fzf = "latest"
+lazygit = "latest"
+gh = "latest"
+usage = "latest"
+
+
+[settings]
+python.uv_venv_auto = true

@@ -24,9 +24,9 @@ local function get_os_type()
 end
 
 local os_type = get_os_type()
+
 -- OPT単体だとmacだと入力が変わってしまうのでOPT+h/j/k/lの入力がうまく行かない
--- Reference:
--- [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
+-- Reference: [1] https://github.com/wez/wezterm/discussions/4790#discussioncomment-8166466
 local mod_key_mac_or_linux = os_type == "macos" and "CTRL|CMD" or "ALT"
 local mod_key2_mac_or_linux = os_type == "macos" and "CTRL|SHIFT" or "ALT|SHIFT"
 
@@ -42,15 +42,6 @@ local tmux_keybinds = {
   { key = "l", mods = "ALT|CTRL", action = wezterm.action({ MoveTabRelative = 1 }) },
   { key = "k", mods = "ALT|CTRL", action = "ActivateCopyMode" },
   { key = "j", mods = "ALT|CTRL", action = wezterm.action({ PasteFrom = "PrimarySelection" }) },
-  { key = "1", mods = "ALT", action = wezterm.action({ ActivateTab = 0 }) },
-  { key = "2", mods = "ALT", action = wezterm.action({ ActivateTab = 1 }) },
-  { key = "3", mods = "ALT", action = wezterm.action({ ActivateTab = 2 }) },
-  { key = "4", mods = "ALT", action = wezterm.action({ ActivateTab = 3 }) },
-  { key = "5", mods = "ALT", action = wezterm.action({ ActivateTab = 4 }) },
-  { key = "6", mods = "ALT", action = wezterm.action({ ActivateTab = 5 }) },
-  { key = "7", mods = "ALT", action = wezterm.action({ ActivateTab = 6 }) },
-  { key = "8", mods = "ALT", action = wezterm.action({ ActivateTab = 7 }) },
-  { key = "9", mods = "ALT", action = wezterm.action({ ActivateTab = 8 }) },
   {
     key = "-",
     -- mods = "ALT",
@@ -76,14 +67,6 @@ local tmux_keybinds = {
   { key = "Enter", mods = "ALT", action = "QuickSelect" }, -- switch to the default workspace { key = "y", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = { name = "default" } }) },
   -- Create a newworkspace with a random name and switch to it
   { key = "i", mods = "CTRL|SHIFT", action = wezterm.action({ SwitchToWorkspace = {} }) },
-  -- and allow activationg one.
-  {
-    key = "9",
-    mods = "ALT",
-    action = wezterm.action({
-      ShowLauncherArgs = { flags = "FUZZY|WORKSPACES|DOMAINS" },
-    }),
-  },
 }
 
 local default_keybinds = {
@@ -105,130 +88,13 @@ local default_keybinds = {
   { key = "q", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
   { key = "x", mods = "ALT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
   { key = "h", mods = "CMD", action = wezterm.action.HideApplication },
-  {
-    key = "r",
-    mods = "ALT",
-    action = wezterm.action({
-      ActivateKeyTable = {
-        name = "resize_pane",
-        one_shot = false,
-        timeout_milliseconds = 3000,
-        replace_current = false,
-      },
-    }),
-  },
 }
 
 local function create_keybinds()
   return utils.merge_lists(default_keybinds, tmux_keybinds)
 end
 
----------------------------------------------------------------
---- wezterm on
----------------------------------------------------------------
--- wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
---   local user_title = tab.active_pane.user_vars.panetitle
---   if user_title ~= nil and #user_title > 0 then
---     return {
---       { Text = tab.tab_index + 1 .. ":" .. user_title },
---     }
---   end
---
---   local title = wezterm.truncate_right(utils.basename(tab.active_pane.foreground_process_name), max_width)
---   if title == "" then
---     -- local uri = utils.convert_home_dir(tab.active_pane.current_working_dir)
---     -- local basename = utils.basename(uri)
---     -- if basename == "" then
---     --  basename = uri
---     -- end
---     -- title = wezterm.truncate_right(basename, max_width)
---     local dir = string.gsub(tab.active_pane.title, "(.*[: ])(.*)", "%2")
---     title = wezterm.truncate_right(dir, max_width)
---   end
---
---   -- https://github.com/wez/wezterm/issues/1881
---   local pane = tab.active_pane
---   if pane.domain_name then
---     title = title .. " - (" .. pane.domain_name .. ")"
---   end
---
---   return {
---     { Text = tab.tab_index + 1 .. ":" .. title },
---   }
--- end)
---
--- https://github.com/wez/wezterm/issues/1680
--- local function update_window_background(window, pane)
---   local overrides = window:get_config_overrides() or {}
---   -- If there's no foreground process, assume that we are "wezterm connect" or "wezterm ssh"
---   -- and use a different background color
---   -- if pane:get_foreground_process_name() == nil then
---   --  -- overrides.colors = { background = "blue" }
---   --  overrides.color_scheme = "Red Alert"
---   -- end
---
---   if overrides.color_scheme == nil then
---     return
---   end
---   if pane:get_user_vars().production == "1" then
---     overrides.color_scheme = "TokyoNight"
---   end
---   window:set_config_overrides(overrides)
--- end
---
--- local function update_tmux_style_tab(window, pane)
---   local cwd_uri = pane:get_current_working_dir()
---   local cwd = ""
---   local hostname = ""
---   if cwd_uri then
---     cwd_uri = cwd_uri:sub(8)
---     local slash = cwd_uri:find("/")
---     if slash then
---       hostname = cwd_uri:sub(1, slash - 1)
---       -- Remove the domain name portion of the hostname
---       local dot = hostname:find("[.]")
---       if dot then
---         hostname = hostname:sub(1, dot - 1)
---       end
---       if hostname ~= "" then
---         hostname = "@" .. hostname
---       end
---       -- and extract the cwd from the uri
---       cwd = utils.convert_home_dir(cwd)
---     end
---   end
---   return {
---     { Attribute = { Underline = "Single" } },
---     { Attribute = { Italic = true } },
---     { Text = cwd .. hostname },
---   }
--- end
---
--- local function display_ime_on_right_status(window, pane)
---   local compose = window:composition_status()
---   if compose then
---     compose = "COMPOSING: " .. compose
---   end
---   window:set_right_status(compose)
--- end
---
--- local function display_copy_mode(window, pane)
---   local name = window:active_key_table()
---   if name then
---     name = "Mode: " .. name
---   end
---   return { { Attribute = { Italic = false } }, { Text = name or "" } }
--- end
-
--- wezterm.on("update-right-status", function(window, pane)
--- 	local tmux = update_tmux_style_tab(window, pane)
--- 	local copy_mode = display_copy_mode(window, pane)
--- 	update_window_background(window, pane)
--- 	local status = utils.merge_lists(tmux, copy_mode)
--- 	window:set_right_status(wezterm.format(status))
--- end)
-
-wezterm.on("toggle-tmux-keybinds", function(window, pane)
+wezterm.on("toggle-tmux-keybinds", function(window, _)
   local overrides = window:get_config_overrides() or {}
   if not overrides.window_background_opacity then
     overrides.window_background_opacity = 0.95
@@ -240,138 +106,11 @@ wezterm.on("toggle-tmux-keybinds", function(window, pane)
   window:set_config_overrides(overrides)
 end)
 
-local io = require("io")
-local os = require("os")
-
-wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
-  local scrollback = pane:get_lines_as_text()
-  local name = os.tmpname()
-  local f = io.open(name, "w+")
-  if f == nil then
-    return
-  end
-  f:write(scrollback)
-  f:flush()
-  f:close()
-  window:perform_action(
-    wezterm.action({
-      SpawnCommandInNewTab = {
-        args = { os.getenv("HOME") .. "/.local/share/zsh/zinit/polaris/bin/nvim", name },
-      },
-    }),
-    pane
-  )
-  wezterm.sleep_ms(1000)
-  os.remove(name)
-end)
-
-local HEADER_HOST = { Foreground = { Color = "#75b1a9" }, Text = "" }
-local HEADER_CWD = { Foreground = { Color = "#92aac7" }, Text = "" }
-local HEADER_DATE = { Foreground = { Color = "#ffccac" }, Text = "󱪺" }
-local HEADER_TIME = { Foreground = { Color = "#bcbabe" }, Text = "" }
-local HEADER_BATTERY = { Foreground = { Color = "#dfe166" }, Text = "" }
-local DEFAULT_FG = { Color = "#9a9eab" }
-local DEFAULT_BG = { Color = "#333333" }
-local SPACE_1 = " "
-local SPACE_3 = "   "
-
-local HEADER_KEY_NORMAL = { Foreground = DEFAULT_FG, Text = "" }
-local HEADER_LEADER = { Foreground = { Color = "#ffffff" }, Text = "" }
-local HEADER_IME = { Foreground = DEFAULT_FG, Text = "あ" }
-
-local function AddIcon(elems, icon)
-  table.insert(elems, { Foreground = icon.Foreground })
-  table.insert(elems, { Background = DEFAULT_BG })
-  table.insert(elems, { Text = SPACE_1 .. icon.Text .. SPACE_3 })
-end
-
-local function GetKeyboard(elems, window)
-  if window:leader_is_active() then
-    AddIcon(elems, HEADER_LEADER)
-  end
-
-  AddIcon(elems, window:composition_status() and HEADER_IME or HEADER_KEY_NORMAL)
-end
-
-local function AddElement(elems, header, str)
-  table.insert(elems, { Foreground = header.Foreground })
-  table.insert(elems, { Background = DEFAULT_BG })
-  table.insert(elems, { Text = header.Text .. SPACE_1 })
-
-  table.insert(elems, { Foreground = DEFAULT_FG })
-  table.insert(elems, { Background = DEFAULT_BG })
-  table.insert(elems, { Text = str .. SPACE_3 })
-end
-
-local function GetHostAndCwd(elems, pane)
-  local uri = pane:get_current_working_dir()
-
-  if not uri then
-    return
-  end
-
-  local cwd_uri = uri:sub(8)
-  local slash = cwd_uri:find("/")
-
-  if not slash then
-    return
-  end
-
-  local host = cwd_uri:sub(1, slash - 1)
-  local dot = host:find("[.]")
-
-  AddElement(elems, HEADER_HOST, dot and host:sub(1, dot - 1) or host)
-  AddElement(elems, HEADER_CWD, cwd_uri:sub(slash))
-end
-
-local function GetDate(elems)
-  AddElement(elems, HEADER_DATE, wezterm.strftime("%a %b %-d"))
-end
-
-local function GetTime(elems)
-  AddElement(elems, HEADER_TIME, wezterm.strftime("%H:%M"))
-end
-
-local function GetBattery(elems, window)
-  if not window:get_dimensions().is_full_screen then
-    return
-  end
-
-  for _, b in ipairs(wezterm.battery_info()) do
-    AddElement(elems, HEADER_BATTERY, string.format("%.0f%%", b.state_of_charge * 100))
-  end
-end
-
-local function LeftUpdate(window, pane)
-  local elems = {}
-
-  GetKeyboard(elems, window)
-  window:set_left_status(wezterm.format(elems))
-end
-
-local function RightUpdate(window, pane)
-  local elems = {}
-
-  GetHostAndCwd(elems, pane)
-  GetDate(elems)
-  GetBattery(elems, window)
-  GetTime(elems)
-
-  window:set_right_status(wezterm.format(elems))
-end
-
--- Reference:
--- https://wezfurlong.org/wezterm/config/lua/window/active_workspace.html
--- https://coralpink.github.io/commentary/wezterm/right-status.html
--- wezterm.on("update-status", function(window, pane)
--- LeftUpdate(window, pane)
--- RightUpdate(window, pane)
--- end)
-
 ---------------------------------------------------------------
 --- load local_config
 ---------------------------------------------------------------
 -- Write settings you don't want to make public, such as ssh_domains
+local os = require("os")
 package.path = os.getenv("HOME") .. "/.local/share/wezterm/?.lua;" .. package.path
 
 local function load_local_config(module)
@@ -380,52 +119,22 @@ local function load_local_config(module)
     return {}
   end
   return dofile(m)
-  -- local ok, _ = pcall(require, "local")
-  -- if not ok then
-  --  return {}
-  -- end
-  -- return require("local")
-end
-
-local local_config = load_local_config("local")
-
-local function get_fonts()
-  if wezterm.target_triple == "aarch64-apple-darwin" then
-    return {
-      "HackGen35 Console NF",
-      "HackGenNerd Console",
-    }
-  else
-    return {
-      "HackGenNerd Console",
-      "HackGen35 Console NF",
-    }
-  end
 end
 
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  -- local background = "#5c6d74"
-  -- local foreground = "#FFFFFF"
-  -- local foreground = "#cdd6f4"
   local foreground = "#313244"
   local background = "#89b4fa"
   local edge_background = "none"
 
   if tab.is_active then
-    -- background = "#ae8b2d"
-    -- foreground = "#FFFFFF"
     background = "#a6e3a1"
   end
 
   local edge_foreground = background
   local active_tab_tilte = tab.active_pane.title
-  -- ssh接続の時は@接続先を追加したい
-  -- if active_tab_tilte == "ssh" then
-  --   active_tab_tilte = active_tab_tilte .. " @ " .. wezterm.hostname()
-  -- end
   local title = "   " .. wezterm.truncate_right(active_tab_tilte, max_width - 1) .. "   "
 
   return {
@@ -445,71 +154,30 @@ end)
 --- Config
 ---------------------------------------------------------------
 local config = {
-  -- font = wezterm.font("Hack Nerd Font Mono", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Bold Nerd Font Complete Mono.ttf, FontConfig
-  -- font = wezterm.font("Hack Nerd Font", { weight = "Regular", stretch = "Normal", style = "Normal" }), -- /home/d-chiba/.local/share/fonts/NerdFonts/Hack Regular Nerd Font Complete.ttf, FontConfig
-  -- font = wezterm.font("Ricty", {weight="Regular", stretch="Normal", style="Normal"}), -- /home/d-chiba/.local/share/fonts/Unknown Vendor/TrueType/Ricty/Ricty_R
-  -- font = wezterm.font("Ricty", { weight = "Regular", stretch = "Normal", style = "Normal" }),
-  -- font = wezterm.font("UDEV Gothic 35NFLG"),
-  -- font = wezterm.font("HackGenNerd", { weight = "Bold", stretch = "Normal", style = "Normal" }), -- /usr/share/fonts/HackGenNerd_v2.6.3/HackGenNerd-Bold.ttf, FontConfig   -- font = wezterm.font("FirgeNerd", {weight="Regular", stretch="Normal", style="Normal"}),  -- wget https://github.com/yuru7/Firge/releases/download/v0.2.0/FirgeNerd_v0.2.0.zip
-  -- font = wezterm.font_with_fallback({ "HackGenNerd Console", "Cica" }),
-  -- font = wezterm.font_with_fallback(
-  --   -- { "HackGenNerd Console", "Cica" }
-  --   { "HackGenNerd Console", "HackGen Console NF" }
-  --   -- { "HackGen Console NF", "HackGenNerd Console" }
-  -- ),
-
-  font = wezterm.font_with_fallback(get_fonts()),
-
-  -- font = wezterm.font("Cica", { weight = "Regular", stretch = "Normal", style = "Normal" }),
+  font = wezterm.font_with_fallback({
+    "HackGen Console NF",
+    "HackGenNerd Console",
+    "Cica",
+  }),
   use_ime = true,
   font_size = 15,
-  -- color_scheme = "iceberg-dark",
-  -- color_scheme = "nightfox",
-  -- color_scheme = "nord",
-  -- color_scheme = "tokyonight",
-  -- color_scheme = "night-owl",
-  -- color_scheme = "Catppuccin Mocha",
   color_scheme = "Catppuccin Mocha (Gogh)",
-  -- color_scheme = "ayu",
-  -- color_scheme = "Bitmute (terminal.sexy)",
-  -- color_scheme = "Breath Darker (Gogh)",
-  -- color_scheme = "Broadcast (Gogh)",
-  -- color_scheme = "Brogrammer",
-  -- color_scheme = "3024 (base16)",
   adjust_window_size_when_changing_font_size = false,
-
-  hide_tab_bar_if_only_one_tab = true,
+  hide_tab_bar_if_only_one_tab = false,
   use_fancy_tab_bar = true,
   tab_and_split_indices_are_zero_based = true,
   show_new_tab_button_in_tab_bar = false,
   show_close_tab_button_in_tabs = false,
-  colors = {
-    tab_bar = {
-      inactive_tab_edge = "none",
-    },
-  },
-  window_frame = {
-    inactive_titlebar_bg = "none",
-    active_titlebar_bg = "none",
-  },
-  window_background_gradient = {
-    colors = { "#000000" },
-  },
+  colors = { tab_bar = { inactive_tab_edge = "none" } },
+  window_frame = { inactive_titlebar_bg = "none", active_titlebar_bg = "none" },
+  window_background_gradient = { colors = { "#000000" } },
   send_composed_key_when_left_alt_is_pressed = true,
   send_composed_key_when_right_alt_is_pressed = false,
-  -- debug_key_events = true,
   macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
-  -- transparency settings
-  window_background_opacity = 0.85,
+  window_background_opacity = 0.75,
   text_background_opacity = 1.0,
-  -- window_background_opacity = 1.0,
-  -- text_background_opacity = 1.0,
-  -- text_background_opacity = 1.0,
-
   native_macos_fullscreen_mode = true,
   macos_window_background_blur = 20,
-
-  -- text_blink_rate = 600,
   status_update_interval = 300000, -- 300s
   warn_about_missing_glyphs = false,
   selection_word_boundary = " \t\n{}[]()\"'`,;:",
@@ -522,10 +190,8 @@ local config = {
   tab_bar_at_bottom = false,
 
   -- Hide title bar
-  -- Ref:
-  -- [1] https://wezfurlong.org/wezterm/config/lua/config/window_decorations.html
-  -- window_decorations = "RESIZE|INTEGRATED_BUTTONS",
-  window_decorations = "RESIZE",
+  -- Ref: [1] https://wezfurlong.org/wezterm/config/lua/config/window_decorations.html
+  window_decorations = "INTEGRATED_BUTTONS|RESIZE",
   disable_default_key_bindings = true,
   visual_bell = {
     fade_in_function = "EaseIn",
@@ -702,9 +368,7 @@ local config = {
       action = "OpenLinkAtMouseCursor",
     },
   },
-  ssh_domains = local_config.ssh_domains,
-  -- animation_fps = 10,
-  -- enable_wayland = true,
+  ssh_domains = load_local_config("local").ssh_domains,
 }
 
-return utils.merge_tables(config, local_config)
+return config

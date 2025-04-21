@@ -121,6 +121,12 @@ export PATH=/usr/local/cuda-11.8/bin:${PATH}
 #--- nnn
 export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
 
+# --- Environment
+local os_type = $(uname -s)
+if [[ "${os_type}" == "Darwin" ]]; then
+  export PATH=/"opt/homebrew/bin:${PATH}"
+fi
+
 
 # --- measurement utils
 # Ref: https://zenn.dev/yutakatay/articles/zsh-neovim-speedcheck

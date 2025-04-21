@@ -1,5 +1,6 @@
+local snacks = require("snacks")
+
 --- ログを出力する関数
----
 ---@param msg string messages to log
 ---@param level string logging level
 ---@param notice boolean | nil default false
@@ -18,7 +19,6 @@ local function log(msg, level, notice)
 end
 
 --- OSのタイプを判定する関数、macosならmacos, linuxならLinuxを、それ以外はunknownを返す
----
 ---@return string
 local function get_os_type()
   local handle = io.popen("uname")
@@ -39,7 +39,6 @@ local function get_os_type()
 end
 
 ---OSごとにVaultディレクトリのパスが違うので、対応してセットするための関数
----
 ---@return string | nil
 local function set_vault_path()
   local os_type = get_os_type()
@@ -135,8 +134,6 @@ end, { desc = "Open init.lua" })
 
 vim.api.nvim_create_user_command("CopyLastCmd", function()
   vim.fn.setreg("*", vim.fn.getreg(":"))
-  -- unless vim.opt.clipboard has unnamed
-  -- vim.fn.setreg('', vim.fn.getreg(':'))
 end, { desc = "Copy last used command" })
 
 return {
@@ -175,56 +172,18 @@ return {
         "shfmt",
         -- python
         "ruff",
-        "ruff-lsp",
         -- rust
         "rust-analyzer",
       },
     },
   },
 
-  -- {
-  --   "nvim-lualine/lualine.nvim",
-  --   optional = true,
-  --   event = "VeryLazy",
-  --   opts = function(_, opts)
-  --     local colors = {
-  --       [""] = LazyVim.ui.fg("Special"),
-  --       ["Normal"] = LazyVim.ui.fg("Special"),
-  --       ["Warning"] = LazyVim.ui.fg("DiagnosticError"),
-  --       ["InProgress"] = LazyVim.ui.fg("DiagnosticWarn"),
-  --     }
-  --     table.insert(opts.sections.lualine_x, 2, {
-  --       function()
-  --         local icon = LazyVim.config.icons.kinds.Copilot
-  --         local status = require("copilot.api").status.data
-  --         return icon .. (status.message or "")
-  --       end,
-  --       cond = function()
-  --         if not package.loaded["copilot"] then
-  --           return
-  --         end
-  --         local ok, clients = pcall(LazyVim.lsp.get_clients, { name = "copilot", bufnr = 0 })
-  --         if not ok then
-  --           return false
-  --         end
-  --         return ok and #clients > 0
-  --       end,
-  --       color = function()
-  --         if not package.loaded["copilot"] then
-  --           return
-  --         end
-  --         local status = require("copilot.api").status.data
-  --         return colors[status.status] or colors[""]
-  --       end,
-  --     })
-  --   end,
-  -- },
-
   -- copilot
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
+    event = { "InsertEnter" },
     opts = {
       suggestion = {
         enabled = true,
@@ -242,90 +201,51 @@ return {
         markdown = true,
         gitcommit = true,
         help = true,
+        text = true,
+        yaml = true,
       },
     },
   },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end,
-  -- },
-
-  -- {
-  --   "github/copilot.vim",
-  -- },
-  -- copilot cmp source
-  -- {
-  --   "nvim-cmp",
-  --   dependencies = {
-  --     {
-  --       "zbirenbaum/copilot-cmp",
-  --       dependencies = "copilot.lua",
-  --       opts = {},
-  --       config = function(_, opts)
-  --         local copilot_cmp = require("copilot_cmp")
-  --         copilot_cmp.setup(opts)
-  --         -- attach cmp source whenever copilot attaches
-  --         -- fixes lazy-loading issues with the copilot cmp source
-  --         LazyVim.lsp.on_attach(function(client)
-  --           vim.notify("attach copilot.lua")
-  --           copilot_cmp._on_insert_enter({})
-  --         end, "copilot")
-  --       end,
-  --     },
-  --   },
-  --   ---@param opts cmp.ConfigSchema
-  --   opts = function(_, opts)
-  --     table.insert(opts.sources, 1, {
-  --       name = "copilot",
-  --       group_index = 1,
-  --       priority = 100,
-  --     })
-  --   end,
-  -- },
-  -- {
-  --   "github/copilot.vim",
-  --   -- lazy = true,
-  --   cmd = { "Copilot", "Copilot setup" },
-  --   config = function()
-  --     vim.g.copilot_no_tab_map = true
-  --     vim.g.copilot_assume_mapped = true
-  --     vim.keymap.set("i", "<C-g>", 'copilot#Accept("<CR>")', { expr = true, silent = true, script = true })
-  --     vim.keymap.set("i", "<C-G>", "copilot#Dismiss()", { expr = true, silent = true, script = true })
-  --   end,
-  -- },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    -- branch = "canary",
     event = "VeryLazy",
+    branch = "main",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       -- { "github/copilot.vim" },
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log wrapper
     },
+    build = "make tiktoken",
     opts = {
-      debug = true, -- Enable debugging
+      debug = false, -- Enable debugging
       chat_autocomplete = true,
-      model = "claude-3.7-sonnet",
-      -- See Configuration section for rest
+      model = "gemini-2.5-pro",
+      -- agent = "gemini-2.5-pro",
+      -- model = "claude-3.7-sonnet",
+      mappings = {
+        accept_diff = {
+          normal = "<leader>ad",
+          insert = "<leader>ad",
+        },
+      },
+      prompts = {
+        Explain = {
+          prompt = "Write an explanation for the selected code as paragraphs of text step by step in Japanese.",
+          system_prompt = "COPILOT_EXPLAIN",
+        },
+      },
     },
-    agent = "claude-3.7-sonnet",
-    -- See Commands section for default commands if you want to lazy load on them
   },
 
-  -- Bufdelete
   {
     "famiu/bufdelete.nvim",
   },
-  -- Quarto
   {
     "quarto-dev/quarto-nvim",
   },
   {
     "jmbuhr/otter.nvim",
   },
-  -- Obsidian
   {
     "epwalsh/obsidian.nvim",
     lazy = true,
@@ -359,37 +279,6 @@ return {
       })
     end,
   },
-  -- {
-  --   "lukas-reineke/headlines.nvim",
-  --   dependencies = "nvim-treesitter/nvim-treesitter",
-  --   opts = {
-  --     markdown = { bullets = { "● ", "○ ", "◆ ", "◇ " } },
-  --   },
-  -- },
-  -- {
-  --   "MeanderingProgrammer/render-markdown.nvim",
-  --   opts = {
-  --     file_types = { "markdown", "norg", "rmd", "org" },
-  --     code = {
-  --       sign = false,
-  --       width = "block",
-  --       right_pad = 1,
-  --     },
-  --     heading = {
-  --       sign = false,
-  --       icons = {},
-  --     },
-  --     bullet = {
-  --       enabled = true,
-  --       icons = { "●", "○", "◆", "◇" },
-  --       right_pad = 2,
-  --     },
-  --   },
-  -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-  -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-  --   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
-  -- },
-  -- ToggleTerm
   {
     "akinsho/toggleterm.nvim",
     opts = {
@@ -398,49 +287,12 @@ return {
       hide_numbers = true,
     },
   },
-  -- {
-  --   "3rd/image.nvim",
-  --   -- Disable on Windows system
-  --   cond = function()
-  --     return vim.fn.has("win32") ~= 1
-  --   end,
-  --   dependencies = {
-  --     "leafo/magick",
-  --   },
-  --   opts = {
-  --     -- image.nvim config
-  --   },
-  -- },
-  -- {
-  --   "3rd/diagram.nvim",
-  --   dependencies = {
-  --     "3rd/image.nvim",
-  --   },
-  --   opts = { -- you can just pass {}, defaults below
-  --     renderer_options = {
-  --       mermaid = {
-  --         background = nil, -- nil | "transparent" | "white" | "#hex"
-  --         theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
-  --       },
-  --     },
-  --     integrations = {
-  --       require("diagram.integrations.markdown"),
-  --     },
-  --   },
-  -- },
   {
     "ojroques/nvim-osc52",
     config = function()
       vim.keymap.set("n", "<leader>ctl", require("osc52").copy_operator, { expr = true, desc = "Copy text object" })
       vim.keymap.set("n", "<leader>cc", "<leader>c_", { remap = true })
       vim.keymap.set("v", "<leader>ctl", require("osc52").copy_visual, { desc = "Copy visual selection" })
-    end,
-  },
-  {
-    "adelarsq/image_preview.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("image_preview").setup()
     end,
   },
   {
@@ -488,22 +340,12 @@ return {
       })
     end,
   },
-  -- {
-  --   "stevearc/conform.nvim",
-  --   opts = {
-  --     formatters_by_ft = {
-  --       sql = { "sql_formatter" },
-  --     },
-  --   },
-  -- },
-  -- Typst
   {
     "chomosuke/typst-preview.nvim",
     lazy = false, -- or ft = 'typst'
     version = "1.*",
     opts = {}, -- lazy.nvim will implicitly calls `setup {}`
   },
-  -- lazy.nvim
   {
     "folke/snacks.nvim",
     ---@type snacks.Config
