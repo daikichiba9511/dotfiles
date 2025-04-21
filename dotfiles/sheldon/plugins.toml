@@ -25,9 +25,6 @@ shell = "zsh"
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-[templates]
-defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
-
 [plugins.fast-syntaxhighlight]
 github = "zdharma/fast-syntax-highlighting"
 
@@ -36,16 +33,12 @@ github = "chrissicool/zsh-256color"
 
 [plugins.history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
-apply = ["defer"]
 
 [plugins.autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
-apply = ["defer"]
 
 [plugins.completions]
 github = "zsh-users/zsh-completions"
-apply = ["defer"]
 
 [plugins.abbrev-alias]
 github = "momo-lab/zsh-abbrev-alias"
-apply = ["defer"]
