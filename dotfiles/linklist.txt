@@ -1,6 +1,6 @@
 # 1: path in dotfiles 2: link path
 # neovim
-nvim        ${HOME}/.config/nvim
+nvim        ${HOME}/.config
 
 # vim
 .vimrc ${HOME}

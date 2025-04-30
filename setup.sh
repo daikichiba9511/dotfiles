@@ -429,6 +429,8 @@ function main() {
   if [[ $(uname -s) == 'Darwin' ]]; then
     mise completion zsh >/opt/homebrew/share/zsh/site-functions/_mise
   fi
+  mkdir -p ~/.config/mise/conf.d
+  cp ./mise.toml ~/.config/mise/conf.d/extras.toml
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
