@@ -52,9 +52,9 @@ unset cache_dir sheldon_cache sheldon_toml
 
 # 読み込み
 source $ZSHRC_DIR/nonlazy.zsh
-zsh-defer source $ZSHRC_DIR/lazy.zsh
+source $ZSHRC_DIR/lazy.zsh
 # オーバーライドしたsourceを元に戻す
-zsh-defer unfunction source
+unfunction source
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

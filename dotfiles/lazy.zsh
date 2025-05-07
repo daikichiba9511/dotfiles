@@ -122,7 +122,7 @@ export PATH=/usr/local/cuda-11.8/bin:${PATH}
 export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview;p:preview-tui'
 
 # --- Environment
-local os_type = $(uname -s)
+local os_type=$(uname -s)
 if [[ "${os_type}" == "Darwin" ]]; then
   export PATH=/"opt/homebrew/bin:${PATH}"
 fi
