@@ -19,6 +19,7 @@ fzf = "latest"
 lazygit = "latest"
 gh = "latest"
 usage = "latest"
+neovim = "0.10"
 
 
 [settings]

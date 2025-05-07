@@ -408,7 +408,6 @@ function main() {
   mkdir -p "${HOME}/.local/bin"
   install_sheldon
   install_starship
-  install_neovim
   install_mise
   install_tmux_plugin_manager
   install_wezterm
@@ -423,6 +422,7 @@ function main() {
   # install_tmux
   # install_lazygit
   # install_nodejs
+  # install_neovim
 
   # miseのinstallに回せるツール
   mise install
