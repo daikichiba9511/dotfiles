@@ -410,6 +410,15 @@ function main() {
   install_starship
   install_mise
   install_tmux_plugin_manager
+
+  # miseのinstallに回せるツール
+  mise install
+  if [[ $(uname -s) == 'Darwin' ]]; then
+    mise completion zsh >/opt/homebrew/share/zsh/site-functions/_mise
+  fi
+  mkdir -p ~/.config/mise/conf.d
+  cp ./mise.toml ~/.config/mise/conf.d/extras.toml
+
   install_wezterm
 
   # install_lsd
@@ -424,13 +433,6 @@ function main() {
   # install_nodejs
   # install_neovim
 
-  # miseのinstallに回せるツール
-  mise install
-  if [[ $(uname -s) == 'Darwin' ]]; then
-    mise completion zsh >/opt/homebrew/share/zsh/site-functions/_mise
-  fi
-  mkdir -p ~/.config/mise/conf.d
-  cp ./mise.toml ~/.config/mise/conf.d/extras.toml
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
