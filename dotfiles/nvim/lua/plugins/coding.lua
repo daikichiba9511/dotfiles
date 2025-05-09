@@ -153,7 +153,7 @@ return {
   {
     "github/copilot.vim",
   },
-  copilot({
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
@@ -189,7 +189,7 @@ return {
       },
       copilot_model = "gpt-4o-copilot",
     },
-  }),
+  },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     event = "VeryLazy",
