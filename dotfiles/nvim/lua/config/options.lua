@@ -15,6 +15,12 @@ vim.opt.listchars = "tab:»»"
 vim.opt.cmdheight = 0
 vim.opt.conceallevel = 0
 
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- Add any additional options here
+vim.g.ai_cmp = false
+-- vim.g.copilot_no_tab_map = true
+
 keymap("n", "<C-x>", "<Cmd>lua require('bufdelete').bufwipeout(0, true)<CR>", { noremap = true, silent = true })
 
 local function quick_chat()

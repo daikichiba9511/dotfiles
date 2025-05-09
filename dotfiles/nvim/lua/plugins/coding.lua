@@ -96,38 +96,6 @@ local function set_to_clipboard_from_remote(value)
   require("osc52").copy(value)
 end
 
----相対パスをクリップボードにセットする関数
----@param state any
----@return nil
-local function set_relative_path_to_clipboard(state)
-  local rel_path = get_relative_path(state)
-  set_to_clipboard(rel_path)
-end
-
----絶対パスをクリップボードにセットする関数
----@param state any
----@return nil
-local function set_absolute_path_to_clipboard(state)
-  local abs_path = get_abs_path(state)
-  set_to_clipboard(abs_path)
-end
-
----相対パスをリモートからクリップボードにセットする関数
----@param state any
----@return nil
-local function set_relative_path_to_clipboard_from_remote(state)
-  local rel_path = get_relative_path(state)
-  set_to_clipboard_from_remote(rel_path)
-end
-
----絶対パスをリモートからクリップボードにセットする関数
----@param state any
----@return nil
-local function set_absolute_path_to_clipboard_from_remote(state)
-  local abs_path = get_abs_path(state)
-  set_to_clipboard_from_remote(abs_path)
-end
-
 vim.api.nvim_create_user_command("InitLua", function()
   vim.cmd.edit(vim.fn.stdpath("config") .. "/init.lua")
 end, { desc = "Open init.lua" })
@@ -162,7 +130,8 @@ return {
   },
   -- mason
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
+    version = "^1.0.0", -- TODO: update to 2.0.0
     opts = {
       ensure_installed = {
         -- lua
@@ -177,9 +146,14 @@ return {
       },
     },
   },
-
-  -- copilot
   {
+    "mason-org/mason-lspconfig.nvim",
+    version = "^1.0.0", -- TODO: update to 2.0.0
+  },
+  {
+    "github/copilot.vim",
+  },
+  copilot({
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
@@ -187,10 +161,11 @@ return {
     opts = {
       suggestion = {
         enabled = true,
+        -- hide_during_completion = true
         keymap = {
           accept = "<C-g>",
           accept_word = false,
-          accept_line = false,
+          accept_line = "<C-g>",
           next = "<C-]>",
           prev = "<C-[>",
           dismiss = "<C-e>",
@@ -200,12 +175,21 @@ return {
       filetypes = {
         markdown = true,
         gitcommit = true,
+        gitrebase = false,
         help = true,
         text = true,
         yaml = true,
+        sh = function()
+          if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^%.env.*") then
+            -- disable for .env files
+            return false
+          end
+          return true
+        end,
       },
+      copilot_model = "gpt-4o-copilot",
     },
-  },
+  }),
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     event = "VeryLazy",
@@ -247,7 +231,7 @@ return {
     "jmbuhr/otter.nvim",
   },
   {
-    "epwalsh/obsidian.nvim",
+    "obsidian-nvim/obsidian.nvim",
     lazy = true,
     version = "*",
     opts = {
