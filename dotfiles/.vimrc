@@ -1,5 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
+let mapleader = "\<Space>"
 
 set relativenumber
 set nowritebackup
@@ -142,15 +143,19 @@ call plug#end()
 runtime! ftplugin/man.vim
 
 " }}}
+"
+" --------------
+"  Fern
+" --------------
+nnoremap <Leader>e :Fern . -drawer<CR>
+
 
 
 " ---------------
 "
 "  CoC
 " ---------------
-if exists('*coc#rpc#start_server')
-    call CoCSettings()
-endif
+let g:coc_global_extensions = ['coc-lists']
 
 function! CoCSettings() abort
     " https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
@@ -281,6 +286,8 @@ function! CoCSettings() abort
     nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
     " Manage extensions
     nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+    " Find Files
+    nnoremap <silent><nowait> <space><space>f :<C-u>CocList --auto-preview files<cr>
     " Show commands
     nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
     " Find symbol of current document
@@ -293,8 +300,12 @@ function! CoCSettings() abort
     nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list
     nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+    " Find most recent used
+    nnoremap <silent><nowait> <space><space>r :<C-u>CocList --auto-preview mru<CR>
 
 endfunction
+
+call CoCSettings()
 
 function! CheckBackspace() abort
   let col = col('.') - 1
