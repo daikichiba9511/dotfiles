@@ -10,6 +10,7 @@ return {
       -- colorscheme = "nightfox",
       -- colorscheme = "onedark",
       colorscheme = "catppuccin",
+      -- colorscheme = "cyberdream",
     },
   },
   {
@@ -88,6 +89,14 @@ return {
       code_style = {
         comments = "none",
       },
+    },
+  },
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
     },
   },
 }
