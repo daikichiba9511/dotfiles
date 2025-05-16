@@ -155,13 +155,13 @@ end)
 ---------------------------------------------------------------
 local config = {
   font = wezterm.font_with_fallback({
-    "HackGen35 Console NFJ",
     "HackGen Console NFJ",
+    "HackGen35 Console NFJ",
     "HackGenNerd Console",
     "Cica",
   }),
   use_ime = true,
-  font_size = 15,
+  font_size = 16.5,
   color_scheme = "Catppuccin Mocha (Gogh)",
   adjust_window_size_when_changing_font_size = false,
   hide_tab_bar_if_only_one_tab = false,
