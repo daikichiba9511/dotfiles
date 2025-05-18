@@ -358,6 +358,17 @@ function install_mise() {
   curl https://mise.run | sh
 }
 
+function install_fish() {
+  log INFO 'Install fish shell ✅'
+  if [[ ${OS_TYPE} = 'Linux' ]]; then
+    sudo apt-add-repository ppa:fish-shell/release-4
+    sudo apt update
+    sudo apt install -yq fish
+  elif [[ ${OS_TYPE} = 'Mac' ]]; then
+    brew install fish
+  fi
+}
+
 # ${#<配列変数>} 配列のサイズ取得
 # if [[ "${#ARGS[@]}" ]]
 
@@ -406,6 +417,7 @@ function main() {
 
   # Ubuntu & Mac(M3)
   mkdir -p "${HOME}/.local/bin"
+  install_fish
   install_sheldon
   install_starship
   install_mise
@@ -432,7 +444,6 @@ function main() {
   # install_lazygit
   # install_nodejs
   # install_neovim
-
 
   # デフォルトのshellをzshにする
   if [ "${OS_TYPE}" = 'Linux' ]; then
