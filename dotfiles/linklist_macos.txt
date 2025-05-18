@@ -14,6 +14,9 @@ sheldon ${HOME}/.config
 lazy.zsh    ${HOME}/.config/zsh
 nolazy.zsh    ${HOME}/.config/zsh
 
+# fish
+config.fish ${HOME}/.config/fish
+
 # git
 .gitconfig      ${HOME}
 
