@@ -4,6 +4,27 @@
 --
 local keymap = vim.api.nvim_set_keymap
 
+vim.o.clipboard = "unnamedplus"
+
+local function paste()
+  return {
+    vim.fn.split(vim.fn.getreg(""), "\n"),
+    vim.fn.getregtype(""),
+  }
+end
+
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = paste,
+    ["*"] = paste,
+  },
+}
+
 vim.opt.shell = "zsh"
 vim.opt.clipboard = "unnamedplus"
 -- vim.opt.spelllang = { "en", "cjk" }
