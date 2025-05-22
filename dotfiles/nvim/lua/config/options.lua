@@ -25,7 +25,23 @@ vim.g.clipboard = {
   },
 }
 
-vim.opt.shell = "zsh"
+local function set_shell_fallback()
+  local shell = os.getenv("SHELL")
+  if shell then
+    vim.opt.shell = shell
+  else
+    if vim.fn.executable("fish") == 1 then
+      vim.opt.shell = "fish"
+    elseif vim.fn.executable("zsh") == 1 then
+      vim.opt.shell = "zsh"
+    else
+      vim.opt.shell = "bash"
+    end
+  end
+end
+
+set_shell_fallback()
+
 vim.opt.clipboard = "unnamedplus"
 -- vim.opt.spelllang = { "en", "cjk" }
 vim.opt.spelllang = {}
