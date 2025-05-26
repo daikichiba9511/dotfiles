@@ -183,6 +183,8 @@ function! CoCSettings() abort
     inoremap <expr><S-TAB> coc#pub#visible() ? coc#pub#prev(1) : "\<C-h>"
     " Use <c-space> to trigger completion
     inoremap <silent><expr> <c-@> coc#refresh()
+    " Use <enter> to insert the completion
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
@@ -285,7 +287,7 @@ function! CoCSettings() abort
     " Show all diagnostics
     nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
     " Manage extensions
-    nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+    " nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
     " Find Files
     nnoremap <silent><nowait> <space><space>f :<C-u>CocList --auto-preview files<cr>
     " Show commands
