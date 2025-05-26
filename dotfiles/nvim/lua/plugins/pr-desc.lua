@@ -54,3 +54,5 @@ end, {
   end,
   desc = "Generate PR description with CopilotChat from git diff",
 })
+
+return {}
