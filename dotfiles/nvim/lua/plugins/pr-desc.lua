@@ -1,5 +1,6 @@
 ---@diagnostic disable: undefined-global
 local chat = require("CopilotChat") -- CopilotChat.nvim v3 以降を想定
+local select = require("CopilotChat.select") -- CopilotChat.nvim v3 以降を想定
 
 -- git diff を取り込み、scratch バッファを開く
 local function open_branch_diff(base, new)
@@ -26,8 +27,11 @@ local function ask_copilot(diff, base, new)
 概要・詳細に分けて書き、概要はポイントを箇条書きで、詳細はポイントを箇条書きで変更理由とそれによってどういう影響があるかなど意図を説明してください。
 ]]):format(base, new)
   chat.ask(prompt, {
-    selection = diff, -- 生成した diff をそのまま渡す
+    selection = function(source)
+      return select.buffer(source)
+    end,
     title = ("PR %s→%s"):format(base, new),
+    context = buffer,
   })
 end
 
@@ -40,7 +44,7 @@ vim.api.nvim_create_user_command("PRDiff", function(opts)
   local buf, diff = open_branch_diff(base, new)
   if diff and diff ~= "" then
     ask_copilot(diff, base, new)
-    vim.bo[buf].modifiable = false -- 誤編集防止（必要なら外す）
+    -- vim.bo[buf].modifiable = false -- 誤編集防止（必要なら外す）
   else
     vim.notify(("No diff between %s and %s"):format(base, new), vim.log.levels.INFO)
   end
