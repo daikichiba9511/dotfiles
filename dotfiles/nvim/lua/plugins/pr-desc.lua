@@ -31,7 +31,6 @@ local function ask_copilot(diff, base, new)
       return select.buffer(source)
     end,
     title = ("PR %s→%s"):format(base, new),
-    context = buffer,
   })
 end
 
