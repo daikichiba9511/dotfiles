@@ -1,15 +1,15 @@
 [tools]
 # -- Cores
 node = "22"
-deno = "latest"
-python = "3.12"
-rust = "latest"
+# deno = "latest"
+python = "3.11"
+# rust = "latest"
 
 # -- Tools
 uv = "latest"
 aws-cli = "latest"
 # vim = "latest"  # macでうまく入らないので
-"asdf:mise-plugins/mise-tmux" = "latest"
+# "asdf:mise-plugins/mise-tmux" = "latest"
 ripgrep = "latest"
 lsd = "latest"
 fd = "latest"
@@ -19,8 +19,8 @@ fzf = "latest"
 lazygit = "latest"
 gh = "latest"
 usage = "latest"
-neovim = "0.10"
+neovim = "0.11"
 
 
-[settings]
-python.uv_venv_auto = true
+# [settings]
+# python.uv_venv_auto = true

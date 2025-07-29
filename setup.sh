@@ -424,14 +424,11 @@ function main() {
   install_tmux_plugin_manager
 
   # miseのinstallに回せるツール
-  mise install
   if [[ $(uname -s) == 'Darwin' ]]; then
     mise completion zsh >/opt/homebrew/share/zsh/site-functions/_mise
   fi
   mkdir -p ~/.config/mise/conf.d
   cp ./mise.toml ~/.config/mise/conf.d/extras.toml
-
-  install_wezterm
 
   # install_lsd
   # install_fdfind
@@ -449,6 +446,9 @@ function main() {
   if [ "${OS_TYPE}" = 'Linux' ]; then
     sudo chsh "${USER}" -s "$(which zsh)"
   fi
+
+  install_wezterm
+  mise install -y
 
   log INFO '=================== ✅Finished setup of develop environment  ================='
 }
