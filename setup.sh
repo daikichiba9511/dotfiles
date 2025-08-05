@@ -361,7 +361,7 @@ function install_mise() {
 function install_fish() {
   log INFO 'Install fish shell ✅'
   if [[ ${OS_TYPE} = 'Linux' ]]; then
-    sudo apt-add-repository ppa:fish-shell/release-4
+    sudo apt-add-repository ppa:fish-shell/release-4 -y
     sudo apt update
     sudo apt install -yq fish
   elif [[ ${OS_TYPE} = 'Mac' ]]; then
