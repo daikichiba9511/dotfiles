@@ -448,6 +448,7 @@ function main() {
   fi
 
   install_wezterm
+  mise trust -y
   mise install -y
 
   log INFO '=================== ✅Finished setup of develop environment  ================='
