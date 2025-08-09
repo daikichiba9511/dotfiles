@@ -1,13 +1,19 @@
 local snacks = require("snacks")
 
+--- ログレベルの定義
+---@enum LogLevel
+local LogLevel = {
+  INFO = "INFO",
+  WARNING = "WARNING",
+  ERROR = "ERROR",
+}
+
 --- ログを出力する関数
 ---@param msg string messages to log
----@param level string logging level
----@param notice boolean | nil default false
+---@param level LogLevel logging level
+---@param notice boolean? default false
 local function log(msg, level, notice)
-  if notice == nil then
-    notice = false
-  end
+  notice = notice or false
 
   local date = os.date("%Y-%m-%d %H:%M:%S")
   local _msg = string.format("[%s] : [%s] : %s", level, date, msg)
@@ -18,44 +24,61 @@ local function log(msg, level, notice)
   end
 end
 
---- OSのタイプを判定する関数、macosならmacos, linuxならLinuxを、それ以外はunknownを返す
----@return string
+--- OS種別の定義
+---@enum OSType
+local OSType = {
+  MACOS = "macos",
+  LINUX = "Linux",
+  UNKNOWN = "unknown",
+}
+
+--- OSのタイプを判定する関数
+---@return OSType
 local function get_os_type()
-  local handle = io.popen("uname")
-  if handle == nil then
-    return "unknown"
+  local ok, handle = pcall(io.popen, "uname")
+  if not ok or handle == nil then
+    log("Failed to detect OS type", LogLevel.ERROR, true)
+    return OSType.UNKNOWN
   end
-  local result = handle:read("*a")
+
+  local ok_read, result = pcall(handle.read, handle, "*a")
   handle:close()
 
-  -- log(string.format("DETECTED: OS Type %s", result), "INFO", true)
+  if not ok_read then
+    log("Failed to read OS information", LogLevel.ERROR, true)
+    return OSType.UNKNOWN
+  end
+
   if result:match("Darwin") then
-    return "macos"
+    return OSType.MACOS
   elseif result:match("Linux") then
-    return "Linux"
+    return OSType.LINUX
   else
-    return "unknown"
+    return OSType.UNKNOWN
   end
 end
 
 ---OSごとにVaultディレクトリのパスが違うので、対応してセットするための関数
----@return string | nil
+---@return string?
 local function set_vault_path()
   local os_type = get_os_type()
   local exists_myvault = (vim.fn.isdirectory("~/Dropbox/MyVault") == 1 or vim.fn.isdirectory("~/MyVault") == 1)
-  if os_type == "Linux" then
+
+  if os_type == OSType.LINUX then
     return exists_myvault and "~/Dropbox/MyVault" or nil
-  elseif os_type == "macos" then
+  elseif os_type == OSType.MACOS then
     return exists_myvault and "~/MyVault" or nil
   else
-    log("DETECTED: Unknown OS Type when settting your vault path", "WARNING", true)
-    return ""
+    log("Unknown OS Type when setting your vault path", LogLevel.WARNING, true)
+    return nil
   end
 end
 
+---Obsidianのワークスペース設定を生成する関数
+---@return table
 local function set_workspace()
   local path = set_vault_path()
-  if path ~= nil then
+  if path then
     return { workspace = {
       name = "MyVault",
       path = path,
@@ -66,34 +89,35 @@ local function set_workspace()
 end
 
 ---現在のノードの絶対パスを取得する関数
----@param state any
----@return unknown
+---@param state table Neo-tree state
+---@return string
 local function get_abs_path(state)
-  local abs_path = state.tree:get_node().path
-  return abs_path
+  return state.tree:get_node().path
 end
 
 ---現在のノードの相対パスを取得する関数
----@param state any
----@return unknown
+---@param state table Neo-tree state
+---@return string
 local function get_relative_path(state)
   local abs_path = state.tree:get_node().path
-  local rel_path = vim.fn.fnamemodify(abs_path, ":.:")
-  return rel_path
+  return vim.fn.fnamemodify(abs_path, ":.:")
 end
 
----クリップボードに値をセットする関数
+---クリップボードに値をセットする関数（統合版）
 ---@param value string
----@return nil
-local function set_to_clipboard(value)
-  vim.notify("set to clipboard: " .. value)
-  vim.fn.setreg("+", value)
-end
-
----クリップボードに値をセットする関数で、osc52を使うことでリモートでも使えるよう
----@return nil
-local function set_to_clipboard_from_remote(value)
-  require("osc52").copy(value)
+---@param use_osc52 boolean? OSC52を使用するか（リモート用）
+local function set_to_clipboard(value, use_osc52)
+  if use_osc52 then
+    local ok, osc52 = pcall(require, "osc52")
+    if ok then
+      osc52.copy(value)
+    else
+      log("Failed to load osc52 module", LogLevel.ERROR, true)
+    end
+  else
+    vim.notify("set to clipboard: " .. value)
+    vim.fn.setreg("+", value)
+  end
 end
 
 vim.api.nvim_create_user_command("InitLua", function()
@@ -103,6 +127,12 @@ end, { desc = "Open init.lua" })
 vim.api.nvim_create_user_command("CopyLastCmd", function()
   vim.fn.setreg("*", vim.fn.getreg(":"))
 end, { desc = "Copy last used command" })
+
+-- AI関連プラグインの共通設定
+local ai_config = {
+  copilot_model = "claude-4.0-sonnet",
+  gemini_model = "gemini-2.5-pro",
+}
 
 return {
   -- treesiter
@@ -131,7 +161,7 @@ return {
   -- mason
   {
     "mason-org/mason.nvim",
-    version = "^1.0.0", -- TODO: update to 2.0.0
+    version = "^2.0.0",
     opts = {
       ensure_installed = {
         -- lua
@@ -148,7 +178,7 @@ return {
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    version = "^1.0.0", -- TODO: update to 2.0.0
+    version = "^2.0.0",
   },
   {
     "github/copilot.vim",
@@ -203,7 +233,7 @@ return {
     opts = {
       debug = false, -- Enable debugging
       chat_autocomplete = true,
-      model = "gemini-2.5-pro",
+      model = ai_config.gemini_model,
       -- agent = "gemini-2.5-pro",
       -- model = "claude-3.7-sonnet",
       mappings = {
@@ -321,19 +351,19 @@ return {
             end,
             copy_relative_path = function(state)
               local rel_path = get_relative_path(state)
-              set_to_clipboard(rel_path)
+              set_to_clipboard(rel_path, false)
             end,
             copy_absolute_path = function(state)
               local abs_path = get_abs_path(state)
-              set_to_clipboard(abs_path)
+              set_to_clipboard(abs_path, false)
             end,
             copy_relative_path_from_remote = function(state)
               local rel_path = get_relative_path(state)
-              set_to_clipboard_from_remote(rel_path)
+              set_to_clipboard(rel_path, true)
             end,
             copy_absolute_path_from_remote = function(state)
               local abs_path = get_abs_path(state)
-              set_to_clipboard_from_remote(abs_path)
+              set_to_clipboard(abs_path, true)
             end,
           },
         },
@@ -368,7 +398,7 @@ return {
       augt_suggestion_provider = "copilot",
       copilot = {
         endpoint = "https://api.githubcopilot.com",
-        model = "claude-3.7-sonnet", -- ここでClaudeモデルを指定
+        model = ai_config.copilot_model, -- 共通設定から参照
         timeout = 30000,
         temperature = 0,
         max_tokens = 4096,
@@ -485,4 +515,14 @@ return {
       require("luasnip.loaders.from_lua").load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
     end,
   },
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    config = function()
+      require("claude-code").setup()
+    end,
+  },
 }
+
