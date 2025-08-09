@@ -150,18 +150,28 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   }
 end)
 
+local function get_font()
+  if os_type == "Linux" then
+    return wezterm.font_with_fallback({
+      "HackGen35Nerd Console",
+    })
+  else
+    return wezterm.font_with_fallback({
+      "HackGen Console NFJ",
+      "HackGen35 Console NFJ",
+      "HackGenNerd Console",
+      "Cica",
+    })
+  end
+end
+
 ---------------------------------------------------------------
 --- Config
 ---------------------------------------------------------------
 local config = {
-  font = wezterm.font_with_fallback({
-    "HackGen Console NFJ",
-    "HackGen35 Console NFJ",
-    "HackGenNerd Console",
-    "Cica",
-  }),
+  font = get_font(),
   use_ime = true,
-  font_size = 16.5,
+  font_size = 13.0,
   color_scheme = "Catppuccin Mocha (Gogh)",
   adjust_window_size_when_changing_font_size = false,
   hide_tab_bar_if_only_one_tab = false,
