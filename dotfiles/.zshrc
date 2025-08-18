@@ -57,6 +57,7 @@ source $ZSHRC_DIR/lazy.zsh
 unfunction source
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 export SHELL=$(which zsh)
 export PATH="${HOME}/.local/bin:${PATH}"
