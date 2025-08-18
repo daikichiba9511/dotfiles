@@ -161,7 +161,7 @@ return {
   -- mason
   {
     "mason-org/mason.nvim",
-    version = "^2.0.0",
+    version = "^1.0.0",
     opts = {
       ensure_installed = {
         -- lua
@@ -178,7 +178,7 @@ return {
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    version = "^2.0.0",
+    version = "^1.0.0",
   },
   {
     "github/copilot.vim",
@@ -396,12 +396,16 @@ return {
       ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
       provider = "copilot",
       augt_suggestion_provider = "copilot",
-      copilot = {
-        endpoint = "https://api.githubcopilot.com",
-        model = ai_config.copilot_model, -- 共通設定から参照
-        timeout = 30000,
-        temperature = 0,
-        max_tokens = 4096,
+      providers = {
+        copilot = {
+          endpoint = "https://api.githubcopilot.com",
+          model = ai_config.copilot_model, -- 共通設定から参照
+          timeout = 30000,
+          extra_request_body = {
+            temperature = 0,
+            max_tokens = 4096,
+          },
+        },
       },
       mappings = {
         --- @class AvanteConflictMappings
@@ -525,4 +529,3 @@ return {
     end,
   },
 }
-
