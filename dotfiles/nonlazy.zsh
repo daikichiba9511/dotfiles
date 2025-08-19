@@ -70,8 +70,8 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 export PATH="${PATH}:${HOME}/.local/bin:/usr/local/bin"
 export GPG_TTY="$(tty)"  # 署名付きコミットをするために必要
 
-if type "xsel" > /dev/null; then
-    alias pbcopy='xsel  --clipboard --input'
+if type "osc52-tmux-copy" > /dev/null; then
+    alias pbcopy='osc52-tmux-copy'
 fi
 # -- ls
 alias ls="ls --color"

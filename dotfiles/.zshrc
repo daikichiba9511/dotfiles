@@ -68,6 +68,17 @@ if type mise &>/dev/null; then
   eval "$(mise activate --shims)"
 fi
 
+osc52() {
+  local data
+  data=$(base64 | tr -d '\r\n')
+  if [ -n "$TMUX" ]; then
+    # tmux越しでも確実に通すための DCS パススルー
+    printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$data"
+  else
+    printf '\033]52;c;%s\a' "$data"
+  fi
+}
+
 alias v='nvim'
 alias lg='lazygit'
 alias g='git'

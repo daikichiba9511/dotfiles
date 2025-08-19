@@ -107,18 +107,25 @@ end
 ---@param value string
 ---@param use_osc52 boolean? OSC52を使用するか（リモート用）
 local function set_to_clipboard(value, use_osc52)
-  if use_osc52 then
-    local ok, osc52 = pcall(require, "osc52")
-    if ok then
-      osc52.copy(value)
-    else
-      log("Failed to load osc52 module", LogLevel.ERROR, true)
-    end
-  else
-    vim.notify("set to clipboard: " .. value)
-    vim.fn.setreg("+", value)
-  end
+  vim.notify("set to clipboard: " .. value)
+  vim.fn.setreg("+", value)
 end
+
+-- 選択範囲をosc52でクリップボードにコピーするキーバインド
+vim.api.nvim_create_user_command("CopySelection", function()
+  local selection = vim.fn.getreg("v")
+  if selection == "" then
+    vim.notify("No selection to copy", vim.log.levels.WARN)
+    return
+  end
+  set_to_clipboard(selection, true)
+end, { desc = "Copy selection to clipboard" })
+vim.keymap.set(
+  "v",
+  "<leader>ctl",
+  ":CopySelection<CR>",
+  { noremap = true, silent = true, desc = "Copy selection to clipboard" }
+)
 
 vim.api.nvim_create_user_command("InitLua", function()
   vim.cmd.edit(vim.fn.stdpath("config") .. "/init.lua")
@@ -300,14 +307,6 @@ return {
       -- open_mapping = "<leader>tt",
       hide_numbers = true,
     },
-  },
-  {
-    "ojroques/nvim-osc52",
-    config = function()
-      vim.keymap.set("n", "<leader>ctl", require("osc52").copy_operator, { expr = true, desc = "Copy text object" })
-      vim.keymap.set("n", "<leader>cc", "<leader>c_", { remap = true })
-      vim.keymap.set("v", "<leader>ctl", require("osc52").copy_visual, { desc = "Copy visual selection" })
-    end,
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -525,7 +524,20 @@ return {
       "nvim-lua/plenary.nvim", -- Required for git operations
     },
     config = function()
-      require("claude-code").setup()
+      require("claude-code").setup({
+        keymaps = {
+          toggle = {
+            normal = "<leader>c,", -- Normal mode keymap for toggling Claude Code, false to disable
+            terminal = "<leader>c,", -- Terminal mode keymap for toggling Claude Code, false to disable
+            variants = {
+              continue = "<leader>cC", -- Normal mode keymap for Claude Code with continue flag
+              verbose = "<leader>cV", -- Normal mode keymap for Claude Code with verbose flag
+            },
+          },
+          window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
+          scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down
+        },
+      })
     end,
   },
 }

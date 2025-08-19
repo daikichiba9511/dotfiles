@@ -4,26 +4,36 @@
 --
 local keymap = vim.api.nvim_set_keymap
 
-vim.o.clipboard = "unnamedplus"
+-- OSC52 clipboard setup for SSH + tmux
+if os.getenv("SSH_TTY") ~= nil then
+  local function copy(lines, _)
+    local text = table.concat(lines, "\n")
+    local base64 = vim.base64.encode(text)
+    local osc52 = string.format("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", base64)
+    local tty = vim.fn.system("tmux display -p '#{pane_tty}'")
+    tty = tty:gsub("\n", "")
+    vim.fn.system(string.format("printf '%s' > %s", osc52, tty))
+  end
 
-local function paste()
-  return {
-    vim.fn.split(vim.fn.getreg(""), "\n"),
-    vim.fn.getregtype(""),
+  local function paste()
+    return {
+      vim.fn.split(vim.fn.getreg('"'), "\n"),
+      vim.fn.getregtype('"'),
+    }
+  end
+
+  vim.g.clipboard = {
+    name = "OSC52-tmux",
+    copy = {
+      ["+"] = copy,
+      ["*"] = copy,
+    },
+    paste = {
+      ["+"] = paste,
+      ["*"] = paste,
+    },
   }
 end
-
-vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {
-    ["+"] = paste,
-    ["*"] = paste,
-  },
-}
 
 local function set_shell_fallback()
   local shell = os.getenv("SHELL")
