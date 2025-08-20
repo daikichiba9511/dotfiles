@@ -32,6 +32,18 @@ function source {
   builtin source $1
 }
 
+osc52() {
+  local data
+  data=$(base64 | tr -d '\r\n')
+  if [ -n "$TMUX" ]; then
+    # tmux越しでも確実に通すための DCS パススルー
+    printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$data"
+  else
+    printf '\033]52;c;%s\a' "$data"
+  fi
+}
+
+
 # -- sheldon : zsh plugin manager
 cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}
 sheldon_cache="$cache_dir/sheldon.zsh"
