@@ -561,6 +561,13 @@ require("lazy").setup({
       end, { desc = "Format file or range (in visual mode)" })
     end,
   },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
 }, {})
 
 -- Load custom configurations

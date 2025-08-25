@@ -9,7 +9,6 @@ python = "3.11"
 uv = "latest"
 aws-cli = "latest"
 # vim = "latest"  # macでうまく入らないので
-# "asdf:mise-plugins/mise-tmux" = "latest"
 ripgrep = "latest"
 lsd = "latest"
 fd = "latest"
