@@ -38,3 +38,5 @@ starship.toml ${HOME}/.config
 # wezterm
 wezterm     ${HOME}/.config/wezterm
 
+# claude
+.claude/settings.json ${HOME}/.claude/settings.json

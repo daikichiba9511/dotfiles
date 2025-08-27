@@ -36,3 +36,6 @@ wezterm     ${HOME}/.config/wezterm
 
 # sheldon
 sheldon ${HOME}/.config
+
+# claude
+.claude/settings.json ${HOME}/.claude/settings.json

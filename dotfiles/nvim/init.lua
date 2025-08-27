@@ -240,12 +240,12 @@ require("lazy").setup({
         transparent_background = true,
         show_end_of_buffer = false,
         term_colors = true,
-        no_italic = false,
-        no_bold = false,
+        no_italic = true,
+        no_bold = true,
         no_underline = true,
         styles = {
-          comments = { "italic" },
-          conditionals = { "italic" },
+          comments = {},
+          conditionals = {},
         },
         integrations = {
           cmp = true,
