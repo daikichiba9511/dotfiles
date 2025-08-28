@@ -19,30 +19,40 @@ vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menuone,noselect"
 vim.opt.undofile = true
 
+vim.opt.undofile = true
 -- 検索結果のハイライト
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
--- OSC52 clipboard setup for SSH + tmux
-if os.getenv("SSH_TTY") ~= nil then
+--- @brief Clipboardにヤンクした内容を連携
+if os.getenv("SSH") ~= nil then
   local function copy(lines, _)
     local text = table.concat(lines, "\n")
     local base64 = vim.base64.encode(text)
-    local osc52 = string.format("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", base64)
-    local tty = vim.fn.system("tmux display -p '#{pane_tty}'")
-    tty = tty:gsub("\n", "")
-    vim.fn.system(string.format("printf '%s' > %s", osc52, tty))
+
+    if os.getenv("TMUX") ~= nil then
+      -- local osc52 = string.format("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", base64)
+      -- local tty = vim.fn.system("tmux display -p '#{pane_tty}'")
+      -- tty = tty:gsub("\n", "")
+
+      -- tmux 経由: pane の TTY に直接エスケープシーケンスを書き込む
+      local tty = vim.fn.system("tmux display -p '#{pane_tty}'"):gsub("\n", "")
+      -- シェル経由のprintfは quoting 落とすことがあるので Lua のIOで書く
+      local f = io.open(tty, "w")
+      if f then
+        -- tmux 経由のOSC52: ESC P tmux; ESC ESC ]52;c;<base64> BEL ESC \
+        f:write("\x1bPtmux;\x1b\x1b]52;c;" .. base64 .. "\x07\x1b\\")
+        f:close()
+      end
+    -- vim.fn.system(string.format("printf '%s' > %s", osc52, tty))
+    else
+      vim.fn.setreg("+", text)
+      vim.fn.setreg("*", text)
+    end
   end
-
-  vim.o.clipboard = "unnamedplus"
-
   local function paste()
-    return {
-      vim.fn.split(vim.fn.getreg('"'), "\n"),
-      vim.fn.getregtype('"'),
-    }
+    return { vim.fn.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
   end
-
   vim.g.clipboard = {
     name = "OSC52-tmux",
     copy = {
@@ -56,17 +66,7 @@ if os.getenv("SSH_TTY") ~= nil then
   }
 end
 
-vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {
-    ["+"] = paste,
-    ["*"] = paste,
-  },
-}
+vim.opt.clipboard = "unnamedplus"
 
 local function set_shell_fallback()
   local shell = os.getenv("SHELL")

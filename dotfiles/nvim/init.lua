@@ -559,6 +559,7 @@ require("lazy").setup({
     },
   },
   { "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
+  { "nvimtools/none-ls.nvim" },
 }, {})
 
 -- LS
@@ -589,13 +590,26 @@ vim.lsp.enable(ls_names)
 vim.lsp.config("*", {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
 })
+
+-- LSからのlint errorに(ls_name: error code)を追加
+vim.diagnostic.config({
+  virtual_text = {
+    format = function(diagnostic)
+      return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
+    end,
+  },
+})
+local null_ls = require("null-ls")
+null_ls.setup({
+  sources = {},
+})
+
 local nmap = function(keys, func, desc)
   if desc then
     desc = "LSP: " .. desc
   end
   vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 end
-
 nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
