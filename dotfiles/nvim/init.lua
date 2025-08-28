@@ -36,10 +36,8 @@ require("lazy").setup({
   -- Git related plugins
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
-
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
-
   -- LSP Configuration & Plugins
   {
     "neovim/nvim-lspconfig",
@@ -48,91 +46,11 @@ require("lazy").setup({
       -- Automatically install LSPs to stdpath for neovim
       { "williamboman/mason.nvim", config = true },
       "williamboman/mason-lspconfig.nvim",
-
       -- Useful status updates for LSP
       { "j-hui/fidget.nvim", opts = {} },
-
       -- Additional lua configuration
       "folke/neodev.nvim",
     },
-    config = function()
-      -- Setup Mason-lspconfig
-      -- require("mason-lspconfig").setup({
-      --   automatic_installation = false,
-      --   -- ensure_installed = {
-      --   -- "lua_ls",
-      --   -- "rust_analyzer",
-      --   -- "pyright",
-      --   -- "ts_ls",
-      --   -- "clangd",
-      --   -- },
-      -- })
-
-      -- LSP settings
-      local on_attach = function(_, bufnr)
-        local nmap = function(keys, func, desc)
-          if desc then
-            desc = "LSP: " .. desc
-          end
-          vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-        end
-
-        nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
-        nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-        nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-        nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-        nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-        nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-
-        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-
-        nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
-
-        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-        nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-        nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-        nmap("<leader>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, "[W]orkspace [L]ist Folders")
-
-        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-          vim.lsp.buf.format()
-        end, { desc = "Format current buffer with LSP" })
-      end
-
-      -- nvim-cmp supports additional completion capabilities
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-      -- Setup LSP servers
-      local lspconfig = require("lspconfig")
-
-      -- Default server configuration
-      local default_config = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-      }
-      -- Setup each server individually
-      lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", default_config, {
-        settings = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-            diagnostics = {
-              globals = { "vim" },
-            },
-          },
-        },
-      }))
-
-      lspconfig.rust_analyzer.setup(default_config)
-      lspconfig.pyright.setup(default_config)
-      lspconfig.ts_ls.setup(default_config)
-      lspconfig.clangd.setup(default_config)
-    end,
   },
 
   -- Autocompletion
@@ -143,11 +61,9 @@ require("lazy").setup({
       -- Snippet Engine & its associated nvim-cmp source
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
-
       -- LSP completion source
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
-
       -- Adds vscode-like pictograms
       "onsails/lspkind.nvim",
     },
@@ -155,9 +71,7 @@ require("lazy").setup({
       local cmp = require("cmp")
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
-
       luasnip.config.setup({})
-
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -287,7 +201,7 @@ require("lazy").setup({
   -- Fuzzy Finder (files, lsp, etc)
   {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    tag = "0.1.8",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -568,7 +482,150 @@ require("lazy").setup({
     -- use opts = {} for passing setup options
     -- this is equivalent to setup({}) function
   },
+  {
+    "yetone/avante.nvim",
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    -- ⚠️ must add this setting! ! !
+    build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+      or "make",
+    event = "VeryLazy",
+    version = false, -- Never set this value to "*"! Never!
+    ---@module 'avante'
+    ---@type avante.Config
+    opts = {
+      instructions_file = "avante.md",
+      ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+      provider = "copilot",
+      augt_suggestion_provider = "copilot",
+      providers = {
+        copilot = {
+          endpoint = "https://api.githubcopilot.com",
+          model = "claude-4.0-sonnet",
+          timeout = 30000,
+          extra_request_body = {
+            temperature = 0,
+            max_tokens = 4096,
+          },
+        },
+      },
+      mappings = {
+        --- @class AvanteConflictMappings
+        sidebar = {
+          apply_all = "z",
+          apply_cursor = "c",
+        },
+        ask = "<leader>ua",
+        edit = "<leader>ue",
+        refresh = "<leader>ur",
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "stevearc/dressing.nvim", -- for input provider dressing
+      "folke/snacks.nvim", -- for input provider snacks
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  },
+  { "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons" },
 }, {})
+
+-- LS
+-- References:
+-- [1] http://zenn.dev/kawarimidoll/books/6064bf6f193b51/viewer/018161
+local ls_names = {
+  -- general
+  "copilot",
+  -- lua
+  "lua_ls",
+  -- python
+  "pyright",
+  "ruff",
+  -- typescript
+  "ts_ls",
+  -- terraform
+  "terraformls",
+  -- cpp
+  "clangd",
+}
+-- Setup Mason-lspconfig
+require("mason-lspconfig").setup({
+  automatic_installation = true,
+  ensure_installed = ls_names,
+})
+vim.lsp.enable(ls_names)
+
+vim.lsp.config("*", {
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+local nmap = function(keys, func, desc)
+  if desc then
+    desc = "LSP: " .. desc
+  end
+  vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+end
+
+nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+
+nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+
+nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+
+nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+nmap("<leader>wl", function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end, "[W]orkspace [L]ist Folders")
+
+-- vim.api.nvim_buf_create_user_command(bufnr, "format", function(_)
+--   vim.lsp.buf.format()
+-- end, { desc = "format current buffer with lsp" })
+
+-- Definer User Commands
+-- :Configでinit.luaを開く
+vim.api.nvim_create_user_command("Config", "edit $MYVIMRC", {})
+
+require("bufferline").setup()
 
 -- Load custom configurations
 require("config.options")

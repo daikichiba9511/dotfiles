@@ -5,7 +5,6 @@ vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = false
 vim.opt.wrap = false
 vim.opt.breakindent = true
 vim.opt.tabstop = 2
@@ -19,6 +18,10 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menuone,noselect"
 vim.opt.undofile = true
+
+-- 検索結果のハイライト
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
 
 -- OSC52 clipboard setup for SSH + tmux
 if os.getenv("SSH_TTY") ~= nil then
