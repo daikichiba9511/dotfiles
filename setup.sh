@@ -447,7 +447,7 @@ function main() {
     sudo chsh "${USER}" -s "$(which zsh)"
   fi
 
-  install_wezterm
+  # install_wezterm
   mise trust -y
   mise install -y
 
