@@ -21,13 +21,14 @@ end
 if lazy_has("CopilotChat.nvim") then
   vim.keymap.set("n", "<leader>c", "<cmd>CopilotChatCommit<CR>", { buffer = commit_bufnr })
   vim.schedule(function()
+    ---@type CopilotChat
     local chat = require("CopilotChat")
-    local commit_prompt = chat.prompts().Commit.prompt
+    local commit_prompt = chat.config.prompts.Commit.prompt
     chat.ask("> #git:staged\n\n" .. commit_prompt, {
-      callback = function(response, source)
+      callback = function(response, _)
         -- code fenceでgitcommitで囲まれた部分を取得する
         -- Extract content from the code fence
-        local lines = vim.split(response, "\n")
+        local lines = vim.split(response.content, "\n")
 
         -- make commt message
         local in_gitcommit_block = false
@@ -48,13 +49,11 @@ if lazy_has("CopilotChat.nvim") then
         if #commit_message == 0 then
           -- Skip code fences that aren't gitcommit blocks
           vim.notify("No gitcommit block found, using whole response", vim.log.levels.WARN)
-          return response
         end
 
         if #commit_message > 0 then
           vim.api.nvim_buf_set_lines(commit_bufnr, 0, 0, false, commit_message)
         end
-        return response
       end,
     })
   end)

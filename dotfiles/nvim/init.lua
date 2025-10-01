@@ -52,6 +52,9 @@ require("lazy").setup({
       "folke/neodev.nvim",
     },
   },
+  {
+    "folke/neodev.nvim",
+  },
 
   -- Autocompletion
   {
@@ -380,7 +383,8 @@ require("lazy").setup({
       { "nvim-lua/plenary.nvim" },
     },
     opts = {
-      debug = true,
+      debug = false,
+      model = "gpt-5",
     },
   },
 
@@ -657,6 +661,27 @@ vim.lsp.enable(ls_names)
 
 vim.lsp.config("*", {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+
+-- lua_ls specific configuration
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      runtime = {
+        version = "LuaJIT",
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 })
 
 -- LSからのlint errorに(ls_name: error code)を追加
