@@ -1,6 +1,6 @@
 [tools]
 # -- Cores
-node = "22"
+node = "24.6.0"
 # deno = "latest"
 python = "3.11"
 # rust = "latest"
