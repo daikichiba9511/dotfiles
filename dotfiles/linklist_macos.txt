@@ -40,3 +40,6 @@ wezterm     ${HOME}/.config/wezterm
 
 # claude
 .claude/settings.json ${HOME}/.claude/settings.json
+
+# codex
+.codex/config.toml ${HOME}/.codex/config.toml

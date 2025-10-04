@@ -1,0 +1,33 @@
+model = "gpt-5-codex"
+model_verbosity = "medium" # 詳細な応答の冗長さ（情報量の多さ）
+sandbox_mode = "read-only"  # 最も安全（必要時のみ緩める）
+
+# コマンド実行を承認するかどうかをプロンプトで確認すべきタイミング
+# - untrusted: 「信頼済み」でないコマンド（危険操作など）は実行前に都度承認を求め
+# - on-request: モデル（Codex）が判断して承認を要求する場合
+# - on-failure: コマンドが失敗した場合のみ承認にエスカレート
+# - never: いかなる場合も承認を求めず、すべての操作を自動で実行
+approval_policy = "untrusted"
+
+file_opener = "vscode-insiders"
+
+# trueにすると、npmのインストールや外部APIへのリクエストが可能 (デフォルトは false)
+network_access = true
+
+[shell_environment_policy]
+inherit = "core"
+include_only = ["PATH","HOME","USER"]
+exclude = ["AWS_*","AZURE_*","*TOKEN*","*SECRET*","*KEY*"]
+
+
+[mcp_servers.serena]
+command = "uvx"
+args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex", "--enable-web-dashboard=false", "--project", "$(pwd)"]
+
+# [mcp_servers.context7]
+# command = "npx"
+# args = ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"]
+
+[mcp_servers.markitdown]
+command = "uvx"
+args = ["markitdown-mcp"]
