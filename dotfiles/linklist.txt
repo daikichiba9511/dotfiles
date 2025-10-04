@@ -38,7 +38,7 @@ wezterm     ${HOME}/.config/wezterm
 sheldon ${HOME}/.config
 
 # claude
-.claude/settings.json ${HOME}/.claude/settings.json
+.claude/settings.json ${HOME}/.claude
 
 # codex
-.codex/config.toml ${HOME}/.codex/config.toml
+.codex/config.toml ${HOME}/.codex
