@@ -7,10 +7,12 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wrap = false
 vim.opt.breakindent = true
+
 vim.opt.tabstop = 4 -- タブ文字の表示幅
 vim.opt.shiftwidth = 4 -- インデント幅
 vim.opt.softtabstop = 4 -- タブキー押下時の挿入スペース数
 vim.opt.expandtab = true -- タブをスペースに変換
+
 vim.opt.termguicolors = true
 vim.opt.winblend = 0 -- transparency for floating windows
 vim.opt.pumblend = 0 -- transparency for popup menus
