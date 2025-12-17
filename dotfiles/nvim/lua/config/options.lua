@@ -19,8 +19,11 @@ vim.opt.pumblend = 0 -- transparency for popup menus
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
+vim.opt.ttimeoutlen = 10  -- キー入力のタイムアウトを短く
 vim.opt.completeopt = "menuone,noselect"
 vim.opt.undofile = true
+vim.opt.listchars = "tab:>-,space:·"
+vim.opt.ambiwidth = "single"
 
 vim.opt.undofile = true
 -- 検索結果のハイライト
@@ -90,10 +93,15 @@ set_shell_fallback()
 
 -- Visual settings
 vim.opt.list = true
-vim.opt.listchars = "tab:»»"
 vim.opt.cmdheight = 0
 vim.opt.conceallevel = 0
 vim.opt.spelllang = {}
 
 -- Copilot settings
 vim.g.ai_cmp = false
+
+-- LSP-based folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+vim.opt.foldlevelstart = 99 -- 起動時は全て展開
+vim.opt.foldenable = true

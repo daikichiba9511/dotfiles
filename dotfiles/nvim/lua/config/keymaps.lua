@@ -13,23 +13,10 @@ set_keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 -- Diagnostic keymaps
 set_keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 set_keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-set_keymap("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+set_keymap("n", "<leader>de", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 set_keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
--- Telescope additional keymaps
-set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
-set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
-set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
-set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
-set_keymap("n", "<leader>fc", "<cmd>Telescope commands<cr>", { desc = "Commands" })
-set_keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
-set_keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
-set_keymap("n", "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "Marks" })
-
--- Git with Telescope
-set_keymap("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Git commits" })
-set_keymap("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Git branches" })
-set_keymap("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Git status" })
+-- Note: Fuzzy finder keymaps are configured in init.lua using Snacks.picker
 
 -- Copilot Chat
 local function quick_chat()
