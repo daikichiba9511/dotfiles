@@ -98,3 +98,13 @@ alias g='git'
 # -- starship : should be put on last line
 eval "$(starship init zsh)"
 
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/Users/chibadaimare/.juliaup/bin' $path)
+path=('/Users/chibadaimare/.julia/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
