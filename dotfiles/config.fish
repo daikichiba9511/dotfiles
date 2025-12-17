@@ -3,6 +3,8 @@ export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/cuda-12/bin:$PATH"
+export PATH="$HOME/.juliaup/bin:$PATH"
+export PATH="$HOME/.julia/bin:$PATH"
 
 if type mise &>/dev/null
     export PATH="$HOME/.local/share/mise/shims:$PATH"
