@@ -1,35 +1,18 @@
 -- AI assistant plugins
 return {
   -- GitHub Copilot (Lua version)
+  -- Used as backend for:
+  -- - blink-cmp-copilot (completion via blink.cmp)
+  -- - CopilotChat (chat interface)
+  -- - Avante (AI assistant)
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
       require("copilot").setup({
-        suggestion = {
-          enabled = false,
-          auto_trigger = false,
-          keymap = {
-            accept = "<M-a>",
-            accept_word = "<M-w>",
-            accept_line = "<C-g>",
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
-          },
-        },
-        panel = {
-          enabled = true,
-          auto_refresh = false,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-            open = "<M-CR>",
-          },
-        },
+        suggestion = { enabled = false }, -- Use blink.cmp instead
+        panel = { enabled = false }, -- Not needed
       })
     end,
   },
