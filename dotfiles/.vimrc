@@ -7,7 +7,7 @@ set nowritebackup
 set nobackup
 set virtualedit=block
 set backspace=indent,eol,start
-set ambiwidth=double
+set ambiwidth=single
 set wildmenu
 
 " search {{{
@@ -27,7 +27,7 @@ set laststatus=2
 set showcmd
 set display=lastline
 set list
-set listchars=tab:>-
+set listchars=tab:>-,space:·
 set history=5000
 
 set expandtab
@@ -130,6 +130,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " ファイラ
 Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
 
 " Fuzzy Finder系
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -137,6 +140,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-sleuth'
 Plug 'tribela/vim-transparent'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -147,6 +151,14 @@ runtime! ftplugin/man.vim
 " --------------
 "  Fern
 " --------------
+let g:fern#renderer = 'nerdfont'
+let g:fern#default_hidden = 1
+
+augroup fern_custom
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+augroup END
+
 nnoremap <Leader>e :Fern . -drawer<CR>
 
 
@@ -314,11 +326,26 @@ function! CheckBackspace() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" CoC Fold キーバインド
+nnoremap <leader>zf :Fold<CR>
+nnoremap <leader>z1 :Fold 1<CR>
+nnoremap <leader>z2 :Fold 2<CR>
+nnoremap <leader>zo :normal! zR<CR>
+
 " カラースキーム
-" set background=dark
+set background=dark
 " colorscheme iceberg
 " colorscheme catppuccin_mocha
 " colorscheme molokai
 " colorscheme molokai
 " colorscheme moonfly
-colorscheme nightfly
+" colorscheme nightfly
+colorscheme ayu
+
+" 背景透過トグル
+let g:transparent_enabled = v:false
+augroup TransparentDisable
+    autocmd!
+    autocmd VimEnter * TransparentDisable
+augroup END
+nnoremap <Leader>bg :TransparentToggle<CR>
