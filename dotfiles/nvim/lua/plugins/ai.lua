@@ -12,7 +12,7 @@ return {
     config = function()
       require("copilot").setup({
         suggestion = { enabled = false }, -- Use blink.cmp instead
-        panel = { enabled = false }, -- Not needed
+        panel = { enabled = false },      -- Not needed
       })
     end,
   },
@@ -64,9 +64,24 @@ return {
   {
     "yetone/avante.nvim",
     build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-      or "make BUILD_FROM_SOURCE=false",
+        or "make",
     event = "VeryLazy",
     version = false,
+    config = function(_, opts)
+      -- Ensure copilot is setup before avante
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+      -- Check if copilot is authenticated before using copilot provider
+      local copilot_hosts = vim.fn.expand("~/.config/github-copilot/hosts.json")
+      local copilot_apps = vim.fn.expand("~/.config/github-copilot/apps.json")
+      if vim.fn.filereadable(copilot_hosts) == 0 and vim.fn.filereadable(copilot_apps) == 0 then
+        vim.notify("Copilot not authenticated. Run :Copilot auth first, or change avante provider.", vim.log.levels.WARN)
+        opts.provider = "claude" -- Fallback to claude if copilot not authenticated
+      end
+      require("avante").setup(opts)
+    end,
     ---@module 'avante'
     ---@type avante.Config
     opts = {
