@@ -50,16 +50,23 @@ if use_avante then
     -- Conventional Commits形式のプロンプトを作成
     local custom_prompt
     if use_japanese then
-      custom_prompt = string.format([[以下のgit差分を分析して、Conventional Commits形式のコミットメッセージを1行で生成してください。
+      custom_prompt = string.format([[以下のgit差分を分析して、Conventional Commits形式のコミットメッセージを生成してください。
 
 ルール:
-- フォーマット: <type>(<scope>): <subject>
+- 1行目: <type>(<scope>): <subject> （50文字以内、命令形）
+- 2行目: 空行
+- 3行目以降: 変更の詳細な説明（何を変更したか、なぜ変更したか）
 - type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert のいずれか
-- subject: 50文字以内、命令形で記述
 - 日本語で記述
-- コミットメッセージの1行目のみを出力（説明不要、コードブロック不要）
+- コードブロック不要、そのままコミットメッセージとして使える形式で出力
 
-例: feat(nvim): コミットメッセージ自動生成機能を追加
+例:
+feat(nvim): コミットメッセージ自動生成機能を追加
+
+Avanteを使用してgit差分からConventional Commits形式の
+コミットメッセージを自動生成する機能を実装。
+日本語と英語の両方に対応し、最近のコミット履歴から
+言語を自動判定する。
 
 変更サマリー:
 %s
@@ -70,13 +77,20 @@ if use_avante then
       custom_prompt = string.format([[Analyze the following git diff and generate a commit message in Conventional Commits format.
 
 Rules:
-- Format: <type>(<scope>): <subject>
+- Line 1: <type>(<scope>): <subject> (50 characters or less, imperative mood)
+- Line 2: blank line
+- Line 3+: detailed explanation (what changed and why)
 - type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
-- subject: 50 characters or less, imperative mood
 - Write in English
-- Output only the first line (no explanations, no code blocks)
+- Output as plain text (no code blocks), ready to use as commit message
 
-Example: feat(nvim): add auto commit message generation
+Example:
+feat(nvim): add auto commit message generation
+
+Implement automatic commit message generation using Avante
+that analyzes git diff and creates Conventional Commits format.
+Supports both English and Japanese with automatic language
+detection based on recent commit history.
 
 Change summary:
 %s
@@ -121,55 +135,62 @@ Diff:
         local start_line = math.max(0, total_lines - 50)
         local lines = vim.api.nvim_buf_get_lines(result_bufnr, start_line, -1, false)
 
-        -- 最後から順に、Conventional Commitsフォーマットの行を探す
-        local first_line = nil
+        -- 最後から順に、Conventional Commitsフォーマットの開始行を探す
+        local commit_start_idx = nil
         for i = #lines, 1, -1 do
           local line = lines[i]:gsub('^%s+', ''):gsub('%s+$', '')
           -- Conventional Commits形式: type(scope): subject または type: subject
           if line:match('^%w+%(') or (line:match('^%w+:') and not line:match('^#+')) then
             -- コードブロックマーカーを除外
             if not line:match('^```') and #line > 10 and #line < 100 then
-              first_line = line
+              commit_start_idx = i
               break
             end
           end
         end
 
-        -- 見つからなかった場合は最後の非空行を使う
-        if not first_line then
-          for i = #lines, 1, -1 do
-            local line = lines[i]:gsub('^%s+', ''):gsub('%s+$', '')
-            if line ~= '' and not line:match('^%-') and not line:match('^```') then
-              first_line = line
-              break
-            end
+        if not commit_start_idx then
+          if check_count < max_checks then
+            vim.defer_fn(check_and_insert, 500)
+          end
+          return
+        end
+
+        -- コミットメッセージの開始位置から最後まで取得
+        local commit_lines = {}
+        for i = commit_start_idx, #lines do
+          local line = lines[i]
+          -- コードブロックマーカーやマークダウンヘッダーを除外
+          if not line:match('^```') and not line:match('^##') then
+            table.insert(commit_lines, line)
           end
         end
 
-        if not first_line then
-          first_line = ""
+        -- 最後の空行を削除
+        while #commit_lines > 0 and commit_lines[#commit_lines]:match('^%s*$') do
+          table.remove(commit_lines)
         end
 
-        -- 有効なコミットメッセージかチェック
+        if #commit_lines == 0 then
+          if check_count < max_checks then
+            vim.defer_fn(check_and_insert, 500)
+          end
+          return
+        end
+
+        -- 最初の行がConventional Commits形式かチェック
+        local first_line = commit_lines[1]:gsub('^%s+', ''):gsub('%s+$', '')
         local is_conventional = first_line:match('^%w+%(') or first_line:match('^%w+:')
 
-        if first_line ~= ''
-           and not first_line:match('^%s*$')
-           and not first_line:match('^%-')
-           and #first_line > 10
-           and is_conventional then
-
+        if is_conventional then
           -- コミットメッセージを挿入
           if vim.api.nvim_buf_is_valid(commit_bufnr) then
-            -- 制御文字を削除
-            local safe_msg = first_line:gsub('[%c]', '')
-
             -- バッファのmodifiableを一時的に有効化
             local was_modifiable = vim.api.nvim_get_option_value('modifiable', {buf = commit_bufnr})
             vim.api.nvim_set_option_value('modifiable', true, {buf = commit_bufnr})
 
-            -- Vimコマンドで挿入（最も安全）
-            vim.cmd(string.format('call setbufline(%d, 1, %s)', commit_bufnr, vim.fn.string(safe_msg)))
+            -- 複数行を挿入
+            vim.api.nvim_buf_set_lines(commit_bufnr, 0, 0, false, commit_lines)
 
             -- modifiableを元に戻す
             vim.api.nvim_set_option_value('modifiable', was_modifiable, {buf = commit_bufnr})
