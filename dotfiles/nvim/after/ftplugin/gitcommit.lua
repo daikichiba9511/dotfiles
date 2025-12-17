@@ -85,16 +85,12 @@ Diff:
 %s]], diff_stat, diff_content)
     end
 
-    -- コミット生成時のみ高速なモデルに一時変更
-    require('avante.config').override({
-      providers = {
-        copilot = {
-          model = "gpt-4o-mini",
-        },
-      },
-    })
-
     vim.notify("Generating commit message with Avante...", vim.log.levels.INFO)
+
+    -- コミット生成時のみ高速なモデルに一時変更
+    local Config = require('avante.config')
+    local original_model = Config.providers.copilot.model
+    Config.providers.copilot.model = "gpt-4o-mini"
 
     -- AvanteInputSubmittedイベント後にポーリングで結果を待つ
     local check_count = 0
@@ -120,20 +116,39 @@ Diff:
           return
         end
 
-        -- バッファの内容を取得
-        local lines = vim.api.nvim_buf_get_lines(result_bufnr, 0, -1, false)
-        local content = table.concat(lines, '\n')
+        -- バッファの内容を取得（最後の50行のみ - 最新のレスポンスが含まれているはず）
+        local total_lines = vim.api.nvim_buf_line_count(result_bufnr)
+        local start_line = math.max(0, total_lines - 50)
+        local lines = vim.api.nvim_buf_get_lines(result_bufnr, start_line, -1, false)
 
-        -- 最新のレスポンスを探す
-        local response_start = content:find("\n\n[^\n]+%(") or content:find("\n\n%w+:")
-        local actual_response = response_start and content:sub(response_start + 2) or content
+        -- 最後から順に、Conventional Commitsフォーマットの行を探す
+        local first_line = nil
+        for i = #lines, 1, -1 do
+          local line = lines[i]:gsub('^%s+', ''):gsub('%s+$', '')
+          -- Conventional Commits形式: type(scope): subject または type: subject
+          if line:match('^%w+%(') or (line:match('^%w+:') and not line:match('^#+')) then
+            -- コードブロックマーカーを除外
+            if not line:match('^```') and #line > 10 and #line < 100 then
+              first_line = line
+              break
+            end
+          end
+        end
 
-        -- コードブロックや余分な文字を除去
-        actual_response = actual_response:gsub('^```[^\n]*\n', ''):gsub('\n```$', '')
-        actual_response = actual_response:gsub('^%s+', ''):gsub('%s+$', '')
+        -- 見つからなかった場合は最後の非空行を使う
+        if not first_line then
+          for i = #lines, 1, -1 do
+            local line = lines[i]:gsub('^%s+', ''):gsub('%s+$', '')
+            if line ~= '' and not line:match('^%-') and not line:match('^```') then
+              first_line = line
+              break
+            end
+          end
+        end
 
-        -- 最初の行のみを取得
-        local first_line = actual_response:match('^[^\n]+') or actual_response
+        if not first_line then
+          first_line = ""
+        end
 
         -- 有効なコミットメッセージかチェック
         local is_conventional = first_line:match('^%w+%(') or first_line:match('^%w+:')
@@ -161,6 +176,9 @@ Diff:
 
             vim.notify("Commit message inserted!", vim.log.levels.INFO)
 
+            -- モデルを元に戻す
+            Config.providers.copilot.model = original_model
+
             -- Avanteを閉じる
             vim.defer_fn(function()
               pcall(function()
@@ -171,14 +189,17 @@ Diff:
         elseif check_count < max_checks then
           vim.defer_fn(check_and_insert, 500)
         else
+          -- タイムアウト時もモデルを元に戻す
+          Config.providers.copilot.model = original_model
           vim.notify("Timeout waiting for Avante response.", vim.log.levels.WARN)
         end
       end)
     end
 
-    -- Avanteを使ってコミットメッセージを生成
+    -- Avanteを使ってコミットメッセージを生成（新しいチャットとして開始）
     require('avante.api').ask({
       question = custom_prompt,
+      new_chat = true, -- 過去の履歴を含めない
     })
 
     -- 4秒後にチェック開始
