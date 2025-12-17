@@ -5,6 +5,9 @@ return {
     "saghen/blink.cmp",
     version = "*",
     event = "InsertEnter",
+    dependencies = {
+      "giuxtaposition/blink-cmp-copilot",
+    },
     opts = {
       keymap = {
         preset = "default",
@@ -20,7 +23,15 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
       completion = {
         menu = {
