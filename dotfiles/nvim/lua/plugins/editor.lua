@@ -20,9 +20,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
-    event = { "BufReadPost", "BufNewFile" },
+    lazy = false,
     build = ":TSUpdate",
     config = function()
+      -- Add queries to runtimepath (symlink install seems unreliable)
+      vim.opt.runtimepath:prepend(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
       -- Install parsers
       require("nvim-treesitter").install({
         "c",

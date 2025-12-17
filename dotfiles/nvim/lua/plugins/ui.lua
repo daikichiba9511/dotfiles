@@ -22,6 +22,10 @@ return {
           cmp = true,
           gitsigns = true,
           nvimtree = true,
+          treesitter = true,
+          native_lsp = {
+            enabled = true,
+          },
           notify = false,
           mini = false,
         },
