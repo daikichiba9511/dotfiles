@@ -8,7 +8,7 @@ local ls_names = {
   -- lua
   "lua_ls",
   -- python
-  "pyright",
+  "basedpyright", -- Fork of pyright with stricter type checking and Pylance features
   "ruff",
   -- typescript
   "ts_ls",
