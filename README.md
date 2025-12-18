@@ -7,30 +7,23 @@ I write program/documents like machine learing modeling , data science, document
 
 ## My Environment List
 
-- Ubuntu 22.04
+- Ubuntu 24.04.3 LTS
 
 - neovim latest
-  - LazyVim + some customizations
-    - Extras
-      - copilot
-      - copilot-chat
-      - telescope
-      - lang
-        - clangd(c++)
-        - python
-        - rust
-        - sql
-        - terraform
-        - toml
-        - typescript
-        - yaml
-    - bufdelete.nvim
-    - otter.nvim
-    - obsidian.nvim
-    - headlines.nvim
-    - toggleterm.nvim
-
-etc.
+  - lazy.nvim (package manager)
+  - blink.cmp (completion)
+  - nvim-lspconfig + mason (LSP)
+  - nvim-treesitter
+  - fzf-lua
+  - copilot.lua, CopilotChat, Avante, claude-code.nvim (AI)
+  - catppuccin (colorscheme)
+  - lualine.nvim, bufferline.nvim
+  - snacks.nvim (dashboard, explorer, picker, notifier, etc.)
+  - vim-fugitive, gitsigns.nvim (git)
+  - conform.nvim (formatter)
+  - toggleterm.nvim
+  - which-key.nvim
+  - obsidian.nvim
 
 - wezterm (terminal)
 - zsh (shell)
