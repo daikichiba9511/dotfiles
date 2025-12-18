@@ -31,36 +31,41 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 --- @brief Clipboardにヤンクした内容を連携
-if os.getenv("SSH") ~= nil then
+-- SSH接続時にOSC 52を使用してクライアントのクリップボードに同期
+if os.getenv("SSH_CONNECTION") ~= nil or os.getenv("SSH_TTY") ~= nil then
   local function copy(lines, _)
     local text = table.concat(lines, "\n")
+    -- テキストの末尾に改行がある場合は保持
+    if #lines > 1 or lines[1] ~= "" then
+      text = text
+    end
+
     local base64 = vim.base64.encode(text)
+    local osc52_sequence
 
     if os.getenv("TMUX") ~= nil then
-      -- local osc52 = string.format("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", base64)
-      -- local tty = vim.fn.system("tmux display -p '#{pane_tty}'")
-      -- tty = tty:gsub("\n", "")
-
-      -- tmux 経由: pane の TTY に直接エスケープシーケンスを書き込む
-      local tty = vim.fn.system("tmux display -p '#{pane_tty}'"):gsub("\n", "")
-      -- シェル経由のprintfは quoting 落とすことがあるので Lua のIOで書く
-      local f = io.open(tty, "w")
-      if f then
-        -- tmux 経由のOSC52: ESC P tmux; ESC ESC ]52;c;<base64> BEL ESC \
-        f:write("\x1bPtmux;\x1b\x1b]52;c;" .. base64 .. "\x07\x1b\\")
-        f:close()
-      end
-    -- vim.fn.system(string.format("printf '%s' > %s", osc52, tty))
+      -- tmux 経由の場合: DCS tmux; ESC ]52;c;<base64> ST
+      -- DCS = ESC P, ST = ESC \
+      osc52_sequence = string.format("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", base64)
     else
-      vim.fn.setreg("+", text)
-      vim.fn.setreg("*", text)
+      -- tmux外の場合: OSC 52を直接送信
+      -- OSC = ESC ], ST = BEL (or ESC \)
+      osc52_sequence = string.format("\x1b]52;c;%s\x07", base64)
     end
+
+    -- 標準出力に書き込み
+    vim.uv.tty_set_mode(0, "raw")
+    io.write(osc52_sequence)
+    io.flush()
+    vim.uv.tty_set_mode(0, "normal")
   end
+
   local function paste()
     return { vim.fn.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
   end
+
   vim.g.clipboard = {
-    name = "OSC52-tmux",
+    name = "OSC52",
     copy = {
       ["+"] = copy,
       ["*"] = copy,
