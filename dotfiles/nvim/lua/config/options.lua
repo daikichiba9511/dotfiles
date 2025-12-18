@@ -54,10 +54,8 @@ if os.getenv("SSH_CONNECTION") ~= nil or os.getenv("SSH_TTY") ~= nil then
     end
 
     -- 標準出力に書き込み
-    vim.uv.tty_set_mode(0, "raw")
-    io.write(osc52_sequence)
-    io.flush()
-    vim.uv.tty_set_mode(0, "normal")
+    io.stdout:write(osc52_sequence)
+    io.stdout:flush()
   end
 
   local function paste()
