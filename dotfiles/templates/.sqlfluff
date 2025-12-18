@@ -1,0 +1,27 @@
+[sqlfluff]
+# dialect = mysql
+max_line_length = 120
+
+[sqlfluff:indentation]
+indent_unit = space
+tab_space_size = 2
+
+[sqlfluff:rules:capitalisation.functions]
+# 関数名の大文字小文字
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.literals]
+# リテラル値 (null・true・false) の大文字小文字
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.types]
+# データ型の大文字小文字
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:layout.long_lines]
+# コメント行は長くても可とする。URLなどが入るため
+# 行の長さに関してコメント行は無視する
+ignore_comment_lines = True
+# 行の長さに関してコメント句は無視する
+ignore_comment_clauses = True
+

@@ -49,6 +49,7 @@ return {
           markdown = { "prettier" },
           html = { "prettier" },
           css = { "prettier" },
+          sql = { "sqlfluff" },
         },
         format_on_save = {
           timeout_ms = 500,

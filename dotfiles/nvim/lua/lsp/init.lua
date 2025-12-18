@@ -14,6 +14,8 @@ local ls_names = {
   "ts_ls",
   -- terraform
   "terraformls",
+  -- sql
+  "sqls",
   -- cpp
   "clangd",
 }
