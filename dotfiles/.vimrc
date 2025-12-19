@@ -117,6 +117,7 @@ Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'tomasr/molokai'
 Plug 'bluz71/vim-moonfly-colors', { 'as': 'moonfly' }
 Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' }
+Plug 'ayu-theme/ayu-vim'
 
 " Lsp系
 " Plug 'prabirshrestha/vim-lsp'
