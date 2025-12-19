@@ -12,5 +12,5 @@
     "DISABLE_INTERLEAVED_THINKING": "true",
     "MAX_THINKING_TOKENS": "31999"
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": true
 }

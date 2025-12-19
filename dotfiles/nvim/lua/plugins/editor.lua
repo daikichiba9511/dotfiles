@@ -23,22 +23,12 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-      -- Add queries to runtimepath (symlink install seems unreliable)
-      vim.opt.runtimepath:prepend(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
-      -- Install parsers
-      require("nvim-treesitter").install({
-        "c",
-        "cpp",
-        "lua",
-        "python",
-        "rust",
-        "bash",
-        "vim",
-        "vimdoc",
-        "query",
-        "markdown",
-        "markdown_inline",
-      })
+      -- Setup nvim-treesitter (required for main branch)
+      require("nvim-treesitter").setup({})
+
+      -- Install parsers programmatically
+      require("nvim-treesitter").install({ "lua", "vim", "vimdoc", "python", "julia" })
+
       -- Enable treesitter highlighting (required for main branch)
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),

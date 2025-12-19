@@ -27,6 +27,7 @@ require("mason-lspconfig").setup({
 })
 
 vim.lsp.enable(ls_names)
+vim.lsp.enable("jetls")
 
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
@@ -51,6 +52,22 @@ vim.lsp.config("lua_ls", {
       },
     },
   },
+})
+
+-- jetls configuration (Julia)
+vim.lsp.config("jetls", {
+  cmd = { vim.fn.expand("~/.julia/bin/jetls") },
+  filetypes = { "julia" },
+  root_dir = function(fname)
+    if type(fname) ~= "string" then
+      return vim.fn.getcwd()
+    end
+    local found = vim.fs.find({ "Project.toml", "Manifest.toml", ".git" }, { upward = true, path = fname })
+    if found and found[1] then
+      return vim.fs.dirname(found[1])
+    end
+    return vim.fs.dirname(fname)
+  end,
 })
 
 -- LSからのlint errorに(ls_name: error code)を追加
