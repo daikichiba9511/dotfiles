@@ -27,7 +27,7 @@ require("mason-lspconfig").setup({
 })
 
 vim.lsp.enable(ls_names)
-vim.lsp.enable("jetls")
+vim.lsp.enable({ "jetls" })
 
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
@@ -56,17 +56,55 @@ vim.lsp.config("lua_ls", {
 
 -- jetls configuration (Julia)
 vim.lsp.config("jetls", {
-  cmd = { vim.fn.expand("~/.julia/bin/jetls") },
+  cmd = { vim.fn.expand("~/.julia/bin/jetls"), "--stdio" },
   filetypes = { "julia" },
   root_dir = function(fname)
-    if type(fname) ~= "string" then
-      return vim.fn.getcwd()
-    end
-    local found = vim.fs.find({ "Project.toml", "Manifest.toml", ".git" }, { upward = true, path = fname })
-    if found and found[1] then
-      return vim.fs.dirname(found[1])
-    end
-    return vim.fs.dirname(fname)
+    local root = vim.fs.root(fname, { "Project.toml", "Manifest.toml", ".git" })
+    return root or vim.fn.getcwd()
+  end,
+})
+
+-- Auto-attach LSP servers to Julia buffers
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "julia",
+  callback = function(ev)
+    local root = vim.fs.root(0, { "Project.toml", "Manifest.toml", ".git" }) or vim.fn.getcwd()
+    local caps = require("blink.cmp").get_lsp_capabilities()
+
+    -- Start JETLS (for advanced analysis, testing, etc.)
+    vim.lsp.start({
+      name = "jetls",
+      cmd = { vim.fn.expand("~/.julia/bin/jetls"), "--stdio" },
+      capabilities = caps,
+      root_dir = root,
+    })
+
+    -- Start LanguageServer.jl (for hover, completion, etc.)
+    -- インストール方法（コミュニティ推奨）:
+    --   julia -e 'import Pkg; Pkg.add("LanguageServer"); Pkg.add("SymbolServer")'
+    --
+    -- NOTE: 初回起動時にSymbolServerのキャッシュ構築で時間がかかる場合があります。
+    -- これはJulia 1.12のworld age変更による既知の動作です。
+    -- 参考: https://github.com/julia-vscode/julia-vscode/issues/3874
+    vim.lsp.start({
+      name = "julials",
+      cmd = {
+        "julia",
+        "--startup-file=no",
+        "--history-file=no",
+        "-e",
+        [[
+          using LanguageServer, SymbolServer;
+          depot_path = get(ENV, "JULIA_DEPOT_PATH", "");
+          project_path = dirname(something(Base.current_project(), pwd()));
+          server = LanguageServer.LanguageServerInstance(stdin, stdout, project_path, depot_path);
+          server.runlinter = true;
+          run(server);
+        ]],
+      },
+      capabilities = caps,
+      root_dir = root,
+    })
   end,
 })
 
