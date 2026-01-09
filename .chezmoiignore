@@ -1,4 +1,15 @@
-# chezmoi
+# macOSでは以下を除外
+{{ if eq .chezmoi.os "darwin" }}
+dot_vimrc
+private_dot_config/yazi
+private_dot_claude/commands
+{{ end }}
+
+# 共通除外
+README.md
+mise.toml
+*.log
+*.zwc
 private_dot_config/coc/extensions
 private_dot_config/coc/commands
 private_dot_config/coc/suggest.txt
@@ -6,9 +17,3 @@ private_dot_config/coc/mru
 private_dot_config/coc/list*
 private_dot_config/nvim/pack
 private_dot_config/nvim/plugin
-
-# logs
-*.log
-
-# zsh compiled
-*.zwc

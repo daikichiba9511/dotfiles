@@ -1,0 +1,83 @@
+# ~/.zshrc - 高速化版
+
+# --- PATH設定（早めに）
+export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
+
+# --- 基本設定
+export LANG=ja_JP.UTF-8
+export EDITOR=nvim
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+
+# --- ヒストリ
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt hist_ignore_all_dups share_history hist_ignore_dups
+setopt AUTO_PUSHD correct
+unsetopt beep
+DIRSTACKSIZE=100
+
+# --- 補完（1回だけ）
+fpath=(~/.local/share/zsh/site-functions /opt/homebrew/share/zsh/site-functions ~/.zsh $fpath)
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C  # キャッシュ使用（24時間以内なら再生成しない）
+fi
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# --- sheldon（キャッシュ）
+_sheldon_cache="${XDG_CACHE_HOME:-$HOME/.cache}/sheldon.zsh"
+_sheldon_toml="${XDG_CONFIG_HOME:-$HOME/.config}/sheldon/plugins.toml"
+if [[ ! -r "$_sheldon_cache" || "$_sheldon_toml" -nt "$_sheldon_cache" ]]; then
+  mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}"
+  sheldon source > "$_sheldon_cache"
+fi
+source "$_sheldon_cache"
+unset _sheldon_cache _sheldon_toml
+
+# --- mise（shimsのみ、activate不要）
+# PATHに既に追加済み
+
+# --- fzf（遅延読み込み）
+if [[ -f ~/.fzf.zsh ]]; then
+  source ~/.fzf.zsh
+fi
+
+# --- エイリアス
+alias v='nvim'
+alias lg='lazygit'
+alias g='git'
+
+if command -v lsd &>/dev/null; then
+  alias ls='lsd'
+  alias ll='lsd -l'
+  alias la='lsd -la'
+  alias lt='lsd --tree'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -l'
+  alias la='ls -la'
+fi
+
+# --- OSC52（クリップボード）
+osc52() {
+  local data=$(base64 | tr -d '\r\n')
+  if [[ -n "$TMUX" ]]; then
+    printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$data"
+  else
+    printf '\033]52;c;%s\a' "$data"
+  fi
+}
+
+# --- その他
+export DOCKER_BUILDKIT=1
+export GPG_TTY="$(tty)"
+[[ -n "$TMUX" ]] && stty erase '^?' 2>/dev/null
+
+# --- starship（最後に）
+eval "$(starship init zsh)"

@@ -1,0 +1,6 @@
+# Yazi keymap configuration
+
+[[manager.prepend_keymap]]
+on = "V"
+run = 'shell "vimg $@" --confirm'
+desc = "View image on local machine"

@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eu
+
+{{ if eq .chezmoi.os "linux" }}
+# Ubuntu: 基本パッケージ
+if command -v apt-get &> /dev/null; then
+  echo "==> Installing base packages (Ubuntu)..."
+  sudo apt-get update -yq
+  sudo apt-get install -yq \
+    zsh git curl wget unzip \
+    build-essential cmake \
+    libssl-dev libffi-dev
+fi
+{{ else if eq .chezmoi.os "darwin" }}
+# macOS: Homebrewは手動で
+echo "==> macOS: Install Homebrew manually if needed"
+echo "    /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+{{ end }}
