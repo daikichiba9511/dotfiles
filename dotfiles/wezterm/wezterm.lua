@@ -70,6 +70,8 @@ local tmux_keybinds = {
 }
 
 local default_keybinds = {
+  -- Ctrl+[ as Escape (for vim mode in Claude Code etc.)
+  { key = "[", mods = "CTRL", action = wezterm.action.SendKey({ key = "Escape" }) },
   -- Full Screen
   -- Ref: https://wezfurlong.org/wezterm/config/lua/keyassignment/ToggleFullScreen.html
   { key = "n", mods = "SHIFT|CTRL", action = wezterm.action.ToggleFullScreen },
