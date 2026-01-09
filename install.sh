@@ -1,7 +1,8 @@
 #!/bin/bash
 set -eu
 
-DOTFILES_REPO="daikichiba9511/dotfiles"
+DOTFILES_REPO="https://github.com/daikichiba9511/dotfiles.git"
+DOTFILES_DIR="$HOME/dotfiles"
 
 echo "==> Installing dotfiles..."
 
@@ -12,8 +13,18 @@ if ! command -v chezmoi &> /dev/null; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# dotfiles を適用
+# dotfiles を clone（まだなければ）
+if [ ! -d "$DOTFILES_DIR" ]; then
+  echo "==> Cloning dotfiles..."
+  git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+else
+  echo "==> Updating dotfiles..."
+  git -C "$DOTFILES_DIR" pull
+fi
+
+# chezmoi の source directory を ~/dotfiles に設定して適用
 echo "==> Applying dotfiles..."
-chezmoi init --apply "$DOTFILES_REPO"
+chezmoi init --source "$DOTFILES_DIR"
+chezmoi apply -v
 
 echo "==> Done! Please restart your shell."
