@@ -34,6 +34,33 @@ return {
       vim.cmd.colorscheme("catppuccin")
     end,
   },
+  -- Monokai
+  {
+    "polirritmico/monokai-nightasty.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("monokai-nightasty").setup({
+        on_colors = function(colors)
+          colors.bg = "#1a1a1a"
+        end,
+      })
+      -- vim.cmd.colorscheme("monokai-nightasty")
+      -- monokai用のwhitespace設定
+      local function set_monokai_whitespace()
+        if vim.g.colors_name and vim.g.colors_name:match("monokai") then
+          vim.api.nvim_set_hl(0, "Whitespace", { fg = "#6a6a6a" })
+          vim.api.nvim_set_hl(0, "NonText", { fg = "#6a6a6a" })
+          vim.api.nvim_set_hl(0, "IblWhitespace", { fg = "#6a6a6a" })
+        end
+      end
+      set_monokai_whitespace()
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "monokai*",
+        callback = set_monokai_whitespace,
+      })
+    end,
+  },
 
   -- Set lualine as statusline
   {
@@ -59,12 +86,20 @@ return {
         char = "│",
       },
       whitespace = {
+        highlight = "IblWhitespace",
         remove_blankline_trail = false,
       },
       scope = {
         enabled = true,
       },
     },
+    config = function(_, opts)
+      -- monokai用の設定
+      if vim.g.colors_name and vim.g.colors_name:match("monokai") then
+        vim.api.nvim_set_hl(0, "IblWhitespace", { fg = "#6a6a6a" })
+      end
+      require("ibl").setup(opts)
+    end,
   },
 
   -- Bufferline
