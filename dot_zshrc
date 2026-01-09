@@ -1,7 +1,7 @@
 # ~/.zshrc - 高速化版
 
 # --- PATH設定（早めに）
-export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
+export PATH="${HOME}/dotfiles/bin:${HOME}/.local/bin:${HOME}/.local/share/mise/shims:${PATH}"
 
 # --- 基本設定
 export LANG=ja_JP.UTF-8
