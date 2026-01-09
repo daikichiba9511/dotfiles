@@ -1,0 +1,42 @@
+#!/bin/bash
+# nvim-split - Open Neovim in a new pane with chat history (WezTerm or tmux)
+# Usage: EDITOR=nvim-split for Claude Code's Ctrl+G
+
+FILE="$1"
+HISTFILE=$(mktemp /tmp/claude-history.XXXXXX)
+
+if [ -n "$TMUX" ]; then
+    # tmux: スクロールバックをキャプチャ
+    tmux capture-pane -p -S -500 > "$HISTFILE"
+
+    ORIGINAL_PANE=$(tmux display-message -p '#{pane_id}')
+    TMPFILE=$(mktemp)
+
+    # 下に分割して nvim を開く（上: 履歴[readonly]、下: 編集[focus]）
+    tmux split-window -v "nvim -o '$HISTFILE' '$FILE' -c 'set nomodifiable buftype=nofile | wincmd j'; echo done > '$TMPFILE'"
+
+    while [ ! -s "$TMPFILE" ]; do
+        sleep 0.2
+    done
+    rm -f "$TMPFILE" "$HISTFILE"
+    tmux select-pane -t "$ORIGINAL_PANE"
+
+elif [ -n "$WEZTERM_PANE" ]; then
+    # WezTerm: スクロールバックをキャプチャ
+    wezterm cli get-text > "$HISTFILE" 2>/dev/null || echo "History capture not available" > "$HISTFILE"
+
+    ORIGINAL_PANE="$WEZTERM_PANE"
+    TMPFILE=$(mktemp)
+
+    # 下に分割して nvim を開く（上: 履歴[readonly]、下: 編集[focus]）
+    wezterm cli split-pane --bottom --percent 60 -- bash -c "nvim -o '$HISTFILE' '$FILE' -c 'set nomodifiable buftype=nofile | wincmd j'; echo done > '$TMPFILE'"
+
+    while [ ! -s "$TMPFILE" ]; do
+        sleep 0.2
+    done
+    rm -f "$TMPFILE" "$HISTFILE"
+    wezterm cli activate-pane --pane-id "$ORIGINAL_PANE"
+
+else
+    nvim "$FILE"
+fi

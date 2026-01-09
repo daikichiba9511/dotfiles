@@ -24,6 +24,8 @@ end
 #   eval $(sheldon source)
 # end
 
+set -gx EDITOR nvim-split
+
 alias v='nvim'
 alias lg='lazygit'
 alias g='git'

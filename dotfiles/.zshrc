@@ -92,6 +92,8 @@ osc52() {
   fi
 }
 
+export EDITOR=nvim-split
+
 alias v='nvim'
 alias lg='lazygit'
 alias g='git'
