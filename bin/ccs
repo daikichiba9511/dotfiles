@@ -1,0 +1,13 @@
+#!/bin/bash
+# vsplitして新しいペインでclaude codeを起動（現在のディレクトリで）
+
+if [[ -n "$TMUX" ]]; then
+  # tmux内
+  tmux split-window -h -c "#{pane_current_path}" "claude"
+elif [[ "$TERM_PROGRAM" == "WezTerm" ]]; then
+  # wezterm直接
+  wezterm cli split-pane --right --cwd "$(pwd)" -- claude
+else
+  # それ以外は普通に起動
+  claude
+fi
