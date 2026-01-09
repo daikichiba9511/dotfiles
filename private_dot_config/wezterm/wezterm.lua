@@ -101,20 +101,25 @@ end
 --- Usage: vimg image.png (on SSH server)
 ---------------------------------------------------------------
 wezterm.on("user-var-changed", function(window, pane, name, value)
+  wezterm.log_info("user-var-changed: name=" .. name .. ", value=" .. tostring(value))
+
   if name == "view-image" then
     -- value is already decoded by WezTerm
     -- "host:/path/to/image" 形式でパース
     local host, path = value:match("^([^:]+):(.+)$")
+    wezterm.log_info("view-image: host=" .. tostring(host) .. ", path=" .. tostring(path))
 
     if host and path then
       local ext = path:match("%.([^%.]+)$") or "png"
       local tmp = "/tmp/wez-preview." .. ext
+      local cmd = string.format('scp "%s:%s" "%s" && open "%s"', host, path, tmp, tmp)
+      wezterm.log_info("Running: " .. cmd)
 
       -- scp でコピーして open で起動 (macOS)
       wezterm.background_child_process({
         "sh",
         "-c",
-        string.format('scp "%s:%s" "%s" && open "%s"', host, path, tmp, tmp),
+        cmd,
       })
     end
   end
