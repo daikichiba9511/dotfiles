@@ -1,0 +1,28 @@
+[tools]
+# -- Languages
+node = "latest"
+python = "3.11"
+go = "latest"
+# julia = "latest"
+
+# -- Tools
+starship = "latest"
+uv = "latest"
+ripgrep = "latest"
+lsd = "latest"
+fd = "latest"
+bat = "latest"
+delta = "latest"
+fzf = "latest"
+lazygit = "latest"
+gh = "latest"
+neovim = "0.11"
+usage = "latest"
+# aws-cli = "latest"
+# terraform = "latest"
+# pnpm = "latest"
+# ghcup = "latest"
+# tmux = "latest"  # macでビルド必要なことが多い
+
+[settings]
+idiomatic_version_file_enable_tools = []
