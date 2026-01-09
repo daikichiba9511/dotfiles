@@ -32,3 +32,48 @@ set_keymap("n", "<leader>ccq", quick_chat, { noremap = true, silent = true, desc
 set_keymap("n", "<leader>cc", "<cmd>ClaudeCode<cr>", { desc = "Claude Code" })
 set_keymap("v", "<leader>cc", "<cmd>ClaudeCode<cr>", { desc = "Claude Code with selection" })
 
+-- View image locally (via vimg + WezTerm)
+set_keymap("n", "<leader>vi", function()
+  local file = vim.fn.expand("%:p")
+  vim.fn.system("vimg " .. vim.fn.shellescape(file))
+  vim.notify("Opening: " .. file, vim.log.levels.INFO)
+end, { desc = "View image locally" })
+
+-- Copy file path with line number/range to clipboard
+-- Works over SSH and tmux via OSC 52
+local function copy_file_location(use_absolute)
+  local mode = vim.fn.mode()
+  local file = use_absolute and vim.fn.expand("%:p") or vim.fn.expand("%:.")
+  local start_line, end_line
+
+  if mode == "v" or mode == "V" or mode == "\22" then
+    start_line = vim.fn.line("v")
+    end_line = vim.fn.line(".")
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
+  else
+    start_line = vim.fn.line(".")
+    end_line = start_line
+  end
+
+  local text
+  if start_line == end_line then
+    text = string.format("%s:%d", file, start_line)
+  else
+    text = string.format("%s:%d-%d", file, start_line, end_line)
+  end
+
+  vim.fn.setreg("+", text)
+  vim.notify("Copied: " .. text, vim.log.levels.INFO)
+
+  if mode ~= "n" then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+  end
+end
+
+-- Relative path (for Claude Code etc.)
+set_keymap({ "n", "v" }, "<leader>yl", function() copy_file_location(false) end, { desc = "Copy file:line (relative)" })
+-- Absolute path
+set_keymap({ "n", "v" }, "<leader>yL", function() copy_file_location(true) end, { desc = "Copy file:line (absolute)" })
+
