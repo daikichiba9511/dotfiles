@@ -24,5 +24,12 @@ if [ ! -f "$1" ]; then
 fi
 
 FILE=$(realpath "$1")
-printf '\e]1337;SetUserVar=view-image=%s\a' "$(echo -n "$HOST:$FILE" | base64)"
+PAYLOAD="$(echo -n "$HOST:$FILE" | base64)"
+
+if [ -n "$TMUX" ]; then
+    # tmux requires wrapping OSC sequences
+    printf '\ePtmux;\e\e]1337;SetUserVar=view-image=%s\a\e\\' "$PAYLOAD"
+else
+    printf '\e]1337;SetUserVar=view-image=%s\a' "$PAYLOAD"
+fi
 echo "Opening: $FILE"

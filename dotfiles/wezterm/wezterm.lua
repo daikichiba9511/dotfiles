@@ -102,9 +102,9 @@ end
 ---------------------------------------------------------------
 wezterm.on("user-var-changed", function(window, pane, name, value)
   if name == "view-image" then
-    local data = wezterm.base64_decode(value)
+    -- value is already decoded by WezTerm
     -- "host:/path/to/image" 形式でパース
-    local host, path = data:match("^([^:]+):(.+)$")
+    local host, path = value:match("^([^:]+):(.+)$")
 
     if host and path then
       local ext = path:match("%.([^%.]+)$") or "png"
