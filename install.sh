@@ -22,9 +22,14 @@ else
   git -C "$DOTFILES_DIR" pull
 fi
 
-# chezmoi の source directory を ~/dotfiles に設定して適用
+# chezmoi 設定ファイルで source directory を指定
+mkdir -p "$HOME/.config/chezmoi"
+cat > "$HOME/.config/chezmoi/chezmoi.toml" << EOF
+sourceDir = "$DOTFILES_DIR"
+EOF
+
+# dotfiles を適用
 echo "==> Applying dotfiles..."
-"$CHEZMOI_BIN" init --source "$DOTFILES_DIR"
 "$CHEZMOI_BIN" apply -v
 
 echo "==> Done! Please restart your shell."
