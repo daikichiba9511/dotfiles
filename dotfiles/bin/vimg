@@ -1,0 +1,28 @@
+#!/bin/bash
+# vimg - View image on local machine via WezTerm
+#
+# Usage: vimg <image_file>
+#
+# This script sends an OSC sequence to WezTerm, which triggers
+# scp to copy the image and open it locally.
+#
+# Requirements:
+# - WezTerm with user-var-changed handler configured
+# - SSH Host name in ~/.ssh/config must match hostname (or set SSH_HOST below)
+
+# Use SSH_HOST env var if set, otherwise use hostname
+HOST="${SSH_HOST:-$(hostname)}"
+
+if [ -z "$1" ]; then
+    echo "Usage: vimg <image_file>"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Error: File not found: $1"
+    exit 1
+fi
+
+FILE=$(realpath "$1")
+printf '\e]1337;SetUserVar=view-image=%s\a' "$(echo -n "$HOST:$FILE" | base64)"
+echo "Opening: $FILE"

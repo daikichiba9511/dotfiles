@@ -72,6 +72,7 @@ unfunction source
 source <(fzf --zsh)
 
 export SHELL=$(which zsh)
+export PATH="${HOME}/dotfiles/dotfiles/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 if type mise &>/dev/null; then

@@ -1,5 +1,6 @@
 # Commands to run in interactive sessions can go here
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/dotfiles/dotfiles/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/cuda-12/bin:$PATH"

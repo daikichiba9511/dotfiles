@@ -94,6 +94,30 @@ local function create_keybinds()
   return utils.merge_lists(default_keybinds, tmux_keybinds)
 end
 
+---------------------------------------------------------------
+--- SSH Remote Image Viewer
+--- Usage: vimg image.png (on SSH server)
+---------------------------------------------------------------
+wezterm.on("user-var-changed", function(window, pane, name, value)
+  if name == "view-image" then
+    local data = wezterm.base64_decode(value)
+    -- "host:/path/to/image" 形式でパース
+    local host, path = data:match("^([^:]+):(.+)$")
+
+    if host and path then
+      local ext = path:match("%.([^%.]+)$") or "png"
+      local tmp = "/tmp/wez-preview." .. ext
+
+      -- scp でコピーして open で起動 (macOS)
+      wezterm.background_child_process({
+        "sh",
+        "-c",
+        string.format('scp "%s:%s" "%s" && open "%s"', host, path, tmp, tmp),
+      })
+    end
+  end
+end)
+
 wezterm.on("toggle-tmux-keybinds", function(window, _)
   local overrides = window:get_config_overrides() or {}
   if not overrides.window_background_opacity then
@@ -153,10 +177,12 @@ end)
 local function get_font()
   if os_type == "Linux" then
     return wezterm.font_with_fallback({
+      "UDEV Gothic 35NF",
       "HackGen35Nerd Console",
     })
   else
     return wezterm.font_with_fallback({
+      "UDEV Gothic 35NF",
       "HackGen Console NFJ",
       "HackGen35 Console NFJ",
       "HackGenNerd Console",
@@ -171,7 +197,7 @@ end
 local config = {
   font = get_font(),
   use_ime = true,
-  font_size = 15.0,
+  font_size = 13.0,
   color_scheme = "Catppuccin Mocha (Gogh)",
   adjust_window_size_when_changing_font_size = false,
   hide_tab_bar_if_only_one_tab = false,
