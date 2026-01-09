@@ -39,6 +39,10 @@ sheldon ${HOME}/.config
 
 # claude
 .claude/settings.json ${HOME}/.claude
+.claude/commands ${HOME}/.claude
 
 # codex
 .codex/config.toml ${HOME}/.codex
+
+# yazi
+yazi ${HOME}/.config
