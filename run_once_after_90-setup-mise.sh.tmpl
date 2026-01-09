@@ -1,19 +1,27 @@
 #!/bin/bash
 set -eu
 
+MISE_BIN="$HOME/.local/bin/mise"
+
+# miseがなければスキップ
+if [ ! -f "$MISE_BIN" ]; then
+  echo "==> mise not found, skipping setup"
+  exit 0
+fi
+
 # mise completion
 {{ if eq .chezmoi.os "darwin" }}
 if [ -d /opt/homebrew/share/zsh/site-functions ]; then
-  mise completion zsh > /opt/homebrew/share/zsh/site-functions/_mise 2>/dev/null || true
+  "$MISE_BIN" completion zsh > /opt/homebrew/share/zsh/site-functions/_mise 2>/dev/null || true
 fi
 {{ else if eq .chezmoi.os "linux" }}
 mkdir -p ~/.local/share/zsh/site-functions
-mise completion zsh > ~/.local/share/zsh/site-functions/_mise 2>/dev/null || true
+"$MISE_BIN" completion zsh > ~/.local/share/zsh/site-functions/_mise 2>/dev/null || true
 {{ end }}
 
 # install tools
-mise trust -y
-mise install -y
+"$MISE_BIN" trust -y
+"$MISE_BIN" install -y
 
 {{ if eq .chezmoi.os "linux" }}
 # デフォルトshellをzshに (Ubuntu)

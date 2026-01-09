@@ -6,6 +6,7 @@ go = "latest"
 # julia = "latest"
 
 # -- Tools
+tree-sitter = "latest"
 starship = "latest"
 uv = "latest"
 ripgrep = "latest"
