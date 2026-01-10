@@ -9,6 +9,7 @@ private_dot_claude/commands
 {{ if ne .chezmoi.os "darwin" }}
 private_dot_config/aerospace
 private_dot_config/borders
+private_dot_config/sketchybar
 {{ end }}
 
 # 共通除外
