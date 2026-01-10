@@ -78,7 +78,7 @@ local default_keybinds = {
     key = "a",
     mods = os_type == "macos" and "CMD|SHIFT" or "CTRL|SHIFT",
     action = wezterm.action.SplitHorizontal({
-      args = { "claude" },
+      args = { os.getenv("SHELL"), "-l", "-c", "claude" },
     }),
   },
   -- Full Screen
