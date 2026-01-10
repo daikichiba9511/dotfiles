@@ -38,6 +38,8 @@ local config = {
   use_ime = true,
   font_size = 13.0,
   color_scheme = "Catppuccin Mocha (Gogh)",
+  -- Enable OSC52 clipboard for SSH/tmux copy
+  enable_osc52_clipboard = true,
   adjust_window_size_when_changing_font_size = false,
   send_composed_key_when_left_alt_is_pressed = true,
   send_composed_key_when_right_alt_is_pressed = false,
