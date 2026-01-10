@@ -5,6 +5,12 @@ private_dot_config/yazi
 private_dot_claude/commands
 {{ end }}
 
+# macOS以外では以下を除外 (WM関連)
+{{ if ne .chezmoi.os "darwin" }}
+private_dot_config/aerospace
+private_dot_config/borders
+{{ end }}
+
 # 共通除外
 README.md
 mise.toml
