@@ -1,0 +1,116 @@
+# AeroSpace Configuration
+# Migrated from yabai + skhd
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Mouse follows focus
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Active window border
+accordion-padding = 30
+
+# Gaps between windows
+# LG ULTRAGEAR (monitor 1): sketchybar用に40px
+# Built-in Retina Display (monitor 2): 10px
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.bottom = 10
+outer.top = [{ monitor."LG ULTRAGEAR" = 40 }, 10]
+outer.right = 10
+
+# Main mode keybindings
+[mode.main.binding]
+
+# Focus window (alt + h/j/k/l) - crosses monitor boundaries
+alt-h = 'focus --boundaries all-monitors-outer-frame left'
+alt-j = 'focus --boundaries all-monitors-outer-frame down'
+alt-k = 'focus --boundaries all-monitors-outer-frame up'
+alt-l = 'focus --boundaries all-monitors-outer-frame right'
+
+# Focus next/prev window (within workspace)
+alt-n = 'focus dfs-next'
+alt-p = 'focus dfs-prev'
+
+# Move window (alt + shift + h/j/k/l)
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Swap window (alt + cmd + arrow)
+alt-cmd-left = 'move left'
+alt-cmd-right = 'move right'
+alt-cmd-up = 'move up'
+alt-cmd-down = 'move down'
+
+# Resize window: use alt-r to enter resize mode instead
+
+# Toggle fullscreen (alt + f)
+alt-f = 'fullscreen'
+
+# Toggle zoom parent (alt + d)
+alt-d = 'fullscreen'
+
+# Toggle float (alt + t)
+alt-t = 'layout floating tiling'
+
+# Toggle split direction (alt + e)
+alt-e = 'layout tiles horizontal vertical'
+
+# Balance window sizes (shift + alt + 0)
+alt-shift-0 = 'balance-sizes'
+
+# Workspace switching (alt + 1-9)
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+
+# Move window to workspace (shift + cmd + 1-9)
+shift-cmd-1 = 'move-node-to-workspace 1'
+shift-cmd-2 = 'move-node-to-workspace 2'
+shift-cmd-3 = 'move-node-to-workspace 3'
+shift-cmd-4 = 'move-node-to-workspace 4'
+shift-cmd-5 = 'move-node-to-workspace 5'
+shift-cmd-6 = 'move-node-to-workspace 6'
+shift-cmd-7 = 'move-node-to-workspace 7'
+shift-cmd-8 = 'move-node-to-workspace 8'
+shift-cmd-9 = 'move-node-to-workspace 9'
+
+# Focus monitor (ctrl + alt + z/3)
+ctrl-alt-z = 'focus-monitor prev'
+ctrl-alt-3 = 'focus-monitor 3'
+
+# Move window to monitor and follow focus (ctrl + cmd + c/1)
+ctrl-cmd-c = ['move-node-to-monitor next', 'focus-monitor next']
+ctrl-cmd-1 = ['move-node-to-monitor 1', 'focus-monitor 1']
+
+# Enter resize mode (alt + r)
+alt-r = 'mode resize'
+
+# Workspace picker (like tmux prefix + w)
+alt-w = 'exec-and-forget aerospace list-workspaces --monitor all --empty no | choose | xargs aerospace workspace'
+
+# Reload config
+alt-shift-r = 'reload-config'
+
+# Resize mode
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+esc = 'mode main'
+enter = 'mode main'
