@@ -12,7 +12,7 @@ return {
     config = function()
       require("copilot").setup({
         suggestion = { enabled = false }, -- Use blink.cmp instead
-        panel = { enabled = false },      -- Not needed
+        panel = { enabled = false }, -- Not needed
       })
     end,
   },
@@ -64,7 +64,7 @@ return {
   {
     "yetone/avante.nvim",
     build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-        or "make",
+      or "make",
     event = "VeryLazy",
     version = false,
     config = function(_, opts)
@@ -77,7 +77,10 @@ return {
       local copilot_hosts = vim.fn.expand("~/.config/github-copilot/hosts.json")
       local copilot_apps = vim.fn.expand("~/.config/github-copilot/apps.json")
       if vim.fn.filereadable(copilot_hosts) == 0 and vim.fn.filereadable(copilot_apps) == 0 then
-        vim.notify("Copilot not authenticated. Run :Copilot auth first, or change avante provider.", vim.log.levels.WARN)
+        vim.notify(
+          "Copilot not authenticated. Run :Copilot auth first, or change avante provider.",
+          vim.log.levels.WARN
+        )
         opts.provider = "claude" -- Fallback to claude if copilot not authenticated
       end
       require("avante").setup(opts)
@@ -140,6 +143,47 @@ return {
         },
         ft = { "markdown", "Avante" },
       },
+    },
+  },
+
+  -- Sidekick.nvim - NES (Next Edit Suggestions) + AI CLI
+  {
+    "folke/sidekick.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    opts = {
+      nes = {
+        enabled = true,
+        debounce = 50,
+      },
+      cli = {
+        tool = "claude",
+        window = "right",
+      },
+      multiplexer = "tmux",
+    },
+    keys = {
+      {
+        "<C-g>",
+        function()
+          require("sidekick").nes_jump_or_apply()
+        end,
+        desc = "NES: Apply or Jump",
+        mode = { "n", "i" },
+      },
+      {
+        "<C-S-g>",
+        function()
+          require("sidekick.nes").jump(-1)
+        end,
+        desc = "NES: Jump Back",
+        mode = { "n", "i" },
+      },
+      { "<leader>aa", "<cmd>Sidekick cli toggle<cr>", desc = "Toggle AI CLI" },
+      { "<leader>as", "<cmd>Sidekick cli tool<cr>", desc = "Select AI Tool" },
+      { "<leader>ap", "<cmd>Sidekick cli prompt<cr>", desc = "Select Prompt" },
     },
   },
 }
