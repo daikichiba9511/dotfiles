@@ -43,9 +43,36 @@ unset _sheldon_cache _sheldon_toml
 # --- mise（shimsのみ、activate不要）
 # PATHに既に追加済み
 
-# --- fzf（遅延読み込み）
+# --- fzf
 if [[ -f ~/.fzf.zsh ]]; then
   source ~/.fzf.zsh
+fi
+
+if command -v fzf &>/dev/null; then
+  # fzf全体設定
+  export FZF_DEFAULT_OPTS="
+    --height 40%
+    --layout=reverse
+    --border
+    --preview 'bat --style=numbers --color=always {} 2>/dev/null || echo {}'
+    --preview-window=right:50%:wrap
+  "
+
+  # 履歴検索 (Ctrl+R)
+  fzf-history-widget() {
+    local selected
+    selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf \
+      --tac +s \
+      --tiebreak=index \
+      --query="${LBUFFER}" \
+      --preview 'echo {} | bat --language=bash --style=plain --color=always')
+    if [[ -n "$selected" ]]; then
+      LBUFFER="$selected"
+    fi
+    zle reset-prompt
+  }
+  zle -N fzf-history-widget
+  bindkey '^R' fzf-history-widget
 fi
 
 # --- エイリアス

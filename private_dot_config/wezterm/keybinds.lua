@@ -232,6 +232,8 @@ local key_tables = {
     { key = "PageDown", mods = "NONE", action = wezterm.action({ CopyMode = "PageDown" }) },
     { key = "b", mods = "CTRL", action = wezterm.action({ CopyMode = "PageUp" }) },
     { key = "f", mods = "CTRL", action = wezterm.action({ CopyMode = "PageDown" }) },
+    { key = "u", mods = "CTRL", action = wezterm.action({ CopyMode = "PageUp" }) },
+    { key = "d", mods = "CTRL", action = wezterm.action({ CopyMode = "PageDown" }) },
     -- search
     {
       key = "/",
