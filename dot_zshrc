@@ -62,7 +62,7 @@ if command -v fzf &>/dev/null; then
   fzf-history-widget() {
     local selected
     selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf \
-      --tac +s \
+      --scheme=history \
       --tiebreak=index \
       --query="${LBUFFER}" \
       --preview 'echo {} | bat --language=bash --style=plain --color=always')

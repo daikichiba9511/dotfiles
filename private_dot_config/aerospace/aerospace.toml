@@ -61,11 +61,17 @@ alt-d = 'fullscreen'
 # Toggle float (alt + t)
 alt-t = 'layout floating tiling'
 
+# Force tiling (alt + shift + t)
+alt-shift-t = 'layout tiling'
+
 # Toggle split direction (alt + e)
 alt-e = 'layout tiles horizontal vertical'
 
 # Balance window sizes (shift + alt + 0)
 alt-shift-0 = 'balance-sizes'
+
+# Force retile current workspace (alt + shift + =)
+alt-shift-equal = ['flatten-workspace-tree', 'balance-sizes']
 
 # Workspace switching (alt + 1-9)
 alt-1 = 'workspace 1'
@@ -114,3 +120,16 @@ k = 'resize height -50'
 l = 'resize width +50'
 esc = 'mode main'
 enter = 'mode main'
+
+# Force apps to always tile
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'layout tiling'
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'layout tiling'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'layout tiling'

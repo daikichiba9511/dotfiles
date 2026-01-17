@@ -1,0 +1,20 @@
+#!/bin/bash
+# Install GitHub Copilot CLI (standalone terminal agent)
+# https://github.com/github/copilot-cli
+
+set -e
+
+echo "Installing GitHub Copilot CLI..."
+npm install -g @github/copilot
+
+# Verify installation
+if command -v copilot &>/dev/null; then
+  echo ""
+  echo "Copilot CLI installed successfully!"
+  copilot --version
+  echo ""
+  echo "Run 'copilot' to start."
+else
+  echo ""
+  echo "Installation may require restarting your shell."
+fi

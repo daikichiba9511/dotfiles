@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install Claude Code CLI (bun-based native binary)
+# https://docs.anthropic.com/en/docs/claude-code
+
+set -e
+
+echo "Installing Claude Code CLI..."
+curl -fsSL https://claude.ai/install.sh | bash
+
+if command -v claude &>/dev/null; then
+  echo ""
+  echo "Claude Code installed successfully!"
+  claude --version
+  echo ""
+  echo "Run 'claude' to start."
+else
+  echo ""
+  echo "Installation may require restarting your shell."
+fi
