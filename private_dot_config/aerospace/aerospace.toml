@@ -84,16 +84,16 @@ alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 
-# Move window to workspace (shift + cmd + 1-9)
-shift-cmd-1 = 'move-node-to-workspace 1'
-shift-cmd-2 = 'move-node-to-workspace 2'
-shift-cmd-3 = 'move-node-to-workspace 3'
-shift-cmd-4 = 'move-node-to-workspace 4'
-shift-cmd-5 = 'move-node-to-workspace 5'
-shift-cmd-6 = 'move-node-to-workspace 6'
-shift-cmd-7 = 'move-node-to-workspace 7'
-shift-cmd-8 = 'move-node-to-workspace 8'
-shift-cmd-9 = 'move-node-to-workspace 9'
+# Move window to workspace (alt + shift + 1-9)
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
 
 # Focus monitor (ctrl + alt + z/3)
 ctrl-alt-z = 'focus-monitor prev'

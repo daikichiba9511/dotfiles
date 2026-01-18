@@ -26,7 +26,7 @@ shell = "zsh"
 github = "romkatv/zsh-defer"
 
 [plugins.fast-syntaxhighlight]
-github = "zdharma/fast-syntax-highlighting"
+github = "zdharma-continuum/fast-syntax-highlighting"
 
 [plugins.truecolor]
 github = "chrissicool/zsh-256color"
