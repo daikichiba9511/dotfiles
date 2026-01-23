@@ -132,4 +132,5 @@ run = 'layout tiling'
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
+check-further-callbacks = true
 run = 'layout tiling'
