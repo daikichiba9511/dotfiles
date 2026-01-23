@@ -12,5 +12,9 @@
     "DISABLE_INTERLEAVED_THINKING": "true",
     "MAX_THINKING_TOKENS": "31999"
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
 }
