@@ -1,5 +1,15 @@
 -- Autocmds configuration
 
+-- MDX filetype
+vim.filetype.add({
+  extension = {
+    mdx = "mdx",
+  },
+})
+
+-- MDX uses markdown treesitter parser for highlighting
+vim.treesitter.language.register("markdown", "mdx")
+
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {

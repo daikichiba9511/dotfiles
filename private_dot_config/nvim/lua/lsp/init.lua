@@ -10,8 +10,9 @@ local ls_names = {
   -- python
   "basedpyright", -- Fork of pyright with stricter type checking and Pylance features
   "ruff",
-  -- typescript
+  -- typescript / mdx
   "ts_ls",
+  "mdx_analyzer",
   -- terraform
   "terraformls",
   -- sql

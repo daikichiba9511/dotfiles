@@ -27,7 +27,10 @@ return {
       require("nvim-treesitter").setup({})
 
       -- Install parsers programmatically
-      require("nvim-treesitter").install({ "lua", "vim", "vimdoc", "python", "julia" })
+      require("nvim-treesitter").install({
+        "lua", "vim", "vimdoc", "python", "julia",
+        "markdown", "markdown_inline", "tsx", "javascript", "typescript",
+      })
 
       -- Enable treesitter highlighting (required for main branch)
       vim.api.nvim_create_autocmd("FileType", {
