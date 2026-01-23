@@ -19,6 +19,8 @@ lazygit = "latest"
 gh = "latest"
 neovim = "0.11"
 usage = "latest"
+ghq = "latest"
+
 # aws-cli = "latest"
 # terraform = "latest"
 # pnpm = "latest"
