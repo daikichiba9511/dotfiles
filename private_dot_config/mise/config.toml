@@ -1,6 +1,6 @@
 [tools]
 # -- Languages
-node = "latest"
+node = "24"
 python = "3.11"
 go = "latest"
 # julia = "latest"

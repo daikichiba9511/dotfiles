@@ -1,0 +1,25 @@
+#!/bin/bash
+# Install OpenAI Codex CLI
+# https://github.com/openai/codex
+
+set -e
+
+echo "Installing OpenAI Codex CLI..."
+
+if ! command -v node &>/dev/null; then
+  echo "Node.js not found. Install it first (mise install node)."
+  exit 1
+fi
+
+npm i -g @openai/codex
+
+if command -v codex &>/dev/null; then
+  echo ""
+  echo "Codex CLI installed successfully!"
+  codex --version
+  echo ""
+  echo "Run 'codex' to start."
+else
+  echo ""
+  echo "Installation may require restarting your shell."
+fi
