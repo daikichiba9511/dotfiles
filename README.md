@@ -1,90 +1,102 @@
-# dotfiles
+<h1 align="center">
+  <img src="assets/icon.jpg" width="100" alt="icon" /><br>
+  dotfiles
+</h1>
 
-This repository is daikichiba9511's dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
+<p align="center">
+  <strong>Personal development environment managed with <a href="https://www.chezmoi.io/">chezmoi</a></strong>
+</p>
 
-I write program/documents like machine learning modeling, data science, documentation w/ Neovim in WezTerm on Ubuntu/macOS.
+<p align="center">
+  <img src="https://img.shields.io/badge/Neovim-0.10+-57A143?style=flat-square&logo=neovim&logoColor=white" alt="Neovim" />
+  <img src="https://img.shields.io/badge/WezTerm-Terminal-4E49EE?style=flat-square&logo=wezterm&logoColor=white" alt="WezTerm" />
+  <img src="https://img.shields.io/badge/macOS-Sonoma-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" />
+  <img src="https://img.shields.io/badge/Ubuntu-24.04-E95420?style=flat-square&logo=ubuntu&logoColor=white" alt="Ubuntu" />
+</p>
 
-## My Environment List
+---
 
-- Ubuntu 24.04.3 LTS / macOS
+## Screenshots
 
-- neovim latest
-  - lazy.nvim (package manager)
-  - blink.cmp (completion)
-  - nvim-lspconfig + mason (LSP)
-  - nvim-treesitter
-  - fzf-lua
-  - copilot.lua, CopilotChat, Avante, claude-code.nvim (AI)
-  - catppuccin (colorscheme)
-  - lualine.nvim, bufferline.nvim
-  - snacks.nvim (dashboard, explorer, picker, notifier, etc.)
-  - vim-fugitive, gitsigns.nvim (git)
-  - conform.nvim (formatter)
-  - toggleterm.nvim
-  - which-key.nvim
-  - obsidian.nvim
+<table>
+  <tr>
+    <td><img src="assets/neovim_python.png" alt="Neovim Python" width="400"/></td>
+    <td><img src="assets/neovim_markdown.png" alt="Neovim Markdown" width="400"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Python</strong></td>
+    <td align="center"><strong>Markdown</strong></td>
+  </tr>
+</table>
 
-- wezterm (terminal)
-- zsh (shell)
-- starship (prompt)
-- mise (runtime version manager)
-- nodejs == 22.x
+---
 
-### macOS Window Management
-
-- AeroSpace (tiling window manager)
-- SketchyBar (custom menu bar)
-- JankyBorders (window border highlight)
-- AltTab (window switcher)
-
-## Installation
-
-### Quick Install (one-liner)
+## Quick Start
 
 ```sh
 curl -fsLS https://raw.githubusercontent.com/daikichiba9511/dotfiles/main/install.sh | bash
 ```
 
-### Manual Install
-
-1. Install chezmoi
+<details>
+<summary><strong>Manual Installation</strong></summary>
 
 ```sh
+# Install chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
-```
 
-2. Clone and apply dotfiles
-
-```sh
+# Clone and apply
 git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 ~/.local/bin/chezmoi init --source ~/dotfiles --apply
 ```
 
-### macOS: Install Window Management Tools
+</details>
 
-After initial setup, run the following to install macOS window management tools:
+---
 
-```sh
-~/.local/bin/install-macos-wm.sh
-```
+## Stack
 
-This installs AeroSpace, SketchyBar, JankyBorders, AltTab, and choose-gui.
+### Editor
 
-## Updating
+| Tool | Description |
+|------|-------------|
+| **Neovim** | Main editor with lazy.nvim |
+| **blink.cmp** | Completion engine |
+| **nvim-lspconfig + mason** | LSP management |
+| **nvim-treesitter** | Syntax highlighting |
+| **fzf-lua + snacks.nvim** | Fuzzy finder & utilities |
 
-```sh
-chezmoi update
-```
+### AI Integration
 
-Or pull manually and apply:
+| Tool | Description |
+|------|-------------|
+| **claude-code.nvim** | Claude Code CLI integration |
+| **copilot.lua** | GitHub Copilot |
+| **Avante** | AI assistant |
 
-```sh
-cd ~/dotfiles && git pull && chezmoi apply
-```
+### Terminal & Shell
+
+| Tool | Description |
+|------|-------------|
+| **WezTerm** | GPU-accelerated terminal |
+| **zsh** | Shell |
+| **starship** | Cross-shell prompt |
+| **mise** | Runtime version manager |
+
+### macOS Window Management
+
+| Tool | Description |
+|------|-------------|
+| **AeroSpace** | Tiling window manager |
+| **SketchyBar** | Custom menu bar |
+| **JankyBorders** | Window border highlight |
+| **AltTab** | Window switcher |
+
+---
 
 ## Keybindings
 
-### WezTerm
+<details>
+<summary><strong>WezTerm</strong></summary>
 
 | Key | Action |
 |-----|--------|
@@ -96,18 +108,34 @@ cd ~/dotfiles && git pull && chezmoi apply
 | `Ctrl+Shift + h/j/k/l` | Move between panes |
 | `Cmd+Shift + a` | Open Claude Code |
 
-### AeroSpace (macOS)
+</details>
+
+<details>
+<summary><strong>AeroSpace (macOS)</strong></summary>
 
 | Key | Action |
 |-----|--------|
-| `Alt + h/j/k/l` | Focus window (across monitors) |
+| `Alt + h/j/k/l` | Focus window |
 | `Alt + Shift + h/j/k/l` | Move window |
 | `Alt + 1-9` | Switch workspace |
-| `Cmd+Shift + 1-9` | Move window to workspace |
-| `Alt + w` | Workspace picker |
+| `Cmd+Shift + 1-9` | Move to workspace |
 | `Alt + f` | Fullscreen |
 | `Alt + t` | Toggle float |
-| `Alt + r` | Resize mode |
+
+</details>
+
+<details>
+<summary><strong>Neovim (Claude Code)</strong></summary>
+
+| Key | Action |
+|-----|--------|
+| `<leader>cc` | Toggle Claude Code |
+| `<leader>cs` | Send selection to Claude |
+| `<leader>cf` | Focus Claude Code |
+
+</details>
+
+---
 
 ## Structure
 
@@ -121,9 +149,11 @@ cd ~/dotfiles && git pull && chezmoi apply
 └── dot_*                   # ~/.*
 ```
 
+---
+
 ## References
 
 - [chezmoi](https://www.chezmoi.io/)
 - [yutkat/dotfiles](https://github.com/yutkat/dotfiles)
-- [FelixKratz/dotfiles](https://github.com/FelixKratz/dotfiles) - SketchyBar reference
+- [FelixKratz/dotfiles](https://github.com/FelixKratz/dotfiles)
 - [nikitabobko/AeroSpace](https://github.com/nikitabobko/AeroSpace)
