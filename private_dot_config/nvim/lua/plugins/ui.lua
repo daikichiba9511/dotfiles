@@ -113,6 +113,39 @@ return {
     end,
   },
 
+  -- Noice - UI for messages, cmdline and popupmenu
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
+      },
+    },
+    keys = {
+      { "<leader>sn", "", desc = "+noice" },
+      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
+    },
+  },
+
   -- Todo comments
   {
     "folke/todo-comments.nvim",
