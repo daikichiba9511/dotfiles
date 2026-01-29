@@ -113,6 +113,34 @@ return {
     end,
   },
 
+  -- Image.nvim - display images in Neovim (requires ImageMagick)
+  {
+    "3rd/image.nvim",
+    ft = { "markdown", "norg", "oil" },
+    opts = {
+      backend = "kitty", -- WezTerm supports Kitty protocol
+      processor = "magick_cli",
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = true,
+          only_render_image_at_cursor = true, -- Only render image at cursor to avoid duplicates
+          floating_windows = false,
+          filetypes = { "markdown" },
+        },
+      },
+      max_width = 100,
+      max_height = 12,
+      max_height_window_percentage = 50,
+      max_width_window_percentage = nil,
+      window_overlap_clear_enabled = true,
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+    },
+    keys = {
+      { "<leader>ic", function() require("image").clear() end, desc = "Clear images" },
+    },
+  },
+
   -- Noice - UI for messages, cmdline and popupmenu
   {
     "folke/noice.nvim",

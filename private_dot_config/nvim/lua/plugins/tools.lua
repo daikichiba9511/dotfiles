@@ -70,6 +70,18 @@ return {
     end,
   },
 
+  -- Markdown preview in browser
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && npm install",
+    keys = {
+      { "<leader>mp", "<cmd>MarkdownPreview<cr>", desc = "Markdown Preview" },
+      { "<leader>ms", "<cmd>MarkdownPreviewStop<cr>", desc = "Markdown Preview Stop" },
+    },
+  },
+
   -- Obsidian
   {
     "obsidian-nvim/obsidian.nvim",
