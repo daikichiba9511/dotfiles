@@ -31,7 +31,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 -- 外部でファイルが変更されたら自動で再読み込み (LazyVim style)
-vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
+-- CursorHold/CursorHoldI: カーソルが updatetime (250ms) 動かない時にもチェック
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'CursorHold', 'CursorHoldI' }, {
   group = vim.api.nvim_create_augroup('checktime', { clear = true }),
   callback = function()
     if vim.o.buftype ~= 'nofile' then
