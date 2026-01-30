@@ -63,12 +63,15 @@ local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
 local function setup_tab_title()
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local foreground = "#313244"
-    local background = "#89b4fa"
+    -- Rose Pine (main) colors
+    local foreground = "#191724" -- base
+    local background = "#6e6a86" -- muted (inactive)
     local edge_background = "none"
 
     if tab.is_active then
-      background = "#a6e3a1"
+      background = "#c4a7e7" -- iris (active)
+    elseif hover then
+      background = "#908caa" -- subtle (hover)
     end
 
     local edge_foreground = background

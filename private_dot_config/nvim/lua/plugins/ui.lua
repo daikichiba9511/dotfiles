@@ -31,7 +31,7 @@ return {
         },
       })
 
-      vim.cmd.colorscheme("catppuccin")
+      -- vim.cmd.colorscheme("catppuccin")
     end,
   },
   -- Monokai
@@ -66,7 +66,15 @@ return {
   {
     "EdenEast/nightfox.nvim",
     lazy = true,
-    opts = {},
+    opts = {
+      options = {
+        styles = {
+          comments = "NONE",
+          keywords = "NONE",
+          types = "NONE",
+        },
+      },
+    },
   },
 
   -- Tokyo Night (night, storm, day, moon)
@@ -75,6 +83,12 @@ return {
     lazy = true,
     opts = {
       style = "night",
+      styles = {
+        comments = { italic = false },
+        keywords = { italic = false },
+        functions = {},
+        variables = {},
+      },
     },
   },
 
@@ -82,15 +96,33 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    lazy = true,
-    opts = {},
+    lazy = false,
+    priority = 1000,
+    opts = {
+      styles = {
+        italic = false,
+      },
+      palette = {
+        main = {
+          base = "#0f0f14", -- darker background
+        },
+      },
+    },
+    config = function(_, opts)
+      require("rose-pine").setup(opts)
+      vim.cmd.colorscheme("rose-pine")
+    end,
   },
 
   -- Kanagawa (wave, dragon, lotus)
   {
     "rebelot/kanagawa.nvim",
     lazy = true,
-    opts = {},
+    opts = {
+      commentStyle = { italic = false },
+      keywordStyle = { italic = false },
+      statementStyle = { bold = false },
+    },
   },
 
   -- Set lualine as statusline
