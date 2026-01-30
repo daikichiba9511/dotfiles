@@ -62,6 +62,37 @@ return {
     end,
   },
 
+  -- Nightfox (nightfox, dayfox, dawnfox, nordfox, terafox, carbonfox, duskfox)
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = true,
+    opts = {},
+  },
+
+  -- Tokyo Night (night, storm, day, moon)
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = {
+      style = "night",
+    },
+  },
+
+  -- Rose Pine (main, moon, dawn)
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    lazy = true,
+    opts = {},
+  },
+
+  -- Kanagawa (wave, dragon, lotus)
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = true,
+    opts = {},
+  },
+
   -- Set lualine as statusline
   {
     "nvim-lualine/lualine.nvim",

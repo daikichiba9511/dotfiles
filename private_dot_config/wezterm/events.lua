@@ -14,9 +14,11 @@ local function setup_image_viewer()
     wezterm.log_info("user-var-changed: name=" .. name .. ", value=" .. tostring(value))
 
     if name == "view-image" then
-      -- value is already decoded by WezTerm
+      -- value is base64 encoded, decode it first
+      local decoded = wezterm.base64_decode(value)
+      wezterm.log_info("view-image decoded: " .. tostring(decoded))
       -- "host:/path/to/image" 形式でパース
-      local host, path = value:match("^([^:]+):(.+)$")
+      local host, path = decoded:match("^([^:]+):(.+)$")
       wezterm.log_info("view-image: host=" .. tostring(host) .. ", path=" .. tostring(path))
 
       if host and path then
