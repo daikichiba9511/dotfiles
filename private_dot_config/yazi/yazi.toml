@@ -1,0 +1,8 @@
+# Yazi configuration
+
+[manager]
+ratio = [1, 2, 5]  # left:center:preview - larger preview
+
+[preview]
+max_width = 1000
+max_height = 1000
