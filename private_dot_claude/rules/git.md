@@ -12,3 +12,4 @@
 - Commit by semantic or functional unit
 - Don't mix unrelated changes in one commit
 - Write meaningful commit messages explaining "why"
+- When modifying interfaces (function signatures, class APIs), update docstrings in the same commit

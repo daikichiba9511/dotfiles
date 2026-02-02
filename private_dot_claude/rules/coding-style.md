@@ -29,12 +29,19 @@ Design to minimize connascence.
 
 ### Basic Principles
 - Assume Python 3.12+
+- Follow PEP style guides (PEP8, PEP257, etc.)
 - Use type hints actively
 
 ### Type Hints
+- Follow PEP585: Use built-in generics (`list[int]`, `dict[str, int]`) instead of `typing` module equivalents (`List[int]`, `Dict[str, int]`)
 - Use constructors where possible (type annotations are sufficient, no need for factories like `list[int]()`)
-- **Argument types**: Use minimal abstract types needed for processing (`Sequence` over `list`, `Mapping` over `dict`, etc.)
+- **Argument types**: Use minimal abstract types needed for processing (`collections.abc.Sequence` over `list`, `collections.abc.Mapping` over `dict`, etc.)
 - **Return types**: Use concrete types (exception: when you want to constrain caller's type for loose coupling)
+
+### Docstrings
+- Write docstrings for public functions, classes, and modules (PEP257)
+- When modifying function signatures (arguments, return types, exceptions), always update the corresponding docstring
+- Keep docstrings in sync with the actual implementation
 
 ### Code Style
 - Use comprehensions (simple, traceable, good performance)
