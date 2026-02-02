@@ -95,6 +95,13 @@ return {
         desc = "Find Files",
       },
       {
+        "<leader>fF",
+        function()
+          Snacks.picker.files({ hidden = true, ignored = true })
+        end,
+        desc = "Find Files (all)",
+      },
+      {
         "<leader>fg",
         function()
           Snacks.picker.git_files()
@@ -186,6 +193,13 @@ return {
           Snacks.picker.grep()
         end,
         desc = "Grep",
+      },
+      {
+        "<leader>sG",
+        function()
+          Snacks.picker.grep({ hidden = true, ignored = true })
+        end,
+        desc = "Grep (all)",
       },
       {
         "<leader>sw",
@@ -516,6 +530,15 @@ return {
       },
     },
     init = function()
+      -- User commands for picker with hidden/ignored files
+      vim.api.nvim_create_user_command("FindAllFiles", function()
+        Snacks.picker.files({ hidden = true, ignored = true })
+      end, { desc = "Find files including hidden and ignored" })
+
+      vim.api.nvim_create_user_command("GrepAll", function()
+        Snacks.picker.grep({ hidden = true, ignored = true })
+      end, { desc = "Grep including hidden and ignored files" })
+
       vim.api.nvim_create_autocmd("User", {
         pattern = "VeryLazy",
         callback = function()
