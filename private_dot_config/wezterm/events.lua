@@ -61,6 +61,48 @@ end
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
+-- Cache for SSH hosts (pane_id -> host)
+local ssh_hosts = {}
+
+-- Extract SSH host from process info
+local function extract_ssh_host_from_process(pane)
+  local info = pane:get_foreground_process_info()
+  if not info then
+    return nil
+  end
+
+  local name = info.name or ""
+  if not name:match("ssh$") then
+    return nil
+  end
+
+  -- Parse ssh arguments to find host
+  local argv = info.argv or {}
+  for i, arg in ipairs(argv) do
+    -- Skip options (start with -)
+    if not arg:match("^%-") then
+      -- Skip "ssh" itself
+      if arg ~= "ssh" and not arg:match("ssh$") then
+        -- Extract host from user@host or just host
+        local host = arg:match("@([^:]+)") or arg:match("^([^@:]+)$")
+        if host then
+          return host
+        end
+      end
+    end
+  end
+  return nil
+end
+
+-- Update SSH host cache
+local function setup_ssh_host_tracking()
+  wezterm.on("update-status", function(window, pane)
+    local pane_id = pane:pane_id()
+    local host = extract_ssh_host_from_process(pane)
+    ssh_hosts[pane_id] = host
+  end)
+end
+
 local function setup_tab_title()
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     -- Rose Pine (main) colors
@@ -75,7 +117,15 @@ local function setup_tab_title()
     end
 
     local edge_foreground = background
-    local active_tab_title = tab.active_pane.title
+    local pane = tab.active_pane
+    local ssh_host = ssh_hosts[pane.pane_id]
+    local active_tab_title = pane.title
+
+    -- Prepend SSH host if connected
+    if ssh_host then
+      active_tab_title = "[" .. ssh_host .. "] " .. active_tab_title
+    end
+
     local title = "   " .. wezterm.truncate_right(active_tab_title, max_width - 1) .. "   "
 
     return {
@@ -98,6 +148,7 @@ end
 function M.setup()
   setup_image_viewer()
   setup_toggle_tmux_keybinds()
+  setup_ssh_host_tracking()
   setup_tab_title()
 end
 
