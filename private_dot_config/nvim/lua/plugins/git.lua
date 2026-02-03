@@ -9,6 +9,23 @@ return {
   },
   "tpope/vim-rhubarb",
 
+  -- GitHub PR/Issue management
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    keys = {
+      { "<leader>op", "<cmd>Octo pr list<cr>", desc = "List PRs" },
+      { "<leader>oi", "<cmd>Octo issue list<cr>", desc = "List Issues" },
+      { "<leader>oc", "<cmd>Octo pr create<cr>", desc = "Create PR" },
+      { "<leader>os", "<cmd>Octo search<cr>", desc = "Search" },
+    },
+    opts = {},
+  },
+
   -- Adds git related signs to the gutter
   {
     "lewis6991/gitsigns.nvim",
