@@ -19,6 +19,11 @@ return {
     },
     keys = {
       { "<leader>op", "<cmd>Octo pr list<cr>", desc = "List PRs" },
+      { "<leader>oP", "<cmd>Octo pr checkout<cr>", desc = "Checkout PR" },
+      { "<leader>od", "<cmd>Octo pr changes<cr>", desc = "PR changes (diff)" },
+      { "<leader>or", "<cmd>Octo review start<cr>", desc = "Start review" },
+      { "<leader>oS", "<cmd>Octo review submit<cr>", desc = "Submit review" },
+      { "<leader>oa", "<cmd>Octo comment add<cr>", desc = "Add comment" },
       { "<leader>oi", "<cmd>Octo issue list<cr>", desc = "List Issues" },
       { "<leader>oc", "<cmd>Octo pr create<cr>", desc = "Create PR" },
       { "<leader>os", "<cmd>Octo search<cr>", desc = "Search" },
