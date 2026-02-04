@@ -16,6 +16,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
+      "ibhagwan/fzf-lua",
     },
     keys = {
       { "<leader>op", "<cmd>Octo pr list<cr>", desc = "List PRs" },
@@ -29,7 +30,7 @@ return {
       { "<leader>os", "<cmd>Octo search<cr>", desc = "Search" },
     },
     opts = {
-      picker = "snacks",
+      picker = "fzf-lua",
     },
   },
 
@@ -52,13 +53,21 @@ return {
         end
         -- Navigation
         map("n", "]c", function()
-          if vim.wo.diff then return "]c" end
-          vim.schedule(function() gs.next_hunk() end)
+          if vim.wo.diff then
+            return "]c"
+          end
+          vim.schedule(function()
+            gs.next_hunk()
+          end)
           return "<Ignore>"
         end, "Next hunk")
         map("n", "[c", function()
-          if vim.wo.diff then return "[c" end
-          vim.schedule(function() gs.prev_hunk() end)
+          if vim.wo.diff then
+            return "[c"
+          end
+          vim.schedule(function()
+            gs.prev_hunk()
+          end)
           return "<Ignore>"
         end, "Prev hunk")
         -- Actions
