@@ -28,7 +28,9 @@ return {
       { "<leader>oc", "<cmd>Octo pr create<cr>", desc = "Create PR" },
       { "<leader>os", "<cmd>Octo search<cr>", desc = "Search" },
     },
-    opts = {},
+    opts = {
+      picker = "snacks",
+    },
   },
 
   -- Adds git related signs to the gutter
