@@ -147,9 +147,7 @@ return {
   {
     "b0o/incline.nvim",
     event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      local devicons = require("nvim-web-devicons")
       require("incline").setup({
         window = {
           padding = 1,
@@ -162,33 +160,13 @@ return {
           only_win = false,
         },
         render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-
-          -- Show parent directory for common filenames
-          local common_names = { "index", "init", "main", "mod" }
-          local base = vim.fn.fnamemodify(filename, ":r")
-          for _, name in ipairs(common_names) do
-            if base == name then
-              local parent = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":h:t")
-              filename = parent .. "/" .. filename
-              break
-            end
-          end
-
-          -- File icon
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
-          local icon = ft_icon and { ft_icon, " ", guifg = ft_color } or ""
-
           -- Modified indicator
           local modified = vim.bo[props.buf].modified
-          local modified_icon = modified and { " ●", guifg = "#f6c177" } or ""
+          local modified_icon = modified and { "●", guifg = "#f6c177" } or ""
 
           -- Git branch (from gitsigns)
           local branch = vim.b[props.buf].gitsigns_head
-          local branch_icon = branch and { " ", branch, " ", guifg = "#c4a7e7" } or ""
+          local branch_icon = branch and { " ", branch } or ""
 
           -- Diagnostics
           local diagnostics = {}
@@ -197,17 +175,15 @@ return {
           for severity, icon_str in pairs(icons) do
             local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
             if n > 0 then
-              table.insert(diagnostics, { icon_str .. n .. " ", guifg = colors[severity] })
+              table.insert(diagnostics, { icon_str .. n, guifg = colors[severity] })
             end
           end
 
           return {
-            branch_icon,
-            icon,
-            filename,
             modified_icon,
             #diagnostics > 0 and { " " } or "",
             diagnostics,
+            branch_icon,
             guibg = "#26233a",
             guifg = "#e0def4",
           }
