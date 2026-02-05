@@ -26,10 +26,5 @@ fi
 
 # Format: [Model] user@host:directory (branch) | ctx: X%
 # Cyan for model, green for user@host, blue for directory, yellow for branch
-CYAN='\e[01;36m'
-GREEN='\e[01;32m'
-BLUE='\e[01;34m'
-YELLOW='\e[01;33m'
-RESET='\e[00m'
-
-echo -e "${CYAN}[${MODEL_NAME}]${RESET} ${GREEN}${USER}@${HOST}${RESET}:${BLUE}${CURRENT_DIR}${RESET}${YELLOW}${GIT_BRANCH}${RESET}${CONTEXT_INFO}"
+printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m:\033[01;34m%s\033[00m\033[01;33m%s\033[00m%s\n" \
+    "$MODEL_NAME" "$USER" "$HOST" "$CURRENT_DIR" "$GIT_BRANCH" "$CONTEXT_INFO"
