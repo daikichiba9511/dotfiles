@@ -186,6 +186,10 @@ return {
           local modified = vim.bo[props.buf].modified
           local modified_icon = modified and { " ●", guifg = "#f6c177" } or ""
 
+          -- Git branch (from gitsigns)
+          local branch = vim.b[props.buf].gitsigns_head
+          local branch_icon = branch and { " ", branch, " ", guifg = "#c4a7e7" } or ""
+
           -- Diagnostics
           local diagnostics = {}
           local icons = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -198,6 +202,7 @@ return {
           end
 
           return {
+            branch_icon,
             icon,
             filename,
             modified_icon,
