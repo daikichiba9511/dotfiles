@@ -6,6 +6,7 @@ go = "latest"
 # julia = "latest"
 
 # -- Tools
+jq = "latest"
 tree-sitter = "latest"
 starship = "latest"
 uv = "latest"
@@ -21,9 +22,10 @@ neovim = "0.11"
 usage = "latest"
 ghq = "latest"
 
-# aws-cli = "latest"
-# terraform = "latest"
-# pnpm = "latest"
+aws-cli = "latest"
+terraform = "latest"
+pnpm = "latest"
+
 # ghcup = "latest"
 # tmux = "latest"  # macでビルド必要なことが多い
 
