@@ -2,19 +2,34 @@
 input=$(cat)
 
 # Extract from JSON
-MODEL=$(echo "$input" | jq -r '.model.display_name // "?"')
-CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "?"' | xargs basename)
-CONTEXT_USED=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
+CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "?"')
+CONTEXT_USED=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+MODEL_NAME=$(echo "$input" | jq -r '.model.display_name // "?"')
 
 # User and Host
 USER=$(whoami)
 HOST=$(hostname -s)
 
-# Git branch
+# Git branch (skip optional locks)
 GIT_BRANCH=""
 if git rev-parse --git-dir > /dev/null 2>&1; then
-    BRANCH=$(git branch --show-current 2>/dev/null)
+    BRANCH=$(git --no-optional-locks branch --show-current 2>/dev/null)
     [ -n "$BRANCH" ] && GIT_BRANCH=" ($BRANCH)"
 fi
 
-echo "[$MODEL] $USER@$HOST:$CURRENT_DIR$GIT_BRANCH | ctx:${CONTEXT_USED}%"
+# Context usage info
+CONTEXT_INFO=""
+if [ -n "$CONTEXT_USED" ]; then
+    CONTEXT_USED_INT=$(printf "%.0f" "$CONTEXT_USED")
+    CONTEXT_INFO=" | ctx: ${CONTEXT_USED_INT}%"
+fi
+
+# Format: [Model] user@host:directory (branch) | ctx: X%
+# Cyan for model, green for user@host, blue for directory, yellow for branch
+CYAN='\e[01;36m'
+GREEN='\e[01;32m'
+BLUE='\e[01;34m'
+YELLOW='\e[01;33m'
+RESET='\e[00m'
+
+echo "${CYAN}[${MODEL_NAME}]${RESET} ${GREEN}${USER}@${HOST}${RESET}:${BLUE}${CURRENT_DIR}${RESET}${YELLOW}${GIT_BRANCH}${RESET}${CONTEXT_INFO}"
