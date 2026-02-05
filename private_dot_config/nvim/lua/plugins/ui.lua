@@ -125,26 +125,90 @@ return {
     },
   },
 
-  -- Set lualine as statusline
+  -- Mode indicator via cursor line highlight
   {
-    "nvim-lualine/lualine.nvim",
+    "mvllow/modes.nvim",
     event = "VeryLazy",
     opts = {
-      options = {
-        icons_enabled = false,
-        theme = "catppuccin",
-        component_separators = "|",
-        section_separators = "",
+      colors = {
+        insert = "#9ccfd8",  -- foam
+        visual = "#eb6f92",  -- love
+        delete = "#eb6f92",  -- love
+        copy = "#f6c177",    -- gold
       },
-      sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { "filename" },
-        lualine_x = { "encoding", "fileformat", "filetype" },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
-      },
+      line_opacity = 0.2,
+      set_cursor = true,
+      set_cursorline = true,
+      set_number = true,
     },
+  },
+
+  -- Floating statusline (right bottom)
+  {
+    "b0o/incline.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local devicons = require("nvim-web-devicons")
+      require("incline").setup({
+        window = {
+          padding = 1,
+          margin = { horizontal = 1, vertical = 1 },
+          placement = { horizontal = "right", vertical = "bottom" },
+        },
+        hide = {
+          cursorline = true,
+          focused_win = false,
+          only_win = false,
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+
+          -- Show parent directory for common filenames
+          local common_names = { "index", "init", "main", "mod" }
+          local base = vim.fn.fnamemodify(filename, ":r")
+          for _, name in ipairs(common_names) do
+            if base == name then
+              local parent = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":h:t")
+              filename = parent .. "/" .. filename
+              break
+            end
+          end
+
+          -- File icon
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local icon = ft_icon and { ft_icon, " ", guifg = ft_color } or ""
+
+          -- Modified indicator
+          local modified = vim.bo[props.buf].modified
+          local modified_icon = modified and { " ●", guifg = "#f6c177" } or ""
+
+          -- Diagnostics
+          local diagnostics = {}
+          local icons = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+          local colors = { Error = "#eb6f92", Warn = "#f6c177", Hint = "#9ccfd8", Info = "#31748f" }
+          for severity, icon_str in pairs(icons) do
+            local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
+            if n > 0 then
+              table.insert(diagnostics, { icon_str .. n .. " ", guifg = colors[severity] })
+            end
+          end
+
+          return {
+            icon,
+            filename,
+            modified_icon,
+            #diagnostics > 0 and { " " } or "",
+            diagnostics,
+            guibg = "#26233a",
+            guifg = "#e0def4",
+          }
+        end,
+      })
+    end,
   },
 
   -- Add indentation guides

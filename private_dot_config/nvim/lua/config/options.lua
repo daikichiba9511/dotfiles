@@ -102,6 +102,8 @@ vim.opt.list = true
 vim.opt.cmdheight = 0
 vim.opt.conceallevel = 0
 vim.opt.spelllang = {}
+vim.opt.laststatus = 0 -- Hide statusline
+vim.opt.cursorline = true -- Required for modes.nvim
 
 -- Copilot settings
 vim.g.ai_cmp = false
