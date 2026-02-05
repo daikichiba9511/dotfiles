@@ -2,7 +2,7 @@
 input=$(cat)
 
 # Extract from JSON
-CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "?"')
+CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "?"' | xargs basename)
 CONTEXT_USED=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 MODEL_NAME=$(echo "$input" | jq -r '.model.display_name // "?"')
 
