@@ -21,10 +21,11 @@ fi
 CONTEXT_INFO=""
 if [ -n "$CONTEXT_USED" ]; then
     CONTEXT_USED_INT=$(printf "%.0f" "$CONTEXT_USED")
-    CONTEXT_INFO=" | ctx: ${CONTEXT_USED_INT}%"
+    CONTEXT_INFO="${CONTEXT_USED_INT}%"
 fi
 
 # Format: [Model] user@host:directory (branch) | ctx: X%
 # Cyan for model, green for user@host, blue for directory, magenta for branch, yellow for ctx
-printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m:\033[01;34m%s\033[00m\033[01;35m%s\033[00m\033[01;33m%s\033[00m\n" \
+# Dark gray (90m) for separators (: and |)
+printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m\033[90m:\033[00m\033[01;34m%s\033[00m\033[01;35m%s\033[00m \033[90m|\033[00m \033[01;33m%s\033[00m\n" \
     "$MODEL_NAME" "$USER" "$HOST" "$CURRENT_DIR" "$GIT_BRANCH" "$CONTEXT_INFO"
