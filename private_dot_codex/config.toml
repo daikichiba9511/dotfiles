@@ -1,7 +1,7 @@
 model = "gpt-5.2-codex"
-model_reasoning_effort = "high"
-model_verbosity = "medium" # 詳細な応答の冗長さ（情報量の多さ）
-sandbox_mode = "read-only" # 最も安全（必要時のみ緩める）
+model_reasoning_effort = "medium" # モデルの推論努力（思考の深さ）
+model_verbosity = "medium"        # 詳細な応答の冗長さ（情報量の多さ）
+sandbox_mode = "read-only"        # 最も安全（必要時のみ緩める）
 
 # コマンド実行を承認するかどうかをプロンプトで確認すべきタイミング
 # - untrusted: 「信頼済み」でないコマンド（危険操作など）は実行前に都度承認を求め
@@ -16,10 +16,15 @@ file_opener = "none"
 # trueにすると、npmのインストールや外部APIへのリクエストが可能 (デフォルトは false)
 network_access = true
 
+suppress_unstable_features_warning = true
+
 [shell_environment_policy]
 inherit = "core"
 include_only = ["PATH", "HOME", "USER"]
 exclude = ["AWS_*", "AZURE_*", "*TOKEN*", "*SECRET*", "*KEY*"]
+
+[features]
+collaboration_modes = true
 
 
 # [mcp_servers.serena]
