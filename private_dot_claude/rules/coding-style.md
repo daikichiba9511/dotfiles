@@ -77,9 +77,51 @@ def to_user(input: UserInput) -> User:
 
 Rules for ML experiments (e.g., under `src/exp/`).
 
+### Experiment Iteration Philosophy
+
+ML experiments follow a hypothesis-driven iteration cycle:
+
+```
+EDA → Hypothesis → Experiment → Logging → Analysis/Discussion → (Additional Analysis) → Hypothesis → ...
+```
+
+**Core principles:**
+- Every experiment starts with a **hypothesis** derived from prior learnings
+- Results are **documented in README.md** within each experiment directory
+- Before starting a new experiment, **read related experiment READMEs** to inform decisions
+- Analysis leads to **next hypotheses**, not just conclusions
+
+**README.md structure for each experiment:**
+```markdown
+# exp003: [Experiment Title]
+
+## Background / Related Experiments
+- exp001: [Key learnings]
+- exp002: [Key learnings]
+
+## Hypothesis
+- What we expect and why
+
+## Experiment Design
+- What we're testing
+- Variables changed
+
+## Results
+- Metrics, observations
+
+## Analysis / Discussion
+- Interpretation of results
+- Why did this happen?
+
+## Next Actions
+- Follow-up experiments
+- New hypotheses
+```
+
 ### Directory Structure
 - Each experiment in `src/exp/exp000/`, `src/exp/exp001/`, etc.
 - Share common utilities in `src/exp/common/` or `src/lib/`
+- Each experiment has its own `README.md`
 
 ### Basic Principles
 - Prioritize experiment iteration speed over code robustness
