@@ -77,11 +77,16 @@ def to_user(input: UserInput) -> User:
 
 Rules for ML experiments (e.g., under `src/exp/`).
 
+### Directory Structure
+- Each experiment in `src/exp/exp000/`, `src/exp/exp001/`, etc.
+- Share common utilities in `src/exp/common/` or `src/lib/`
+
 ### Basic Principles
 - Prioritize experiment iteration speed over code robustness
 - Focus on discovery
 - Keep it simple, but allow performance optimization when needed
 - Some code messiness is acceptable
+- **Avoid copy-paste bloat**: Extract shared logic early
 
 ### Error Handling
 - Don't use exception handling
@@ -104,16 +109,55 @@ class TrainerConfig:
     batch_size: int
 ```
 
-### CLI
+### CLI with tyro
 - Use tyro when available
-- Flag arguments can be written as `--flag` / `--no-flag`
+- **Boolean flags**: `--flag` (True) / `--no-flag` (False)
+- **Lists**: Use space-separated values, NOT comma-separated
 
 ```python
 import tyro
+from dataclasses import dataclass
 
 @dataclass
 class Config:
-    debug: bool = False  # --debug or --no-debug
+    # Boolean flag: --debug or --no-debug
+    debug: bool = False
+
+    # List: --layers 64 128 256 (NOT --layers 64,128,256)
+    layers: list[int] = (64, 128)
+
+    # Optional with None default
+    checkpoint: str | None = None
 
 config = tyro.cli(Config)
+```
+
+**tyro gotchas:**
+- Lists use space separation: `--items a b c` → `["a", "b", "c"]`
+- Tuple defaults for mutable: use `tuple` not `list` for default values
+- Nested configs: use `tyro.conf.FlagConversionOff` if bool conversion causes issues
+
+### Train/Inference Consistency
+- **Shared preprocessing**: Extract to common module, use same function for train and inference
+- **Allowed differences**: Batch size, dropout disabled, augmentation off
+- **Must be identical**: Feature extraction, normalization params, tokenization
+
+```python
+# Good: shared preprocessing
+from exp.common.preprocess import preprocess_input
+
+# train.py
+data = preprocess_input(raw_data, augment=True)
+
+# inference.py
+data = preprocess_input(raw_data, augment=False)
+```
+
+```python
+# Bad: duplicated logic that can drift
+# train.py
+data = normalize(raw_data, mean=0.5, std=0.2)
+
+# inference.py
+data = normalize(raw_data, mean=0.5, std=0.25)  # Bug: different std!
 ```
