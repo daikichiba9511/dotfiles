@@ -25,6 +25,6 @@ if [ -n "$CONTEXT_USED" ]; then
 fi
 
 # Format: [Model] user@host:directory (branch) | ctx: X%
-# Cyan for model, green for user@host, blue for directory, yellow for branch
-printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m:\033[01;34m%s\033[00m\033[01;33m%s\033[00m%s\n" \
+# Cyan for model, green for user@host, blue for directory, magenta for branch, yellow for ctx
+printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m:\033[01;34m%s\033[00m\033[01;35m%s\033[00m\033[01;33m%s\033[00m\n" \
     "$MODEL_NAME" "$USER" "$HOST" "$CURRENT_DIR" "$GIT_BRANCH" "$CONTEXT_INFO"
