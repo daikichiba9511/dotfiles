@@ -9,8 +9,7 @@
     "DISABLE_TELEMETRY": "true",
     "DISABLE_AUTOUPDATER": "true",
     "DISABLE_MICROCOMPACT": "true",
-    "DISABLE_INTERLEAVED_THINKING": "true",
-    "MAX_THINKING_TOKENS": "31999"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "alwaysThinkingEnabled": true,
   "statusLine": {
