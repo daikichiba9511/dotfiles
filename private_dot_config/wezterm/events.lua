@@ -143,11 +143,29 @@ local function setup_tab_title()
 end
 
 ---------------------------------------------------------------
+--- Toggle transparency
+---------------------------------------------------------------
+local function setup_toggle_transparency()
+  wezterm.on("toggle-transparency", function(window, _)
+    local overrides = window:get_config_overrides() or {}
+    if overrides.window_background_opacity then
+      overrides.window_background_opacity = nil
+      overrides.text_background_opacity = nil
+    else
+      overrides.window_background_opacity = 0.8
+      overrides.text_background_opacity = 0.8
+    end
+    window:set_config_overrides(overrides)
+  end)
+end
+
+---------------------------------------------------------------
 --- Public API
 ---------------------------------------------------------------
 function M.setup()
   setup_image_viewer()
   setup_toggle_tmux_keybinds()
+  setup_toggle_transparency()
   setup_ssh_host_tracking()
   setup_tab_title()
 end
