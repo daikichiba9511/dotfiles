@@ -33,7 +33,7 @@ return {
       {
         "<leader><space>",
         function()
-          Snacks.picker.smart()
+          Snacks.picker.smart({ filter = { cwd = true } })
         end,
         desc = "Smart Find Files",
       },
@@ -47,7 +47,7 @@ return {
       {
         "<leader>/",
         function()
-          Snacks.picker.grep()
+          Snacks.picker.grep({ ignored = false })
         end,
         desc = "Grep",
       },
@@ -83,23 +83,16 @@ return {
       {
         "<leader>fc",
         function()
-          Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+          Snacks.picker.files({ cwd = vim.fn.stdpath("config"), ignored = false })
         end,
         desc = "Find Config File",
       },
       {
         "<leader>ff",
         function()
-          Snacks.picker.files()
+          Snacks.picker.files({ ignored = false })
         end,
         desc = "Find Files",
-      },
-      {
-        "<leader>fF",
-        function()
-          Snacks.picker.files({ hidden = true, ignored = true })
-        end,
-        desc = "Find Files (all)",
       },
       {
         "<leader>fg",
@@ -190,21 +183,14 @@ return {
       {
         "<leader>sg",
         function()
-          Snacks.picker.grep()
+          Snacks.picker.grep({ ignored = false })
         end,
         desc = "Grep",
       },
       {
-        "<leader>sG",
-        function()
-          Snacks.picker.grep({ hidden = true, ignored = true })
-        end,
-        desc = "Grep (all)",
-      },
-      {
         "<leader>sw",
         function()
-          Snacks.picker.grep_word()
+          Snacks.picker.grep_word({ ignored = false })
         end,
         desc = "Visual selection or word",
         mode = { "n", "x" },
