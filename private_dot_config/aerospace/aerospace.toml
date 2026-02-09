@@ -15,14 +15,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 accordion-padding = 30
 
 # Gaps between windows
-# LG ULTRAGEAR (monitor 1): sketchybar用に40px
-# Built-in Retina Display (monitor 2): 10px
 [gaps]
 inner.horizontal = 10
 inner.vertical = 10
 outer.left = 10
 outer.bottom = 10
-outer.top = [{ monitor."LG ULTRAGEAR" = 40 }, 10]
+outer.top = 5
 outer.right = 10
 
 # Main mode keybindings
