@@ -15,11 +15,16 @@ Finally, unless otherwise instructed, complete the commit and report the work to
 
 ## Rules
 
+- Do NOT add "Co-Authored-By" lines to commit messages
 - Line 1: `<type>(<scope>): <subject>` (50 characters or less, imperative mood)
 - Line 2: blank line
 - Line 3+: detailed explanation (what changed and why)
 - type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
 - Output as plain text (no code blocks), ready to use as commit message
+- Commit by semantic or functional unit
+- Don't mix unrelated changes in one commit
+- Write meaningful commit messages explaining "why"
+- When modifying interfaces (function signatures, class APIs), update docstrings in the same commit
 
 ## Example
 
