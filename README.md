@@ -82,14 +82,18 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | **starship** | Cross-shell prompt |
 | **mise** | Runtime version manager |
 
+### Theme
+
+| Tool | Description |
+|------|-------------|
+| **Rose Pine** | Color scheme (Neovim, WezTerm) |
+
 ### macOS Window Management
 
 | Tool | Description |
 |------|-------------|
 | **AeroSpace** | Tiling window manager |
-| **SketchyBar** | Custom menu bar |
 | **JankyBorders** | Window border highlight |
-| **AltTab** | Window switcher |
 
 ---
 

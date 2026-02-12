@@ -22,7 +22,7 @@ vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 10  -- キー入力のタイムアウトを短く
 vim.opt.completeopt = "menuone,noselect"
 vim.opt.undofile = true
-vim.opt.listchars = "tab:>-,space:·"
+vim.opt.listchars = "tab:>-"
 vim.opt.ambiwidth = "single"
 
 vim.opt.undofile = true
