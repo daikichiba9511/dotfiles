@@ -54,7 +54,7 @@ function M.get_window_config()
     -- text_background_opacity = 0.60,
     window_background_opacity = 1.0,
     text_background_opacity = 1.0,
-    macos_window_background_blur = 20,
+    macos_window_background_blur = 0,
     window_background_gradient = { colors = { "#000000" } },
     window_frame = { inactive_titlebar_bg = "none", active_titlebar_bg = "none" },
     window_padding = {
