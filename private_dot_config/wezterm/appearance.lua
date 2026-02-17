@@ -52,6 +52,7 @@ function M.get_window_config()
   return {
     window_background_opacity = 0.70,
     text_background_opacity = 1.0,
+    force_reverse_video_cursor = true,
     -- window_background_opacity = 1.0,
     -- text_background_opacity = 1.0,
     macos_window_background_blur = 0,

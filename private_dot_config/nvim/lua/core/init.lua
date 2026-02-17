@@ -5,11 +5,13 @@ vim.g.maplocalleader = " "
 
 -- Transparent background toggle
 _G.transparent_enabled = false
+local _saved_colorscheme = nil
 
 local function toggle_transparent()
   _G.transparent_enabled = not _G.transparent_enabled
 
   if _G.transparent_enabled then
+    _saved_colorscheme = vim.g.colors_name
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
@@ -21,7 +23,7 @@ local function toggle_transparent()
     vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
     vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
   else
-    vim.cmd("colorscheme catppuccin")
+    vim.cmd("colorscheme " .. (_saved_colorscheme or vim.g.colors_name))
   end
 end
 
