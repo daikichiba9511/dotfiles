@@ -16,6 +16,74 @@ Append-only history. Never delete entries. Every thought, decision, result goes 
 
 ### Entry Format
 
+Use the tag-specific templates below. All entries share a common header.
+
+#### Common Header
+
+```markdown
+## YYYY-MM-DD HH:MM - [TAG]
+```
+
+#### [EXPERIMENT] - Experiment Design Entry (REQUIRED before running any experiment)
+
+```markdown
+## YYYY-MM-DD HH:MM - [EXPERIMENT]
+
+### Baseline
+[Current best approach / what we are comparing against]
+
+### Changes
+[Exactly what is different from baseline. Be specific: parameters, architecture, features, preprocessing, etc.]
+
+### Hypothesis
+[What we expect to happen and why]
+
+### Considerations
+[Potential issues, edge cases, interactions with other components, things to watch for]
+
+### Result Scenarios
+[Pre-register interpretation for each possible outcome BEFORE seeing results]
+- **If metric improves significantly**: [What this would tell us, what to try next]
+- **If metric improves marginally**: [What this would tell us, what to try next]
+- **If no change**: [What this would tell us, what to try next]
+- **If metric degrades**: [What this would tell us, what to try next]
+```
+
+#### [RESULT] - Raw Results Entry
+
+```markdown
+## YYYY-MM-DD HH:MM - [RESULT]
+
+### Metrics
+[Raw numbers: CV score, LB score, per-fold breakdown, etc.]
+
+### Observations
+[Unexpected behaviors, training dynamics, error patterns, etc.]
+
+### Matched Scenario
+[Which pre-registered scenario from the EXPERIMENT entry matches, and whether the pre-registered interpretation still holds]
+```
+
+#### [ANALYSIS] - Interpretation Entry
+
+```markdown
+## YYYY-MM-DD HH:MM - [ANALYSIS]
+
+### Summary
+[What happened in one sentence]
+
+### Interpretation
+[Why we think this happened. Cite evidence IDs where possible]
+
+### Implications
+[What this means for our overall approach]
+
+### Next Hypotheses
+[New hypotheses generated from this result]
+```
+
+#### [EDA] / [DECISION] / [HYPOTHESIS] / [DISCUSSION] / [BUGFIX] / [IDEA] - General Entry
+
 ```markdown
 ## YYYY-MM-DD HH:MM - [TAG]
 
@@ -34,19 +102,21 @@ Append-only history. Never delete entries. Every thought, decision, result goes 
 
 ### Tags
 
+- `EXPERIMENT` - Experiment design (baseline, changes, hypothesis, considerations, result scenarios)
+- `RESULT` - Raw results and metrics with scenario matching
+- `ANALYSIS` - Interpretation, implications, next hypotheses
 - `HYPOTHESIS` - New hypothesis formation
-- `EXPERIMENT` - Experiment design or execution
-- `RESULT` - Raw results and metrics
-- `ANALYSIS` - Interpretation of results
-- `DISCUSSION` - Broader implications, connections
-- `DECISION` - Strategy or approach decision
 - `EDA` - Exploratory data analysis
+- `DECISION` - Strategy or approach decision
+- `DISCUSSION` - Broader implications, connections
 - `BUGFIX` - Bug discovery and fix
 - `IDEA` - Unstructured ideas for later evaluation
 
 ### Rules
 
 - Append only, never edit past entries
+- **Every experiment MUST have an [EXPERIMENT] entry BEFORE execution** with baseline, changes, hypothesis, considerations, and pre-registered result scenarios
+- **Every [RESULT] entry MUST reference which scenario matched** from the corresponding [EXPERIMENT] entry
 - Include raw numbers, not just interpretations
 - Record failed attempts and dead ends
 - Link to related entries by date/tag when relevant

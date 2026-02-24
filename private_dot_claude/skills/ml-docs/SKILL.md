@@ -105,13 +105,24 @@ Produce a ranked hypothesis list:
 
 ## Command: log
 
-Post-experiment documentation update. Three sequential steps.
+Post-experiment documentation update. Covers both pre-experiment design and post-experiment results.
+
+### Step 0: Pre-Experiment Design (if not already logged)
+
+Before running an experiment, ensure `docs/logs.md` has an `[EXPERIMENT]` entry containing:
+- **Baseline**: What we are comparing against
+- **Changes**: Exactly what differs from baseline
+- **Hypothesis**: What we expect and why
+- **Considerations**: Potential issues, edge cases, interactions
+- **Result Scenarios**: Pre-registered interpretations for each outcome (improve / marginal / no change / degrade)
+
+If this entry is missing, create it FIRST by asking the user.
 
 ### Step 1: Append to Full Log
 
 Append experiment results to `docs/logs.md`:
-- Tag: `[RESULT]` for raw results, `[ANALYSIS]` for interpretation
-- Include: metrics, observations, unexpected behaviors, failed attempts
+- `[RESULT]` entry: raw metrics, observations, and **which pre-registered scenario matched**
+- `[ANALYSIS]` entry: interpretation, implications, next hypotheses
 - Include raw numbers, not just summary
 
 ### Step 2: Update Evidence Ledger
