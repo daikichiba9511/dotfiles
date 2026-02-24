@@ -77,4 +77,50 @@ return {
       })
     end,
   },
+
+  -- Show current scope (function/class) at top of buffer while scrolling
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      max_lines = 3,
+    },
+    keys = {
+      {
+        "[C",
+        function() require("treesitter-context").go_to_context() end,
+        desc = "Go to context (top scope)",
+      },
+    },
+  },
+
+  -- Navigate and select by function/class/parameter
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require("nvim-treesitter-textobjects").setup({})
+
+      local move = require("nvim-treesitter-textobjects.move")
+      local select = require("nvim-treesitter-textobjects.select")
+
+      -- Move between functions/classes
+      local map = vim.keymap.set
+      map({ "n", "x", "o" }, "]m", function() move.goto_next_start("@function.outer") end, { desc = "Next function start" })
+      map({ "n", "x", "o" }, "]M", function() move.goto_next_end("@function.outer") end, { desc = "Next function end" })
+      map({ "n", "x", "o" }, "[m", function() move.goto_previous_start("@function.outer") end, { desc = "Prev function start" })
+      map({ "n", "x", "o" }, "[M", function() move.goto_previous_end("@function.outer") end, { desc = "Prev function end" })
+      map({ "n", "x", "o" }, "]C", function() move.goto_next_start("@class.outer") end, { desc = "Next class start" })
+      map({ "n", "x", "o" }, "[C", function() move.goto_previous_start("@class.outer") end, { desc = "Prev class start" })
+
+      -- Select function/class textobjects
+      map({ "x", "o" }, "af", function() select.select_textobject("@function.outer") end, { desc = "outer function" })
+      map({ "x", "o" }, "if", function() select.select_textobject("@function.inner") end, { desc = "inner function" })
+      map({ "x", "o" }, "ac", function() select.select_textobject("@class.outer") end, { desc = "outer class" })
+      map({ "x", "o" }, "ic", function() select.select_textobject("@class.inner") end, { desc = "inner class" })
+      map({ "x", "o" }, "aa", function() select.select_textobject("@parameter.outer") end, { desc = "outer parameter" })
+      map({ "x", "o" }, "ia", function() select.select_textobject("@parameter.inner") end, { desc = "inner parameter" })
+    end,
+  },
 }
