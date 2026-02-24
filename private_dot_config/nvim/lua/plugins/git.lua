@@ -34,6 +34,20 @@ return {
     },
   },
 
+  -- Multi-file diff viewer (useful for reviewing AI-generated changes)
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview: open" },
+      { "<leader>gD", "<cmd>DiffviewClose<cr>", desc = "Diffview: close" },
+      { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview: file history" },
+    },
+    opts = {
+      enhanced_diff_hl = true,
+    },
+  },
+
   -- Adds git related signs to the gutter
   {
     "lewis6991/gitsigns.nvim",
@@ -74,6 +88,8 @@ return {
         map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
         map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
         map("n", "<leader>hR", gs.reset_buffer, "Reset buffer")
+        map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame line (full)")
+        map("n", "<leader>hB", gs.toggle_current_line_blame, "Toggle inline blame")
       end,
     },
   },
