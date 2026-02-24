@@ -209,9 +209,9 @@ return {
       },
       cli = {
         tool = "claude",
-        window = "right",
+        win = { layout = "right" },
+        mux = { backend = "tmux", enabled = true },
       },
-      multiplexer = "tmux",
     },
     keys = {
       {
@@ -230,9 +230,19 @@ return {
         desc = "NES: Jump Back",
         mode = { "n", "i" },
       },
+      {
+        "<C-.>",
+        function() require("sidekick.cli").toggle() end,
+        desc = "Toggle CLI",
+        mode = { "n", "t", "i", "x" },
+      },
       { "<leader>aa", "<cmd>Sidekick cli toggle<cr>", desc = "Toggle AI CLI" },
       { "<leader>as", "<cmd>Sidekick cli tool<cr>", desc = "Select AI Tool" },
       { "<leader>ap", "<cmd>Sidekick cli prompt<cr>", desc = "Select Prompt" },
+      { "<leader>at", "<cmd>Sidekick cli send<cr>", desc = "Send context to CLI" },
+      { "<leader>af", "<cmd>Sidekick cli send file<cr>", desc = "Send file to CLI" },
+      { "<leader>av", "<cmd>Sidekick cli send<cr>", desc = "Send selection to CLI", mode = "x" },
+      { "<leader>ad", "<cmd>Sidekick cli detach<cr>", desc = "Detach CLI session" },
     },
   },
 }
