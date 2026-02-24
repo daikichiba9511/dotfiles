@@ -1,4 +1,5 @@
 ---
+name: ml-cleanup
 description: Clean up ML experiment code, reduce bloat, extract shared logic
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(run tests:*)
 ---

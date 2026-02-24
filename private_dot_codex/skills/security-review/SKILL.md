@@ -1,4 +1,5 @@
 ---
+name: security-review
 description: Vulnerability analysis and security audit
 ---
 

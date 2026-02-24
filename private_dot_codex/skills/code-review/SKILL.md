@@ -1,4 +1,5 @@
 ---
+name: code-review
 description: Code review based on coupling strength
 allowed-tools: Read, Glob, Grep, Bash(git diff:*), Bash(git log:*)
 ---

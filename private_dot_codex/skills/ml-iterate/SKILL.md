@@ -1,4 +1,5 @@
 ---
+name: ml-iterate
 description: ML experiment iteration workflow - hypothesis, experiment, analysis cycle
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(run experiment:*), Bash(python:*)
 ---

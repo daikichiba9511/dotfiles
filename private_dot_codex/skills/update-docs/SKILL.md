@@ -1,4 +1,5 @@
 ---
+name: update-docs
 description: Sync and update documentation based on code changes
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(git diff:*), Bash(git log:*)
 ---

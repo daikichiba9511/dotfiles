@@ -1,4 +1,5 @@
 ---
+name: to-docs
 description: Summarize session content to markdown
 allowed-tools: Read, Write, Glob, Grep
 ---

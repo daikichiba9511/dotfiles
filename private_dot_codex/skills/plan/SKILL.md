@@ -1,4 +1,5 @@
 ---
+name: plan
 description: Create implementation plan, requirements definition, context gathering
 allowed-tools: Read, Glob, Grep, WebFetch, WebSearch
 ---

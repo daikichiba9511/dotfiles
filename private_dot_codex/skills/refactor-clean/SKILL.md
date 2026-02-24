@@ -1,4 +1,5 @@
 ---
+name: refactor-clean
 description: Test-based refactoring, simplicity first
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(run tests:*)
 ---

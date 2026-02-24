@@ -1,4 +1,5 @@
 ---
+name: analysis-discus
 description: Analysis and discussion with feedback
 allowed-tools: Read, Glob, Grep, WebFetch, WebSearch
 ---

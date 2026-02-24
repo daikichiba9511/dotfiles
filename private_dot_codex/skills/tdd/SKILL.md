@@ -1,4 +1,5 @@
 ---
+name: tdd
 description: TDD workflow (RED→GREEN→REFACTOR)
 allowed-tools: Bash(run tests:*), Read, Edit, Write, Glob, Grep
 ---

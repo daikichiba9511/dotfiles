@@ -1,4 +1,5 @@
 ---
+name: architect
 description: System design and architecture decisions that meet functional and non-functional requirements
 ---
 

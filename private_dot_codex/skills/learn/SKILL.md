@@ -1,4 +1,5 @@
 ---
+name: learn
 description: Feedback on learnings from the session
 allowed-tools: Read, Glob, Grep
 ---

@@ -1,4 +1,5 @@
 ---
+name: ml-consistency
 description: Check train/inference consistency in ML experiments
 allowed-tools: Read, Glob, Grep
 ---

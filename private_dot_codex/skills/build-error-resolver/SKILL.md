@@ -1,4 +1,5 @@
 ---
+name: build-error-resolver
 description: Build error analysis and resolution support
 ---
 

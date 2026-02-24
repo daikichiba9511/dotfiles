@@ -1,4 +1,5 @@
 ---
+name: commit
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git log:*)
 description: Create a git commit following conventional commits
 ---
