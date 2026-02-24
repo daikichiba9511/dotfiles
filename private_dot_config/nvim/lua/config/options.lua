@@ -32,6 +32,12 @@ vim.opt.incsearch = true
 
 -- 外部でファイルが変更されたら自動で再読み込み
 vim.opt.autoread = true
+vim.opt.autowriteall = true
+
+-- AI CLIが外部でファイルを変更した際に確実に再読み込みする
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  command = "checktime",
+})
 
 --- @brief Clipboardにヤンクした内容を連携
 -- SSH接続時にOSC 52を使用してクライアントのクリップボードに同期
