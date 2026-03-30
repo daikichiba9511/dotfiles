@@ -92,6 +92,19 @@ return {
     },
   },
 
+  -- Typst preview in browser
+  {
+    "chomosuke/typst-preview.nvim",
+    version = "1.*",
+    ft = "typst",
+    opts = {},
+    keys = {
+      { "<leader>tp", "<cmd>TypstPreview<cr>", desc = "Typst Preview" },
+      { "<leader>ts", "<cmd>TypstPreviewStop<cr>", desc = "Typst Preview Stop" },
+      { "<leader>tt", "<cmd>TypstPreviewToggle<cr>", desc = "Typst Preview Toggle" },
+    },
+  },
+
   -- Obsidian
   {
     "obsidian-nvim/obsidian.nvim",

@@ -66,6 +66,7 @@ return {
       require("nvim-treesitter").install({
         "lua", "vim", "vimdoc", "python", "julia",
         "markdown", "markdown_inline", "tsx", "javascript", "typescript",
+        "typst",
       })
 
       -- Enable treesitter highlighting (required for main branch)
