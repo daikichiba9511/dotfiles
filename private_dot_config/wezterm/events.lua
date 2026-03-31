@@ -150,10 +150,8 @@ local function setup_toggle_transparency()
     local overrides = window:get_config_overrides() or {}
     if overrides.window_background_opacity then
       overrides.window_background_opacity = nil
-      overrides.text_background_opacity = nil
     else
-      overrides.window_background_opacity = 0.8
-      overrides.text_background_opacity = 0.8
+      overrides.window_background_opacity = 0.60
     end
     window:set_config_overrides(overrides)
   end)
