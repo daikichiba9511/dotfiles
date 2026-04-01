@@ -103,6 +103,8 @@ local function setup_ssh_host_tracking()
   end)
 end
 
+local is_transparent = false
+
 local function setup_tab_title()
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     -- Rose Pine (main) colors
@@ -128,6 +130,17 @@ local function setup_tab_title()
 
     local title = "   " .. wezterm.truncate_right(active_tab_title, max_width - 1) .. "   "
 
+    if is_transparent then
+      -- 透過モード: エッジ装飾なしのシンプル表示
+      local trans_bg = tab.is_active and background or "none"
+      local trans_fg = tab.is_active and foreground or "#908caa"
+      return {
+        { Background = { Color = trans_bg } },
+        { Foreground = { Color = trans_fg } },
+        { Text = title },
+      }
+    end
+
     return {
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
@@ -147,12 +160,22 @@ end
 ---------------------------------------------------------------
 local function setup_toggle_transparency()
   wezterm.on("toggle-transparency", function(window, _)
+    is_transparent = not is_transparent
     local overrides = window:get_config_overrides() or {}
-    if overrides.window_background_opacity then
-      overrides.window_background_opacity = nil
+
+    if is_transparent then
+      -- 透過モード
+      overrides.window_background_opacity = 0.70
+      overrides.window_frame = {
+        active_titlebar_bg = "none",
+        inactive_titlebar_bg = "none",
+      }
     else
-      overrides.window_background_opacity = 0.60
+      -- 背景ありモード（ベース設定に戻す）
+      overrides.window_background_opacity = nil
+      overrides.window_frame = nil
     end
+
     window:set_config_overrides(overrides)
   end)
 end
