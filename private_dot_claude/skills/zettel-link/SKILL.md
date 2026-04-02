@@ -12,9 +12,10 @@ allowed-tools: Read, Edit, Glob, Grep
 
 `/zettel-link [scope]`
 
-- `/zettel-link` - 全メモをスキャンしてリンク提案
+- `/zettel-link` - 全テーマ横断でスキャンしてリンク提案
 - `/zettel-link zk-20260331-001` - 特定メモの関連を検索
 - `/zettel-link transformer` - タグやキーワードで絞り込み
+- `/zettel-link theme:cv_inference_speedup` - テーマ内のメモに絞ってリンク提案
 
 ## Zettelディレクトリの検出
 
@@ -25,8 +26,8 @@ allowed-tools: Read, Edit, Glob, Grep
 
 ## 手順
 
-1. ベースディレクトリ内の全メモを収集
-2. scope が指定されていれば対象を絞り込み
+1. ベースディレクトリ内の全テーマディレクトリからメモを収集（`structs/`, `outputs/` は除外）
+2. scope が指定されていれば対象を絞り込み（テーマ名での絞り込みも可）
 3. 以下の観点で関連を分析:
    - **タグの共通性**: 同じタグを持つメモ
    - **内容の関連性**: 概念的に関連するメモ
