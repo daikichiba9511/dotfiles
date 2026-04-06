@@ -1,0 +1,68 @@
+theme = Rose Pine
+background = #0a0a12
+
+font-family = UDEV Gothic 35NF
+font-family = HackGen Console NFJ
+font-family = HackGen35 Console NFJ
+font-size = 13
+
+font-feature = -calt
+font-feature = -dlig
+font-feature = -liga
+
+font-style-bold = false
+font-style-italic = false
+font-style-bold-italic = false
+font-thicken = false
+
+alpha-blending = linear
+
+adjust-cell-width = -1
+adjust-cell-height = 2
+
+# macOS
+macos-titlebar-style = tabs
+macos-window-shadow = false
+
+# Window
+window-padding-x = 2
+window-padding-y = 0
+window-padding-balance = true
+
+# Shell
+shell-integration = fish
+shell-integration-features = no-cursor
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+cursor-invert-fg-bg = true
+
+# Other
+mouse-hide-while-typing = true
+resize-overlay = never
+
+window-vsync = true
+
+# Keybinds - Split (match WezTerm: Cmd+Shift)
+keybind = cmd+shift+backslash=new_split:right
+keybind = cmd+shift+minus=new_split:down
+keybind = cmd+shift+w=close_surface
+
+# Keybinds - Tab (match WezTerm: Cmd+Shift)
+keybind = cmd+shift+k=new_tab
+keybind = cmd+shift+j=close_tab
+keybind = cmd+shift+h=previous_tab
+keybind = cmd+shift+l=next_tab
+
+# Keybinds - Split navigation (match WezTerm: Ctrl+Shift)
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:top
+keybind = ctrl+shift+j=goto_split:bottom
+
+# Keybinds - Split resize (match WezTerm: Ctrl+Alt+Shift)
+keybind = ctrl+alt+shift+h=resize_split:left,10
+keybind = ctrl+alt+shift+l=resize_split:right,10
+keybind = ctrl+alt+shift+k=resize_split:up,10
+keybind = ctrl+alt+shift+j=resize_split:down,10
