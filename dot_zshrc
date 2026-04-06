@@ -73,6 +73,20 @@ if command -v fzf &>/dev/null; then
   }
   zle -N fzf-history-widget
   bindkey '^R' fzf-history-widget
+
+  # ghq + fzf (Ctrl+G)
+  ghq-fzf-widget() {
+    local repo
+    repo=$(ghq list | fzf --preview "bat --style=numbers --color=always $(ghq root)/{}/README.md 2>/dev/null || ls -la $(ghq root)/{}")
+    if [[ -n "$repo" ]]; then
+      BUFFER="cd $(ghq root)/${repo}"
+      zle accept-line
+    else
+      zle reset-prompt
+    fi
+  }
+  zle -N ghq-fzf-widget
+  bindkey '^G' ghq-fzf-widget
 fi
 
 # --- エイリアス
