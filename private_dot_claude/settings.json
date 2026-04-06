@@ -11,6 +11,21 @@
     "DISABLE_MICROCOMPACT": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Read(**/.env*)",
+      "Read(**/.aws/**)",
+      "Read(**/credentials*)",
+      "Read(**/*secret*)"
+    ]
+  },
   "alwaysThinkingEnabled": true,
   "statusLine": {
     "type": "command",
