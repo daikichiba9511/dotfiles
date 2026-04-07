@@ -28,6 +28,7 @@
     ]
   },
   "alwaysThinkingEnabled": true,
+  "showThinkingSummaries": true,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
