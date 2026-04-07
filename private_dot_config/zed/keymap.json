@@ -1,0 +1,38 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-b": "workspace::ToggleRightDock",
+      "ctrl-j": "pane::ActivatePreviousItem",
+      "ctrl-k": "pane::ActivateNextItem"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction && !showing_completions",
+    "bindings": {
+      "ctrl-g": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "Editor && (showing_completions || showing_code_actions)",
+    "bindings": {
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrevious"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-b": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w j": "workspace::ActivatePaneDown",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w l": "workspace::ActivatePaneRight"
+    }
+  }
+]

@@ -1,0 +1,107 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "vim_mode": true,
+  "terminal": {
+    "font_size": 12.0,
+    "font_family": "Hack Nerd Font",
+    "line_height": {
+      "custom": 1.3,
+    },
+    "copy_on_select": true,
+  },
+  "project_panel": {
+    "dock": "right",
+    "hide_gitignore": false,
+    "git_status": false,
+    "auto_fold_dirs": false,
+  },
+  "outline_panel": {
+    "git_status": false,
+  },
+  "global_lsp_settings": {
+    "semantic_token_rules": [
+      {
+        "token_type": "*.mutable",
+        "token_modifiers": [],
+        "style": [],
+        "foreground_color": null,
+        "background_color": null,
+        "underline": null,
+        "strikethrough": null,
+        "font_weight": null,
+        "font_style": null,
+      },
+    ],
+  },
+  "base_keymap": "VSCode",
+  "tab_bar": {
+    "show": true,
+  },
+  "tabs": {
+    "git_status": false,
+  },
+  "search": {
+    "include_ignored": true,
+  },
+  "use_smartcase_search": true,
+  "relative_line_numbers": "enabled",
+  "gutter": {
+    "line_numbers": true,
+  },
+  "minimap": {
+    "show": "never",
+  },
+  "selection_highlight": true,
+  "cursor_blink": false,
+  "use_system_window_tabs": true,
+  "buffer_font_family": "UDEV Gothic 35NF",
+  "colorize_brackets": false,
+  "show_whitespaces": "none",
+  "show_edit_predictions": true,
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "semantic_tokens": "combined",
+  "ui_font_size": 16,
+  "buffer_font_size": 12.0,
+  "theme": {
+    "mode": "dark",
+    "light": "Ayu Light",
+    "dark": "Rosé Pine",
+  },
+  "theme_overrides": {
+    "Rosé Pine": {
+      "background": "#0f0f14",
+      "editor.background": "#0f0f14",
+      "editor.gutter.background": "#0f0f14",
+      "editor.subheader.background": "#0f0f14",
+      "editor.active_line.background": "#16161e",
+      "editor.highlighted_line.background": "#16161e",
+      "toolbar.background": "#0f0f14",
+      "tab_bar.background": "#0f0f14",
+      "tab.active_background": "#0f0f14",
+      "tab.inactive_background": "#0f0f14",
+      "panel.background": "#0f0f14",
+      "terminal.background": "#0f0f14",
+      "status_bar.background": "#0f0f14",
+      "title_bar.background": "#0f0f14",
+      "title_bar.inactive_background": "#0f0f14",
+      "surface.background": "#0f0f14",
+      "elevated_surface.background": "#0f0f14",
+    },
+  },
+}
