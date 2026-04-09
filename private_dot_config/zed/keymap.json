@@ -1,8 +1,7 @@
 [
   {
-    "context": "Editor",
+    "context": "Editor && !showing_completions && !showing_code_actions",
     "bindings": {
-      "ctrl-b": "workspace::ToggleRightDock",
       "ctrl-j": "pane::ActivatePreviousItem",
       "ctrl-k": "pane::ActivateNextItem"
     }
@@ -18,6 +17,13 @@
     "bindings": {
       "ctrl-j": "editor::ContextMenuNext",
       "ctrl-k": "editor::ContextMenuPrevious"
+    }
+  },
+  {
+    "context": "MarkdownPreview",
+    "bindings": {
+      "ctrl-j": "pane::ActivatePreviousItem",
+      "ctrl-k": "pane::ActivateNextItem"
     }
   },
   {
