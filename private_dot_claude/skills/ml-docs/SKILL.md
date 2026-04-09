@@ -45,12 +45,36 @@ Create 3-layer document structure for an experiment directory.
 3. Create `docs/logs.md` with header and first entry
 4. Create `docs/evidence.md` with empty table structure
 5. Create or update `README.md` with compact document template
+6. **Exploration Map setup**: Ask user to fill in sub-areas for each exploration area in the README Exploration Map. Pre-populate with common sub-areas for the competition domain (e.g., CV: backbone/head/neck for architecture, geometric/color/mixup for augmentation). Priority is pre-set (Data > Feature > Augmentation > Architecture > Loss > Ensemble > PostProcess) based on upstream-first principle. User confirms or edits.
 
 If the experiment directory already has documentation, warn and ask before overwriting.
 
 ## Command: strategy
 
 Bias-resistant strategy formation. Follow these phases strictly in order.
+
+### Phase 0: Exploration Coverage Check
+
+Before forming new strategy, aggregate exploration state from logs and README:
+
+1. Read `README.md` Exploration Map
+2. Scan `docs/logs.md` for all `[EXPERIMENT]` entries, count per Exploration Area tag
+3. Present coverage summary:
+
+```
+⚠ Exploration Coverage:
+  feature: 6 experiments (exp001,002,004,005,007,008)
+  architecture: 1 experiment (exp003)
+  augmentation: 0 — UNEXPLORED
+  loss: 0 — UNEXPLORED
+  postprocess: 0 — UNEXPLORED
+
+→ feature に偏っています。未探索の上流領域 (data) からの提案を優先してください。
+```
+
+4. Also check if explored areas have error analysis backing in the Motivation column. Flag areas explored without evidence-based motivation.
+
+This summary MUST be visible to the user before Phase 2 starts. It informs proposal diversity but does NOT constrain it (user may choose to continue deepening an area with stated reason).
 
 ### Phase 1: Task Information Gathering
 
@@ -113,16 +137,28 @@ Before running an experiment, ensure `docs/logs.md` has an `[EXPERIMENT]` entry 
 - **Baseline**: What we are comparing against
 - **Changes**: Exactly what differs from baseline
 - **Hypothesis**: What we expect and why
+- **Exploration Area**: Tag (data/feature/augmentation/architecture/loss/ensemble/postprocess/other) + motivation (error analysis evidence ID or rationale)
 - **Considerations**: Potential issues, edge cases, interactions
 - **Result Scenarios**: Pre-registered interpretations for each outcome (improve / marginal / no change / degrade)
 
 If this entry is missing, create it FIRST by asking the user.
 
+**⚠ Exploration Concentration Warning**: Before recording the `[EXPERIMENT]` entry, count consecutive experiments in the same Exploration Area from `docs/logs.md`. If **3 or more consecutive experiments share the same area**, display a warning:
+
+```
+⚠ 同一領域 (feature) が3実験連続です。
+  現在のExploration Map:
+    feature: 5 experiments / architecture: 1 / augmentation: 0 / ...
+  → 続行する場合、理由を記載してください。別の領域に切り替えますか？
+```
+
+User may continue with a stated reason (logged as part of the `[EXPERIMENT]` entry under Considerations) or switch areas. Either is acceptable — the goal is to create a conscious decision point, not to block.
+
 ### Step 1: Append to Full Log
 
 Append experiment results to `docs/logs.md`:
 - `[RESULT]` entry: raw metrics, observations, and **which pre-registered scenario matched**
-- `[ANALYSIS]` entry: interpretation, implications, next hypotheses
+- `[ANALYSIS]` entry: interpretation, implications, next hypotheses, transferable learning
 - Include raw numbers, not just summary
 
 ### Step 2: Update Evidence Ledger
@@ -139,7 +175,8 @@ Extract normalized facts from the new log entries into `docs/evidence.md`:
 Update `README.md` with minimal diffs:
 - Update Current State
 - Move completed hypotheses, promote queued ones
-- Update Experiment History summary table
+- Update Experiment History summary table (include Area column)
+- **Update Exploration Map**: Change status of explored areas, add experiment IDs
 - Update Next Actions
 - Keep under 100 lines
 

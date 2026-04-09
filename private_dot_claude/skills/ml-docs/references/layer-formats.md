@@ -41,6 +41,10 @@ Use the tag-specific templates below. All entries share a common header.
 ### Considerations
 [Potential issues, edge cases, interactions with other components, things to watch for]
 
+### Exploration Area
+[探索領域: data / feature / augmentation / architecture / loss / ensemble / postprocess / other]
+[根拠: エラー分析のEvidence ID (e.g., D-003, M-001) または探索理由]
+
 ### Result Scenarios
 [Pre-register interpretation for each possible outcome BEFORE seeing results]
 - **If metric improves significantly**: [What this would tell us, what to try next]
@@ -80,6 +84,9 @@ Use the tag-specific templates below. All entries share a common header.
 
 ### Next Hypotheses
 [New hypotheses generated from this result]
+
+### Transferable Learning
+[このコンペ固有でない、他のコンペ・プロジェクトに持ち出せる知見は何か]
 ```
 
 #### [EDA] / [DECISION] / [HYPOTHESIS] / [DISCUSSION] / [BUGFIX] / [IDEA] - General Entry
@@ -199,6 +206,20 @@ Agent-ready summary. Minimal context needed to resume work.
 |----------|-----------|-----------|--------|
 | P1 | [Statement] | [Why we believe this] | [Testing/Queued/Blocked] |
 
+## Exploration Map
+
+Priority: upstream first (Data > Model > PostProcess). 上流の改善ほど下流全体に波及する。
+
+| Priority | Area | Sub-areas | Status | Experiments | Motivation |
+|----------|------|-----------|--------|-------------|------------|
+| P1 | data | [e.g., external data, cleaning, sampling, labeling] | unexplored | - | [Error analysis evidence ID or rationale] |
+| P2 | feature | [e.g., tabular, image-derived, interaction] | unexplored | - | |
+| P3 | augmentation | [e.g., geometric, color, mixup, domain-specific] | unexplored | - | |
+| P4 | architecture | [e.g., backbone, head, neck] | unexplored | - | |
+| P5 | loss | [e.g., classification, metric learning, auxiliary] | unexplored | - | |
+| P6 | ensemble | [e.g., stacking, blending, weighted avg] | unexplored | - | |
+| P7 | postprocess | [e.g., TTA, threshold tuning, calibration] | unexplored | - | |
+
 ## Key Constraints
 - [Critical constraint 1]
 - [Critical constraint 2]
@@ -211,9 +232,9 @@ Agent-ready summary. Minimal context needed to resume work.
 2. [Second priority]
 
 ## Experiment History (summary)
-| Exp | What | Result | Key Learning |
-|-----|------|--------|-------------|
-| exp000 | [Brief] | [Brief] | [One line] |
+| Exp | Area | What | Result | Key Learning |
+|-----|------|------|--------|-------------|
+| exp000 | feature | [Brief] | [Brief] | [One line] |
 
 ## References
 - Full log: [docs/logs.md](docs/logs.md)
