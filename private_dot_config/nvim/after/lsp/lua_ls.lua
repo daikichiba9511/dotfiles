@@ -1,5 +1,3 @@
-local lspconfig = require("lspconfig")
-
 ---@param names string[]
 ---@return string[]
 local function get_plugin_paths(names)

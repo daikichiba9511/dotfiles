@@ -33,28 +33,6 @@ vim.lsp.enable({ "jetls" })
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
-
--- lua_ls specific configuration
-vim.lsp.config("lua_ls", {
-  settings = {
-    Lua = {
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      runtime = {
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
-
 -- jetls configuration (Julia)
 vim.lsp.config("jetls", {
   cmd = { vim.fn.expand("~/.julia/bin/jetls"), "--stdio" },
