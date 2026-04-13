@@ -41,6 +41,9 @@ cursor-style = block
 cursor-style-blink = false
 cursor-invert-fg-bg = true
 
+# Notifications
+desktop-notifications = false
+
 # Other
 mouse-hide-while-typing = true
 resize-overlay = never
