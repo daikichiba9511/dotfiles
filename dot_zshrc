@@ -33,7 +33,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # --- sheldon（キャッシュ）
 _sheldon_cache="${XDG_CACHE_HOME:-$HOME/.cache}/sheldon.zsh"
 _sheldon_toml="${XDG_CONFIG_HOME:-$HOME/.config}/sheldon/plugins.toml"
-if [[ ! -r "$_sheldon_cache" || "$_sheldon_toml" -nt "$_sheldon_cache" ]]; then
+if [[ ! -s "$_sheldon_cache" || "$_sheldon_toml" -nt "$_sheldon_cache" ]]; then
   mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}"
   sheldon source > "$_sheldon_cache"
 fi
