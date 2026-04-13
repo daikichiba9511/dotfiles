@@ -12,3 +12,6 @@ private_dot_config/nvim/plugin
 
 # zsh compiled
 *.zwc
+
+# nix
+result

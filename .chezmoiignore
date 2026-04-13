@@ -14,6 +14,8 @@ private_dot_config/sketchybar
 
 # 共通除外
 README.md
+flake.nix
+flake.lock
 mise.toml
 *.log
 *.zwc

@@ -1,0 +1,36 @@
+#!/bin/bash
+# Install Nix (Determinate Systems installer) and CLI tools from flake
+# https://determinate.systems/nix-installer/
+
+set -e
+
+DOTFILES_DIR="${HOME}/dotfiles"
+
+# Nixインストール
+if ! command -v nix &>/dev/null; then
+  echo "==> Installing Nix..."
+  INSTALLER=$(mktemp)
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix -o "$INSTALLER"
+  chmod +x "$INSTALLER"
+  "$INSTALLER" install --no-confirm
+  rm -f "$INSTALLER"
+
+  # このセッションでnixを有効化
+  if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
+else
+  echo "==> Nix is already installed: $(nix --version)"
+fi
+
+# flakeからCLIツールをインストール
+if [ -f "$DOTFILES_DIR/flake.nix" ]; then
+  echo "==> Installing CLI tools from flake..."
+  nix profile install "$DOTFILES_DIR"
+  echo ""
+  echo "Done! Installed tools:"
+  nix profile list
+else
+  echo "==> flake.nix not found at $DOTFILES_DIR"
+  exit 1
+fi

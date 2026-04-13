@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eu
+
+# Nixがインストール済みならパッケージのみインストール
+# 未インストールならDeterminate Systems installerで導入
+
+if ! command -v nix &> /dev/null; then
+  echo "==> Installing Nix (Determinate Systems installer)..."
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+fi
+
+# このセッションでnixコマンドを有効化
+if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+elif [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
+
+# flakeからCLIツールをインストール
+DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
+if [ -f "$DOTFILES_DIR/flake.nix" ]; then
+  echo "==> Installing CLI tools from flake..."
+  nix profile install "$DOTFILES_DIR"
+fi
