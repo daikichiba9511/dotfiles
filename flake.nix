@@ -10,26 +10,35 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        tools = with pkgs; [
+          zsh
+          jq
+          tree-sitter
+          starship
+          uv
+          ripgrep
+          lsd
+          fd
+          bat
+          delta
+          fzf
+          lazygit
+          gh
+          neovim-unwrapped
+          ghq
+        ];
       in
       {
         packages.default = pkgs.buildEnv {
           name = "dotfiles-tools";
-          paths = with pkgs; [
-            jq
-            tree-sitter
-            starship
-            uv
-            ripgrep
-            lsd
-            fd
-            bat
-            delta
-            fzf
-            lazygit
-            gh
-            neovim-unwrapped
-            ghq
-          ];
+          paths = tools;
+        };
+
+        devShells.default = pkgs.mkShell {
+          packages = tools;
+          shellHook = ''
+            exec ${pkgs.zsh}/bin/zsh
+          '';
         };
       }
     );

@@ -11,6 +11,7 @@ $directory\
 $git_branch\
 $git_status\
 [](fg:#394260 bg:#212736)\
+$nix_shell\
 $nodejs\
 $rust\
 $golang\
@@ -41,6 +42,11 @@ format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 [git_status]
 style = "bg:#394260"
 format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[nix_shell]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol $state ](fg:#7ebae4 bg:#212736)]($style)'
 
 [nodejs]
 symbol = ""
