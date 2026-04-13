@@ -16,11 +16,15 @@ return {
       },
       -- Useful status updates for LSP
       { "j-hui/fidget.nvim", opts = {} },
-      -- Additional lua configuration
-      "folke/neodev.nvim",
     },
   },
   {
-    "folke/neodev.nvim",
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
   },
 }

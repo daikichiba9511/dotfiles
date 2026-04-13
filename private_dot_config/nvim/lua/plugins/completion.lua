@@ -23,8 +23,13 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        default = { "lazydev", "lsp", "path", "snippets", "buffer", "copilot" },
         providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
           copilot = {
             name = "copilot",
             module = "blink-cmp-copilot",
