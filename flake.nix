@@ -34,7 +34,7 @@
           paths = tools;
         };
 
-        devShells.default = pkgs.mkShell {
+        devShells.default = pkgs.mkShellNoCC {
           packages = tools;
           shellHook = ''
             exec ${pkgs.zsh}/bin/zsh
