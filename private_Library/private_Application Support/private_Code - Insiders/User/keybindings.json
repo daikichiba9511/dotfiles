@@ -1,0 +1,654 @@
+[
+  // =============================================================================================
+  // VSCode Keybindings Configuration
+  // =============================================================================================
+  //
+  // ## Quick Reference
+  //
+  // ### Explorer Navigation (Vim-style)
+  // - Ctrl+h/j/k/l             : Collapse/Expand/Up/Down in file tree
+  //
+  // ### Suggestions & Autocomplete
+  // - Ctrl+j/k                 : Navigate suggestions (up/down)
+  // - Tab / Shift+Tab          : Select next/previous suggestion
+  //
+  // ### Editor & Window Navigation
+  // - Ctrl+w h/j/k/l           : Navigate between split windows (Vim-style)
+  // - Ctrl+j/k                 : Navigate between editor tabs
+  // - Ctrl+x                   : Close active editor
+  //
+  // ### Terminal Management
+  // - Ctrl+`                   : Toggle terminal
+  // - Ctrl+n Ctrl+t            : New terminal
+  // - Ctrl+w v                 : Split terminal vertically
+  // - Ctrl+w s                 : Split terminal horizontally
+  // - Alt+h/j/k/l              : Navigate between terminal panes
+  // - Ctrl+PageUp/PageDown     : Navigate between terminal tabs
+  // - Ctrl+w Shift+h/j/k/l     : Resize terminal panes
+  // - Ctrl+w q                 : Kill active terminal pane
+  // - Ctrl+m Ctrl+t            : Maximize terminal panel
+  //
+  // ### Sidebar & Panels
+  // - Ctrl+b                   : Toggle sidebar visibility
+  // - Ctrl+t a                 : Toggle auxiliary bar
+  //
+  // ### Search & Find
+  // - Ctrl+/                   : Find in files
+  // - z+s                      : Find in files (alternative)
+  // - Ctrl+w j/k               : Navigate search results
+  // - Backspace Backspace      : Clear search results (in settings)
+  //
+  // ### File Explorer Operations
+  // - Ctrl+e                   : Create new file (when explorer focused)
+  // - Ctrl+n Ctrl+d            : Create new folder (when explorer focused)
+  // - Ctrl+y Ctrl+y            : Copy relative path (when explorer focused)
+  //
+  // ### GitHub Copilot
+  // - Ctrl+g                   : Accept inline suggestion / Accept changes
+  // - Ctrl+w g                 : Accept next word
+  // - Ctrl+i Ctrl+c            : Open Copilot chat
+  // - Ctrl+i Ctrl+e            : Open Copilot edit session
+  //
+  // ### Git Workflow
+  // - Ctrl+a m                 : Generate commit message with Copilot
+  // - Ctrl+g c                 : Commit staged changes
+  // - Ctrl+Shift+c Ctrl+Shift+m: Alternative commit message generation
+  //
+  // ### VSCode Neovim
+  // - Ctrl+d                   : Scroll down (Neovim)
+  // - Ctrl+u                   : Scroll up (Neovim)
+  //
+  // ### Window Management
+  // - Shift+Alt+m Shift+Alt+a  : Merge all window tabs
+  // - Shift+Alt+m Shift+Alt+f  : Toggle window tabs bar
+  // - Alt+s                    : Switch window
+  //
+  // =============================================================================================
+
+  // =============================
+  // Explorer Navigation (Vim-style)
+  // =============================
+  // Navigate in file explorer with Ctrl+h/j/k/l
+  {
+    "key": "ctrl+h",
+    "command": "list.collapse",
+    "when": "listFocus && !inputFocus",
+  },
+  {
+    "key": "ctrl+l",
+    "command": "list.expand",
+    "when": "listFocus && !inputFocus",
+  },
+  {
+    "key": "ctrl+k",
+    "command": "list.focusUp",
+    "when": "listFocus && !inputFocus",
+  },
+  {
+    "key": "ctrl+j",
+    "command": "list.focusDown",
+    "when": "listFocus && !inputFocus",
+  },
+
+  // =============================
+  // Suggestions & Quick Open
+  // =============================
+  // Navigate suggestions with Ctrl+j/k
+  {
+    "key": "ctrl+k",
+    "command": "selectNextSuggestion",
+    "when": "suggestWidgetVisible",
+  },
+  {
+    "key": "ctrl+j",
+    "command": "selectPrevSuggestion",
+    "when": "suggestWidgetVisible",
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.quickOpenSelectPrevious",
+    "when": "inQuickOpen",
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.quickOpenSelectNext",
+    "when": "inQuickOpen",
+  },
+
+  // Tab for suggestion selection
+  {
+    "key": "tab",
+    "command": "selectNextSuggestion",
+    "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible",
+  },
+  {
+    "key": "shift+tab",
+    "command": "selectPrevSuggestion",
+    "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible",
+  },
+  {
+    "key": "tab",
+    "command": "selectNextQuickFix",
+    "when": "editorFocus && quickFixWidgetVisible",
+  },
+  {
+    "key": "shift+tab",
+    "command": "selectPrevQuickFix",
+    "when": "editorFocus && quickFixWidgetVisible",
+  },
+
+  // =============================
+  // Editor & Window Navigation
+  // =============================
+  // Navigate between split windows with Ctrl+w h/j/k/l (Vim-style)
+  {
+    "key": "ctrl+w h",
+    "command": "workbench.action.navigateLeft",
+  },
+  {
+    "key": "ctrl+w l",
+    "command": "workbench.action.navigateRight",
+  },
+  {
+    "key": "ctrl+w k",
+    "command": "workbench.action.navigateUp",
+  },
+  {
+    "key": "ctrl+w j",
+    "command": "workbench.action.navigateDown",
+  },
+
+  // Navigate between editor tabs with Ctrl+j/k
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.previousEditor",
+    "when": "editorTextFocus && vim.active",
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.nextEditor",
+    "when": "editorTextFocus && vim.active",
+  },
+
+  // Close active editor with Ctrl+x
+  {
+    "key": "ctrl+x",
+    "command": "workbench.action.closeActiveEditor",
+  },
+  {
+    "key": "ctrl+w",
+    "command": "-workbench.action.closeActiveEditor",
+  },
+
+  // =============================
+  // Terminal
+  // =============================
+  // Toggle terminal with Ctrl+`
+  {
+    "key": "ctrl+`",
+    "command": "workbench.action.terminal.toggleTerminal",
+  },
+
+  // Create new terminal
+  {
+    "key": "ctrl+n ctrl+t",
+    "command": "workbench.action.terminal.new",
+    "when": "terminalProcessSupported || terminalWebExtensionContributedProfile",
+  },
+
+  // Split terminal (Vim-style)
+  {
+    "key": "ctrl+w v",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "ctrl+w s",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus",
+  },
+
+  // Navigate between split terminal panes (Alt+h/j/k/l)
+  {
+    "key": "alt+h",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "alt+l",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "alt+j",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "alt+k",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus",
+  },
+
+  // Navigate between terminal tabs (Ctrl+PageUp/PageDown)
+  {
+    "key": "ctrl+pagedown",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "ctrl+pageup",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus",
+  },
+
+  // Resize terminal panes
+  {
+    "key": "ctrl+w shift+h",
+    "command": "workbench.action.terminal.resizePaneLeft",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "ctrl+w shift+l",
+    "command": "workbench.action.terminal.resizePaneRight",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "ctrl+w shift+k",
+    "command": "workbench.action.terminal.resizePaneUp",
+    "when": "terminalFocus",
+  },
+  {
+    "key": "ctrl+w shift+j",
+    "command": "workbench.action.terminal.resizePaneDown",
+    "when": "terminalFocus",
+  },
+
+  // Close terminal with Ctrl+x
+  {
+    "key": "ctrl+x",
+    "command": "workbench.action.terminal.killEditor",
+    "when": "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'",
+  },
+  {
+    "key": "ctrl+w",
+    "command": "-workbench.action.terminal.killEditor",
+    "when": "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'",
+  },
+
+  // Kill active terminal pane
+  {
+    "key": "ctrl+w q",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus",
+  },
+
+  // Maximize terminal panel
+  {
+    "key": "ctrl+m ctrl+t",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus",
+  },
+
+  // =============================
+  // Sidebar & Panels
+  // =============================
+  // Toggle sidebar with Ctrl+b
+  {
+    "key": "ctrl+b",
+    "command": "workbench.action.toggleSidebarVisibility",
+  },
+
+  // Toggle auxiliary bar
+  {
+    "key": "ctrl+t a",
+    "command": "workbench.action.toggleAuxiliaryBar",
+  },
+  {
+    "key": "alt+cmd+b",
+    "command": "-workbench.action.toggleAuxiliaryBar",
+  },
+
+  // =============================
+  // Search & Find
+  // =============================
+  // Find in files with Ctrl+/
+  {
+    "key": "ctrl+/",
+    "command": "workbench.action.findInFiles",
+  },
+
+  // Search shortcuts
+  {
+    "key": "z+s",
+    "command": "workbench.action.findInFiles",
+    "when": "!searchInputBoxFocus",
+  },
+
+  // Navigate search results
+  {
+    "key": "ctrl+w j",
+    "command": "search.action.focusSearchList",
+    "when": "sideBarFocus && searchViewletVisible && !terminalFocus",
+  },
+  {
+    "key": "ctrl+w k",
+    "command": "workbench.action.findInFiles",
+    "when": "sideBarFocus && searchViewletVisible && !terminalFocus",
+  },
+
+  // Clear search results
+  {
+    "key": "backspace backspace",
+    "command": "settings.action.clearSearchResults",
+    "when": "inSettingsSearch",
+  },
+
+  // =============================
+  // File Explorer
+  // =============================
+  // Create new file
+  {
+    "key": "ctrl+e",
+    "command": "explorer.newFile",
+    "when": "explorerViewletVisible && filesExplorerFocus",
+  },
+
+  // Create new folder
+  {
+    "key": "ctrl+n ctrl+d",
+    "command": "explorer.newFolder",
+    "when": "explorerViewletVisible && filesExplorerFocus",
+  },
+
+  // Copy relative path
+  {
+    "key": "ctrl+y ctrl+y",
+    "command": "copyRelativeFilePath",
+    "when": "explorerViewletVisible && filesExplorerFocus",
+  },
+
+  // =============================
+  // GitHub Copilot - All Accept with Ctrl+G
+  // =============================
+  // Disable default Tab for inline suggest
+  {
+    "key": "ctrl+g",
+    "command": "-workbench.action.gotoLine",
+  },
+  {
+    "key": "tab",
+    "command": "-editor.action.inlineSuggest.commit",
+  },
+
+  // 1. Inline Suggestion (通常のCopilot補完)
+  {
+    "key": "ctrl+g",
+    "command": "editor.action.inlineSuggest.commit",
+    "when": "inlineSuggestionVisible && editorTextFocus && !editorReadonly",
+  },
+
+  // 2. Next Edit Suggestion (NES) - Tabの代わりにCtrl+G
+  {
+    "key": "ctrl+g",
+    "command": "editor.action.inlineEdits.accept",
+    "when": "inlineEditsVisible && editorTextFocus && !editorReadonly",
+  },
+  {
+    "key": "tab",
+    "command": "-editor.action.inlineEdits.accept",
+  },
+
+  // 3. Accept next word (単語単位)
+  {
+    "key": "ctrl+w g",
+    "command": "editor.action.inlineSuggest.acceptNextWord",
+    "when": "inlineSuggestionVisible && !editorReadonly",
+  },
+  {
+    "key": "cmd+right",
+    "command": "-editor.action.inlineSuggest.acceptNextWord",
+    "when": "inlineSuggestionVisible && !editorReadonly",
+  },
+
+  // 4. Accept next line (行単位)
+  {
+    "key": "ctrl+l g",
+    "command": "editor.action.inlineSuggest.acceptNextLine",
+    "when": "inlineSuggestionVisible && !editorReadonly",
+  },
+
+  // 5. Copilot panel solution
+  {
+    "key": "ctrl+g",
+    "command": "github.copilot.acceptCursorPanelSolution",
+    "when": "github.copilot.panelVisible && activeWebviewPanelId == 'GitHub Copilot Suggestions'",
+  },
+  {
+    "key": "ctrl+/",
+    "command": "-github.copilot.acceptCursorPanelSolution",
+    "when": "github.copilot.panelVisible && activeWebviewPanelId == 'GitHub Copilot Suggestions'",
+  },
+
+  // 6. Inline chat accept
+  {
+    "key": "ctrl+g",
+    "command": "inlineChat.acceptChanges",
+    "when": "inlineChatHasProvider && inlineChatVisible",
+  },
+  {
+    "key": "cmd+enter",
+    "command": "-inlineChat.acceptChanges",
+    "when": "inlineChatHasProvider && inlineChatVisible",
+  },
+
+  // 7. Chat editor accept
+  {
+    "key": "ctrl+g",
+    "command": "chatEditor.action.accept",
+    "when": "chatEdits.hasEditorModifications && editorFocus && !chatEdits.isRequestInProgress",
+  },
+  {
+    "key": "cmd+enter",
+    "command": "-chatEditor.action.accept",
+    "when": "chatEdits.hasEditorModifications && editorFocus && !chatEdits.isRequestInProgress",
+  },
+
+  // 8. Accessible view accept
+  {
+    "key": "ctrl+g",
+    "command": "editor.action.accessibleViewAcceptInlineCompletion",
+    "when": "accessibleViewIsShown && accessibleViewCurrentProviderId == 'inlineCompletions'",
+  },
+  {
+    "key": "ctrl+/",
+    "command": "-editor.action.accessibleViewAcceptInlineCompletion",
+    "when": "accessibleViewIsShown && accessibleViewCurrentProviderId == 'inlineCompletions'",
+  },
+
+  // Open Copilot chat
+  {
+    "key": "ctrl+i ctrl+c",
+    "command": "workbench.action.chat.open",
+    "when": "vim.mode == 'Normal' && !terminalFocus",
+  },
+
+  // Open Copilot edit session
+  {
+    "key": "ctrl+i ctrl+e",
+    "command": "workbench.action.chat.openEditSession",
+    "when": "vim.mode == 'Normal' && !terminalFocus",
+  },
+
+  // =============================
+  // Git Integration
+  // =============================
+  // Generate commit message with Copilot (Ctrl+a m)
+  {
+    "key": "ctrl+a m",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        {
+          "command": "workbench.action.toggleSidebarVisibility",
+        },
+        {
+          "command": "git.viewStagedChanges",
+        },
+        {
+          "command": "github.copilot.git.generateCommitMessage",
+        },
+        {
+          "command": "workbench.action.focusSideBar",
+        },
+      ],
+    },
+    "when": "!sideBarVisible",
+  },
+  {
+    "key": "ctrl+a m",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        {
+          "command": "github.copilot.git.generateCommitMessage",
+        },
+        {
+          "command": "git.viewStagedChanges",
+        },
+        {
+          "command": "workbench.action.focusSideBar",
+        },
+      ],
+    },
+    "when": "sideBarVisible",
+  },
+
+  // Commit staged changes (Ctrl+g c)
+  {
+    "key": "ctrl+g c",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        {
+          "command": "git.commitStaged",
+        },
+        {
+          "command": "git.closeAllDiffEditors",
+        },
+        {
+          "command": "workbench.action.toggleSidebarVisibility",
+        },
+        {
+          "command": "workbench.action.terminal.focus",
+        },
+      ],
+    },
+    "when": "sideBarFocus && panelVisible",
+  },
+  {
+    "key": "ctrl+g c",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        {
+          "command": "git.commitStaged",
+        },
+        {
+          "command": "git.closeAllDiffEditors",
+        },
+        {
+          "command": "workbench.action.toggleSidebarVisibility",
+        },
+        {
+          "command": "workbench.action.previousEditor",
+        },
+      ],
+    },
+    "when": "sideBarFocus && !panelVisible",
+  },
+
+  // Alternative commit message generation
+  {
+    "key": "ctrl+shift+c ctrl+shift+m",
+    "command": "github.copilot.git.generateCommitMessage",
+    "when": "scmProvider == 'git'",
+  },
+
+  // =============================
+  // Hover Navigation
+  // =============================
+  // Focus hover with Shift+K when hover is visible
+  {
+    "key": "shift+k",
+    "command": "editor.action.showHover",
+    "args": { "focus": "keyboard" },
+    "when": "editorTextFocus",
+  },
+  // Scroll hover with Ctrl+j/k
+  {
+    "key": "ctrl+j",
+    "command": "editor.action.scrollDownHover",
+    "when": "editorHoverFocused",
+  },
+  {
+    "key": "ctrl+k",
+    "command": "editor.action.scrollUpHover",
+    "when": "editorHoverFocused",
+  },
+
+  // =============================
+  // VSCodeVim Overrides
+  // =============================
+  // Remove VSCodeVim's tab handling to enable default behavior
+  {
+    "key": "tab",
+    "command": "-extension.vim_tab",
+  },
+  {
+    "key": "ctrl+g",
+    "command": "-extension.vim_tab",
+  },
+  {
+    "key": "ctrl+p",
+    "command": "-extension.vim_ctrl+p",
+    "when": "editorTextFocus && vim.active && vim.use<C-p> && !inDebugRepl || vim.active && vim.use<C-p> && !inDebugRepl && vim.mode == 'CommandlineInProgress' || vim.active && vim.use<C-p> && !inDebugRepl && vim.mode == 'SearchInProgressMode'",
+  },
+
+  // =============================
+  // VSCode Neovim Integration
+  // =============================
+  {
+    "key": "ctrl+d",
+    "command": "vscode-neovim.send",
+    "args": "<C-d>",
+    "when": "editorTextFocus && neovim.init",
+  },
+  {
+    "key": "ctrl+u",
+    "command": "vscode-neovim.send",
+    "args": "<C-u>",
+    "when": "editorTextFocus && neovim.init",
+  },
+
+  // =============================
+  // Window Management
+  // =============================
+  // Merge all window tabs
+  {
+    "key": "shift+alt+m shift+alt+a",
+    "command": "workbench.action.mergeAllWindowTabs",
+  },
+
+  // Toggle window tabs bar
+  {
+    "key": "shift+alt+m shift+alt+f",
+    "command": "workbench.action.toggleWindowTabsBar",
+  },
+
+  // Switch window
+  {
+    "key": "alt+s",
+    "command": "workbench.action.switchWindow",
+  },
+]

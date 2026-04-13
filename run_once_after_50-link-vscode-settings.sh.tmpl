@@ -1,0 +1,23 @@
+#!/bin/bash
+set -eu
+
+# Symlink VSCode settings to VSCode Insiders (primary)
+# This allows both editors to share the same configuration
+
+INSIDERS_USER="$HOME/Library/Application Support/Code - Insiders/User"
+VSCODE_USER="$HOME/Library/Application Support/Code/User"
+
+{{ if eq .chezmoi.os "darwin" -}}
+if [ -d "$INSIDERS_USER" ]; then
+  mkdir -p "$VSCODE_USER"
+
+  for file in settings.json keybindings.json; do
+    target="$VSCODE_USER/$file"
+    # Remove existing file (but not if already a correct symlink)
+    if [ -f "$target" ] && [ ! -L "$target" ]; then
+      mv "$target" "$target.bak"
+    fi
+    ln -sf "$INSIDERS_USER/$file" "$target"
+  done
+fi
+{{ end -}}
