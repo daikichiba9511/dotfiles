@@ -23,8 +23,10 @@ local function setup_image_viewer()
 
       if host and path then
         local ext = path:match("%.([^%.]+)$") or "png"
-        local tmp = "/tmp/wez-preview." .. ext
-        local cmd = string.format('scp "%s:%s" "%s" && open "%s"', host, path, tmp, tmp)
+        local cmd = string.format(
+          'tmp=$(mktemp /tmp/wez-preview-XXXXXXXX.%s) && scp "%s:%s" "$tmp" && open "$tmp"',
+          ext, host, path
+        )
         wezterm.log_info("Running: " .. cmd)
 
         -- scp でコピーして open で起動 (macOS)

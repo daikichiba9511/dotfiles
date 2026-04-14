@@ -15,3 +15,10 @@ private_dot_config/nvim/plugin
 
 # nix
 result
+
+# secrets
+.env*
+*.pem
+*.key
+*secret*
+credentials*

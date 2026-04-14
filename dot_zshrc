@@ -14,7 +14,7 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
-setopt hist_ignore_all_dups share_history hist_ignore_dups
+setopt hist_ignore_all_dups share_history hist_ignore_dups hist_ignore_space
 setopt AUTO_PUSHD correct
 unsetopt beep
 DIRSTACKSIZE=100
