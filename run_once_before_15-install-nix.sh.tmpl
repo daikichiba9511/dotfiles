@@ -1,6 +1,11 @@
 #!/bin/bash
 set -eu
 
+{{ if not .install_nix -}}
+echo "==> Skipping Nix installation (install_nix = false)"
+exit 0
+{{ end -}}
+
 # Nixがインストール済みならパッケージのみインストール
 # 未インストールならDeterminate Systems installerで導入
 
