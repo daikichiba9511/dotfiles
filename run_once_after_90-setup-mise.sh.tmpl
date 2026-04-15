@@ -27,6 +27,6 @@ mkdir -p ~/.local/share/zsh/site-functions
 # デフォルトshellをzshに (Ubuntu)
 if [ "$(basename "$SHELL")" != "zsh" ] && command -v zsh &> /dev/null; then
   echo "==> Changing default shell to zsh..."
-  sudo chsh -s "$(which zsh)" "${USER}" || true
+  sudo chsh -s "$(which zsh)" "${USER:-$(whoami)}" || true
 fi
 {{ end }}
