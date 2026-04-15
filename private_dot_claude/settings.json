@@ -16,12 +16,20 @@
   },
   "permissions": {
     "allow": [
+      "Bash",
       "WebSearch",
+      "WebFetch",
       "Read",
       "Grep",
       "Glob"
     ],
     "deny": [
+      "Bash(rm *)",
+      "Bash(*rm -rf*)",
+      "Bash(*command rm*)",
+      "Bash(*> /dev/*)",
+      "Bash(*curl*|*)",
+      "Bash(*wget*|*)",
       "Read(.env*)",
       "Read(**/.env*)",
       "Read(**/.aws/**)",
