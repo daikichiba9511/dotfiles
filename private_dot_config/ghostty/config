@@ -48,6 +48,10 @@ desktop-notifications = false
 mouse-hide-while-typing = true
 resize-overlay = never
 
+# Clipboard
+clipboard-write = allow
+clipboard-read = allow
+
 window-vsync = true
 
 # Keybinds - Split (match WezTerm: Cmd+Shift)
