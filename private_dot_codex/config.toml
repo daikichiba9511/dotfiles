@@ -1,14 +1,15 @@
 model = "gpt-5.4"
 model_reasoning_effort = "xhigh" # モデルの推論努力（思考の深さ）
 model_verbosity = "medium"       # 詳細な応答の冗長さ（情報量の多さ）
-sandbox_mode = "workspace-write" # 最も安全（必要時のみ緩める）
+sandbox_mode = "danger-full-access" # sandboxなし（ローカル開発用）
 
 # コマンド実行を承認するかどうかをプロンプトで確認すべきタイミング
 # - untrusted: 「信頼済み」でないコマンド（危険操作など）は実行前に都度承認を求め
 # - on-request: モデル（Codex）が判断して承認を要求する場合
 # - on-failure: コマンドが失敗した場合のみ承認にエスカレート
 # - never: いかなる場合も承認を求めず、すべての操作を自動で実行
-approval_policy = "on-request"
+# 危険コマンドは rules/default.rules で明示禁止し、それ以外は基本自動実行する
+approval_policy = "never"
 
 # nvim は file_opener の公式サポート外なので none にして手動で開く
 file_opener = "none"
@@ -25,6 +26,7 @@ exclude = ["AWS_*", "AZURE_*", "*TOKEN*", "*SECRET*", "*KEY*"]
 
 [features]
 collaboration_modes = true
+codex_hooks = true
 
 
 # [mcp_servers.serena]
