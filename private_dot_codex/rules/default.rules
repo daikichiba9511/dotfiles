@@ -1,0 +1,10 @@
+prefix_rule(
+    pattern = [["rm", "/bin/rm", "/usr/bin/rm"]],
+    decision = "forbidden",
+    justification = "Use `trash` on macOS or `gio trash` on Linux/Ubuntu instead of `rm`.",
+    match = [
+        "rm foo.txt",
+        "rm -rf build",
+        "/bin/rm -f tmp.log",
+    ],
+)
