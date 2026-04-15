@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$HOME/.codex/hooks/pre_tool_use_block_pipe_shell.py\"",
+            "statusMessage": "Checking curl/wget pipe-to-shell policy"
+          }
+        ]
+      }
+    ]
+  }
+}
