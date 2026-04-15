@@ -15,8 +15,11 @@
     "CLAUDE_CODE_SUBAGENT_MODEL": "opus"
   },
   "permissions": {
+    "defaultMode": "acceptEdits",
     "allow": [
       "Bash",
+      "Edit",
+      "Write",
       "WebSearch",
       "WebFetch",
       "Read",
@@ -24,8 +27,6 @@
       "Glob"
     ],
     "deny": [
-      "Bash(rm *)",
-      "Bash(*rm -rf*)",
       "Bash(*command rm*)",
       "Bash(*> /dev/*)",
       "Bash(*curl*|*)",
