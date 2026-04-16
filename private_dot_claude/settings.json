@@ -11,8 +11,7 @@
     "DISABLE_AUTOUPDATER": "true",
     "DISABLE_MICROCOMPACT": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "CLAUDE_CODE_EFFORT_LEVEL": "max",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "opus"
+    "CLAUDE_CODE_EFFORT_LEVEL": "max"
   },
   "permissions": {
     "defaultMode": "acceptEdits",
