@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Init"
+  short_description: "Initialize persistent markdown LLM Wikis"
+  default_prompt: "Use $llm-wiki-init to initialize a persistent markdown LLM Wiki for a topic or project."

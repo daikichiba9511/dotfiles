@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Guide"
+  short_description: "Explain LLM Wiki concepts and commands"
+  default_prompt: "Use $llm-wiki-guide to explain the LLM Wiki pattern and which LLM Wiki command to use next."

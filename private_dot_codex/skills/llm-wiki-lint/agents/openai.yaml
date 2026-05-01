@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Lint"
+  short_description: "Health-check and maintain an LLM Wiki"
+  default_prompt: "Use $llm-wiki-lint to audit an existing persistent markdown LLM Wiki for gaps and inconsistencies."
