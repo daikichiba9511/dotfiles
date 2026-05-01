@@ -3,6 +3,7 @@
 node = "24"
 python = "3.11"
 go = "latest"
+deno = "latest"
 # julia = "latest"
 
 # -- Tools
