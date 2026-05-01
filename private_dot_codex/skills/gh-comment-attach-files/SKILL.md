@@ -1,6 +1,6 @@
 ---
 name: gh-comment-attach-files
-allowed-tools: Bash(npx:*), Bash(gh:*), Read, Glob
+allowed-tools: Bash(deno:*), Bash(gh:*), Read, Glob
 description: "Attach local files to a GitHub issue or pull request comment via Playwright CLI and return the hosted attachment URLs without submitting the comment. Use when you need GitHub-hosted image or document URLs on github.com or GitHub Enterprise Server."
 ---
 
@@ -24,8 +24,8 @@ Do not use this skill when the task is to actually post, edit, or rewrite a comm
 
 ## Prerequisites
 
-- `npx tsx` and `playwright` must be available (`npm install -g tsx playwright` or rely on npx).
-- Playwright browser binary is required. Run `npx playwright install chromium` once before first use.
+- `deno` must be installed.
+- Playwright browser binary is required. Run `deno run -A npm:playwright install chromium` once before first use.
 - If you use `--repo ... --issue ...` or `--repo ... --pr ...`, `gh` must be installed and authenticated.
 - If GitHub redirects to login or SSO, finish authentication in the opened browser window while the script is polling for the comment composer.
 
@@ -43,7 +43,7 @@ Do not use this skill when the task is to actually post, edit, or rewrite a comm
 Direct URL:
 
 ```bash
-npx tsx ~/.codex/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
+deno run -A ~/.codex/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
   --url https://github.com/OWNER/REPO/pull/123 \
   docs/report.md assets/chart.png
 ```
@@ -51,7 +51,7 @@ npx tsx ~/.codex/skills/gh-comment-attach-files/scripts/attach_comment_files.ts 
 Resolve the page with `gh`:
 
 ```bash
-npx tsx ~/.codex/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
+deno run -A ~/.codex/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
   --repo OWNER/REPO \
   --pr 123 \
   results/report.md results/chart.png

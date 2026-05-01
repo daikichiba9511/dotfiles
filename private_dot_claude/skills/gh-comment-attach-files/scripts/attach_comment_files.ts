@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env -S deno run -A
 /**
  * Attach local files to a GitHub comment draft and return hosted URLs.
  *
@@ -13,12 +13,12 @@
  * @example
  * ```bash
  * # Direct URL
- * npx tsx attach_comment_files.ts \
+ * deno run -A attach_comment_files.ts \
  *   --url https://github.com/OWNER/REPO/pull/123 \
  *   screenshot.png report.pdf
  *
  * # Resolve via gh CLI
- * npx tsx attach_comment_files.ts \
+ * deno run -A attach_comment_files.ts \
  *   --repo OWNER/REPO --pr 123 \
  *   screenshot.png report.pdf
  * ```
@@ -27,7 +27,7 @@
  * @see https://github.com/shunk031/dotfiles/tree/master/home/dot_config/agents/skills/gh-comment-attach-files
  */
 
-import { chromium, type BrowserContext, type Page } from "playwright";
+import { chromium, type BrowserContext, type Page } from "npm:playwright";
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -755,8 +755,6 @@ async function main(): Promise<void> {
   try {
     context = await launchBrowser(profileDir, args.browser);
     const page = context.pages()[0] ?? (await context.newPage());
-    // esbuild (via tsx) injects __name helper calls that don't exist in browser context
-    await page.addInitScript("globalThis.__name = globalThis.__name || ((fn, _) => fn)");
     await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
     await waitForCommentComposer(page, args.readyTimeout, args.pollInterval);
 

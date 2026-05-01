@@ -16,6 +16,9 @@ private_dot_config/nvim/plugin
 # nix
 result
 
+# node
+node_modules/
+
 # secrets
 .env*
 *.pem
