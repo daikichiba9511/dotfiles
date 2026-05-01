@@ -49,10 +49,10 @@ MUST NOT read entire directories when a targeted read suffices. Use this decisio
 
 | Need | Read |
 |------|------|
-| Coverage check | `log.md` (count tags) |
+| Coverage check | `index.md` (count entries per Area column) |
 | Constraint brushup | `evidence/constraints.md` + `evidence/landmines.md` |
 | Confidence assignment | `evidence/hypotheses.md` + `evidence/model.md` |
-| Latest experiment design | `log.md` → find latest EXPERIMENT path → read that file |
+| Latest experiment design | `index.md` → find latest EXPERIMENT row → read that file |
 | Status overview | `README.md` + `log.md` (last 5) + `index.md` stats |
 
 ---
@@ -132,7 +132,7 @@ Bias-resistant strategy formation. Execute phases strictly in order. Phase bound
 
 ### Phase 0: Exploration Coverage Check
 
-1. Read `log.md` — count entries per Exploration Area tag
+1. Read `index.md` — count entries per Exploration Area (Area column)
 2. Read `README.md` — read Exploration Map
 3. Present coverage summary:
 
@@ -214,7 +214,7 @@ Post-experiment documentation update. Two sub-steps: pre-experiment design, then
 
 Before running an experiment, ensure a design entry exists. If not, create one by asking the user.
 
-**Concentration Warning**: Read `log.md` and count consecutive entries with the same Exploration Area. If 3+:
+**Concentration Warning**: Read `index.md` and count consecutive EXPERIMENT entries with the same Area. If 3+:
 
 ```
 Warning: 3 consecutive experiments in "feature".
