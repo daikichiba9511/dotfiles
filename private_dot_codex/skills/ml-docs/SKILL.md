@@ -10,13 +10,13 @@ Manage a 3-layer document structure that separates history, evidence, and operat
 
 ## Usage
 
-`/ml-docs <command> [exp_dir]`
+`$ml-docs <command> [exp_dir]`
 
-- `/ml-docs guide exp003` - Explain the documentation system and next operation
-- `/ml-docs init exp003` - Initialize 3-layer docs for experiment
-- `/ml-docs strategy exp003` - Run strategy formation flow
-- `/ml-docs log exp003` - Log results and update layers
-- `/ml-docs status exp003` - Review current state of all layers
+- `$ml-docs guide exp003` - Explain the documentation system and next operation
+- `$ml-docs init exp003` - Initialize 3-layer docs for experiment
+- `$ml-docs strategy exp003` - Run strategy formation flow
+- `$ml-docs log exp003` - Log results and update layers
+- `$ml-docs status exp003` - Review current state of all layers
 
 If no command, ask which operation to perform.
 
@@ -45,7 +45,7 @@ Explain the documentation system without modifying files.
 Adapt the explanation:
 
 - If docs exist, focus on operations and show current stats from `README.md`, `docs/evidence.md`, and recent `docs/logs.md` entries.
-- If docs do not exist, explain the 3-layer concept and suggest `/ml-docs init`.
+- If docs do not exist, explain the 3-layer concept and suggest `$ml-docs init`.
 
 Cover:
 
@@ -55,12 +55,12 @@ Cover:
 - **Typical workflow**:
 
 ```text
-1. /ml-docs init exp003
-2. /ml-docs strategy exp003
-3. /ml-docs log exp003     # pre-register design before running
+1. $ml-docs init exp003
+2. $ml-docs strategy exp003
+3. $ml-docs log exp003     # pre-register design before running
 4. Run the experiment
-5. /ml-docs log exp003     # record results and update evidence/README
-6. /ml-docs status exp003
+5. $ml-docs log exp003     # record results and update evidence/README
+6. $ml-docs status exp003
 ```
 
 When explaining relation to LLM Wiki: this skill applies the same compounding-docs idea to ML experiments, but adds experiment-specific guardrails such as pre-registration, evidence confidence, and bias-resistant strategy phases.
