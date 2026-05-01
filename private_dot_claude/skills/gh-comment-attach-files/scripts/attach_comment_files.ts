@@ -35,6 +35,8 @@ const FILE_INPUT_SELECTORS = [
 const ATTACHMENT_URL_HINTS = ["/user-attachments/", "/attachments/"];
 const MARKDOWN_LINK_RE =
   /!?\[(?<label>[^\]]*)\]\((?<url>https?:\/\/[^)\s]+)\)/g;
+const HTML_IMG_RE =
+  /<img\s[^>]*\bsrc="(?<url>https?:\/\/[^"]+)"[^>]*\/?>/g;
 
 const ATTR_KEY = "data-gh-comment-attach";
 
@@ -364,12 +366,14 @@ async function waitForCommentComposer(
 ): Promise<void> {
   const deadline = Date.now() + timeoutSecs * 1000;
   while (true) {
-    const result = await findCommentComposer(page);
-    if (result.found) return;
+    try {
+      const result = await findCommentComposer(page);
+      if (result.found) return;
+    } catch {
+      // Page may be navigating (login redirect, SSO, etc.) — retry
+    }
     if (Date.now() >= deadline) {
-      throw new Error(
-        `Timed out waiting for a GitHub comment composer. Last page: ${result.pageTitle} ${result.pageUrl}`,
-      );
+      throw new Error("Timed out waiting for a GitHub comment composer");
     }
     await new Promise((r) => setTimeout(r, pollIntervalSecs * 1000));
   }
@@ -396,17 +400,17 @@ async function performUpload(
   await input.setInputFiles(staged.stagedPath);
 
   await page.waitForFunction(
-    ({ selector, previous, stagedName, urlHints }) => {
+    ({ selector, previous, urlHints }) => {
       const el = document.querySelector(selector);
       if (!(el instanceof HTMLTextAreaElement)) return false;
       const value = el.value || "";
       if (value === previous) return false;
-      return value.includes(stagedName) || urlHints.some((hint) => value.includes(hint));
+      // Wait for actual URL, not the "Uploading..." placeholder
+      return urlHints.some((hint) => value.includes(hint));
     },
     {
       selector: `[${ATTR_KEY}='textarea']`,
       previous: before,
-      stagedName: staged.stagedName,
       urlHints: ATTACHMENT_URL_HINTS,
     },
     { timeout: timeoutMs },
@@ -427,13 +431,23 @@ async function getComposerMarkdown(page: Page): Promise<string> {
 // ---------------------------------------------------------------------------
 
 function extractAttachmentLinks(text: string): AttachmentLink[] {
-  return [...text.matchAll(MARKDOWN_LINK_RE)].flatMap((match) => {
+  const fromMarkdown = [...text.matchAll(MARKDOWN_LINK_RE)].flatMap((match) => {
     const url = match.groups?.url;
     const label = match.groups?.label;
     if (url == null || label == null) return [];
     if (!ATTACHMENT_URL_HINTS.some((hint) => url.includes(hint))) return [];
     return [{ label, url }];
   });
+
+  const fromHtml = [...text.matchAll(HTML_IMG_RE)].flatMap((match) => {
+    const url = match.groups?.url;
+    if (url == null) return [];
+    if (!ATTACHMENT_URL_HINTS.some((hint) => url.includes(hint))) return [];
+    // alt attribute may omit the file extension, use URL as label fallback
+    return [{ label: "", url }];
+  });
+
+  return [...fromMarkdown, ...fromHtml];
 }
 
 function findAttachmentUrl(
@@ -483,6 +497,8 @@ async function main(): Promise<void> {
   try {
     context = await launchBrowser(profileDir, args.browser);
     const page = context.pages()[0] ?? (await context.newPage());
+    // esbuild (via tsx) injects __name helper calls that don't exist in browser context
+    await page.addInitScript("globalThis.__name = globalThis.__name || ((fn, _) => fn)");
     await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
     await waitForCommentComposer(page, args.readyTimeout, args.pollInterval);
 
