@@ -9,10 +9,9 @@
 
 import { chromium, type BrowserContext, type Page } from "playwright";
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, rmSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { basename, extname, join, resolve } from "node:path";
-import { existsSync, statSync } from "node:fs";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -49,11 +48,27 @@ interface StagedFile {
   readonly stagedName: string;
 }
 
+interface UrlTarget {
+  readonly kind: "url";
+  readonly url: string;
+}
+
+interface RepoIssueTarget {
+  readonly kind: "issue";
+  readonly repo: string;
+  readonly issue: number;
+}
+
+interface RepoPrTarget {
+  readonly kind: "pr";
+  readonly repo: string;
+  readonly pr: number;
+}
+
+type Target = UrlTarget | RepoIssueTarget | RepoPrTarget;
+
 interface CliArgs {
-  readonly url?: string;
-  readonly repo?: string;
-  readonly issue?: number;
-  readonly pr?: number;
+  readonly target: Target;
   readonly browser?: string;
   readonly profileDir: string;
   readonly readyTimeout: number;
@@ -72,9 +87,23 @@ interface AttachmentLink {
 // CLI Argument Parsing
 // ---------------------------------------------------------------------------
 
-function parseArgs(argv: string[]): CliArgs {
+interface RawArgs {
+  url?: string;
+  repo?: string;
+  issue?: number;
+  pr?: number;
+  browser?: string;
+  profileDir: string;
+  readyTimeout: number;
+  pollInterval: number;
+  leaveOpen: boolean;
+  keepRunDir: boolean;
+  files: string[];
+}
+
+function parseRawArgs(argv: string[]): RawArgs {
   const args = argv.slice(2);
-  const result: Record<string, string | number | boolean | string[]> = {
+  const raw: RawArgs = {
     profileDir: ".playwright-cli/gh-comment-attach-files/profile",
     readyTimeout: 180,
     pollInterval: 2.0,
@@ -83,40 +112,39 @@ function parseArgs(argv: string[]): CliArgs {
     files: [],
   };
 
-  const files: string[] = [];
   let i = 0;
   while (i < args.length) {
     const arg = args[i];
     switch (arg) {
       case "--url":
-        result.url = args[++i];
+        raw.url = args[++i];
         break;
       case "--repo":
-        result.repo = args[++i];
+        raw.repo = args[++i];
         break;
       case "--issue":
-        result.issue = parseInt(args[++i], 10);
+        raw.issue = parseInt(args[++i], 10);
         break;
       case "--pr":
-        result.pr = parseInt(args[++i], 10);
+        raw.pr = parseInt(args[++i], 10);
         break;
       case "--browser":
-        result.browser = args[++i];
+        raw.browser = args[++i];
         break;
       case "--profile-dir":
-        result.profileDir = args[++i];
+        raw.profileDir = args[++i];
         break;
       case "--ready-timeout":
-        result.readyTimeout = parseInt(args[++i], 10);
+        raw.readyTimeout = parseInt(args[++i], 10);
         break;
       case "--poll-interval":
-        result.pollInterval = parseFloat(args[++i]);
+        raw.pollInterval = parseFloat(args[++i]);
         break;
       case "--leave-open":
-        result.leaveOpen = true;
+        raw.leaveOpen = true;
         break;
       case "--keep-run-dir":
-        result.keepRunDir = true;
+        raw.keepRunDir = true;
         break;
       case "--help":
       case "-h":
@@ -125,33 +153,47 @@ function parseArgs(argv: string[]): CliArgs {
         break;
       default:
         if (arg.startsWith("-")) {
-          console.error(`Unknown option: ${arg}`);
-          process.exit(1);
+          throw new Error(`Unknown option: ${arg}`);
         }
-        files.push(arg);
+        raw.files.push(arg);
     }
     i++;
   }
-  result.files = files;
 
-  if (!result.url && !result.repo) {
-    console.error("Either --url or --repo is required");
-    process.exit(1);
-  }
-  if (result.repo && !result.issue && !result.pr) {
-    console.error("--repo requires either --issue or --pr");
-    process.exit(1);
-  }
-  if (!result.repo && (result.issue || result.pr)) {
-    console.error("--issue/--pr requires --repo");
-    process.exit(1);
-  }
-  if (files.length === 0) {
-    console.error("At least one file is required");
-    process.exit(1);
+  return raw;
+}
+
+function buildTarget(raw: RawArgs): Target {
+  if (!raw.repo && (raw.issue != null || raw.pr != null)) {
+    throw new Error("--issue/--pr requires --repo");
   }
 
-  return result as unknown as CliArgs;
+  if (raw.url) return { kind: "url", url: raw.url };
+  if (!raw.repo) throw new Error("Either --url or --repo is required");
+
+  if (raw.issue != null) return { kind: "issue", repo: raw.repo, issue: raw.issue };
+  if (raw.pr != null) return { kind: "pr", repo: raw.repo, pr: raw.pr };
+  throw new Error("--repo requires either --issue or --pr");
+}
+
+function parseArgs(argv: string[]): CliArgs {
+  const raw = parseRawArgs(argv);
+  const target = buildTarget(raw);
+
+  if (raw.files.length === 0) {
+    throw new Error("At least one file is required");
+  }
+
+  return {
+    target,
+    browser: raw.browser,
+    profileDir: raw.profileDir,
+    readyTimeout: raw.readyTimeout,
+    pollInterval: raw.pollInterval,
+    leaveOpen: raw.leaveOpen,
+    keepRunDir: raw.keepRunDir,
+    files: raw.files,
+  };
 }
 
 function printUsage(): void {
@@ -175,14 +217,13 @@ Options:
 // URL Resolution
 // ---------------------------------------------------------------------------
 
-function resolveTargetUrl(args: CliArgs): string {
-  if (args.url) return args.url;
+function resolveTargetUrl(target: Target): string {
+  if (target.kind === "url") return target.url;
 
-  const type = args.issue ? "issue" : "pr";
-  const number = args.issue ?? args.pr;
+  const number = target.kind === "issue" ? target.issue : target.pr;
   const output = execFileSync(
     "gh",
-    [type, "view", String(number), "--repo", args.repo!, "--json", "url", "--jq", ".url"],
+    [target.kind, "view", String(number), "--repo", target.repo, "--json", "url", "--jq", ".url"],
     { encoding: "utf-8" },
   );
   return output.trim();
@@ -197,12 +238,10 @@ function stageFiles(sourcePaths: string[], uploadsDir: string): StagedFile[] {
   return sourcePaths.map((sourcePath) => {
     const resolved = resolve(sourcePath);
     if (!existsSync(resolved)) {
-      console.error(`File not found: ${resolved}`);
-      process.exit(1);
+      throw new Error(`File not found: ${resolved}`);
     }
     if (!statSync(resolved).isFile()) {
-      console.error(`Not a file: ${resolved}`);
-      process.exit(1);
+      throw new Error(`Not a file: ${resolved}`);
     }
     const stagedName = buildStagedName(resolved, usedNames);
     const stagedPath = join(uploadsDir, stagedName);
@@ -245,7 +284,7 @@ async function launchBrowser(
 }
 
 // ---------------------------------------------------------------------------
-// Comment Composer Detection (unified — resolves prior duplication)
+// Comment Composer Detection
 // ---------------------------------------------------------------------------
 
 interface ComposerResult {
@@ -345,7 +384,6 @@ async function performUpload(
   staged: StagedFile,
   timeoutMs: number,
 ): Promise<{ before: string; after: string }> {
-  // Re-discover composer (page state may have changed)
   const result = await findCommentComposer(page);
   if (!result.found) {
     throw new Error("Comment composer not found during upload");
@@ -389,14 +427,13 @@ async function getComposerMarkdown(page: Page): Promise<string> {
 // ---------------------------------------------------------------------------
 
 function extractAttachmentLinks(text: string): AttachmentLink[] {
-  const links: AttachmentLink[] = [];
-  for (const match of text.matchAll(MARKDOWN_LINK_RE)) {
-    const url = match.groups!.url;
-    if (ATTACHMENT_URL_HINTS.some((hint) => url.includes(hint))) {
-      links.push({ label: match.groups!.label, url });
-    }
-  }
-  return links;
+  return [...text.matchAll(MARKDOWN_LINK_RE)].flatMap((match) => {
+    const url = match.groups?.url;
+    const label = match.groups?.label;
+    if (url == null || label == null) return [];
+    if (!ATTACHMENT_URL_HINTS.some((hint) => url.includes(hint))) return [];
+    return [{ label, url }];
+  });
 }
 
 function findAttachmentUrl(
@@ -422,8 +459,7 @@ function findAttachmentUrl(
   if (newUrls.length > 0) return newUrls[newUrls.length - 1].url;
 
   // Fallback: any link matching staged name
-  const fallback = afterLinks.find((l) => l.label === stagedName);
-  return fallback?.url;
+  return afterLinks.find((l) => l.label === stagedName)?.url;
 }
 
 // ---------------------------------------------------------------------------
@@ -432,7 +468,7 @@ function findAttachmentUrl(
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv);
-  const targetUrl = resolveTargetUrl(args);
+  const targetUrl = resolveTargetUrl(args.target);
 
   const now = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
   const baseDir = join(process.cwd(), ".playwright-cli", "gh-comment-attach-files");
