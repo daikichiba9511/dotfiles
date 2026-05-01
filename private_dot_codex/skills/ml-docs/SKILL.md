@@ -1,6 +1,6 @@
 ---
 name: ml-docs
-description: "Manage 3-layer experiment documentation (Full Log, Evidence Ledger, Compact Document) for Kaggle ML competitions. Use when: (1) initializing documentation for a new experiment, (2) forming experiment strategy with bias-resistant multi-proposal generation, (3) logging experiment results and updating evidence/compact layers, (4) reviewing or maintaining experiment documentation state."
+description: "Manage and explain 3-layer experiment documentation (Full Log, Evidence Ledger, Compact Document) for Kaggle ML competitions. Use when: (1) explaining how the ML docs system works or which command to use, (2) initializing documentation for a new experiment, (3) forming experiment strategy with bias-resistant multi-proposal generation, (4) logging experiment results and updating evidence/compact layers, (5) reviewing or maintaining experiment documentation state."
 allowed-tools: Read, Edit, Write, Glob, Grep
 ---
 
@@ -10,12 +10,13 @@ Manage a 3-layer document structure that separates history, evidence, and operat
 
 ## Usage
 
-`/ml-docs <command> [exp_dir]`
+`$ml-docs <command> [exp_dir]`
 
-- `/ml-docs init exp003` - Initialize 3-layer docs for experiment
-- `/ml-docs strategy exp003` - Run strategy formation flow
-- `/ml-docs log exp003` - Log results and update layers
-- `/ml-docs status exp003` - Review current state of all layers
+- `$ml-docs guide exp003` - Explain the documentation system and next operation
+- `$ml-docs init exp003` - Initialize 3-layer docs for experiment
+- `$ml-docs strategy exp003` - Run strategy formation flow
+- `$ml-docs log exp003` - Log results and update layers
+- `$ml-docs status exp003` - Review current state of all layers
 
 If no command, ask which operation to perform.
 
@@ -36,6 +37,33 @@ If no command, ask which operation to perform.
 - **Diversification**: Generate multiple proposals before consulting history to dilute anchoring
 
 For detailed format specifications of each layer, see [references/layer-formats.md](references/layer-formats.md).
+
+## Command: guide
+
+Explain the documentation system without modifying files.
+
+Adapt the explanation:
+
+- If docs exist, focus on operations and show current stats from `README.md`, `docs/evidence.md`, and recent `docs/logs.md` entries.
+- If docs do not exist, explain the 3-layer concept and suggest `$ml-docs init`.
+
+Cover:
+
+- **Core idea**: separate raw experiment history, normalized evidence, and compact operational context so Codex loads only the layer needed for the current operation.
+- **Why it matters**: monolithic chat history or experiment notes create anchoring, stale context, and expensive rereads; the 3-layer structure keeps memory complete while keeping working context small.
+- **Available commands**: `guide`, `init`, `strategy`, `log`, and `status`.
+- **Typical workflow**:
+
+```text
+1. $ml-docs init exp003
+2. $ml-docs strategy exp003
+3. $ml-docs log exp003     # pre-register design before running
+4. Run the experiment
+5. $ml-docs log exp003     # record results and update evidence/README
+6. $ml-docs status exp003
+```
+
+When explaining relation to LLM Wiki: this skill applies the same compounding-docs idea to ML experiments, but adds experiment-specific guardrails such as pre-registration, evidence confidence, and bias-resistant strategy phases.
 
 ## Command: init
 

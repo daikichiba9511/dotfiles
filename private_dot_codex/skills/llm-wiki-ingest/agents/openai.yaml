@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Ingest"
+  short_description: "Ingest sources into an LLM-maintained wiki"
+  default_prompt: "Use $llm-wiki-ingest to add a source into an existing persistent markdown LLM Wiki."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Query"
+  short_description: "Answer questions from an LLM Wiki"
+  default_prompt: "Use $llm-wiki-query to answer a question from an existing persistent markdown LLM Wiki."
