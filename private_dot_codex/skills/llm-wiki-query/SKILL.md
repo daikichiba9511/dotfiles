@@ -1,6 +1,7 @@
 ---
 name: llm-wiki-query
 description: "Answer questions from an existing persistent markdown LLM Wiki. Use when the user wants to query or search the wiki, synthesize what is known, compare entities or concepts, generate a source-backed answer, save a useful answer back into pages/analyses or pages/syntheses, or update overview.md; trigger on phrases like 'wikiで調べて', 'ナレッジベースに聞きたい', 'wikiから答えて', '何がわかっている？'."
+allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
 ---
 
 # LLM Wiki Query
@@ -25,7 +26,7 @@ Read `references/pattern.md` for the model. Read `references/query-decision-tabl
 1. Read the wiki `AGENTS.md` and `index.md`.
 2. Use `index.md` to identify likely relevant pages.
 3. Use `references/query-decision-tables.md` to choose search depth and answer format when the route is not obvious.
-4. Use `rg` over the wiki when the index is insufficient.
+4. Use `Grep` over the wiki when the index is insufficient.
 5. Read the smallest set of pages needed to answer, including source pages behind important claims.
 6. Synthesize an answer with links to the supporting wiki pages.
 7. Clearly mark information gaps, uncertainty, and contradictions.

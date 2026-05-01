@@ -1,6 +1,7 @@
 ---
 name: llm-wiki-ingest
 description: "Ingest sources into a persistent markdown LLM Wiki based on Karpathy's LLM Wiki pattern. Use when the user adds an article, paper, note, transcript, URL, image-backed markdown file, or raw source to a wiki; wants Codex to process files under raw/; or says 'この記事を取り込んで', 'ソースを追加して', 'wikiに入れて', 'ingestして'."
+allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch
 ---
 
 # LLM Wiki Ingest

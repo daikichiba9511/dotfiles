@@ -1,6 +1,7 @@
 ---
 name: llm-wiki-init
 description: "Initialize a persistent markdown LLM Wiki based on Karpathy's LLM Wiki pattern. Use when the user wants to start a new wiki, knowledge base, research notebook, or source-backed project memory; set up raw sources, generated pages, AGENTS.md schema, overview.md, index.md, and log.md; or says 'LLM Wikiを初期化して', 'wikiを始めたい', 'ナレッジベースを作りたい', 'research wikiを作って'."
+allowed-tools: Read, Write, Glob
 ---
 
 # LLM Wiki Init

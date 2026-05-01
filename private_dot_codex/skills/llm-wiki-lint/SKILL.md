@@ -1,6 +1,7 @@
 ---
 name: llm-wiki-lint
 description: "Audit and maintain a persistent markdown LLM Wiki. Use when the user wants a wiki health check, consistency pass, link audit, stale-claim review, contradiction scan, orphan-page detection, missing concept/entity suggestions, or says 'wikiをlintして', 'ヘルスチェックして', '矛盾を探して', 'リンクを整理して'."
+allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
 # LLM Wiki Lint
