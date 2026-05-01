@@ -46,6 +46,11 @@ Temporary Items
 **/.claude/settings.local.json
 
 # =====================
+# Playwright
+# =====================
+.playwright-cli/
+
+# =====================
 # Credentials & secrets
 # =====================
 .env
