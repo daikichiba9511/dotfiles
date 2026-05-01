@@ -2,9 +2,29 @@
 /**
  * Attach local files to a GitHub comment draft and return hosted URLs.
  *
- * Ref:
- * - https://zenn.dev/shunk031/articles/gh-comment-attach-files-skill
- * - https://github.com/shunk031/dotfiles/tree/master/home/dot_config/agents/skills/gh-comment-attach-files
+ * GitHub does not expose a public API for uploading file attachments to
+ * issue / PR comments. This script works around that limitation by driving
+ * a real Chromium browser via Playwright, pasting files into the comment
+ * composer, and scraping the resulting attachment URLs from the textarea.
+ *
+ * The comment is **never submitted** — the browser is closed (or left open
+ * with `--leave-open`) once all URLs have been collected.
+ *
+ * @example
+ * ```bash
+ * # Direct URL
+ * npx tsx attach_comment_files.ts \
+ *   --url https://github.com/OWNER/REPO/pull/123 \
+ *   screenshot.png report.pdf
+ *
+ * # Resolve via gh CLI
+ * npx tsx attach_comment_files.ts \
+ *   --repo OWNER/REPO --pr 123 \
+ *   screenshot.png report.pdf
+ * ```
+ *
+ * @see https://zenn.dev/shunk031/articles/gh-comment-attach-files-skill
+ * @see https://github.com/shunk031/dotfiles/tree/master/home/dot_config/agents/skills/gh-comment-attach-files
  */
 
 import { chromium, type BrowserContext, type Page } from "playwright";
@@ -17,6 +37,11 @@ import { basename, extname, join, resolve } from "node:path";
 // Constants
 // ---------------------------------------------------------------------------
 
+/**
+ * CSS selectors for locating GitHub's comment textarea.
+ * Multiple selectors are tried in order because GitHub uses different
+ * markup across issue pages, PR pages, and review comment forms.
+ */
 const TEXTAREA_SELECTORS = [
   "textarea#new_comment_field",
   "textarea#pull_request_review_body",
@@ -25,6 +50,10 @@ const TEXTAREA_SELECTORS = [
   "textarea.js-comment-field",
 ];
 
+/**
+ * CSS selectors for locating the hidden `<input type="file">` element
+ * that GitHub uses to receive drag-and-drop / paste file uploads.
+ */
 const FILE_INPUT_SELECTORS = [
   "file-attachment input[type='file']",
   "input.js-upload-markdown-image[type='file']",
@@ -32,54 +61,106 @@ const FILE_INPUT_SELECTORS = [
   "input[type='file'][multiple]",
 ];
 
+/**
+ * URL path fragments that identify GitHub-hosted attachment URLs.
+ * Used to distinguish attachment links from ordinary links in the
+ * textarea content and the page HTML.
+ */
 const ATTACHMENT_URL_HINTS = ["/user-attachments/", "/attachments/"];
+
+/** Matches Markdown image/link syntax: `![label](url)` or `[label](url)` */
 const MARKDOWN_LINK_RE =
   /!?\[(?<label>[^\]]*)\]\((?<url>https?:\/\/[^)\s]+)\)/g;
+
+/**
+ * Matches HTML `<img src="...">` tags.
+ * GitHub's current UI inserts `<img>` tags instead of Markdown links
+ * for uploaded images, so both formats must be handled.
+ */
 const HTML_IMG_RE =
   /<img\s[^>]*\bsrc="(?<url>https?:\/\/[^"]+)"[^>]*\/?>/g;
 
+/**
+ * Custom data attribute used to mark the textarea and file input elements
+ * found by {@link findCommentComposer}. Subsequent operations
+ * ({@link performUpload}, {@link getComposerMarkdown}) locate these
+ * marked elements by this attribute instead of re-running the full
+ * selector search.
+ */
 const ATTR_KEY = "data-gh-comment-attach";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
+/**
+ * A local file that has been copied into the run-specific uploads directory.
+ * The staged copy has a unique name derived from the original path's SHA-1
+ * hash, which prevents collisions when multiple files share the same basename.
+ */
 interface StagedFile {
+  /** Absolute path to the original source file. */
   readonly sourcePath: string;
+  /** Absolute path to the staged copy inside the uploads directory. */
   readonly stagedPath: string;
+  /** Basename of the staged copy (e.g. `chart--e5b6d4a1.png`). */
   readonly stagedName: string;
 }
 
+/** Target specified as a direct GitHub URL. */
 interface UrlTarget {
   readonly kind: "url";
   readonly url: string;
 }
 
+/** Target specified as a `owner/repo` + issue number combination. */
 interface RepoIssueTarget {
   readonly kind: "issue";
   readonly repo: string;
   readonly issue: number;
 }
 
+/** Target specified as a `owner/repo` + PR number combination. */
 interface RepoPrTarget {
   readonly kind: "pr";
   readonly repo: string;
   readonly pr: number;
 }
 
+/**
+ * Discriminated union representing how the target page is specified.
+ * The `kind` field determines which variant is active and guarantees
+ * type-safe access to variant-specific fields (e.g. `repo` is always
+ * present when `kind` is `"issue"` or `"pr"`).
+ */
 type Target = UrlTarget | RepoIssueTarget | RepoPrTarget;
 
+/** Validated and normalized CLI arguments. */
 interface CliArgs {
+  /** Where to open the browser — either a direct URL or a repo + number. */
   readonly target: Target;
+  /** Playwright browser channel override (e.g. `"chrome"`, `"msedge"`). */
   readonly browser?: string;
+  /** Directory for the persistent Playwright browser profile (cookies, etc.). */
   readonly profileDir: string;
+  /** Maximum seconds to wait for the comment composer to appear. */
   readonly readyTimeout: number;
+  /** Seconds between polling attempts for the comment composer. */
   readonly pollInterval: number;
+  /** If true, keep the browser window open after collecting URLs. */
   readonly leaveOpen: boolean;
+  /** If true, keep the staged uploads directory after completion. */
   readonly keepRunDir: boolean;
+  /** Positional arguments — paths to the files to upload. */
   readonly files: string[];
 }
 
+/**
+ * A single attachment link extracted from text (Markdown or HTML).
+ * For Markdown links, `label` is the link text; for HTML `<img>` tags,
+ * `label` is empty because the `alt` attribute may not include the
+ * file extension.
+ */
 interface AttachmentLink {
   readonly label: string;
   readonly url: string;
@@ -89,6 +170,11 @@ interface AttachmentLink {
 // CLI Argument Parsing
 // ---------------------------------------------------------------------------
 
+/**
+ * Intermediate representation of CLI arguments before validation.
+ * All fields are optional or have defaults; {@link buildTarget} and
+ * {@link parseArgs} perform the validation and narrowing into {@link CliArgs}.
+ */
 interface RawArgs {
   url?: string;
   repo?: string;
@@ -103,6 +189,14 @@ interface RawArgs {
   files: string[];
 }
 
+/**
+ * Parse `process.argv` into a loosely-typed {@link RawArgs} object.
+ * No cross-field validation is performed here; that is deferred to
+ * {@link buildTarget} and {@link parseArgs}.
+ *
+ * @param argv - Typically `process.argv` (first two entries are skipped).
+ * @throws {Error} On unrecognized `--option` flags.
+ */
 function parseRawArgs(argv: string[]): RawArgs {
   const args = argv.slice(2);
   const raw: RawArgs = {
@@ -165,6 +259,13 @@ function parseRawArgs(argv: string[]): RawArgs {
   return raw;
 }
 
+/**
+ * Validate the target-related fields of {@link RawArgs} and narrow
+ * them into a {@link Target} discriminated union.
+ *
+ * @throws {Error} If the combination of `--url`, `--repo`, `--issue`,
+ *   and `--pr` flags is invalid.
+ */
 function buildTarget(raw: RawArgs): Target {
   if (!raw.repo && (raw.issue != null || raw.pr != null)) {
     throw new Error("--issue/--pr requires --repo");
@@ -178,6 +279,16 @@ function buildTarget(raw: RawArgs): Target {
   throw new Error("--repo requires either --issue or --pr");
 }
 
+/**
+ * Parse and validate CLI arguments into a fully typed {@link CliArgs}.
+ *
+ * This is the main entry point for argument handling and composes
+ * {@link parseRawArgs} (lexical parsing) and {@link buildTarget}
+ * (semantic validation).
+ *
+ * @param argv - Typically `process.argv`.
+ * @throws {Error} On any validation failure (missing required args, etc.).
+ */
 function parseArgs(argv: string[]): CliArgs {
   const raw = parseRawArgs(argv);
   const target = buildTarget(raw);
@@ -219,6 +330,17 @@ Options:
 // URL Resolution
 // ---------------------------------------------------------------------------
 
+/**
+ * Resolve the {@link Target} to a full GitHub URL.
+ *
+ * - For {@link UrlTarget}, the URL is returned as-is.
+ * - For {@link RepoIssueTarget} / {@link RepoPrTarget}, the `gh` CLI is
+ *   invoked to look up the canonical URL. This requires `gh auth login`
+ *   to have been completed beforehand.
+ *
+ * @param target - The target to resolve.
+ * @returns The full GitHub issue or PR page URL.
+ */
 function resolveTargetUrl(target: Target): string {
   if (target.kind === "url") return target.url;
 
@@ -235,6 +357,19 @@ function resolveTargetUrl(target: Target): string {
 // File Staging
 // ---------------------------------------------------------------------------
 
+/**
+ * Copy source files into the uploads directory with collision-safe names.
+ *
+ * Each file is validated (must exist and be a regular file), then copied
+ * with a name generated by {@link buildStagedName}. The staged copy is
+ * what Playwright will actually upload to GitHub.
+ *
+ * @param sourcePaths - Paths to the files to stage (may be relative).
+ * @param uploadsDir  - Destination directory for staged copies.
+ * @returns An array of {@link StagedFile} descriptors in the same order
+ *   as `sourcePaths`.
+ * @throws {Error} If any source path does not exist or is not a file.
+ */
 function stageFiles(sourcePaths: string[], uploadsDir: string): StagedFile[] {
   const usedNames = new Set<string>();
   return sourcePaths.map((sourcePath) => {
@@ -252,6 +387,18 @@ function stageFiles(sourcePaths: string[], uploadsDir: string): StagedFile[] {
   });
 }
 
+/**
+ * Generate a unique staged filename from the source path.
+ *
+ * The name is composed of `{sanitized_stem}--{sha1_prefix}{ext}`.
+ * If the resulting name collides with a previously used name, a numeric
+ * suffix is appended (e.g. `chart--e5b6d4a1-2.png`).
+ *
+ * @param sourcePath - Absolute path to the source file.
+ * @param usedNames  - Set of names already assigned in this batch.
+ *   **Mutated**: the chosen name is added to the set.
+ * @returns A unique filename safe for use as a GitHub attachment name.
+ */
 function buildStagedName(sourcePath: string, usedNames: Set<string>): string {
   const ext = extname(sourcePath);
   const stem = sanitizeComponent(basename(sourcePath, ext)) || "attachment";
@@ -266,6 +413,10 @@ function buildStagedName(sourcePath: string, usedNames: Set<string>): string {
   return candidate;
 }
 
+/**
+ * Remove characters unsafe for filenames and trim leading/trailing
+ * punctuation. The result is truncated to 80 characters.
+ */
 function sanitizeComponent(value: string): string {
   return value.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^[-._]+|[-._]+$/g, "").slice(0, 80);
 }
@@ -274,6 +425,17 @@ function sanitizeComponent(value: string): string {
 // Browser Management
 // ---------------------------------------------------------------------------
 
+/**
+ * Launch a persistent Chromium browser context.
+ *
+ * A persistent context stores cookies, localStorage, etc. across runs,
+ * so the user only needs to log into GitHub once. Subsequent launches
+ * reuse the session automatically.
+ *
+ * @param profileDir - Directory for the persistent browser profile.
+ * @param channel    - Optional Playwright browser channel (`"chrome"`, `"msedge"`).
+ * @returns A Playwright {@link BrowserContext} with an open window.
+ */
 async function launchBrowser(
   profileDir: string,
   channel?: string,
@@ -289,12 +451,31 @@ async function launchBrowser(
 // Comment Composer Detection
 // ---------------------------------------------------------------------------
 
+/**
+ * Result of a comment composer search on the current page.
+ * `pageTitle` and `pageUrl` are captured for diagnostic messages
+ * (e.g. when the composer is not found after a timeout).
+ */
 interface ComposerResult {
+  /** Whether a usable textarea + file input pair was found. */
   readonly found: boolean;
   readonly pageTitle: string;
   readonly pageUrl: string;
 }
 
+/**
+ * Search the current page for a GitHub comment composer (textarea +
+ * hidden file input pair) and mark the found elements with
+ * {@link ATTR_KEY} data attributes.
+ *
+ * This function runs entirely inside the browser via `page.evaluate`.
+ * It tries each combination of {@link TEXTAREA_SELECTORS} and
+ * {@link FILE_INPUT_SELECTORS}, walking up the DOM from each textarea
+ * to find the nearest file input within the same form or comment block.
+ *
+ * @param page - The Playwright page to search.
+ * @returns A {@link ComposerResult} indicating whether the composer was found.
+ */
 async function findCommentComposer(page: Page): Promise<ComposerResult> {
   return page.evaluate(
     ({ textareaSelectors, inputSelectors, attrKey }) => {
@@ -359,6 +540,18 @@ async function findCommentComposer(page: Page): Promise<ComposerResult> {
   );
 }
 
+/**
+ * Poll until a comment composer is found or the timeout expires.
+ *
+ * Errors from {@link findCommentComposer} (e.g. navigation-induced
+ * context destruction during login redirects or SSO) are silently
+ * caught and retried.
+ *
+ * @param page             - The Playwright page to monitor.
+ * @param timeoutSecs      - Maximum seconds to wait.
+ * @param pollIntervalSecs - Seconds between polling attempts.
+ * @throws {Error} If no composer is found within the timeout.
+ */
 async function waitForCommentComposer(
   page: Page,
   timeoutSecs: number,
@@ -383,6 +576,26 @@ async function waitForCommentComposer(
 // File Upload
 // ---------------------------------------------------------------------------
 
+/**
+ * Upload a single staged file to the comment composer and wait for
+ * the attachment URL to appear in the textarea.
+ *
+ * Workflow:
+ * 1. Re-discover the composer (page state may have changed since the
+ *    last upload).
+ * 2. Capture the textarea's current value (`before`).
+ * 3. Set the file on the hidden `<input type="file">` element.
+ * 4. Wait until the textarea value contains an attachment URL hint
+ *    (e.g. `/user-attachments/`). The intermediate "Uploading..." placeholder
+ *    (`![Uploading file…]()`) is intentionally ignored.
+ * 5. Capture and return the textarea's new value (`after`).
+ *
+ * @param page      - The Playwright page with a marked composer.
+ * @param staged    - The staged file to upload.
+ * @param timeoutMs - Maximum milliseconds to wait for the upload.
+ * @returns The textarea content before and after the upload.
+ * @throws {Error} If the composer is not found or the upload times out.
+ */
 async function performUpload(
   page: Page,
   staged: StagedFile,
@@ -420,6 +633,7 @@ async function performUpload(
   return { before, after };
 }
 
+/** Read the current Markdown content of the marked comment composer textarea. */
 async function getComposerMarkdown(page: Page): Promise<string> {
   const textarea = page.locator(`[${ATTR_KEY}='textarea']`).first();
   if ((await textarea.count()) === 0) return "";
@@ -430,6 +644,17 @@ async function getComposerMarkdown(page: Page): Promise<string> {
 // Attachment URL Extraction
 // ---------------------------------------------------------------------------
 
+/**
+ * Extract GitHub attachment links from a text that may contain
+ * Markdown links (`![label](url)`) and/or HTML `<img>` tags.
+ *
+ * Only links whose URL contains one of the {@link ATTACHMENT_URL_HINTS}
+ * are returned. Ordinary links (e.g. to other issues) are ignored.
+ *
+ * @param text - Raw textarea content or page HTML to scan.
+ * @returns Extracted attachment links. For HTML `<img>` tags, `label`
+ *   is empty because the `alt` attribute may omit the file extension.
+ */
 function extractAttachmentLinks(text: string): AttachmentLink[] {
   const fromMarkdown = [...text.matchAll(MARKDOWN_LINK_RE)].flatMap((match) => {
     const url = match.groups?.url;
@@ -450,6 +675,21 @@ function extractAttachmentLinks(text: string): AttachmentLink[] {
   return [...fromMarkdown, ...fromHtml];
 }
 
+/**
+ * Determine the attachment URL for a specific uploaded file by comparing
+ * the textarea / page content before and after the upload.
+ *
+ * Three strategies are tried in order:
+ * 1. **Exact match** — a new link whose label matches `stagedName`.
+ * 2. **Any new URL** — any attachment URL that wasn't present before
+ *    (takes the last one, which is typically the most recent upload).
+ * 3. **Fallback** — any existing link whose label matches `stagedName`.
+ *
+ * @param stagedName  - The staged filename to look for in link labels.
+ * @param beforeTexts - Textarea content and page HTML captured before upload.
+ * @param afterTexts  - Textarea content and page HTML captured after upload.
+ * @returns The attachment URL, or `undefined` if none was found.
+ */
 function findAttachmentUrl(
   stagedName: string,
   beforeTexts: string[],
@@ -480,6 +720,24 @@ function findAttachmentUrl(
 // Main
 // ---------------------------------------------------------------------------
 
+/**
+ * Entry point: parse CLI args, launch browser, upload files, and print
+ * the resulting attachment URLs as JSON to stdout.
+ *
+ * Output format:
+ * ```json
+ * {
+ *   "target_url": "https://github.com/OWNER/REPO/pull/123",
+ *   "attachments": [
+ *     {
+ *       "source_path": "/abs/path/to/file.png",
+ *       "staged_name": "file--a1b2c3d4.png",
+ *       "attachment_url": "https://github.com/user-attachments/assets/..."
+ *     }
+ *   ]
+ * }
+ * ```
+ */
 async function main(): Promise<void> {
   const args = parseArgs(process.argv);
   const targetUrl = resolveTargetUrl(args.target);
