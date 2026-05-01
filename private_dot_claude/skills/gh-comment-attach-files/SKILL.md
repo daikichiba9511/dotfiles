@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(uv run python:*), Bash(gh:*), Read, Glob
+allowed-tools: Bash(npx:*), Bash(gh:*), Read, Glob
 description: "Attach local files to a GitHub issue or pull request comment via Playwright CLI and return the hosted attachment URLs without submitting the comment. Use when you need GitHub-hosted image or document URLs on github.com or GitHub Enterprise Server."
 ---
 
@@ -23,7 +23,8 @@ Do not use this skill when the task is to actually post, edit, or rewrite a comm
 
 ## Prerequisites
 
-- `npx @playwright/cli` must be available.
+- `npx tsx` and `playwright` must be available (`npm install -g tsx playwright` or rely on npx).
+- Playwright browser binary is required. Run `npx playwright install chromium` once before first use.
 - If you use `--repo ... --issue ...` or `--repo ... --pr ...`, `gh` must be installed and authenticated.
 - If GitHub redirects to login or SSO, finish authentication in the opened browser window while the script is polling for the comment composer.
 
@@ -41,7 +42,7 @@ Do not use this skill when the task is to actually post, edit, or rewrite a comm
 Direct URL:
 
 ```bash
-uv run python ~/.claude/skills/gh-comment-attach-files/scripts/attach_comment_files.py \
+npx tsx ~/.claude/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
   --url https://github.com/OWNER/REPO/pull/123 \
   docs/report.md assets/chart.png
 ```
@@ -49,7 +50,7 @@ uv run python ~/.claude/skills/gh-comment-attach-files/scripts/attach_comment_fi
 Resolve the page with `gh`:
 
 ```bash
-uv run python ~/.claude/skills/gh-comment-attach-files/scripts/attach_comment_files.py \
+npx tsx ~/.claude/skills/gh-comment-attach-files/scripts/attach_comment_files.ts \
   --repo OWNER/REPO \
   --pr 123 \
   results/report.md results/chart.png
@@ -83,6 +84,6 @@ The script prints JSON only:
 
 ### scripts/
 
-- `scripts/attach_comment_files.py`: resolves the target page, stages files, drives Playwright CLI, and returns hosted attachment URLs as JSON.
+- `scripts/attach_comment_files.ts`: resolves the target page, stages files, drives Playwright directly, and returns hosted attachment URLs as JSON.
 
 $ARGUMENTS
