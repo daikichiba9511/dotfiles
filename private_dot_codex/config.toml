@@ -1,7 +1,7 @@
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "xhigh" # モデルの推論努力（思考の深さ）
 model_verbosity = "medium"       # 詳細な応答の冗長さ（情報量の多さ）
-sandbox_mode = "danger-full-access" # sandboxなし（ローカル開発用）
+sandbox_mode = "workspace-write" # 通常は作業ディレクトリ内だけ書き込み可
 
 # コマンド実行を承認するかどうかをプロンプトで確認すべきタイミング
 # - untrusted: 「信頼済み」でないコマンド（危険操作など）は実行前に都度承認を求め
@@ -25,8 +25,7 @@ include_only = ["PATH", "HOME", "USER"]
 exclude = ["AWS_*", "AZURE_*", "*TOKEN*", "*SECRET*", "*KEY*"]
 
 [features]
-collaboration_modes = true
-codex_hooks = true
+hooks = true
 
 
 # [mcp_servers.serena]
