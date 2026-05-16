@@ -3,8 +3,6 @@
 -- [1] http://zenn.dev/kawarimidoll/books/6064bf6f193b51/viewer/018161
 
 local ls_names = {
-  -- general
-  "copilot",
   -- lua
   "lua_ls",
   -- python
