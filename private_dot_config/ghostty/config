@@ -18,7 +18,7 @@ font-thicken = false
 alpha-blending = linear
 
 adjust-cell-width = -1
-adjust-cell-height = 2
+adjust-cell-height = 12%
 
 # macOS
 macos-titlebar-style = tabs
