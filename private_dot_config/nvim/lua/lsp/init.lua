@@ -20,9 +20,12 @@ local ls_names = {
 }
 
 -- Setup Mason-lspconfig
+-- automatic_enable = false: ls_names を唯一の権威にする
+-- (true だと Mason インストール済みの全LSPが自動有効化され、ls_names から外しても起動してしまう)
 require("mason-lspconfig").setup({
   automatic_installation = true,
   ensure_installed = ls_names,
+  automatic_enable = false,
 })
 
 vim.lsp.enable(ls_names)
