@@ -111,9 +111,6 @@ vim.opt.spelllang = {}
 vim.opt.laststatus = 0 -- Hide statusline
 vim.opt.cursorline = true -- Required for modes.nvim
 
--- Copilot settings
-vim.g.ai_cmp = false
-
 -- LSP-based folding
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"

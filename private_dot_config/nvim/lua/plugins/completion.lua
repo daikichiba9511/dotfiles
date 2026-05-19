@@ -5,9 +5,6 @@ return {
     "saghen/blink.cmp",
     version = "*",
     event = "InsertEnter",
-    dependencies = {
-      "giuxtaposition/blink-cmp-copilot",
-    },
     opts = {
       keymap = {
         preset = "default",
@@ -23,18 +20,12 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer", "copilot" },
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
-          },
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
-            score_offset = 100,
-            async = true,
           },
         },
       },
