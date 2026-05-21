@@ -92,6 +92,21 @@ return {
     },
   },
 
+  -- Markdown preview in terminal (Kitty graphics)
+  {
+    "delphinus/md-render.nvim",
+    version = "*",
+    ft = { "markdown" },
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", version = "*" },
+      { "delphinus/budoux.lua", version = "*" },
+    },
+    keys = {
+      { "<leader>mr", "<Plug>(md-render-preview)", desc = "Markdown render (float toggle)" },
+      { "<leader>mR", "<Plug>(md-render-preview-tab)", desc = "Markdown render (tab toggle)" },
+    },
+  },
+
   -- Typst preview in browser
   {
     "chomosuke/typst-preview.nvim",
