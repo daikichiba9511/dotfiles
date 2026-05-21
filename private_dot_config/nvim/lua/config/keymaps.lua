@@ -10,7 +10,7 @@ set_keymap("n", "<C-k>", "<cmd>bnext<cr>", { silent = true, desc = "Next buffer"
 set_keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 set_keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
--- Terminal mode window navigation (for Claude Code terminal etc.)
+-- Terminal mode window navigation
 -- Use Ctrl+h/j/k/l directly in terminal mode
 set_keymap("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Go to left window" })
 set_keymap("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Go to lower window" })
@@ -26,8 +26,6 @@ set_keymap("n", "<leader>de", vim.diagnostic.open_float, { desc = "Open floating
 set_keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- Note: Fuzzy finder keymaps are configured in init.lua using Snacks.picker
-
--- Claude Code keymaps are defined in plugins/ai.lua
 
 -- View image locally (via vimg + WezTerm)
 set_keymap("n", "<leader>vi", function()
