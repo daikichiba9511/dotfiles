@@ -14,8 +14,6 @@ return {
         "williamboman/mason-lspconfig.nvim",
         lazy = true,
       },
-      -- Useful status updates for LSP
-      { "j-hui/fidget.nvim", opts = {} },
     },
   },
   {

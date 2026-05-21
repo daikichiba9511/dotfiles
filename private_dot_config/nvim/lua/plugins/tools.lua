@@ -1,36 +1,5 @@
 -- Utility and tool plugins
 return {
-  -- Terminal plugin
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    cmd = "ToggleTerm",
-    keys = { "<leader>ft" },
-    config = function()
-      require("toggleterm").setup({
-        size = 20,
-        open_mapping = [[<leader>ft]],
-        hide_numbers = true,
-        shade_terminals = true,
-        shading_factor = 2,
-        start_in_insert = true,
-        insert_mappings = true,
-        persist_size = true,
-        direction = "horizontal",
-        close_on_exit = true,
-        shell = vim.o.shell,
-        float_opts = {
-          border = "curved",
-          winblend = 0,
-          highlights = {
-            border = "Normal",
-            background = "Normal",
-          },
-        },
-      })
-    end,
-  },
-
   -- Formatter
   {
     "stevearc/conform.nvim",
@@ -70,28 +39,6 @@ return {
     end,
   },
 
-  -- Markdown preview in browser
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function(plugin)
-      -- Use prebuilt binary if available, otherwise npm install
-      if vim.fn.executable("npx") == 1 then
-        vim.cmd("!cd " .. plugin.dir .. "/app && npx --yes yarn install")
-      else
-        vim.fn["mkdp#util#install"]()
-      end
-    end,
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    keys = {
-      { "<leader>mp", "<cmd>MarkdownPreview<cr>", desc = "Markdown Preview" },
-      { "<leader>ms", "<cmd>MarkdownPreviewStop<cr>", desc = "Markdown Preview Stop" },
-    },
-  },
-
   -- Markdown preview in terminal (Kitty graphics)
   {
     "delphinus/md-render.nvim",
@@ -117,33 +64,6 @@ return {
       { "<leader>tp", "<cmd>TypstPreview<cr>", desc = "Typst Preview" },
       { "<leader>ts", "<cmd>TypstPreviewStop<cr>", desc = "Typst Preview Stop" },
       { "<leader>tt", "<cmd>TypstPreviewToggle<cr>", desc = "Typst Preview Toggle" },
-    },
-  },
-
-  -- Obsidian
-  {
-    "obsidian-nvim/obsidian.nvim",
-    version = "*",
-    cmd = {
-      "ObsidianOpen",
-      "ObsidianNew",
-      "ObsidianQuickSwitch",
-      "ObsidianFollowLink",
-      "ObsidianBacklinks",
-      "ObsidianToday",
-      "ObsidianYesterday",
-      "ObsidianTemplate",
-      "ObsidianSearch",
-      "ObsidianLink",
-      "ObsidianLinkNew",
-    },
-    opts = {
-      workspaces = {
-        {
-          name = "personal",
-          path = "~/MyVault",
-        },
-      },
     },
   },
 }
