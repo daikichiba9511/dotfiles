@@ -19,7 +19,7 @@ delta = "latest"
 fzf = "latest"
 lazygit = "latest"
 gh = "latest"
-neovim = "0.11"
+neovim = "0.12"
 usage = "latest"
 ghq = "latest"
 
