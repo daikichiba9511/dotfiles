@@ -1,29 +1,84 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+palette = "rose_pine_dawn"
+
 format = """
-[](fg:#a3aed2)\
+[](fg:pine)\
 $os\
 $username\
 $hostname\
-[](bg:#769ff0 fg:#a3aed2)\
+[](bg:iris fg:pine)\
 $directory\
-[](fg:#769ff0 bg:#394260)\
+[](fg:iris bg:hl_med)\
 $git_branch\
 $git_status\
-[](fg:#394260 bg:#212736)\
+[](fg:hl_med bg:hl_low)\
 $nix_shell\
 $nodejs\
 $rust\
 $golang\
 $php\
 $python\
-[](fg:#212736 bg:#1d2230)\
-$time\
-[](fg:#1d2230)\
+[](fg:hl_low)\
+ $time\
 \n$character"""
 
+[palettes.rose_pine_dawn]
+base       = "#faf4ed"
+surface    = "#fffaf3"
+overlay    = "#f2e9e1"
+muted      = "#9893a5"
+subtle     = "#797593"
+text       = "#575279"
+love       = "#b4637a"
+gold       = "#ea9d34"
+rose       = "#d7827e"
+pine       = "#286983"
+foam       = "#56949f"
+iris       = "#907aa9"
+hl_low     = "#f4ede8"
+hl_med     = "#dfdad9"
+hl_high    = "#cecacd"
+
+[os]
+disabled = false
+style = "fg:base bg:pine"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = ""
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = true
+style_user = "fg:base bg:pine"
+style_root = "fg:love bg:pine bold"
+format = "[$user@]($style)"
+
+[hostname]
+ssh_only = false
+style = "fg:base bg:pine"
+format = "[$hostname ]($style)"
+
 [directory]
-style = "fg:#e3e5e5 bg:#769ff0"
+style = "fg:base bg:iris bold"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -35,83 +90,46 @@ truncation_symbol = "…/"
 "Pictures" = " "
 
 [git_branch]
-symbol = ""
-style = "bg:#394260"
-format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+symbol = ""
+style = "bg:hl_med"
+format = '[[ $symbol ](fg:love bg:hl_med bold)[$branch ](fg:text bg:hl_med)]($style)'
 
 [git_status]
-style = "bg:#394260"
-format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+style = "bg:hl_med"
+format = '[[($all_status$ahead_behind )](fg:love bg:hl_med)]($style)'
 
 [nix_shell]
 symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol $state ](fg:#7ebae4 bg:#212736)]($style)'
+style = "bg:hl_low"
+format = '[[ $symbol $state ](fg:pine bg:hl_low)]($style)'
 
 [nodejs]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+symbol = ""
+style = "bg:hl_low"
+format = '[[ $symbol ($version) ](fg:pine bg:hl_low)]($style)'
 
 [rust]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+symbol = ""
+style = "bg:hl_low"
+format = '[[ $symbol ($version) ](fg:pine bg:hl_low)]($style)'
 
 [golang]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+symbol = ""
+style = "bg:hl_low"
+format = '[[ $symbol ($version) ](fg:pine bg:hl_low)]($style)'
 
 [php]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+symbol = ""
+style = "bg:hl_low"
+format = '[[ $symbol ($version) ](fg:pine bg:hl_low)]($style)'
 
 [python]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+symbol = ""
+style = "bg:hl_low"
+format = '[[ $symbol ($version) ](fg:pine bg:hl_low)]($style)'
 
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:#1d2230"
-format = '[[ $time ](fg:#a0a9cb bg:#1d2230)]($style)'
-
-[os]
-disabled = false
-style = "bg:#a3aed2 fg:#090c0c"
-format = "[ $symbol ]($style)"
-
-[os.symbols]
-Windows = "󰍲"
-Ubuntu = ""
-SUSE = ""
-Raspbian = "󰐿"
-Mint = "󰣭"
-Macos = "󰀵"
-Manjaro = ""
-Linux = "󰌽"
-Gentoo = "󰣨"
-Fedora = "󰣛"
-Alpine = ""
-Amazon = ""
-Android = ""
-Arch = "󰣇"
-Artix = "󰣇"
-CentOS = ""
-Debian = "󰣚"
-Redhat = "󱄛"
-RedHatEnterprise = "󱄛"
-
-[username]
-show_always = true
-style_user = "bg:#a3aed2 fg:#090c0c"
-style_root = "bg:#a3aed2 fg:#ff0000 bold"
-format = "[$user@]($style)"
-
-[hostname]
-ssh_only = false
-style = "bg:#a3aed2 fg:#090c0c"
-format = "[$hostname ]($style)"
+style = "fg:subtle"
+format = '[ $time]($style)'
