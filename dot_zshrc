@@ -40,6 +40,11 @@ fi
 source "$_sheldon_cache"
 unset _sheldon_cache _sheldon_toml
 
+# --- GITHUB_TOKEN (gh CLI から取得 / mise の GitHub API rate limit 回避用)
+if command -v gh &>/dev/null; then
+  export GITHUB_TOKEN="$(gh auth token 2>/dev/null)"
+fi
+
 # --- mise（shimsのみ、activate不要）
 # PATHに既に追加済み
 
