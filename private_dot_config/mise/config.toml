@@ -1,7 +1,7 @@
 [tools]
 # -- Languages
 node = "24"
-python = "3.11"
+python = "3.12"
 go = "latest"
 deno = "latest"
 # julia = "latest"
@@ -19,7 +19,7 @@ delta = "latest"
 fzf = "latest"
 lazygit = "latest"
 gh = "latest"
-neovim = "0.12"
+"aqua:neovim/neovim" = "0.12"
 usage = "latest"
 ghq = "latest"
 
