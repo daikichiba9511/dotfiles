@@ -25,3 +25,6 @@ node_modules/
 *.key
 *secret*
 credentials*
+
+# local working notes (Claude Code 等の作業メモ)
+tasks/
