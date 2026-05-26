@@ -3,18 +3,22 @@ set -eu
 
 mkdir -p "${HOME}/.local/bin"
 
-# mise
+# mise（バージョン固定）
+MISE_VERSION="v2026.5.13"
 if ! command -v mise &> /dev/null; then
-  echo "==> Installing mise..."
-  curl --proto '=https' --tlsv1.2 -sSf https://mise.run | sh
+  echo "==> Installing mise ${MISE_VERSION}..."
+  installer="$(mktemp)"
+  curl --proto '=https' --tlsv1.2 -sSf -o "${installer}" https://mise.run
+  MISE_VERSION="${MISE_VERSION}" sh "${installer}"
   export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
 # sheldon (公式スクリプト)
 if ! command -v sheldon &> /dev/null; then
   echo "==> Installing sheldon..."
-  curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
-    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+  installer="$(mktemp)"
+  curl --proto '=https' -fLsS -o "${installer}" https://rossmacarthur.github.io/install/crate.sh
+  bash "${installer}" --repo rossmacarthur/sheldon --to ~/.local/bin
 fi
 
 # tmux plugin manager
