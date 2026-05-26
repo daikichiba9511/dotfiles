@@ -18,7 +18,6 @@
   "editor.fontLigatures": false,
   "editor.editContext": false,
   "editor.maxTokenizationLineLength": 10000,
-
   // =============================
   // Editor: Code Intelligence
   // =============================
@@ -30,7 +29,6 @@
   "editor.selectionHighlight": true,
   "editor.semanticHighlighting.enabled": true,
   "editor.unicodeHighlight.invisibleCharacters": false,
-
   // =============================
   // Editor: Formatting & Save Actions
   // =============================
@@ -43,7 +41,6 @@
   },
   "files.trimTrailingWhitespace": true,
   "files.useExperimentalFileWatcher": true,
-
   // =============================
   // Workbench: UI Configuration
   // =============================
@@ -58,7 +55,6 @@
   "window.nativeTabs": true,
   "window.openFilesInNewWindow": "off",
   "window.openFoldersInNewWindow": "off",
-
   // =============================
   // Theme Customization
   // =============================
@@ -140,7 +136,6 @@
       "base": "#0f0f14",
     },
   },
-
   // =============================
   // Terminal Configuration
   // =============================
@@ -167,7 +162,6 @@
     "github.copilot.terminal.suggestCommand",
     "language-julia.interrupt",
   ],
-
   // =============================
   // Explorer & File Management
   // =============================
@@ -198,7 +192,6 @@
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook",
   },
-
   // =============================
   // Search Configuration
   // =============================
@@ -217,7 +210,6 @@
     "**/dist": true,
     "**/build": true,
   },
-
   // =============================
   // Git Configuration
   // =============================
@@ -233,7 +225,6 @@
   },
   "githubPullRequests.pullBranch": "never",
   "githubPullRequests.createOnPublishBranch": "never",
-
   // =============================
   // GitHub Copilot
   // =============================
@@ -245,17 +236,16 @@
     "yaml": false,
   },
   "github.copilot.editor.enableCodeActions": false,
-
   // Copilot Chat
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.codeGeneration.instructions": [
-    { "file": "~/.config/github-copilot/global-instructions.md" },
+    {
+      "file": "~/.config/github-copilot/global-instructions.md"
+    },
   ],
   "github.copilot.chat.codesearch.enabled": true,
-
   // Next Edit Suggestions (NES)
   "github.copilot.nextEditSuggestions.enabled": true,
-
   // Commit Message Generation
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
@@ -267,13 +257,16 @@
     {
       "text": "Format: '<type>(<scope>): <subject>' (imperative mood, 50 chars max). Line 2 must be blank.",
     },
-    { "text": "Body: Always include a detailed body explaining WHAT and WHY." },
+    {
+      "text": "Body: Always include a detailed body explaining WHAT and WHY."
+    },
     {
       "text": "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.",
     },
-    { "text": "Output plain text only. No code blocks or markdown." },
+    {
+      "text": "Output plain text only. No code blocks or markdown."
+    },
   ],
-
   // =============================
   // Vim/Neovim Configuration
   // =============================
@@ -346,12 +339,30 @@
   "vim.easymotionMarkerForegroundColorTwoCharSecond": "#b98300",
   "vim.easymotionKeys": "hklyuiopnm,qwertzxcvbasdgjf",
   "vim.statusBarColorControl": true,
-  "vim.statusBarColors.normal": ["#005f5f", "#ffffff"],
-  "vim.statusBarColors.insert": ["#005f87", "#ffffff"],
-  "vim.statusBarColors.visual": ["#5f5fd7", "#ffffff"],
-  "vim.statusBarColors.visualline": ["#0087af", "#ffffff"],
-  "vim.statusBarColors.visualblock": ["#008787", "#ffffff"],
-  "vim.statusBarColors.replace": ["#5f00d7", "#ffffff"],
+  "vim.statusBarColors.normal": [
+    "#005f5f",
+    "#ffffff"
+  ],
+  "vim.statusBarColors.insert": [
+    "#005f87",
+    "#ffffff"
+  ],
+  "vim.statusBarColors.visual": [
+    "#5f5fd7",
+    "#ffffff"
+  ],
+  "vim.statusBarColors.visualline": [
+    "#0087af",
+    "#ffffff"
+  ],
+  "vim.statusBarColors.visualblock": [
+    "#008787",
+    "#ffffff"
+  ],
+  "vim.statusBarColors.replace": [
+    "#5f00d7",
+    "#ffffff"
+  ],
   "vim.handleKeys": {
     "<C-a>": false,
     "<C-f>": false,
@@ -361,96 +372,206 @@
   },
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": ["u"],
-      "commands": ["undo"],
+      "before": [
+        "u"
+      ],
+      "commands": [
+        "undo"
+      ],
     },
     {
-      "before": ["<C-r>"],
-      "commands": ["redo"],
+      "before": [
+        "<C-r>"
+      ],
+      "commands": [
+        "redo"
+      ],
     },
     {
-      "before": ["<leader>", "e"],
-      "commands": ["workbench.view.explorer"],
+      "before": [
+        "<leader>",
+        "e"
+      ],
+      "commands": [
+        "workbench.view.explorer"
+      ],
     },
     {
-      "before": ["<leader>", "n"],
-      "commands": ["workbench.view.explorer"],
+      "before": [
+        "<leader>",
+        "n"
+      ],
+      "commands": [
+        "workbench.view.explorer"
+      ],
     },
     {
-      "before": ["<leader>", "f", "f"],
-      "commands": ["workbench.action.quickOpen"],
+      "before": [
+        "<leader>",
+        "f",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ],
     },
     {
-      "before": ["<leader>", "f", "g"],
-      "commands": ["workbench.action.findInFiles"],
+      "before": [
+        "<leader>",
+        "f",
+        "g"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ],
     },
     {
-      "before": ["<leader>", "p"],
-      "commands": ["workbench.action.showCommands"],
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.showCommands"
+      ],
     },
     {
-      "before": ["<leader>", "q"],
-      "commands": ["workbench.action.closeActiveEditor"],
+      "before": [
+        "<leader>",
+        "q"
+      ],
+      "commands": [
+        "workbench.action.closeActiveEditor"
+      ],
     },
     {
-      "before": ["<leader>", "v"],
-      "commands": ["workbench.action.splitEditorRight"],
+      "before": [
+        "<leader>",
+        "v"
+      ],
+      "commands": [
+        "workbench.action.splitEditorRight"
+      ],
     },
     {
-      "before": ["<leader>", "s"],
-      "commands": ["workbench.action.splitEditorDown"],
+      "before": [
+        "<leader>",
+        "s"
+      ],
+      "commands": [
+        "workbench.action.splitEditorDown"
+      ],
     },
     {
-      "before": ["<leader>", "a"],
-      "commands": ["editor.action.inlineSuggest.commit"],
+      "before": [
+        "<leader>",
+        "a"
+      ],
+      "commands": [
+        "editor.action.inlineSuggest.commit"
+      ],
     },
     {
-      "before": ["g", "t"],
-      "commands": ["workbench.action.nextEditor"],
+      "before": [
+        "g",
+        "t"
+      ],
+      "commands": [
+        "workbench.action.nextEditor"
+      ],
     },
     {
-      "before": ["g", "T"],
-      "commands": ["workbench.action.previousEditor"],
+      "before": [
+        "g",
+        "T"
+      ],
+      "commands": [
+        "workbench.action.previousEditor"
+      ],
     },
     {
-      "before": ["g", "d"],
-      "commands": ["editor.action.revealDefinition"],
+      "before": [
+        "g",
+        "d"
+      ],
+      "commands": [
+        "editor.action.revealDefinition"
+      ],
     },
     {
-      "before": ["g", "r"],
-      "commands": ["editor.action.goToReferences"],
+      "before": [
+        "g",
+        "r"
+      ],
+      "commands": [
+        "editor.action.goToReferences"
+      ],
     },
     {
-      "before": ["K"],
-      "commands": ["editor.action.showHover"],
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ],
     },
     {
-      "before": ["[", "c"],
-      "commands": ["workbench.action.editor.previousChange"],
+      "before": [
+        "[",
+        "c"
+      ],
+      "commands": [
+        "workbench.action.editor.previousChange"
+      ],
     },
     {
-      "before": ["]", "c"],
-      "commands": ["workbench.action.editor.nextChange"],
+      "before": [
+        "]",
+        "c"
+      ],
+      "commands": [
+        "workbench.action.editor.nextChange"
+      ],
     },
     {
-      "before": ["f"],
-      "after": ["<leader>", "<leader>", "<leader>", "b", "d", "w"],
+      "before": [
+        "f"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "<leader>",
+        "b",
+        "d",
+        "w"
+      ],
     },
   ],
   "vim.visualModeKeyBindingsNonRecursive": [
     {
-      "before": [">"],
-      "commands": ["editor.action.indentLines"],
+      "before": [
+        ">"
+      ],
+      "commands": [
+        "editor.action.indentLines"
+      ],
     },
     {
-      "before": ["<"],
-      "commands": ["editor.action.outdentLines"],
+      "before": [
+        "<"
+      ],
+      "commands": [
+        "editor.action.outdentLines"
+      ],
     },
   ],
   "vim.insertModeKeyBindings": [
     {
-      "before": ["<C-[>"],
-      "after": ["<Esc>"],
+      "before": [
+        "<C-[>"
+      ],
+      "after": [
+        "<Esc>"
+      ],
     },
   ],
   "extensions.experimental.affinity": {
@@ -460,7 +581,6 @@
   "vscode-neovim.neovimInitVimPaths.darwin": "~/.config/nvim/init.vscode.lua",
   "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.vscode.lua",
   "vscode-neovim.neovimClean": true,
-
   // =============================
   // Language-Specific: Python
   // =============================
@@ -484,8 +604,9 @@
   "ruff.enable": true,
   "ruff.organizeImports": true,
   "ruff.fixAll": true,
-  "mypy-type-checker.args": ["--cache-dir=.mypy_cache/.vscode"],
-
+  "mypy-type-checker.args": [
+    "--cache-dir=.mypy_cache/.vscode"
+  ],
   // =============================
   // Language-Specific: Julia
   // =============================
@@ -497,7 +618,6 @@
   "julia.symbolCacheDownload": true,
   "julia.enableCrashReporter": false,
   "julia.enableTelemetry": false,
-
   // =============================
   // Language-Specific: Markdown
   // =============================
@@ -508,7 +628,6 @@
   },
   "markdown.preview.fontSize": 12,
   "markdown.extension.tableFormatter.normalizeIndentation": true,
-
   // =============================
   // Language-Specific: JSON/JSONC
   // =============================
@@ -518,7 +637,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
-
   // =============================
   // Language-Specific: C/C++
   // =============================
@@ -529,7 +647,6 @@
   "C_Cpp.vcFormat.indent.caseContentsWhenBlock": true,
   "C_Cpp.intelliSenseEngine": "disabled",
   "clangd.checkUpdates": true,
-
   // =============================
   // Language-Specific: Docker & YAML
   // =============================
@@ -548,13 +665,11 @@
     "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "docker.extension.enableComposeLanguageServer": false,
-
   // =============================
   // Language-Specific: Rust
   // =============================
   "rust-analyzer.semanticHighlighting.punctuation.enable": true,
   "rust-analyzer.semanticHighlighting.operator.specialization.enable": true,
-
   // =============================
   // Language-Specific: Haskell
   // =============================
@@ -564,14 +679,12 @@
     "hls": "2.10.0.0",
     "cabal": "3.12.1.0",
   },
-
   // =============================
   // Language-Specific: Typst
   // =============================
   "[typst]": {
     "editor.tabSize": 2,
   },
-
   // =============================
   // Jupyter Notebook
   // =============================
@@ -581,8 +694,10 @@
   "jupyter.askForKernelRestart": false,
   "jupyter.logging.level": "error",
   "jupyter.interactiveWindow.textEditor.executeSelection": true,
-  "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
-
+  "jupyter.widgetScriptSources": [
+    "jsdelivr.com",
+    "unpkg.com"
+  ],
   // =============================
   // Extensions & Plugins
   // =============================
@@ -590,13 +705,20 @@
   "better-comments.highlightPlainText": true,
   "todo-tree.tree.showCountsInTree": true,
   "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
-  "indentRainbow.ignoreErrorLanguages": ["markdown", "cpp", "julia"],
+  "indentRainbow.ignoreErrorLanguages": [
+    "markdown",
+    "cpp",
+    "julia"
+  ],
   "vsicons.dontShowNewVersionMessage": true,
   "errorLens.enableOnDiffView": true,
   "dotfiles.repository": "https://github.com/daikichiba9511/dotfiles",
-  "spellright.ignoreFiles": ["**/*.md", "**/.gitignore", "**/.spellignore"],
+  "spellright.ignoreFiles": [
+    "**/*.md",
+    "**/.gitignore",
+    "**/.spellignore"
+  ],
   "claudeCode.preferredLocation": "panel",
-
   // =============================
   // Accessibility (Disabled)
   // =============================
@@ -623,13 +745,11 @@
   "accessibility.signals.nextEditSuggestion": {
     "sound": "off",
   },
-
   // =============================
   // Inline Chat & AI
   // =============================
   "inlineChat.acceptedOrDiscardBeforeSave": false,
   "inlineChat.holdToSpeech": false,
-
   // =============================
   // Misc
   // =============================
@@ -646,5 +766,5 @@
     },
   ],
   "mssql.connections": [],
-  "workbench.colorTheme": "Dark Modern",
+  "workbench.colorTheme": "Rosé Pine Dawn (no italics)",
 }

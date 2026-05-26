@@ -1,5 +1,11 @@
-theme = Rose Pine
-background = #0a0a12
+theme = Rose Pine Dawn
+
+# Override blue (foam → pine) for better contrast on Dawn cream background
+palette = 4=#286983
+palette = 12=#286983
+
+# Override bright black (muted → subtle) for readable dim text (Claude Code reasoning 等)
+palette = 8=#797593
 
 font-family = UDEV Gothic 35NF
 font-family = HackGen Console NFJ

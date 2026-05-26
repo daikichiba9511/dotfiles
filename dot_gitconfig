@@ -27,7 +27,7 @@
   diffFilter = delta --color-only
 [delta]
   line-numbers = true
-  dark = true
+  dark = false
 [delta "line-number"]
   line-numbers-left-style = cyan
 [merge]
