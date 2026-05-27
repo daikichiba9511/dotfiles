@@ -19,6 +19,9 @@ network_access = true
 
 suppress_unstable_features_warning = true
 
+[tui]
+theme = "ansi"
+
 [shell_environment_policy]
 inherit = "core"
 include_only = ["PATH", "HOME", "USER"]
