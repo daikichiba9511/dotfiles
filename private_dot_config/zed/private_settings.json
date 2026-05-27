@@ -86,8 +86,8 @@
   "semantic_tokens": "combined",
   "ui_font_size": 16,
   "theme": {
-    "mode": "dark",
-    "light": "Ayu Light",
+    "mode": "light",
+    "light": "Rosé Pine Dawn",
     "dark": "Rosé Pine",
   },
   "theme_overrides": {
