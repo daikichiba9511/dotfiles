@@ -1,31 +1,31 @@
-user: "#575279"
-group: "#797593"
+user: "#524d70"
+group: "#524d70"
 
 permission:
   read: "#286983"
   write: "#ea9d34"
   exec: "#b4637a"
   exec-sticky: "#907aa9"
-  no-access: "#9893a5"
-  octal: "#575279"
+  no-access: "#524d70"
+  octal: "#524d70"
 
 date:
   hour-old: "#286983"
   day-old: "#907aa9"
-  older: "#797593"
+  older: "#524d70"
 
 size:
-  none: "#9893a5"
+  none: "#524d70"
   small: "#286983"
   medium: "#907aa9"
   large: "#b4637a"
 
 inode:
   valid: "#56949f"
-  invalid: "#9893a5"
+  invalid: "#524d70"
 
 links:
   valid: "#286983"
   invalid: "#b4637a"
 
-tree-edge: "#9893a5"
+tree-edge: "#524d70"
