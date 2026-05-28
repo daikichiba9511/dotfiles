@@ -32,3 +32,8 @@ pnpm = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
+
+[settings.github]
+# gh CLI が macOS Keychain に保存したトークンを mise が必要時のみ取得する
+# 環境変数 GITHUB_TOKEN を export しないことで他プロセスへの露出を防ぐ
+credential_command = "gh auth token"
