@@ -20,7 +20,7 @@ network_access = true
 suppress_unstable_features_warning = true
 
 [tui]
-theme = "ansi"
+theme = "light"
 
 [shell_environment_policy]
 inherit = "core"
