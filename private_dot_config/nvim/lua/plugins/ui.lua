@@ -11,14 +11,15 @@ return {
         italic = false,
       },
       palette = {
+        -- Kept for when switching back to the dark `rose-pine` variant.
         main = {
-          base = "#0f0f14", -- darker background
+          base = "#0f0f14",
         },
       },
     },
     config = function(_, opts)
       require("rose-pine").setup(opts)
-      vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("rose-pine-dawn")
     end,
   },
 }
