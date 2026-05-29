@@ -50,24 +50,24 @@ SKILL.md 本体の補足。以下のケースで参照する:
 
 - **通信マップ** (flowchart): エンティティをノード、共有イベントを矢印ラベルで書く。契約表の**視覚化版**。
 
-  ````
+  ```mermaid
   flowchart LR
       A[エンティティA<br/>状態機械]
       B[エンティティB<br/>状態機械]
       C[外部システム]
       A -->|event1<br/>event2<br/>async| B
       B -->|event3<br/>sync| C
-  ````
+  ```
 
 - **典型プロトコル** (sequenceDiagram, 任意): happy path の代表シナリオを時系列で。異常系は無理に併記せず別図にする。
 
-  ````
+  ```mermaid
   sequenceDiagram
       participant A
       participant B
       A ->> B: event1 (async)
       B ->> A: event2 (sync)
-  ````
+  ```
 
 役割分担:
 
