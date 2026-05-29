@@ -9,7 +9,7 @@ sandbox_mode = "workspace-write" # 通常は作業ディレクトリ内だけ書
 # - on-failure: コマンドが失敗した場合のみ承認にエスカレート
 # - never: いかなる場合も承認を求めず、すべての操作を自動で実行
 # 危険コマンドは rules/default.rules で明示禁止し、それ以外は基本自動実行する
-approval_policy = "codex"
+approval_policy = "never"
 
 # nvim は file_opener の公式サポート外なので none にして手動で開く
 file_opener = "none"
