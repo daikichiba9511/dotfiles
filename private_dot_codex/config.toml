@@ -9,11 +9,12 @@ sandbox_mode = "workspace-write" # 通常は作業ディレクトリ内だけ書
 # - on-failure: コマンドが失敗した場合のみ承認にエスカレート
 # - never: いかなる場合も承認を求めず、すべての操作を自動で実行
 # 危険コマンドは rules/default.rules で明示禁止し、それ以外は基本自動実行する
-approval_policy = "never"
+approval_policy = "codex"
 
 # nvim は file_opener の公式サポート外なので none にして手動で開く
 file_opener = "none"
 
+[sandbox_workspace_write]
 # trueにすると、npmのインストールや外部APIへのリクエストが可能 (デフォルトは false)
 network_access = true
 
@@ -29,16 +30,3 @@ exclude = ["AWS_*", "AZURE_*", "*TOKEN*", "*SECRET*", "*KEY*"]
 
 [features]
 hooks = true
-
-
-# [mcp_servers.serena]
-# command = "uvx"
-# args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex", "--enable-web-dashboard=false", "--project", "$(pwd)"]
-
-# [mcp_servers.context7]
-# command = "npx"
-# args = ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"]
-
-# [mcp_servers.markitdown]
-# command = "uvx"
-# args = ["markitdown-mcp"]
