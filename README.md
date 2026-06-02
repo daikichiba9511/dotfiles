@@ -9,25 +9,11 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Neovim-0.10+-57A143?style=flat-square&logo=neovim&logoColor=white" alt="Neovim" />
-  <img src="https://img.shields.io/badge/WezTerm-Terminal-4E49EE?style=flat-square&logo=wezterm&logoColor=white" alt="WezTerm" />
-  <img src="https://img.shields.io/badge/macOS-Sonoma-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" />
+  <img src="https://img.shields.io/badge/Ghostty-Terminal-8B47B0?style=flat-square" alt="Ghostty" />
+  <img src="https://img.shields.io/badge/tmux-3.6+-1BB91F?style=flat-square&logo=tmux&logoColor=white" alt="tmux" />
+  <img src="https://img.shields.io/badge/macOS-Tahoe-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" />
   <img src="https://img.shields.io/badge/Ubuntu-24.04-E95420?style=flat-square&logo=ubuntu&logoColor=white" alt="Ubuntu" />
 </p>
-
----
-
-## Screenshots
-
-<table>
-  <tr>
-    <td><img src="assets/neovim_python.png" alt="Neovim Python" width="400"/></td>
-    <td><img src="assets/neovim_markdown.png" alt="Neovim Markdown" width="400"/></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>Python</strong></td>
-    <td align="center"><strong>Markdown</strong></td>
-  </tr>
-</table>
 
 ---
 
@@ -77,16 +63,19 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 
 | Tool | Description |
 |------|-------------|
-| **WezTerm** | GPU-accelerated terminal |
+| **Ghostty** | GPU-accelerated terminal (main) |
+| **tmux** | Terminal multiplexer |
 | **zsh** | Shell |
 | **starship** | Cross-shell prompt |
 | **mise** | Runtime version manager |
 
 ### Theme
 
-| Tool | Description |
-|------|-------------|
-| **Rose Pine** | Color scheme (Neovim, WezTerm) |
+| Tool | Theme |
+|------|-------|
+| **Neovim** | Rose Pine |
+| **Ghostty** | Rose Pine Dawn |
+| **tmux** | Rose Pine Dawn |
 
 ### macOS Window Management
 
@@ -100,17 +89,34 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 ## Keybindings
 
 <details>
-<summary><strong>WezTerm</strong></summary>
+<summary><strong>Ghostty</strong></summary>
 
 | Key | Action |
 |-----|--------|
-| `Cmd+Shift + h/l` | Previous/Next tab |
 | `Cmd+Shift + k` | New tab |
 | `Cmd+Shift + j` | Close tab |
-| `Cmd+Shift + -` | Split vertical |
-| `Cmd+Shift + \` | Split horizontal |
-| `Ctrl+Shift + h/j/k/l` | Move between panes |
-| `Cmd+Shift + a` | Open Claude Code |
+| `Cmd+Shift + h/l` | Previous/Next tab |
+| `Cmd+Shift + \` | Split right |
+| `Cmd+Shift + -` | Split down |
+| `Cmd+Shift + w` | Close split |
+| `Ctrl+Shift + h/j/k/l` | Move between splits |
+| `Ctrl+Alt+Shift + h/j/k/l` | Resize split |
+
+</details>
+
+<details>
+<summary><strong>tmux</strong> (prefix: <code>Ctrl+b</code>)</summary>
+
+| Key | Action |
+|-----|--------|
+| `prefix + \|` | Split vertical |
+| `prefix + -` | Split horizontal |
+| `prefix + h/j/k/l` | Navigate panes |
+| `prefix + H/J/K/L` | Resize panes (5 cells) |
+| `prefix + a` | Open Claude Code in horizontal split |
+| `prefix + C-p` | Paste from buffer |
+| copy-mode `v` / `V` / `C-v` | Begin / line / rectangle selection |
+| copy-mode `y` / `Enter` | Yank to system clipboard (OSC 52) |
 
 </details>
 
