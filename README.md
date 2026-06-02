@@ -51,14 +51,6 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | **nvim-treesitter** | Syntax highlighting |
 | **fzf-lua + snacks.nvim** | Fuzzy finder & utilities |
 
-### AI Integration
-
-| Tool | Description |
-|------|-------------|
-| **claude-code.nvim** | Claude Code CLI integration |
-| **copilot.lua** | GitHub Copilot |
-| **Avante** | AI assistant |
-
 ### Terminal & Shell
 
 | Tool | Description |
@@ -131,17 +123,6 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | `Cmd+Shift + 1-9` | Move to workspace |
 | `Alt + f` | Fullscreen |
 | `Alt + t` | Toggle float |
-
-</details>
-
-<details>
-<summary><strong>Neovim (Claude Code)</strong></summary>
-
-| Key | Action |
-|-----|--------|
-| `<leader>cc` | Toggle Claude Code |
-| `<leader>cs` | Send selection to Claude |
-| `<leader>cf` | Focus Claude Code |
 
 </details>
 
