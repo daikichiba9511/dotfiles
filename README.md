@@ -69,13 +69,6 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | **Ghostty** | Rose Pine Dawn |
 | **tmux** | Rose Pine Dawn |
 
-### macOS Window Management
-
-| Tool | Description |
-|------|-------------|
-| **AeroSpace** | Tiling window manager |
-| **JankyBorders** | Window border highlight |
-
 ---
 
 ## Keybindings
@@ -109,20 +102,6 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | `prefix + C-p` | Paste from buffer |
 | copy-mode `v` / `V` / `C-v` | Begin / line / rectangle selection |
 | copy-mode `y` / `Enter` | Yank to system clipboard (OSC 52) |
-
-</details>
-
-<details>
-<summary><strong>AeroSpace (macOS)</strong></summary>
-
-| Key | Action |
-|-----|--------|
-| `Alt + h/j/k/l` | Focus window |
-| `Alt + Shift + h/j/k/l` | Move window |
-| `Alt + 1-9` | Switch workspace |
-| `Cmd+Shift + 1-9` | Move to workspace |
-| `Alt + f` | Fullscreen |
-| `Alt + t` | Toggle float |
 
 </details>
 
