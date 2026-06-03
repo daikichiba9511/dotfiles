@@ -26,6 +26,9 @@
           gh
           neovim-unwrapped
           ghq
+          # markdown LSP/lint CLIs (consumed by nvim efm-langserver / nvim-lint)
+          markdownlint-cli2
+          textlint
         ];
       in
       {
