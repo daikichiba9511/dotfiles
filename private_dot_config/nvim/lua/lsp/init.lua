@@ -17,6 +17,9 @@ local ls_names = {
   "sqls",
   -- cpp
   "clangd",
+  -- markdown
+  "marksman",
+  "efm",
 }
 
 -- Setup Mason-lspconfig
