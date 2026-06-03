@@ -22,6 +22,14 @@ suppress_unstable_features_warning = true
 
 [tui]
 theme = "github"
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "git-branch",
+  "context-remaining",
+  "five-hour-limit",
+  "weekly-limit",
+]
 
 [shell_environment_policy]
 inherit = "core"
