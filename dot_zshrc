@@ -76,19 +76,33 @@ if command -v fzf &>/dev/null; then
   zle -N fzf-history-widget
   bindkey '^R' fzf-history-widget
 
-  # ghq + fzf (Ctrl+G)
-  ghq-fzf-widget() {
-    local repo
-    repo=$(ghq list | fzf --preview "bat --style=numbers --color=always $(ghq root)/{}/README.md 2>/dev/null || ls -la $(ghq root)/{}")
-    if [[ -n "$repo" ]]; then
-      BUFFER="cd $(ghq root)/${repo}"
-      zle accept-line
-    else
-      zle reset-prompt
-    fi
-  }
-  zle -N ghq-fzf-widget
-  bindkey '^G' ghq-fzf-widget
+  # ghq + fzf
+  if command -v ghq &>/dev/null; then
+    _ghq-fzf-select() {
+      ghq list | fzf --preview "bat --style=numbers --color=always $(ghq root)/{}/README.md 2>/dev/null || ls -la $(ghq root)/{}"
+    }
+
+    # コマンド版: ghqリポジトリをfuzzy検索してcd
+    gcd() {
+      local repo
+      repo=$(_ghq-fzf-select)
+      [[ -n "$repo" ]] && cd "$(ghq root)/${repo}"
+    }
+
+    # Widget版 (Ctrl+G): コマンドラインに反映してaccept-line（履歴に残す）
+    ghq-fzf-widget() {
+      local repo
+      repo=$(_ghq-fzf-select)
+      if [[ -n "$repo" ]]; then
+        BUFFER="cd $(ghq root)/${repo}"
+        zle accept-line
+      else
+        zle reset-prompt
+      fi
+    }
+    zle -N ghq-fzf-widget
+    bindkey '^G' ghq-fzf-widget
+  fi
 fi
 
 # --- エイリアス
