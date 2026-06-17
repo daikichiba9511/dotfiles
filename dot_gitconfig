@@ -4,7 +4,7 @@
   signingkey = E8E94E2A3C8A9567
 [core]
   editor = nvim
-  pager = delta
+  pager = hunk pager
   excludesfile = ~/.config/git/ignore
 
 [alias]
@@ -25,11 +25,6 @@
   directory = /workspace/working
 [interactive]
   diffFilter = delta --color-only
-[delta]
-  line-numbers = true
-  dark = false
-[delta "line-number"]
-  line-numbers-left-style = cyan
 [merge]
   conflictstyle = diff3
   tool = vimdiff

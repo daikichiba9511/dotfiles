@@ -22,6 +22,7 @@ gh = "latest"
 "aqua:neovim/neovim" = "0.12"
 usage = "latest"
 ghq = "latest"
+"npm:hunkdiff" = "latest"
 
 aws-cli = "latest"
 terraform = "latest"
