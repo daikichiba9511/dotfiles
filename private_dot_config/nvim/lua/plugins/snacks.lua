@@ -460,6 +460,13 @@ return {
         desc = "Lazygit",
       },
       {
+        "<leader>gH",
+        function()
+          Snacks.terminal("hunk")
+        end,
+        desc = "Hunk (diff viewer)",
+      },
+      {
         "<leader>un",
         function()
           Snacks.notifier.hide()
