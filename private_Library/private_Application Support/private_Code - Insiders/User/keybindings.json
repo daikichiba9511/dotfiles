@@ -14,6 +14,7 @@
   //
   // ### Editor & Window Navigation
   // - Ctrl+w h/j/k/l           : Navigate between split windows (Vim-style)
+  // - Ctrl+w a                 : Split right + below, open terminal editors in both new groups
   // - Ctrl+j/k                 : Navigate between editor tabs
   // - Ctrl+x                   : Close active editor
   //
@@ -650,5 +651,27 @@
   {
     "key": "alt+s",
     "command": "workbench.action.switchWindow",
+  },
+
+  // Split editor right + below, open terminal editors in both new groups
+  {
+    "key": "ctrl+w a",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        {
+          "command": "workbench.action.newGroupRight",
+        },
+        {
+          "command": "workbench.action.createTerminalEditor",
+        },
+        {
+          "command": "workbench.action.newGroupBelow",
+        },
+        {
+          "command": "workbench.action.createTerminalEditor",
+        },
+      ],
+    },
   },
 ]

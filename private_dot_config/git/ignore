@@ -62,3 +62,8 @@ Temporary Items
 *.pfx
 *secret*
 credentials*
+
+# =====================
+# Claude Code working notes
+# =====================
+tasks/
