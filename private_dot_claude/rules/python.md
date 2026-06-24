@@ -13,6 +13,9 @@ paths:
 - Boundary validation: pydantic with `frozen=True`
 - Domain models: `dataclasses.dataclass(frozen=True)`
 - Convert via `to_<domain_model>()` after validation
+- Prefer dataclasses or pydantic models over raw `dict` for structured data.
+- Use `Mapping` only for generic read-only inputs or external boundaries, then convert to typed models.
+- Avoid fallback defaults for invalid or missing data; raise explicit errors instead.
 
 ## CLI (tyro)
 - List args use space separation: `--items a b c`

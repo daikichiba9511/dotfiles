@@ -15,9 +15,15 @@ EDA > hypothesis > experiment > logging > analysis > next hypothesis. Read relat
 
 ## Error Handling
 - Crash immediately on invalid state (Fail Fast). Let errors propagate naturally.
+- Do not use fallback behavior for missing configs, artifacts, columns, features, checkpoints, dependencies, or unsupported modes.
+- Do not silently continue with guessed defaults, empty results, skipped steps, cached alternatives, or "best effort" behavior.
+- If a branch is optional, model it explicitly in config and raise for unsupported combinations.
 
 ## Config
 - Centralize in a `Config` dataclass. Map to per-module dataclasses for arguments.
+- Do not use raw `dict` for experiment config, feature definitions, model parameters, dataset schema, or metric settings.
+- Load YAML/JSON/TOML into typed dataclasses immediately at the boundary.
+- Missing or unknown config fields should raise during construction or validation.
 
 ## Train/Inference Consistency
 - Extract preprocessing to a shared module. Use the same function for train and inference.
