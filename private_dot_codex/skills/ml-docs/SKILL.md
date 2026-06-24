@@ -139,10 +139,12 @@ Post-experiment documentation update. Covers both pre-experiment design and post
 ### Step 0: Pre-Experiment Design (if not already logged)
 
 Before running an experiment, ensure `docs/logs.md` has an `[EXPERIMENT]` entry containing:
+- **Date**: Experiment date
 - **Baseline**: What we are comparing against
 - **Changes**: Exactly what differs from baseline
 - **Hypothesis**: What we expect and why
 - **Considerations**: Potential issues, edge cases, interactions
+- **Code Evidence**: Files, functions, commands, commits, or config paths that implement the change
 - **Result Scenarios**: Pre-registered interpretations for each outcome (improve / marginal / no change / degrade)
 
 If this entry is missing, create it FIRST by asking the user.
@@ -151,8 +153,10 @@ If this entry is missing, create it FIRST by asking the user.
 
 Append experiment results to `docs/logs.md`:
 - `[RESULT]` entry: raw metrics, observations, and **which pre-registered scenario matched**
-- `[ANALYSIS]` entry: interpretation, implications, next hypotheses
+- `[ANALYSIS]` entry: interpretation, implications, next hypotheses, and why the change worked or did not work
 - Include raw numbers, not just summary
+- Write experiment notes in Japanese unless the user requests otherwise
+- Include enough implementation evidence that the experiment can be understood and explained from the notes
 
 ### Step 2: Update Evidence Ledger
 
@@ -189,5 +193,6 @@ When operating on documents, follow these principles:
 - **Dependency**: Track which decisions depend on which evidence IDs
 - **Bias**: Phase 2 of strategy MUST NOT access prior results. This is non-negotiable
 - **Input design over reasoning**: The quality of output depends more on what context is loaded than on reasoning instructions
+- **Learning over polish**: For exploratory code, preserve what was tried, what worked, what failed, and why; do not rewrite history into a clean story
 
 $ARGUMENTS

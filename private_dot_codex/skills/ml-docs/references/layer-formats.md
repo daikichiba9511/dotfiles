@@ -38,6 +38,9 @@ Use the tag-specific templates below. All entries share a common header.
 ### Hypothesis
 [What we expect to happen and why]
 
+### Code Evidence
+[Files, functions, commands, commits, configs, or notebook cells that implement the change]
+
 ### Considerations
 [Potential issues, edge cases, interactions with other components, things to watch for]
 
@@ -60,6 +63,9 @@ Use the tag-specific templates below. All entries share a common header.
 ### Observations
 [Unexpected behaviors, training dynamics, error patterns, etc.]
 
+### Code Evidence
+[Exact run command, config path, commit, output file, or log path used for this result]
+
 ### Matched Scenario
 [Which pre-registered scenario from the EXPERIMENT entry matches, and whether the pre-registered interpretation still holds]
 ```
@@ -73,7 +79,7 @@ Use the tag-specific templates below. All entries share a common header.
 [What happened in one sentence]
 
 ### Interpretation
-[Why we think this happened. Cite evidence IDs where possible]
+[Why we think this happened. Explain what worked, what did not work, and why. Cite evidence IDs where possible]
 
 ### Implications
 [What this means for our overall approach]
@@ -115,9 +121,12 @@ Use the tag-specific templates below. All entries share a common header.
 ### Rules
 
 - Append only, never edit past entries
-- **Every experiment MUST have an [EXPERIMENT] entry BEFORE execution** with baseline, changes, hypothesis, considerations, and pre-registered result scenarios
+- **Every experiment MUST have an [EXPERIMENT] entry BEFORE execution** with baseline, changes, hypothesis, code evidence, considerations, and pre-registered result scenarios
 - **Every [RESULT] entry MUST reference which scenario matched** from the corresponding [EXPERIMENT] entry
 - Include raw numbers, not just interpretations
+- Write experiment notes in Japanese unless the user requests otherwise
+- Include date, hypothesis, what was done, results, analysis, and code-backed evidence
+- Preserve what was tried, what worked, what did not work, and why
 - Record failed attempts and dead ends
 - Link to related entries by date/tag when relevant
 

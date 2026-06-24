@@ -23,10 +23,9 @@ EDA > hypothesis > experiment > logging > analysis > next hypothesis. Read relat
 - Required config, dict keys, env vars, modes, and workflow inputs must fail loudly when missing.
 - Avoid default-value fallbacks for required values: `dict.get(key, default)`, nested old/new key fallback, `os.getenv(name, default)`, `kwargs.pop(name, default)`, and `value or default`.
 - If a default is a real domain constant, define it explicitly as a constant instead of hiding it inside lookup code.
-
-## Config
-- Centralize in a `Config` dataclass. Map to per-module dataclasses for arguments.
-- When replacing config keys, remove old keys instead of keeping aliases or migrations unless explicitly required.
+- Do not use raw `dict` for experiment config, feature definitions, model parameters, dataset schema, or metric settings.
+- Load YAML/JSON/TOML into typed dataclasses immediately at the boundary.
+- Missing or unknown config fields should raise during construction or validation.
 
 ## Train/Inference Consistency
 - Extract preprocessing to a shared module. Use the same function for train and inference.
