@@ -6,6 +6,7 @@ Follow the same coding rules defined in `~/.claude/rules/`.
 
 - Keep output concise.
 - When changing code, explain the reason in one line.
+- For experiment code changes that could add compatibility behavior, aliases, silent fallbacks, alternate paths, or default-value fallbacks, use the `no-fallbacks` skill before editing.
 
 ## File Deletion
 
