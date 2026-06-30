@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pueue ML Experiments"
+  short_description: "Queue GPU experiments and follow-up notes"
+  default_prompt: "Use $pueue-ml-experiments to queue GPU experiments with post-run Codex analysis notes."
