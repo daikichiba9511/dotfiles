@@ -1,7 +1,10 @@
 #!/bin/bash
 # vsplitして新しいペインでclaude codeを起動（現在のディレクトリで）
 
-if [[ -n "$TMUX" ]]; then
+if [[ "${HERDR_ENV:-}" == "1" ]] && command -v herdr >/dev/null; then
+  # Herdr内
+  herdr agent start claude --cwd "$(pwd)" --split right --focus -- claude
+elif [[ -n "$TMUX" ]]; then
   # tmux内
   tmux split-window -h -c "#{pane_current_path}" "claude"
 elif [[ "$TERM_PROGRAM" == "WezTerm" ]]; then

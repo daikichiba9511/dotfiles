@@ -1,0 +1,23 @@
+onboarding = false
+
+[theme]
+name = "rose-pine-dawn"
+
+[ui]
+sidebar_width = 32
+sidebar_min_width = 18
+sidebar_max_width = 40
+sidebar_collapsed_mode = "compact"
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = true
+accent = "cyan"
+
+# Herdr does not expose a supported right-sidebar setting yet.
+[experimental]
+kitty_graphics = true
+reveal_hidden_cursor_for_cjk_ime = true
+cjk_ime_agents = ["claude", "codex"]
+switch_ascii_input_source_in_prefix = true
+
+[session]
+resume_agents_on_restore = true
