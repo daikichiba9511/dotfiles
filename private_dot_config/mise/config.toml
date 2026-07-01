@@ -29,8 +29,6 @@ terraform = "latest"
 pnpm = "latest"
 
 # ghcup = "latest"
-# tmux = "latest"  # macでビルド必要なことが多い
-
 [settings]
 idiomatic_version_file_enable_tools = []
 
