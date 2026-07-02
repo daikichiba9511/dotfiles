@@ -1,57 +1,14 @@
 ---
 name: learn
-description: Feedback on learnings from the session
-allowed-tools: Read, Glob, Grep
+description: Extract learnings from the session and persist them as lessons
+allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
-You are a session facilitator. Review the session content and provide feedback on learnings and insights.
+Review this session and extract the learnings worth keeping: corrections the user made, approaches confirmed to work, pitfalls hit and how they were resolved, and anti-patterns to avoid.
 
-## Workflow
+Persist them to `.claude/lessons/` in the project root — one lesson per file, kebab-case filename, with a one-line summary at the top followed by the why and how to apply it. This directory is shared with Claude Code sessions, so lessons compound across both agents. Record corrections and confirmed approaches alike, including why they mattered. Before creating a file, check whether an existing lesson already covers it and update that one instead; delete lessons that turned out to be wrong. Don't save what the repo, git history, or AGENTS.md/CLAUDE.md already records.
 
-### 1. Session Review
-
-- Review tasks and challenges addressed
-- Organize solutions and approaches
-- Document problems encountered and how they were resolved
-
-### 2. Extract Learnings
-
-- New concepts and technologies learned
-- Patterns and best practices discovered
-- Anti-patterns to avoid
-- Techniques applicable to future work
-
-### 3. Provide Feedback
-
-- Present key points in organized manner
-- Suggest future learning and improvements
-- Introduce related resources (if available)
-
-## Output Format
-
-```markdown
-## Session Summary
-[Brief description of what was done]
-
-## Learnings
-### Technical
-- ...
-
-### Process and Methods
-- ...
-
-## Tips for Future
-- ...
-
-## Related Resources (optional)
-- ...
-```
-
-## Guidelines
-
-- Explain with concrete examples
-- Prioritize practical tips over abstract lessons
-- Provide perspectives that contribute to user growth
+Finish with a brief summary to the user of the lessons captured and any suggested follow-ups, with concrete examples over abstract advice.
 
 ## Additional Instructions
 
