@@ -1,62 +1,85 @@
 ---
 name: code-review
-description: Code review based on coupling strength
-allowed-tools: Read, Glob, Grep, Bash(git diff:*), Bash(git log:*)
+description: "Code review of the working diff — verified, evidence-backed findings across correctness, coupling/connascence (Khononov integration strength), blast radius, and tests. Use when the user asks to review local changes, a branch diff, or specific files ('review my changes', 'レビューして', 'この差分を見て'). For security-focused audits use the security-review skill."
+allowed-tools: Read, Glob, Grep, Bash(git diff:*), Bash(git log:*), Bash(git show:*)
 ---
 
-You are a code reviewer. Evaluate code based on coupling strength (module coupling and connascence) and provide improvement feedback.
+Review reports defects; it never edits code. Findings must be evidence-backed and verified — a plausible-sounding finding you did not re-check against the code is noise with confident wording. "Clean" is a valid outcome: do not invent nitpicks to fill a report.
 
-## Review Perspectives
+## Scope
 
-### 1. Coupling Strength Evaluation
+- Default target: the working diff against main (or the branch/files the user names).
+- Read the intent first — commit messages, PR description, linked issue — and review the diff against it: does the change do what it claims, completely, and nothing beyond it? Incomplete implementations and scope creep are findings.
+- Skip generated files and lockfiles. Don't report style a formatter or linter already enforces.
+- `git log` on touched files is cheap risk context: a file with many recent fixes is a hotspot that deserves deeper reading, and recent related fixes may interact with this change.
 
-Coupling levels (weakest to strongest):
-1. **Data coupling** - Only primitive data is passed
-2. **Stamp coupling** - Data structures are passed
-3. **Control coupling** - Control flags are passed
-4. **Common coupling** - Global variables are shared
-5. **Content coupling** - Depends on internal implementation
+## Running the review
 
-### 2. Connascence Evaluation
+Work through the lenses below in turn, collecting findings per lens before judging any of them. Report coverage-first while finding: note every issue, including ones you are uncertain about — filtering happens at the verification step, not at finding time; a finding silently dropped early is unrecoverable.
 
-- **Connascence of Name** - Names must match
-- **Connascence of Type** - Types must match
-- **Connascence of Meaning** - Shared understanding of values required
-- **Connascence of Position** - Argument order matters
-- **Connascence of Algorithm** - Same algorithm must be used
+Lenses:
 
-### 3. Functional and Non-Functional Requirements
+1. **Correctness** — trace the failure paths: wrong logic, unhandled states, broken invariants, off-by-one, error paths asymmetric with success paths.
+2. **Coupling & design** — the framework below.
+3. **Blast radius** — the bug is usually outside the diff: find the callers and usages of every changed symbol (Grep) and check whether their assumptions still hold — signatures, semantics, error behavior, invariants.
+4. **Tests** — for each behavioral change in the diff, name the test that would fail if the change were wrong. A behavior change that no test pins is a finding.
+5. **ML consistency** (only when the diff touches experiment/training code) — train/inference divergence per the ml-consistency skill: feature extraction, normalization params, and tokenization must be shared between train and inference.
 
-- Are requirements met?
-- Are edge cases considered?
-- Are performance requirements satisfied?
-- Are there security issues?
+Then verify before reporting: for each finding that would be costly if wrong, re-check it adversarially against the actual code — try to refute it. Drop refuted findings, dedup across lenses, rank by severity.
 
-### 4. Code Quality
+## Coupling & design lens
 
-- Readability and clarity
-- Appropriate abstraction level
-- Test presence and quality
-- Error handling
+Evaluate integration strength (Vlad Khononov, "Balancing Coupling in Software Design") and connascence.
 
-## Output Format
+### Three Dimensions of Coupling
 
-```markdown
-## Overview
-[Overview of review target and overall assessment]
+| Dimension | Description | Goal |
+|-----------|-------------|------|
+| **Strength** | Amount of knowledge shared between modules | Minimize |
+| **Distance** | Physical, organizational, ownership boundaries | Consider context |
+| **Volatility** | How frequently modules change | Isolate volatile parts |
 
-## Issues
-### [Severity: High]
-- Location: ...
-- Problem: ...
-- Suggestion: ...
+Higher strength + longer distance + higher volatility = higher risk of cascading changes.
 
-## Strengths
-- ...
+### Four Levels of Integration Strength
 
-## Summary
-[Conclusion and recommended actions]
-```
+From strongest (worst) to weakest (best):
+
+1. **Intrusive Coupling (Avoid)** — Accessing private interfaces or implementation details
+2. **Functional Coupling (Minimize)** — Sharing knowledge about functionalities across modules (duplicated logic)
+3. **Model Coupling (Caution)** — Components share a domain model directly
+4. **Contract Coupling (Preferred)** — Integration through dedicated contracts that abstract internal models
+
+### Connascence
+
+Static (compile-time, easier to manage):
+- **Name** / **Type** / **Meaning** / **Position** / **Algorithm**
+
+Dynamic (runtime, harder to manage):
+- **Execution** / **Timing** / **Values** / **Identity** (most problematic)
+
+**Rule**: Prefer static over dynamic. Lower connascence is better.
+
+### What to look for
+
+- Intrusive coupling: accessing private members or implementation details
+- Functional duplication: same logic implemented in multiple places
+- Model leakage: internal models exposed at boundaries; direct model sharing where a contract/DTO would be better
+- High connascence: position-dependent code, shared mutable state
+- Volatility isolation: are stable parts protected from volatile parts?
+
+### Key Questions
+
+1. "If the upstream module changes internally, will this code break?"
+2. "How much does this module need to know about its dependencies?"
+3. "Is this coupling at the appropriate boundary?"
+4. "Could we reduce shared knowledge with a contract?"
+
+## Findings format
+
+Each finding carries: `file:line` — a one-sentence statement of the defect — a concrete failure scenario (specific input or state → wrong outcome) — severity (Critical/High/Medium/Low) — confidence — a verbatim evidence quote. Coupling findings also name the coupling type. A finding without a failure scenario and evidence doesn't ship.
+
+Report outcome first (clean, or N findings with worst severity), then the ranked findings, then strengths worth keeping.
 
 ## Additional Instructions
 
