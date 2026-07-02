@@ -7,6 +7,41 @@
     }
   },
   {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "[c": "editor::GoToPreviousHunk",
+      "[d": "editor::GoToPreviousDiagnostic",
+      "]c": "editor::GoToHunk",
+      "]d": "editor::GoToDiagnostic",
+      "K": "editor::Hover",
+      "gD": "editor::GoToDeclaration",
+      "gI": "editor::GoToImplementation",
+      "gd": "editor::GoToDefinition",
+      "gr": "editor::FindAllReferences",
+      "gy": "editor::GoToTypeDefinition",
+      "space ,": "tab_switcher::Toggle",
+      "space /": "pane::DeploySearch",
+      "space :": "command_palette::Toggle",
+      "space bd": "pane::CloseActiveItem",
+      "space ca": "editor::ToggleCodeActions",
+      "space e": "workspace::ToggleRightDock",
+      "space f": "editor::Format",
+      "space gb": "git::Branch",
+      "space gd": "git::BranchDiff",
+      "space gs": "git_panel::ToggleFocus",
+      "space hB": "editor::ToggleGitBlameInline",
+      "space hb": "git::Blame",
+      "space ih": "editor::ToggleInlayHints",
+      "space rn": "editor::Rename",
+      "space sd": "editor::ToggleDiagnostics",
+      "space ss": "outline_panel::Toggle",
+      "space tt": "terminal_panel::Toggle",
+      "space space": "file_finder::Toggle"
+    }
+  },
+  {
     "context": "Editor && edit_prediction && !showing_completions",
     "bindings": {
       "ctrl-g": "editor::AcceptEditPrediction"
@@ -29,12 +64,17 @@
   {
     "context": "Workspace",
     "bindings": {
+      "ctrl-`": "terminal_panel::Toggle",
       "ctrl-b": "workspace::ToggleRightDock"
     }
   },
   {
     "context": "Terminal",
     "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-w h": "workspace::ActivatePaneLeft",
       "ctrl-w j": "workspace::ActivatePaneDown",
       "ctrl-w k": "workspace::ActivatePaneUp",

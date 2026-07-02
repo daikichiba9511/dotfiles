@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Investigation"
+  short_description: "Plan and synthesize research investigations"
+  default_prompt: "Use $research-investigation to plan a research investigation with scoped subagents and synthesize the evidence."
