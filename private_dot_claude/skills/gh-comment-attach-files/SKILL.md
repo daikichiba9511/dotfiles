@@ -5,10 +5,6 @@ description: "Attach local files to a GitHub issue or pull request comment via P
 
 # GitHub Comment Attach Files
 
-## Read Acknowledgement
-
-- After reading this skill, say: `I read gh-comment-attach-files.`
-
 ## When To Use
 
 Use this skill when you need GitHub to host local files and give back anonymized attachment URLs, but you do not want to submit the issue or pull request comment itself.
