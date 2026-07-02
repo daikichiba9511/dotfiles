@@ -21,7 +21,7 @@ You are done here when you can state precisely what is happening, why, and what 
 Before inventing anything, find out how this class of problem has been solved:
 
 - **In this repository**: prior art in similar modules; `git log` / `git show` for past fixes of related symptoms.
-- **In project knowledge**: check `.claude/lessons/`, and query the project wiki or zettel if one exists.
+- **In project knowledge**: check `.agents/lessons/`, and query the project wiki or zettel if one exists.
 - **In the world**: search for the error message, the problem class, or the technique — GitHub issues, official docs, and for ML problems, papers and Kaggle discussions of similar setups.
 
 Run these as narrow, targeted searches rather than one broad query. Collect two or three relevant precedents: what the situation was, what they did, and whether it transfers here.
