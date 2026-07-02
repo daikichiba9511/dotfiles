@@ -8,6 +8,7 @@ paths:
 ## Type Hints
 - Argument types: use minimal abstract types (`collections.abc.Sequence` > `list`, `collections.abc.Mapping` > `dict`)
 - Return types: use concrete types (exception: constraining callers for loose coupling)
+- Generics: PEP 585 builtins (`list[str]`, `dict[str, int]`, `T | None`), never `typing.List`/`typing.Dict`/`Optional`. This composes with the abstract-argument rule: `collections.abc` for argument abstraction, builtin generics for concrete types.
 
 ## Validation / Domain Models
 - Boundary validation: pydantic with `frozen=True`
