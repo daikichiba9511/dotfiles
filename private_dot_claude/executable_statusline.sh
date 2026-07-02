@@ -5,7 +5,8 @@ input=$(cat)
 CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // "?"' | xargs basename)
 CONTEXT_USED=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 MODEL_NAME=$(echo "$input" | jq -r '.model.display_name // "?"')
-EFFORT="${CLAUDE_CODE_EFFORT_LEVEL:-medium}"
+# Effort is only known when explicitly set via env; omit the segment otherwise
+EFFORT="${CLAUDE_CODE_EFFORT_LEVEL:-}"
 
 # User and Host
 USER=$(whoami)
@@ -25,8 +26,10 @@ if [ -n "$CONTEXT_USED" ]; then
     CONTEXT_INFO="${CONTEXT_USED_INT}%"
 fi
 
-# Format: [Model/effort] user@host:directory (branch) | ctx: X%
+# Format: [Model] or [Model/effort] user@host:directory (branch) | ctx: X%
 # Cyan for model, green for user@host, blue for directory, magenta for branch, yellow for ctx
 # Dark gray (90m) for separators (: and |)
-printf "\033[01;36m[%s/%s]\033[00m \033[01;32m%s@%s\033[00m\033[90m:\033[00m\033[01;34m%s\033[00m\033[01;35m%s\033[00m \033[90m|\033[00m \033[01;33m%s\033[00m\n" \
-    "$MODEL_NAME" "$EFFORT" "$USER" "$HOST" "$CURRENT_DIR" "$GIT_BRANCH" "$CONTEXT_INFO"
+MODEL_LABEL="$MODEL_NAME"
+[ -n "$EFFORT" ] && MODEL_LABEL="$MODEL_NAME/$EFFORT"
+printf "\033[01;36m[%s]\033[00m \033[01;32m%s@%s\033[00m\033[90m:\033[00m\033[01;34m%s\033[00m\033[01;35m%s\033[00m \033[90m|\033[00m \033[01;33m%s\033[00m\n" \
+    "$MODEL_LABEL" "$USER" "$HOST" "$CURRENT_DIR" "$GIT_BRANCH" "$CONTEXT_INFO"
