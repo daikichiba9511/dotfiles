@@ -1,12 +1,11 @@
-# Dotfiles Repository
+# Dotfiles (chezmoi)
 
-This repository is managed by [chezmoi](https://www.chezmoi.io/).
+Dotfiles under `~` (e.g. `~/.config/`, `~/.claude/`, `~/.zshrc`) are managed by [chezmoi](https://www.chezmoi.io/). The source of truth is the repo at `~/dotfiles`.
 
-## Chezmoi File Editing Rules
+## Editing Rules
 
-- Always edit files in this repository, never at the target locations (e.g., `~/.config/`, `~/.claude/`)
-- After editing, apply with `chezmoi apply --force`
-- Chezmoi uses naming conventions to map source files to targets:
+- Never edit managed files at their target locations — edit the source in `~/dotfiles`, then apply with `chezmoi apply --force`
+- Chezmoi maps source names to targets:
   - `dot_` prefix → `.` (e.g., `dot_zshrc` → `~/.zshrc`)
   - `private_` prefix → sets file permissions to private
   - `executable_` prefix → sets file as executable

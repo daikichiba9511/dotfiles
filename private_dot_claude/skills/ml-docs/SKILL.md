@@ -128,7 +128,7 @@ Scaffold the documentation structure for a new experiment.
 
 ## Command: strategy
 
-Bias-resistant strategy formation. Execute phases strictly in order. Phase boundaries are non-negotiable.
+Bias-resistant strategy formation. Work through the phases in order — the sequence exists to prevent anchoring: proposals are generated (Phase 2) before any past evidence is read (Phases 3–4).
 
 ### Phase 0: Exploration Coverage Check
 
@@ -149,7 +149,7 @@ Exploration Coverage:
 
 4. Flag areas explored without error-analysis motivation.
 
-Output: Coverage summary visible to user. MUST complete before Phase 2.
+Output: Coverage summary visible to user, before proposal generation begins.
 
 ### Phase 1: Task Information Gathering
 
