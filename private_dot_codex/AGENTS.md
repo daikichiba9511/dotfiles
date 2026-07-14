@@ -6,6 +6,8 @@ Follow the same coding rules defined in `~/.claude/rules/`.
 
 - Keep output concise.
 - When changing code, explain the reason in one line.
+- When writing or editing Python, target Python 3.12 or later as the minimum supported version.
+- Do not add compatibility constructs that Python 3.12 does not require, including `from __future__ import annotations`.
 - For experiment code changes that could add compatibility behavior, aliases, silent fallbacks, alternate paths, or default-value fallbacks, use the `no-fallbacks` skill before editing.
 - For any non-trivial task where a wrong initial framing is costly, read `~/.codex/skills/meta-perception/SKILL.md` before acting, even if the skill mechanism does not trigger automatically.
 - Always do this when the user explicitly mentions `meta-perception`, `/meta-perception`, debugging, root-cause analysis, architecture or design choices, research-heavy investigations, or underperforming ML experiments.
