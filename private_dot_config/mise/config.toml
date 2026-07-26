@@ -1,6 +1,7 @@
 [tools]
 # -- Languages
 node = "24"
+bun = "latest"
 python = "3.12"
 go = "latest"
 deno = "latest"
