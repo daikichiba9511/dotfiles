@@ -20,10 +20,20 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Configure plugins
 -- Load all plugin configurations from the plugins directory
-require("lazy").setup("plugins", {})
-
--- LSP configuration
-require("lsp")
+require("lazy").setup("plugins", {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "netrwPlugin",
+        "rplugin",
+        "tarPlugin",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 
 -- Load custom configurations
 require("config.options")

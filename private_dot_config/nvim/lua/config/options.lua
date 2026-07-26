@@ -25,7 +25,6 @@ vim.opt.undofile = true
 vim.opt.listchars = "tab:>-"
 vim.opt.ambiwidth = "single"
 
-vim.opt.undofile = true
 -- 検索結果のハイライト
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -34,21 +33,11 @@ vim.opt.incsearch = true
 vim.opt.autoread = true
 vim.opt.autowriteall = true
 
--- AI CLIが外部でファイルを変更した際に確実に再読み込みする
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
-  command = "checktime",
-})
-
 --- @brief Clipboardにヤンクした内容を連携
 -- SSH接続時にOSC 52を使用してクライアントのクリップボードに同期
 if os.getenv("SSH_CONNECTION") ~= nil or os.getenv("SSH_TTY") ~= nil then
   local function copy(lines, _)
     local text = table.concat(lines, "\n")
-    -- テキストの末尾に改行がある場合は保持
-    if #lines > 1 or lines[1] ~= "" then
-      text = text
-    end
-
     local base64 = vim.base64.encode(text)
     local osc52_sequence
 

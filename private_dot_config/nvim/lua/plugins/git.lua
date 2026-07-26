@@ -24,7 +24,7 @@ return {
   -- Adds git related signs to the gutter
   {
     "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       signs = {
         add = { text = "+" },

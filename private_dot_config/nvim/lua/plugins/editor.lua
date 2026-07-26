@@ -1,4 +1,18 @@
 -- Editor enhancement plugins
+local treesitter_parsers = {
+  "javascript",
+  "julia",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "tsx",
+  "typescript",
+  "typst",
+  "vim",
+  "vimdoc",
+}
+
 return {
   -- Detect tabstop and shiftwidth automatically
   { "tpope/vim-sleuth", event = { "BufReadPost", "BufNewFile" } },
@@ -25,20 +39,13 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
-    event = { "BufReadPost", "BufNewFile" },
-    build = ":TSUpdate",
-    config = function()
-      -- Setup nvim-treesitter (required for main branch)
-      require("nvim-treesitter").setup({})
-
-      -- Install parsers programmatically
-      require("nvim-treesitter").install({
-        "lua", "vim", "vimdoc", "python", "julia",
-        "markdown", "markdown_inline", "tsx", "javascript", "typescript",
-        "typst",
-      })
-
-      -- Enable treesitter highlighting (required for main branch)
+    lazy = false,
+    build = function()
+      local treesitter = require("nvim-treesitter")
+      treesitter.install(treesitter_parsers):wait(300000)
+      treesitter.update(treesitter_parsers):wait(300000)
+    end,
+    init = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),
         callback = function()

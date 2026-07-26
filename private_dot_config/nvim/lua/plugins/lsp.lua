@@ -3,26 +3,15 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      {
-        "williamboman/mason.nvim",
-        cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
-        config = true,
-      },
-      {
-        "williamboman/mason-lspconfig.nvim",
-        lazy = true,
-      },
-    },
+    config = function()
+      require("lsp")
+    end,
   },
   {
-    "folke/lazydev.nvim",
-    ft = "lua",
+    "mason-org/mason.nvim",
+    cmd = { "Mason", "MasonInstall", "MasonUpdate", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
+      PATH = "skip",
     },
   },
 }

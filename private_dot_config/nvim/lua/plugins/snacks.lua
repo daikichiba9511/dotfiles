@@ -4,13 +4,12 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    -- 起動高速化: dashboardとquickfileのみ即時、他は遅延
     ---@type snacks.Config
     opts = {
       bigfile = { enabled = true },
       dashboard = { enabled = true },
       explorer = { enabled = true },
-      indent = { enabled = true },
+      indent = { enabled = false },
       input = { enabled = true },
       notifier = {
         enabled = true,
@@ -18,9 +17,9 @@ return {
       },
       picker = { enabled = true },
       quickfile = { enabled = true },
-      scope = { enabled = true },
+      scope = { enabled = false },
       scroll = { enabled = false },
-      statuscolumn = { enabled = true },
+      statuscolumn = { enabled = false },
       words = { enabled = true },
       styles = {
         notification = {
@@ -564,7 +563,6 @@ return {
           Snacks.toggle.treesitter():map("<leader>uT")
           Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
           Snacks.toggle.inlay_hints():map("<leader>uh")
-          Snacks.toggle.indent():map("<leader>ug")
           Snacks.toggle.dim():map("<leader>uD")
         end,
       })
