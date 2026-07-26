@@ -2,7 +2,7 @@
 return {
   {
     "mfussenegger/nvim-lint",
-    event = { "BufReadPost", "BufNewFile" },
+    ft = "markdown",
     config = function()
       local lint = require("lint")
       lint.linters_by_ft = {
@@ -10,8 +10,10 @@ return {
       }
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-        callback = function()
-          require("lint").try_lint()
+        callback = function(args)
+          if vim.bo[args.buf].filetype == "markdown" then
+            lint.try_lint()
+          end
         end,
       })
     end,
