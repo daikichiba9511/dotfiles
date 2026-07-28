@@ -1,0 +1,4 @@
+interface:
+  display_name: "読者前提に合わせた日本語執筆"
+  short_description: "読者の前提知識を定め、必要な用語だけを定義して書く"
+  default_prompt: "Use $reader-aware-japanese-writing to write this Japanese text after fixing the reader assumptions and defining every necessary technical term."
