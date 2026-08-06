@@ -2,6 +2,6 @@ gui:
   nerdFontsVersion: "3"
 
 git:
-  paging:
-    colorArg: always
-    pager: hunk pager
+  pagers:
+    - colorArg: always
+      pager: hunk pager
