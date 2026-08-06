@@ -98,7 +98,7 @@ vim.opt.cmdheight = 0
 vim.opt.conceallevel = 0
 vim.opt.spelllang = {}
 vim.opt.laststatus = 0 -- Hide statusline
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- LSP-based folding
 vim.opt.foldmethod = "expr"
