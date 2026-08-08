@@ -1,0 +1,153 @@
+#!/bin/sh
+
+set -eu
+
+atcoder_cpp_root="${HOME}/work/atcoder_for_myself/cpp"
+acl_include_root="${HOME}/.local/share/ac-library"
+cpp_library_root="${atcoder_cpp_root}/library"
+compiler="/opt/homebrew/bin/g++-15"
+default_source="a"
+template_file="${atcoder_cpp_root}/template.cpp"
+
+usage() {
+  cat <<'EOF'
+Usage: acpp [SOURCE]
+       acpp new TARGET...
+
+Compile an AtCoder C++ source file with GNU C++ 23.
+SOURCE defaults to a.cpp and may be written with or without .cpp.
+The new command copies the shared template without overwriting existing code.
+
+Examples:
+  acpp
+  acpp b
+  acpp b.cpp
+  acpp new a
+  acpp new a b c d
+EOF
+}
+
+source_name() {
+  case "$1" in
+    -*)
+      printf 'acpp: invalid source name: %s\n' "$1" >&2
+      return 2
+      ;;
+    *.cpp) printf '%s\n' "$1" ;;
+    *) printf '%s.cpp\n' "$1" ;;
+  esac
+}
+
+if [ "$#" -eq 1 ]; then
+  case "$1" in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+  esac
+fi
+
+case "$(pwd -P)" in
+  "${atcoder_cpp_root}" | "${atcoder_cpp_root}"/*) ;;
+  *)
+    printf 'acpp: run this command under %s\n' "${atcoder_cpp_root}" >&2
+    exit 1
+    ;;
+esac
+
+if [ "$#" -gt 0 ] && [ "$1" = "new" ]; then
+  shift
+  if [ "$#" -eq 0 ]; then
+    printf 'acpp: new requires at least one target\n' >&2
+    usage >&2
+    exit 2
+  fi
+
+  if [ ! -f "${template_file}" ]; then
+    printf 'acpp: template file not found: %s\n' "${template_file}" >&2
+    exit 1
+  fi
+
+  seen_targets=""
+  for target in "$@"; do
+    case "${target}" in
+      "" | .cpp | */* | *[!A-Za-z0-9_.-]*)
+        printf 'acpp: invalid target name: %s\n' "${target}" >&2
+        exit 2
+        ;;
+    esac
+
+    target_file="$(source_name "${target}")"
+    case " ${seen_targets} " in
+      *" ${target_file} "*)
+        printf 'acpp: duplicate target: %s\n' "${target_file}" >&2
+        exit 2
+        ;;
+    esac
+    seen_targets="${seen_targets} ${target_file}"
+
+    if [ -e "${target_file}" ] && [ ! -f "${target_file}" ]; then
+      printf 'acpp: target is not a regular file: %s\n' "${target_file}" >&2
+      exit 1
+    fi
+
+    if [ -s "${target_file}" ]; then
+      printf 'acpp: refusing to overwrite non-empty file: %s\n' "${target_file}" >&2
+      exit 1
+    fi
+  done
+
+  for target in "$@"; do
+    target_file="$(source_name "${target}")"
+    cp "${template_file}" "${target_file}"
+    printf 'created %s\n' "${target_file}"
+  done
+  exit 0
+fi
+
+if [ "$#" -gt 1 ]; then
+  usage >&2
+  exit 2
+fi
+
+if [ "$#" -eq 0 ]; then
+  source_argument="${default_source}"
+else
+  source_argument="$1"
+fi
+source_file="$(source_name "${source_argument}")"
+
+if [ ! -f "${source_file}" ]; then
+  printf 'acpp: source file not found: %s\n' "${source_file}" >&2
+  exit 1
+fi
+
+if [ ! -x "${compiler}" ]; then
+  printf 'acpp: compiler not found: %s\n' "${compiler}" >&2
+  exit 1
+fi
+
+if [ ! -f "${acl_include_root}/atcoder/all" ]; then
+  printf 'acpp: AC Library not found: %s\n' "${acl_include_root}" >&2
+  exit 1
+fi
+
+if [ ! -d "${cpp_library_root}" ]; then
+  printf 'acpp: C++ library directory not found: %s\n' "${cpp_library_root}" >&2
+  exit 1
+fi
+
+output_file="${source_file%.cpp}.out"
+
+"${compiler}" \
+  -std=gnu++23 \
+  -O2 \
+  -DLOCAL \
+  -I "${acl_include_root}" \
+  -I "${cpp_library_root}" \
+  -Wall \
+  -Wextra \
+  "${source_file}" \
+  -o "${output_file}"
+
+printf 'built %s\n' "${output_file}"
