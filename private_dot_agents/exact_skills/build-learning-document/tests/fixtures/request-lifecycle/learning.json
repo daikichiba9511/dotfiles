@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "document_id": "request-lifecycle",
+  "title": "リクエストの流れ",
+  "language": "ja",
+  "reader": {
+    "goal": "リクエストとレスポンスの順序を説明できる",
+    "known": [
+      "ブラウザから通信できる"
+    ],
+    "not_assumed": [
+      "応答時間の内訳"
+    ]
+  },
+  "concepts": [
+    {
+      "id": "request",
+      "name": "リクエスト",
+      "definition": "利用者がサーバーへ処理を求める通信",
+      "prerequisites": []
+    },
+    {
+      "id": "response",
+      "name": "レスポンス",
+      "definition": "サーバーがリクエストの処理結果を返す通信",
+      "prerequisites": [
+        "request"
+      ]
+    }
+  ],
+  "diagrams": [
+    {
+      "id": "request-flow",
+      "kind": "sequence",
+      "title": "要求から応答まで",
+      "steps": [
+        {
+          "id": "send",
+          "label": "要求を送る",
+          "description": "ブラウザがサーバーへリクエストを送る"
+        },
+        {
+          "id": "return",
+          "label": "結果を返す",
+          "description": "サーバーが処理結果をレスポンスとして返す"
+        }
+      ],
+      "caption": "リクエストが先にあり、その処理結果としてレスポンスが返る。"
+    }
+  ],
+  "checks": [
+    {
+      "id": "check-response",
+      "concepts": [
+        "request",
+        "response"
+      ],
+      "type": "apply",
+      "question": "サーバーから結果が返らない場合、どの段階まで進んだと判断できますか。",
+      "expected_points": [
+        "リクエスト送信の有無を分けて確認する",
+        "レスポンスは未確認である"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "tasks": {
+    "build": "deno run --allow-read --allow-write scripts/learning_doc.ts build",
+    "validate": "deno run --allow-read scripts/learning_doc.ts validate",
+    "extract": "deno run --allow-read --allow-write scripts/learning_doc.ts extract",
+    "prepare-check": "deno run --allow-read --allow-write scripts/learning_doc.ts prepare-check",
+    "typecheck": "deno check scripts/learning_doc.ts tests/learning_doc_test.ts",
+    "test": "deno test --allow-read --allow-write tests"
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "semiColons": true,
+    "singleQuote": false
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}

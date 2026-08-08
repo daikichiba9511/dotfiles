@@ -1,0 +1,358 @@
+:root {
+  color-scheme: light dark;
+  --page: #f4f1ea;
+  --surface: #fffdf8;
+  --surface-muted: #ece8de;
+  --text: #23231f;
+  --muted: #65645d;
+  --accent: #245e53;
+  --accent-soft: #dceae4;
+  --border: #cbc6b9;
+  --code: #1f2528;
+  --code-text: #f3f5f4;
+  --focus: #b24c16;
+  font-family: "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #181a19;
+    --surface: #202321;
+    --surface-muted: #2b302d;
+    --text: #edf0ed;
+    --muted: #b8bdb9;
+    --accent: #8bc9b8;
+    --accent-soft: #263c35;
+    --border: #454b47;
+    --code: #101312;
+    --code-text: #f3f5f4;
+    --focus: #ffad78;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible,
+button:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: minmax(14rem, 19rem) minmax(0, 48rem);
+  gap: 2.5rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+.sidebar {
+  align-self: start;
+  position: sticky;
+  top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.sidebar ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.sidebar li + li {
+  margin-top: 0.45rem;
+}
+
+.document {
+  min-width: 0;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 8%);
+}
+
+.learning-goal {
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.25rem;
+  border-left: 0.35rem solid var(--accent);
+  background: var(--accent-soft);
+}
+
+.learning-goal p {
+  margin: 0.35rem 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+h2 {
+  margin-top: 3.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.65rem;
+}
+
+h3 {
+  margin-top: 2.5rem;
+  font-size: 1.25rem;
+}
+
+p,
+li {
+  max-width: 44rem;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1rem 1.15rem;
+  border-radius: 0.65rem;
+  background: var(--code);
+  color: var(--code-text);
+  line-height: 1.55;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.25rem;
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--surface-muted);
+}
+
+.sequence-diagram,
+.formula {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface-muted);
+}
+
+.sequence-diagram h3 {
+  margin-top: 0;
+}
+
+.sequence-steps {
+  display: grid;
+  gap: 1.4rem;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: sequence;
+}
+
+.sequence-steps li {
+  position: relative;
+  padding: 1rem 1rem 1rem 3.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  counter-increment: sequence;
+}
+
+.sequence-steps li::before {
+  content: counter(sequence);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 700;
+}
+
+.sequence-steps li:not(:last-child)::after {
+  content: "↓";
+  position: absolute;
+  bottom: -1.45rem;
+  left: 1.35rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.sequence-steps strong,
+.sequence-steps span {
+  display: block;
+}
+
+.sequence-steps span {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+figcaption {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.formula-output {
+  overflow-x: auto;
+  padding: 1rem;
+  background: var(--surface);
+  text-align: center;
+}
+
+.formula details {
+  margin-top: 0.8rem;
+}
+
+.checks {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--border);
+}
+
+.check-card {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface-muted);
+}
+
+.check-card h3 {
+  margin-top: 0;
+}
+
+.check-card textarea {
+  width: 100%;
+  min-height: 8rem;
+  margin-top: 0.75rem;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+button {
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: var(--surface);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.export-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 760px) {
+  .page {
+    display: block;
+    padding: 0;
+  }
+
+  .sidebar {
+    position: static;
+    border-width: 0 0 1px;
+    border-radius: 0;
+  }
+
+  .document {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+  }
+
+  .page {
+    display: block;
+    max-width: none;
+    padding: 0;
+  }
+
+  .sidebar,
+  .export-answers,
+  .export-note {
+    display: none;
+  }
+
+  .document {
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+}

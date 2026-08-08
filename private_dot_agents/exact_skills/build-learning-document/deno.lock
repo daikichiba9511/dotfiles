@@ -1,0 +1,23 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:katex@0.18.1": "0.18.1",
+    "npm:marked@18.0.7": "18.0.7"
+  },
+  "npm": {
+    "commander@8.3.0": {
+      "integrity": "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
+    },
+    "katex@0.18.1": {
+      "integrity": "sha512-Td8GCYSxDAoMhHOlKmCFMJ/hz5qlAAb71n66Dryw9nfCVfumLo7nhuotbvKom/XPADmrYC3O5QR71EPq4DarJQ==",
+      "dependencies": [
+        "commander"
+      ],
+      "bin": true
+    },
+    "marked@18.0.7": {
+      "integrity": "sha512-iDVQ5ldaiKXn6b2JroX5kgRfmwgqolW7NpaEzTl1k/2Zh1njIEN9yniyLV/mOvWwtsE8OGgkjsCYvijuPk1dtA==",
+      "bin": true
+    }
+  }
+}
