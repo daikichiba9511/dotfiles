@@ -1,5 +1,5 @@
-model = "gpt-5.5"
-model_reasoning_effort = "high"  # モデルの推論努力（思考の深さ）
+model = "gpt-5.6-sol"
+model_reasoning_effort = "max"   # モデルの推論努力（最大）
 model_verbosity = "medium"       # 詳細な応答の冗長さ（情報量の多さ）
 sandbox_mode = "workspace-write" # 通常は作業ディレクトリ内だけ書き込み可
 
