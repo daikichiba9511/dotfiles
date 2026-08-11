@@ -4,6 +4,14 @@ Use these rules only for exploratory ML or Kaggle experiment code. They override
 
 The goal is learning: the result and its cause must remain easy to trace.
 
+## Experiment Directory Isolation
+
+- Treat every `src/exp/expXXX/` directory as a self-contained experiment snapshot.
+- When starting a new experiment, create its directory by copying the closest prior experiment (for example, with `cp -r`) or by recreating only the needed files, then make the new changes inside that directory.
+- Use earlier experiments as evidence, documentation, and copy sources only. Do not import functions, classes, configs, or other implementation from a sibling experiment directory at runtime.
+- For example, `exp005` must not import implementation from `exp003` or `exp004`; copy or reimplement the needed code inside `exp005` instead. Intentional duplication is preferable to coupling experiments together.
+- Do not modify an earlier experiment merely to support a newer one. Dependencies on stable shared modules outside the experiment directories remain allowed when those modules are already intended for cross-experiment reuse.
+
 ## Code Shape
 
 - Prefer simple over easy, fewer moving parts over more, and the smallest code that tests the hypothesis.

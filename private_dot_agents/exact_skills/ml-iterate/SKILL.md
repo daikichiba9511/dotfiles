@@ -49,6 +49,7 @@ Ask clarifying questions:
 - What's the baseline comparison?
 - What metrics will we track?
 - What's the minimal experiment to test the hypothesis?
+- When starting a new `src/exp/expXXX/`, create a self-contained directory by copying the closest baseline or recreating the needed files. Never implement it by importing code from another experiment directory.
 
 ### Phase 4: Exploratory Coding
 
