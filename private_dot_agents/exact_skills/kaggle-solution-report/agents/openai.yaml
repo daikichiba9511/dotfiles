@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kaggle解法レポート"
+  short_description: "Kaggle上位解法を根拠付き文書と公開用スライドにする"
+  default_prompt: "Use $kaggle-solution-report to research a Kaggle competition and create a detailed Typst report plus a public Metropolis slide deck."
