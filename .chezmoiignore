@@ -7,6 +7,7 @@ private_dot_claude/commands
 
 # 共通除外
 README.md
+experiments
 flake.nix
 flake.lock
 mise.toml
