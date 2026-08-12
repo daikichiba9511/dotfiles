@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import argparse
 import json
 import re
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 CONTENT_KEYS = ("content", "rawContent", "body", "message", "text")
+
+
+@dataclass(frozen=True)
+class PlainTopic:
+    topic_id: str
+    title: str
+    body: str
 
 
 def parse_args() -> argparse.Namespace:
@@ -26,6 +33,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--medal-band", choices=("gold", "silver-upper"))
     parser.add_argument("--retrieval-method", default="Kaggle CLI via uv")
     parser.add_argument("--retrieved-at", default="")
+    parser.add_argument(
+        "--topic-text-input",
+        type=Path,
+        help=(
+            "Plain-text output from `competitions topics show` without `--format json`. "
+            "Kaggle CLI JSON omits the original topic body."
+        ),
+    )
+    parser.add_argument(
+        "--topic-html-input",
+        type=Path,
+        help=(
+            "Original HTML body returned by the Kaggle CLI package API. "
+            "When supplied, this is preserved instead of the CLI plain-text rendering."
+        ),
+    )
+    parser.add_argument(
+        "--allow-missing-body",
+        action="store_true",
+        help="Record an unavailable body only after the non-JSON retrieval path was attempted.",
+    )
     parser.add_argument("--output", type=Path)
     return parser.parse_args()
 
@@ -48,6 +76,36 @@ def first_content(item: dict[str, Any]) -> str | None:
         if isinstance(value, str) and value:
             return value
     return None
+
+
+def parse_plain_topic(text: str, source: str) -> PlainTopic:
+    header = re.match(
+        r"\A(?:Kaggle CLI[^\n]*\n)?Topic #(?P<id>\d+): (?P<title>[^\n]+)\n"
+        r"  Author:[^\n]*\n"
+        r"  Posted:[^\n]*\n"
+        r"  Votes:[^\n]*\n\n",
+        text,
+    )
+    if header is None:
+        raise SystemExit(
+            f"Invalid plain Kaggle topic output in {source}: expected the Topic/Author/Posted/Votes header"
+        )
+
+    body_and_comments = text[header.end() :]
+    comments_marker = "\nComments:\n"
+    if comments_marker in body_and_comments:
+        body, _, _ = body_and_comments.rpartition(comments_marker)
+    else:
+        body = body_and_comments
+    body = body.rstrip("\n")
+    if not body.strip():
+        raise SystemExit(f"Plain Kaggle topic output in {source} did not contain an original body")
+
+    return PlainTopic(
+        topic_id=header.group("id"),
+        title=header.group("title"),
+        body=body,
+    )
 
 
 def flatten_comments(items: list[Any]) -> list[dict[str, Any]]:
@@ -77,7 +135,12 @@ def metadata_line(label: str, value: Any) -> str:
     return f"- {label}: {shown}"
 
 
-def render(args: argparse.Namespace, pages: list[dict[str, Any]], trailing: list[str]) -> str:
+def render(
+    args: argparse.Namespace,
+    pages: list[dict[str, Any]],
+    trailing: list[str],
+    plain_topic: PlainTopic | None,
+) -> str:
     topic: dict[str, Any] = {}
     comments: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
@@ -96,10 +159,31 @@ def render(args: argparse.Namespace, pages: list[dict[str, Any]], trailing: list
             comments.append(comment)
 
     retrieved_at = args.retrieved_at or datetime.now(timezone.utc).isoformat()
-    body = first_content(topic)
+    html_body = None
+    if args.topic_html_input is not None:
+        html_body = args.topic_html_input.read_text(encoding="utf-8")
+        if not html_body.strip():
+            raise SystemExit(f"HTML body input is empty: {args.topic_html_input}")
+    body = html_body or (plain_topic.body if plain_topic is not None else first_content(topic))
+    expected_topic_id = args.topic_ref.rsplit("/", maxsplit=1)[-1]
+    if plain_topic is not None and plain_topic.topic_id != expected_topic_id:
+        raise SystemExit(
+            "Topic mismatch: "
+            f"--topic-ref identifies {expected_topic_id}, but plain output contains {plain_topic.topic_id}"
+        )
+    if body is None and not args.allow_missing_body:
+        raise SystemExit(
+            "The Kaggle JSON response omitted the original topic body. "
+            "Run `competitions topics show` again without `--format json` and pass that output "
+            "with --topic-text-input. Use --allow-missing-body only after that retrieval path fails."
+        )
     body_status = "retrieved" if body is not None else "unavailable"
-    title = str(topic.get("title") or args.topic_ref)
-    source_format = "html-or-source-text"
+    title = str(topic.get("title") or (plain_topic.title if plain_topic is not None else args.topic_ref))
+    source_format = (
+        "kaggle-cli-package-html-body-and-json-comments"
+        if html_body is not None
+        else "kaggle-cli-plain-text-body-and-json-comments"
+    )
     lines = [
         "---",
         f"competition: {yaml_string(args.competition)}",
@@ -184,6 +268,8 @@ def render(args: argparse.Namespace, pages: list[dict[str, Any]], trailing: list
             "",
             f"- Original post body: {body_status}",
             f"- Supplied JSON pages: {len(pages)}",
+            f"- Plain-text topic output supplied: {'yes' if plain_topic is not None else 'no'}",
+            f"- HTML topic body supplied: {'yes' if html_body is not None else 'no'}",
             f"- Trailing next-page tokens: {', '.join(next_tokens) if next_tokens else 'none observed'}",
         ]
     )
@@ -219,7 +305,14 @@ def main() -> int:
         pages.append(page)
         trailing.extend(extra)
 
-    output = render(args, pages, trailing)
+    plain_topic = None
+    if args.topic_text_input is not None:
+        plain_topic = parse_plain_topic(
+            args.topic_text_input.read_text(encoding="utf-8"),
+            str(args.topic_text_input),
+        )
+
+    output = render(args, pages, trailing, plain_topic)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(output, encoding="utf-8")

@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 
-exec uvx --python 3.11 --from 'kaggle>=2.2.0' kaggle "$@"
+exec uvx --python 3.12 kaggle@latest "$@"

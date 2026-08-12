@@ -1,204 +1,269 @@
 #import "@preview/polylux:0.4.0": *
 #import "@preview/metropolis-polylux:0.1.0" as metropolis
-#import metropolis: focus
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+#import "@preview/cetz:0.5.2" as cetz
 #import "theme.typ": *
+#import "../figures/gold-pipelines.typ": rendered-gold-pipeline, gold-pipeline-placeholder
 
 #show: metropolis.setup.with(
   footer: [{{COMPETITION_TITLE}}],
   text-font: "BIZ UDPGothic",
   math-font: "New Computer Modern Math",
   code-font: "HackGen35 Console NFJ",
-  text-size: 16pt,
+  text-size: 17pt,
 )
 #set text(lang: "ja")
-#set par(leading: 0.64em)
-#set list(spacing: 0.42em)
-#show raw.where(block: true): it => block(
-  width: 100%,
-  fill: pale,
-  stroke: 0.5pt + gray.lighten(55%),
-  radius: 3pt,
-  inset: 7pt,
-  text(size: 9.5pt, it),
-)
+#set par(leading: 0.66em)
+#set list(spacing: 0.38em)
+
+#let arrow = align(center + horizon)[#text(size: 19pt, fill: gray)[→]]
+#let diagram-label(title, body: none) = align(center)[
+  #text(size: 12.5pt, weight: "bold", fill: ink)[#title]
+  #if body != none {
+    v(2pt)
+    text(size: 11pt, fill: gray)[#body]
+  }
+]
 
 #slide[
-  #set page(header: none, footer: none, margin: 2.5em, fill: ink)
+  #set page(header: none, footer: none, margin: 3em, fill: ink)
   #set text(fill: white)
   #set align(left + horizon)
-  #text(size: 9pt, weight: "bold", fill: accent.lighten(20%))[KAGGLE SOLUTION REPORT]
-  #v(0.5em)
-  #text(size: 29pt, weight: "bold")[{{COMPETITION_TITLE}}]
-  #v(0.4em)
-  #text(size: 16pt)[上位解法を、データと評価指標から読み解く]
-  #v(0.75em)
+  #text(size: 10pt, weight: "bold", fill: accent.lighten(24%))[KAGGLE SOLUTION REPORT]
+  #v(0.55em)
+  #text(size: 28pt, weight: "bold")[{{COMPETITION_TITLE}}]
+  #v(0.45em)
+  #text(size: 18pt)[TODO: このコンペを説明する一文]
+  #v(0.8em)
   #line(length: 72%, stroke: 2pt + accent)
   #v(0.7em)
-  #text(size: 10pt, fill: white.darken(20%))[Gold全チーム + Upper Silver（範囲と欠測を明示）]
+  #text(size: 10pt, fill: white.darken(20%))[TODO: 最終順位の調査範囲 / 証拠の限界]
 ]
 
-#lesson([結論と調査範囲])[
-  #claim[TODO: この発表の中心結論を一文で示す。]
-  #v(0.4em)
-  #columns(
-    [#panel([Evidence], [TODO: 対象順位、方法証拠のあるteam数、主要な共通頻度。])],
-    [#panel([Boundary], [TODO: partial/unavailableと比較できない範囲。])],
-  )
-  #source-note([Source: final private leaderboard and coverage manifest.])
-]
+#explainer(
+  [タスクの具体例],
+  [TODO: このタスクで実際に何を当てるのか。],
+  [
+    TODO: 入力、予測単位、予測対象を読者が想像できる具体例で説明する。
 
-#lesson([何を予測し、どこで失敗するか])[
-  #columns(
-    [#panel([Input → target], [TODO: 予測単位、入力、target、提出shape。], emphasis: true)],
-    [#panel([Hidden subtask], [TODO: test時だけ必要な局在・matching・aggregation。])],
-  )
-  #takeaway[TODO: classification以外の主要bottleneck。]
-  #source-note([Source: official competition overview.])
-]
+    TODO: 通常の問題と異なる制約や、test時に初めて必要になる処理を説明する。
+  ],
+  none,
+  source: [TODO: 公式のタスク説明。],
+  quiet: true,
+)
 
-#lesson([評価指標が作るincentive])[
-  $
-    L = -frac(sum_i w_i y_i ln(p_i), sum_i w_i)
-  $
-  #columns(
-    [#panel([Exact behavior], [TODO: weighting、averaging、edge caseを数値で示す。], emphasis: true)],
-    [#panel([Modeling consequence], [TODO: calibration、threshold、rare classへの影響。])],
-  )
-  #takeaway[TODO: 指標から導かれる最小の設計判断。]
-  #source-note([Source: official metric implementation.])
-]
+#explainer(
+  [評価指標],
+  [TODO: 評価指標がモデル設計へ与える最重要の圧力。],
+  [
+    TODO: 評価指標の平均、重み、確率の打ち切り、対応付け、閾値等を説明する。
 
-#lesson([データの性質を数で示す])[
-  #columns(
-    [#stat([TODO], [Primary count], detail: [denominatorを併記], emphasis: true)],
-    [#stat([TODO], [Comparison count], detail: [modeling consequenceを示す])],
-  )
-  #v(0.35em)
-  #table(
-    columns: (1.2fr, 0.7fr, 1.8fr),
-    fill: table-fill,
-    stroke: table-rule,
-    inset: 7pt,
-    [*Property*], [*Count*], [*Why it matters*],
-    [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO],
-  )
-  #takeaway[TODO: leaderboardを形作った最重要data property。]
-]
+    TODO: なぜ正解率等の直感と異なる判断が必要になるかを説明する。
+  ],
+  [
+    #align(center)[$"metric" = "TODO"$]
+    #v(0.4em)
+    #align(center)[#text(size: 12pt, fill: gray)[TODO: 一つの予測を変えると総合scoreがどう変わるか。]]
+  ],
+  source: [TODO: 公式の評価指標。],
+  quiet: true,
+)
 
-#lesson([上位に共通したpattern])[
-  #table(
-    columns: (1.8fr, 0.6fr, 0.6fr, 0.8fr),
-    fill: table-fill,
-    stroke: table-rule,
-    inset: 7pt,
-    [*Factor*], [*Yes*], [*No*], [*Unknown*],
-    [TODO], [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO], [TODO],
-  )
-  #takeaway[未記載は`unknown`として分母から分離する。]
-]
+#explainer(
+  [最重要のデータ特性],
+  [TODO: 最終順位を左右した一つのデータ特性。],
+  [
+    TODO: 正確な件数と分母を使い、その特性がどれほど頻繁か説明する。
 
-#lesson([なぜ共通patternが効いたか])[
-  #panel([Mechanism chain], [
-    task/data/metric property → failure mode → solution element → expected effect
-  ], emphasis: true)
-  #v(0.4em)
-  #columns(
-    [#panel([Observed evidence], [TODO: rank付き事例を二つ以上。])],
-    [#panel([Counterevidence], [TODO: 反例、交絡、未検証条件。])],
-  )
-  #source-note([Source: comparison matrix and paired solution Markdown.])
-]
+    TODO: その特性がどの失敗を作り、どの設計判断へつながるか説明する。
+  ],
+  none,
+  source: [TODO: 件数と由来を確認できるデータ出典。],
+  quiet: true,
+)
 
-#lesson([代表的なSolution pipeline])[
-  #grid(
-    columns: (1fr, auto, 1fr, auto, 1fr),
-    gutter: 8pt,
-    panel([Input / geometry], [TODO], emphasis: true),
-    align(center + horizon)[→],
-    panel([Localization], [TODO]),
-    align(center + horizon)[→],
-    panel([Classification], [TODO]),
-  )
-  #v(0.4em)
-  #panel([Training–inference gap], [TODO: GTとpredicted inputの差、その吸収方法。])
-  #takeaway[TODO: pipelineのどの継ぎ目がscoreを支配したか。]
-]
+#solution-overview(
+  [1st solution: TODOチームの全体像],
+  [TODO: 入力から最終確率まで、解法全体が何をどの順序で処理するか。],
+  [
+    // Replace marker, label, and function with `gold-pipeline-<rank>-<team-slug>`.
+    #rendered-gold-pipeline(
+      "gold-pipeline-placeholder",
+      <gold-pipeline-placeholder>,
+      gold-pipeline-placeholder(text-size: 11pt),
+    )
+  ],
+  orientation: [TODO: 図を読むのに必要な前提がある場合だけ、1段落で補う。],
+  source: [TODO: 1st solutionの元投稿と一次成果物。],
+)
 
-#lesson([Top GoldとLower Goldの観測差])[
-  #table(
-    columns: (1.1fr, 1.4fr, 1.4fr, 0.8fr),
-    fill: table-fill,
-    stroke: table-rule,
-    inset: 7pt,
-    [*Factor*], [*Top Gold evidence*], [*Lower Gold evidence*], [*Strength*],
-    [TODO], [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO], [TODO],
-  )
-  #takeaway[TODO: architecture名でなく、差を生んだerror-control。]
-]
+#explainer(
+  [1st solution: TODOとなる中心的な工夫],
+  [TODO: この解法が重点的に扱った失敗と、そのために加えた処理。],
+  [
+    TODO: 失敗が起こる具体的な過程と、解法の工夫が何を変えるかを説明する。
 
-#lesson([GoldとUpper Silver：言えること／言えないこと])[
-  #comparison(
-    [Observed],
-    [TODO: 比較可能な公開証拠。],
-    [Not identifiable],
-    [TODO: coverage不足で断定できない要素。],
-    highlight: "left",
-  )
-  #takeaway[未記載を「使っていない」と数えない。]
-]
+    TODO: CV、Leaderboard、ablation、負の結果、または未公開情報を示し、どこまで信頼できるかを説明する。
+  ],
+  none,
+  note: [TODO: 参加者報告、未再現、比較条件の違いなど。],
+  source: [TODO: 1st solutionの検証結果またはQ&A。],
+  quiet: true,
+)
 
-#lesson([Key ideaを発見する最小実験])[
-  #table(
-    columns: (1fr, 1.2fr, 1.25fr, 1fr),
-    fill: table-fill,
-    stroke: table-rule,
-    inset: 6pt,
-    [*Clue*], [*Hypothesis*], [*Cheapest test*], [*Decision*],
-    [TODO], [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO], [TODO],
-    [TODO], [TODO], [TODO], [TODO],
-  )
-]
+// Repeat the complete `Nth solution` overview and central-decision block for
+// every method-bearing gold team before starting cross-team synthesis.
 
-#lesson([実戦的なplaybook])[
-  #columns(
-    [
-      1. Exact metric + trustworthy split
-      2. Minimal end-to-end baseline
-      3. Bottleneck-isolating comparison
-      4. Task-specific representation
-    ],
-    [
-      5. Error-matched augmentation
-      6. OOF-only data intervention
-      7. Calibration
-      8. Structural ensemble last
-    ],
-  )
-  #takeaway[TODO: このコンペ固有の停止条件・判断基準。]
-]
+#explainer(
+  [上位解法の共通項],
+  [TODO: 解法の詳細を確認できたチームに共通する一つの設計。],
+  [
+    TODO: 確認、不使用、未確認の分母を明示し、共通性を文章で説明する。
 
-#slide[
-  #show: focus
-  *TODO: 最も移植可能な原則*
+    TODO: 反例または別実装を示し、表面的な構成要素の名前より本質的な役割を説明する。
+  ],
+  none,
+  note: [未記載を不使用として数えない。],
+  quiet: true,
+)
 
-  #v(0.5em)
-  #text(size: 15pt)[TODO: 根拠と実務上の含意を二文で示す。]
-]
+#explainer(
+  [共通項が効く理由],
+  [TODO: データまたは評価指標の性質に対して、共通する処理が何を改善するのか。],
+  [
+    TODO: データまたは評価指標の性質から、失敗が生まれるまでを説明する。
 
-#lesson([Coverage・limitations・references])[
-  #set text(size: 12.5pt)
-  - Coverage: TODO selected / complete / partial / unavailable
-  - Participant-reportedと独立再現を区別
-  - 比較不能なrank帯を明示
-  - Official competition page: TODO
-  - Final leaderboard: TODO
-  - Official metric: TODO
-  - Dataset or organizer context: TODO
-  - Solution discussions and public artifacts: TODO
-]
+    TODO: 解法の要素が誤差をどう変え、どの証拠がそれを支持するか説明する。
+  ],
+  [
+    #align(center)[
+      #diagram(
+        cell-size: (70mm, 21mm),
+        node-stroke: 0.7pt + gray.lighten(28%),
+        node-fill: pale,
+        edge-stroke: 0.9pt + gray,
+        node((0, 0), diagram-label([性質], body: [TODO]), width: 50mm, height: 18mm, corner-radius: 2pt),
+        edge("-|>"),
+        node((1, 0), diagram-label([失敗], body: [TODO]), width: 50mm, height: 18mm, corner-radius: 2pt),
+        edge("-|>"),
+        node((2, 0), diagram-label([解法で加えた処理], body: [TODO]), width: 50mm, height: 18mm, corner-radius: 2pt),
+      )
+    ]
+  ],
+  note: [TODO: 交絡要因または未検証の条件。],
+)
+
+#explainer(
+  [Gold上位と下位の比較],
+  [TODO: Gold上位が、確認したどの失敗へ追加の対策を入れていたか。],
+  [
+    TODO: 比較する順位群の定義と、観測できた差を説明する。
+
+    TODO: 下位側の反例を示し、明確な境界ではない場合は結論を弱める。
+  ],
+  none,
+  source: [TODO: 順位を対応付けた証拠。],
+  quiet: true,
+)
+
+#explainer(
+  [GoldとSilver上位の比較],
+  [TODO: 公開証拠から言える差、または比較不能という結論。],
+  [
+    TODO: Silver側で公開解法を確認できた範囲を説明する。
+
+    TODO: 未確認を不使用とみなさず、どこまでなら順位差として読めるか説明する。
+  ],
+  none,
+  quiet: true,
+)
+
+#explainer(
+  [データの事実を比較実験へつなげる],
+  [TODO: 開始時点で確認できた一つの事実から、最初に行う比較を具体的に示す。],
+  [
+    TODO: 公式規則、データ定義、評価指標から確認できる事実を一つ説明する。
+
+    TODO: 起こりうる失敗を述べ、同じ条件で比較する二つの対象と、結果に応じた次の実験を説明する。
+  ],
+  [
+    #quiet-step([1], [データで確認した事実], [TODO: 件数、欠損、入力差など])
+    #v(0.25em)
+    #quiet-step([2], [起こりうる具体的な失敗], [TODO: 何が、どの処理で、どう誤るか])
+    #v(0.25em)
+    #quiet-step([3], [同じ条件で比べる対象], [TODO: AとB、固定する条件、測る値])
+    #v(0.25em)
+    #quiet-step([4], [結果に応じた次の実験], [TODO: どの数値なら何を改善するか])
+  ],
+  quiet: true,
+)
+
+#explainer(
+  [失敗実験],
+  [TODO: 一見よさそうな変更が、基準実験より悪化した理由。],
+  [
+    TODO: 予想した効果、実際に加えた変更、変更しない基準、観測結果を説明する。
+
+    TODO: 別の説明を示し、次に同じ変更を採用するための数値条件を説明する。
+  ],
+  none,
+  note: [TODO: 証拠の種別と、その証拠からは判断できないこと。],
+  quiet: true,
+)
+
+#explainer(
+  [次の類似課題で試す順序],
+  [TODO: 何を測ってから次の実験へ進むかを、実行順に示す。],
+  [
+    TODO: 信頼できるCVと、入力から提出値まで通る小さな基準モデルを作る前半を説明する。
+
+    TODO: 個別の失敗への対策、確率校正、アンサンブルへ進む条件を説明する。
+  ],
+  [
+    #quiet-step([1], [信頼できるCV], [TODO: 分割単位と評価指標])
+    #v(0.25em)
+    #quiet-step([2], [小さな基準モデル], [TODO: 入力から提出値まで通す])
+    #v(0.25em)
+    #quiet-step([3], [二つの原因を見分ける比較], [TODO: 同じ条件で比べるAとB])
+    #v(0.25em)
+    #quiet-step([4], [改善が確認できた処理へ投資], [TODO: 採用する数値条件])
+  ],
+  pin-top: true,
+  quiet: true,
+)
+
+#explainer(
+  [まとめ],
+  [TODO: 次の類似課題で最初に行う、具体的な観察または比較。],
+  [
+    TODO: タスク、データ、評価指標のどの事実から、上位解法の処理が必要になったかを説明する。
+
+    TODO: 次の類似コンペで最初に試す行動へ言い換える。
+  ],
+  none,
+  quiet: true,
+)
+
+#explainer(
+  [調査範囲と限界],
+  [TODO: 結論をどのcoverageと不確実性の範囲で読むべきか。],
+  [
+    TODO: selected ranks、complete、partial、unavailableを説明する。
+
+    TODO: participant-reported、not reproduced、publication bias等の限界を説明する。
+  ],
+  [
+    #table(
+      columns: (1fr, 1.5fr),
+      inset: (x: 9pt, y: 4.5pt),
+      stroke: (x: none, y: 0.55pt + gray.lighten(48%)),
+      fill: (x, y) => if y == 0 { pale } else { white },
+      [調査対象], [公開情報の確認状況],
+      [TODO], [rank coverage],
+      [TODO], [complete / partial / unavailable],
+    )
+  ],
+  source: [TODO: コンペ、評価指標、主催者、公開解法の出典。],
+  quiet: true,
+)

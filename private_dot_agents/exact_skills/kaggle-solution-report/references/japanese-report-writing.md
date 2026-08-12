@@ -6,12 +6,13 @@ This contract adapts the relevant rules from `japanese-tech-generation` for new 
 
 1. Phase routing
 2. Reader and terminology contract
-3. New-draft workflow
-4. Existing-draft workflow
-5. Paragraph and section rules
-6. Evidence and uncertainty
-7. Source-format rules
-8. Completion checks
+3. Engineer-facing prose contract
+4. New-draft workflow
+5. Existing-draft workflow
+6. Paragraph and section rules
+7. Evidence and uncertainty
+8. Source-format rules
+9. Completion checks
 
 ## Phase routing
 
@@ -40,7 +41,55 @@ The reader contract must state:
 
 For each central term, decide whether the reader already knows it, define it at first use when necessary, and record the later comparison or decision it supports. Do not introduce a term that is never used downstream.
 
+For a Kaggler audience, established machine-learning vocabulary such as `OOF`, `CV`, `log loss`, and `noise filtering` may be assumed when the reader contract says so. Do not spend space defining these terms mechanically. Explain what a team-specific expression means and what was actually compared: `OOF` may be known, while `team OOF` still requires a sentence stating which models were averaged and how the value was used.
+
 Use one stable term for one concept. Prefer Japanese prose terms such as `解法` consistently, while keeping source identifiers and established technical names such as `GroupKFold`, `ImagePositionPatient`, `log loss`, and `OOF` exact. Define unfamiliar English terms in Japanese at first use.
+
+Before drafting slides, add a terminology ledger to the working notes with these columns:
+
+| concept | canonical wording | first-use definition | rejected aliases |
+|---|---|---|---|
+
+Audit the complete deck against this ledger after drafting. Do not use two surface forms merely because both appeared in source discussions. For example, choose `損失値が大きい学習例` and reject later variants such as `high-loss sample`, `高lossのsample`, and `高loss例`.
+
+Team-specific shorthand is not shared vocabulary. Expand expressions such as `team OOF`, `confident disagreement`, a private branch name, or a repository variable name into a complete description on first use. Keep the shorthand only in parentheses when it is useful for tracing the source. Established field terms such as `noise filtering`, `OOF`, `log loss`, and `temperature scaling` may remain when the reader contract assumes them, but their role in the particular experiment must still be stated.
+
+Introduce a task-specific abstraction only after describing its concrete operation. The first-use sentence should name the input, the action, and the output before assigning a shorter label. For example, write `病変を分類する前に、対象の椎間レベル、slice、XY座標を画像から求める。この処理を位置推定と呼ぶ` before using `位置推定` alone. Prefer the ordinary reader-facing term `位置推定` to a source-derived term such as `局在推定` unless the latter names a distinct concept that must be preserved.
+
+Distinguish related terms by conceptual level instead of alternating them casually. Keep `log loss` when naming the established metric, use `損失関数` for the training objective, `損失項` for one component of an aggregate metric, and `損失値` for the numerical value assigned to one example or prediction. Do not use bare `loss`, `高loss`, and `損失値` for the same quantity across different slides.
+
+## Engineer-facing prose contract
+
+Aim for the clarity of a well-edited Japanese engineering book, not for imitation of a named writer's personal voice. The prose should let a working engineer recover the data structure, failure mechanism, implementation choice, and evidence without translating the manuscript mentally.
+
+Use Japanese as the grammatical skeleton of every explanatory sentence. Keep exact identifiers, API names, architecture names, metric names, and short terms that the reader must search for. Translate generic English nouns when the English form adds no precision:
+
+| Avoid as ordinary prose | Prefer in Japanese prose |
+|---|---|
+| model / classifier / class | モデル / 分類器 / クラス |
+| target / sample / label | 予測対象 / 学習例 / ラベル |
+| pipeline / branch | 処理構成 or 処理経路 / 予測経路 |
+| fold / validation | 分割 / 検証 |
+| view / level | 撮像断面 / 椎間レベル |
+| crop / fallback | 切り出し画像 or ROI / 代替経路 |
+
+Terms that mirror the competition schema, such as `series`, `slice`, `study_id`, SCS, NFN, and SS, may remain exact after their Japanese meaning is defined once. Do not alternate casually between Japanese and English forms after choosing a term.
+
+Prefer concrete subjects and actions. Write who or what selects a series, predicts a coordinate, creates an ROI, aggregates slices, or calibrates probabilities. Avoid nominal strings that force the reader to infer the relation, such as `局在・分類pipelineのgeometry分岐`. Replace them with a sentence such as `Sagittalで求めた位置を患者座標へ写し、対応するAxial sliceを選ぶ`.
+
+Do not compress evidence into unexplained noun chains to save slide space. `強いteam OOFのconfident disagreement` is not an explanation. State the actor, comparison, threshold, and action when the source provides them: `2位チームは、複数モデルを平均したOOF予測と正解ラベルを比べ、両者の差が0.8以上の学習例を除外した`.
+
+Keep the subject close to the predicate when a sentence contains several technical modifiers. Split a sentence when it contains two independent causal relations. Use a new paragraph when the evidence boundary changes from direct observation to participant report or inference.
+
+Introduce formal material in reading order:
+
+1. State what quantity the equation or table answers.
+2. Define symbols and units in the order they appear.
+3. Show the Typst-native equation or compact comparison.
+4. Interpret one term or one numerical example in prose.
+5. State the resulting modeling or validation decision.
+
+Do not let an appendix become a parts catalog. Even in per-team summaries, connect the end-to-end input path to the failure it addresses, then separate reported gains, negative results, and missing reproduction details.
 
 ## New-draft workflow
 
@@ -85,7 +134,9 @@ Editing should make the mechanism explicit without changing it. Repair undefined
 - Avoid empty phrases such as `重要なのは`, `多角的に`, `正面から`, and `深掘りする` when the following sentence can state the concrete claim directly.
 - Use parentheses or a separate sentence for parenthetical explanation; do not use Japanese dashes as generic brackets.
 
-The mandatory report section order remains defined in `typst-output.md`. These prose rules organize reasoning inside that structure; they do not replace it.
+These prose rules organize reasoning inside the report structure selected by `SKILL.md`; they do not replace that structure.
+
+For public slides, apply the separate page contract during slide composition. This writing contract controls the Japanese expression inside that structure: the title and claim must state a concrete subject and conclusion without unexplained counting labels such as `五つの判断` or noun chains such as `構造的な差`.
 
 ## Evidence and uncertainty
 
@@ -121,3 +172,10 @@ Before accepting Japanese prose, confirm all of the following:
 - Revision has not changed verified facts, citations, numerical values, or uncertainty.
 - The summary contains no claim absent from the body.
 - Empty emphasis and unused concepts have been removed.
+- Japanese forms the sentence skeleton; untranslated English remains only where it preserves an exact identifier, search term, or established technical meaning.
+- Generic nouns such as model, class, target, pipeline, branch, fold, sample, view, and level are not mixed arbitrarily with their Japanese equivalents.
+- Team-specific shorthand and source-local variable names are expanded before use.
+- The same concept has one canonical wording across titles, claims, prose, diagrams, tables, and supplements.
+- Task-specific abstractions are introduced only after a sentence names their input, action, and output.
+- Every slide's title and claim state a concrete subject and conclusion without unexplained counting labels or noun chains.
+- Equations and tables are introduced, interpreted, and connected to a decision in prose.
