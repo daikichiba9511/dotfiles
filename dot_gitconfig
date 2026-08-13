@@ -36,3 +36,7 @@
 [commit]
   verbose = true
   gpgsign = false
+[push]
+  # upstream がどこを向いていても、常に「同名のリモートブランチ」にのみ push する。
+  # origin/develop を追跡する feature ブランチから push しても develop に飛ばない
+  default = current
