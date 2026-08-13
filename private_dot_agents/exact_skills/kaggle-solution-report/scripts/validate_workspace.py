@@ -2,13 +2,13 @@
 import argparse
 import colorsys
 import csv
+import html
 import json
 import re
 import shutil
 import subprocess
 from collections import Counter
 from pathlib import Path
-
 
 REQUIRED_COVERAGE_COLUMNS = {
     "rank",
@@ -32,6 +32,7 @@ REQUIRED_SUMMARY_HEADINGS = (
     "## 検証・評価・再現性",
     "## 根拠と不確実性",
     "## 参照",
+    "## 外部Artifactの監査",
 )
 REQUIRED_FILES = (
     "scope/scope.md",
@@ -39,11 +40,13 @@ REQUIRED_FILES = (
     "sources/competition.md",
     "sources/leaderboard.csv",
     "sources/evidence-ledger.md",
+    "sources/artifact-ledger.csv",
     "synthesis/comparison-matrix.md",
     "synthesis/common-elements.md",
     "synthesis/differentiators.md",
     "synthesis/task-grounded-analysis.md",
     "synthesis/strategy-retrospective.md",
+    "synthesis/publication-evidence.csv",
     "reviews/release-review.md",
     "report/main.typ",
     "slides/slides.typ",
@@ -65,11 +68,59 @@ SEARCH_COMPLETION_ITEMS = (
     "- [x] Linked artifacts and cross-forum candidates were checked.",
 )
 RELEASE_REVIEW_ITEMS = (
+    "- [x] Available-evidence saturation and artifact audit have no unresolved high/medium finding.",
     "- [x] Evidence and technical accuracy review has no unresolved high/medium finding.",
     "- [x] Japanese terminology and explanation review has no unresolved high/medium finding.",
     "- [x] Rendered geometry review has no unresolved high/medium finding.",
     "- [x] Report/slide parity review has no unresolved high/medium finding.",
     "- [x] Validation, compilation, and full rerender passed after the final accepted correction.",
+)
+ARTIFACT_COLUMNS = (
+    "artifact_id",
+    "rank",
+    "team",
+    "artifact_type",
+    "url",
+    "discovered_in",
+    "materiality",
+    "status",
+    "local_path",
+    "evidence_ids",
+    "evidence_limit",
+)
+PUBLICATION_EVIDENCE_COLUMNS = (
+    "evidence_id",
+    "rank",
+    "team",
+    "medal_band",
+    "category",
+    "summary",
+    "source_refs",
+    "importance",
+    "report_disposition",
+    "report_location",
+    "slide_disposition",
+    "slide_location",
+    "exclusion_reason",
+)
+MATERIAL_ARTIFACT_URL_PATTERN = re.compile(
+    r"https?://(?:www\.)?(?:"
+    r"github\.com/[^\s<>\"']+|"
+    r"gitlab\.com/[^\s<>\"']+|"
+    r"kaggle\.com/(?:code|datasets|models)/[^\s<>\"']+|"
+    r"kaggle\.com/competitions/[^\s<>\"']+/(?:discussion|writeups)/[^\s<>\"']+|"
+    r"kaggle\.com/writeups/[^\s<>\"']+|"
+    r"huggingface\.co/(?:datasets/)?[^\s<>\"']+|"
+    r"arxiv\.org/(?:abs|pdf|html)/[^\s<>\"']+|"
+    r"researchgate\.net/publication/[^\s<>\"']+|"
+    r"doi\.org/[^\s<>\"']+|"
+    r"zenodo\.org/[^\s<>\"']+|"
+    r"drive\.google\.com/[^\s<>\"']+|"
+    r"colab\.research\.google\.com/[^\s<>\"']+|"
+    r"(?:www\.)?googleapis\.com/download/storage/v1/b/"
+    r"kaggle-(?:user-content|forum-message-attachments)/[^\s<>\"']+"
+    r")",
+    re.IGNORECASE,
 )
 
 
@@ -91,6 +142,62 @@ def safe_path(workspace: Path, relative: str) -> Path | None:
 
 def nonempty(path: Path) -> bool:
     return path.is_file() and path.stat().st_size > 0
+
+
+def read_csv_rows(
+    path: Path,
+    required_columns: tuple[str, ...],
+    errors: list[str],
+) -> list[dict[str, str | None]]:
+    if not nonempty(path):
+        return []
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        actual_columns = tuple(reader.fieldnames or ())
+        if actual_columns != required_columns:
+            errors.append(
+                f"{path.name}: header must be {','.join(required_columns)!r} "
+                f"({','.join(actual_columns)!r} found)"
+            )
+            return []
+        return list(reader)
+
+
+def normalize_artifact_url(url: str) -> str:
+    decoded = html.unescape(url).rstrip(".,);]}")
+    decoded = re.sub(r"[?#].*$", "", decoded)
+    return decoded.rstrip("/").lower()
+
+
+def extract_candidate_artifact_urls(raw_text: str) -> set[str]:
+    return {
+        normalize_artifact_url(match.group(0))
+        for match in MATERIAL_ARTIFACT_URL_PATTERN.finditer(html.unescape(raw_text))
+    }
+
+
+def extract_named_kaggle_dependencies(path: Path) -> set[str]:
+    if path.name != "kernel-metadata.json":
+        return set()
+    try:
+        metadata = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return set()
+    dependency_urls: set[str] = set()
+    for source in metadata.get("dataset_sources", []):
+        if source:
+            dependency_urls.add(f"https://www.kaggle.com/datasets/{source}")
+    for source in metadata.get("kernel_sources", []):
+        if source:
+            dependency_urls.add(f"https://www.kaggle.com/code/{source}")
+    for source in metadata.get("model_sources", []):
+        if source:
+            dependency_urls.add(f"https://www.kaggle.com/models/{source}")
+    return {normalize_artifact_url(url) for url in dependency_urls}
+
+
+def split_ids(value: str) -> set[str]:
+    return {item.strip() for item in value.split(";") if item.strip()}
 
 
 def validate_typst_math(workspace: Path, errors: list[str]) -> None:
@@ -609,6 +716,318 @@ def validate_leaderboard_scope(
         errors.append(f"coverage.csv has selected rows absent from scoped leaderboard: {extra}")
 
 
+def validate_artifact_ledger(
+    workspace: Path,
+    selected_rows: list[dict[str, str]],
+    errors: list[str],
+) -> set[str]:
+    ledger_path = workspace / "sources/artifact-ledger.csv"
+    ledger_rows = read_csv_rows(ledger_path, ARTIFACT_COLUMNS, errors)
+    selected_identities = {
+        (cell(row, "rank"), cell(row, "team"))
+        for row in selected_rows
+    }
+    evidence_ids: set[str] = set()
+    seen_ids: set[str] = set()
+    ledger_urls_by_source: dict[str, set[str]] = {}
+
+    for line_number, row in enumerate(ledger_rows, start=2):
+        artifact_id = cell(row, "artifact_id")
+        if not re.fullmatch(r"A-[0-9]{3,}", artifact_id):
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: invalid artifact_id {artifact_id!r}"
+            )
+        elif artifact_id in seen_ids:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: duplicate artifact_id {artifact_id!r}"
+            )
+        seen_ids.add(artifact_id)
+
+        identity = (cell(row, "rank"), cell(row, "team"))
+        if identity != ("0", "competition-context") and identity not in selected_identities:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: unknown scoped identity {identity!r}"
+            )
+
+        artifact_type = cell(row, "artifact_type")
+        if artifact_type not in {
+            "notebook",
+            "repository",
+            "paper",
+            "dataset",
+            "model",
+            "attachment",
+            "external-writeup",
+        }:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: invalid artifact_type "
+                f"{artifact_type!r}"
+            )
+        materiality = cell(row, "materiality")
+        status = cell(row, "status")
+        if materiality not in {"material", "not-material"}:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: invalid materiality {materiality!r}"
+            )
+        if status not in {"pending", "inspected", "unavailable", "not-material"}:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: invalid status {status!r}"
+            )
+        if status == "pending":
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: artifact audit is still pending"
+            )
+        if (materiality == "not-material") != (status == "not-material"):
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: not-material materiality and status "
+                "must be paired"
+            )
+        if status in {"unavailable", "not-material"} and not cell(row, "evidence_limit"):
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: {status} row needs evidence_limit"
+            )
+
+        url = cell(row, "url")
+        if not re.match(r"https?://", url):
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: url must be an HTTP(S) reference"
+            )
+        discovered_in = cell(row, "discovered_in")
+        discovered_path = safe_path(workspace, discovered_in)
+        if discovered_path is None or not nonempty(discovered_path):
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: missing/unsafe discovered_in "
+                f"{discovered_in!r}"
+            )
+        if discovered_in and url:
+            ledger_urls_by_source.setdefault(discovered_in, set()).add(
+                normalize_artifact_url(url)
+            )
+
+        local_relative = cell(row, "local_path")
+        if status == "inspected":
+            local_path = safe_path(workspace, local_relative)
+            if not local_relative or local_path is None or not local_path.exists():
+                errors.append(
+                    f"sources/artifact-ledger.csv:{line_number}: inspected artifact needs an "
+                    "existing workspace-relative local_path"
+                )
+            if not cell(row, "evidence_ids") and not cell(row, "evidence_limit"):
+                errors.append(
+                    f"sources/artifact-ledger.csv:{line_number}: inspected artifact without "
+                    "evidence_ids needs evidence_limit explaining why it changed no claim"
+                )
+        elif local_relative:
+            errors.append(
+                f"sources/artifact-ledger.csv:{line_number}: {status} row must not set local_path"
+            )
+        evidence_ids.update(split_ids(cell(row, "evidence_ids")))
+
+    for row in selected_rows:
+        raw_relative = cell(row, "raw_path")
+        raw_path = safe_path(workspace, raw_relative)
+        if raw_path is None or not nonempty(raw_path):
+            continue
+        candidate_urls = extract_candidate_artifact_urls(
+            raw_path.read_text(encoding="utf-8")
+        )
+        official_url_match = re.search(
+            r"^- Official URL:\s*(https?://\S+)",
+            raw_path.read_text(encoding="utf-8"),
+            re.MULTILINE,
+        )
+        primary_urls = {
+            normalize_artifact_url(official_url_match.group(1))
+        } if official_url_match else set()
+        candidate_urls -= primary_urls
+        missing_urls = sorted(candidate_urls - ledger_urls_by_source.get(raw_relative, set()))
+        for url in missing_urls:
+            errors.append(
+                f"{raw_relative}: candidate technical artifact missing from "
+                f"sources/artifact-ledger.csv: {url}"
+            )
+
+    artifacts_root = workspace / "sources/artifacts"
+    if artifacts_root.is_dir():
+        for metadata_path in sorted(artifacts_root.rglob("kernel-metadata.json")):
+            metadata_relative = str(metadata_path.relative_to(workspace))
+            candidate_urls = extract_named_kaggle_dependencies(metadata_path)
+            missing_urls = sorted(
+                candidate_urls - ledger_urls_by_source.get(metadata_relative, set())
+            )
+            for url in missing_urls:
+                errors.append(
+                    f"{metadata_relative}: named Kaggle dependency missing from "
+                    f"sources/artifact-ledger.csv: {url}"
+                )
+    return evidence_ids
+
+
+def validate_publication_evidence(
+    workspace: Path,
+    selected_rows: list[dict[str, str]],
+    artifact_evidence_ids: set[str],
+    errors: list[str],
+) -> None:
+    evidence_path = workspace / "synthesis/publication-evidence.csv"
+    evidence_rows = read_csv_rows(
+        evidence_path,
+        PUBLICATION_EVIDENCE_COLUMNS,
+        errors,
+    )
+    selected_by_identity = {
+        (cell(row, "rank"), cell(row, "team")): row
+        for row in selected_rows
+    }
+    report_text = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in sorted((workspace / "report").rglob("*.typ"))
+    )
+    slides_path = workspace / "slides/slides.typ"
+    slides_text = slides_path.read_text(encoding="utf-8") if nonempty(slides_path) else ""
+    seen_ids: set[str] = set()
+    rows_by_identity: dict[tuple[str, str], list[dict[str, str | None]]] = {}
+
+    for line_number, row in enumerate(evidence_rows, start=2):
+        evidence_id = cell(row, "evidence_id")
+        if not re.fullmatch(r"P-[0-9]{3,}", evidence_id):
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: invalid evidence_id "
+                f"{evidence_id!r}"
+            )
+        elif evidence_id in seen_ids:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: duplicate evidence_id "
+                f"{evidence_id!r}"
+            )
+        seen_ids.add(evidence_id)
+
+        identity = (cell(row, "rank"), cell(row, "team"))
+        coverage_row = selected_by_identity.get(identity)
+        if coverage_row is None:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: unknown scoped identity "
+                f"{identity!r}"
+            )
+        elif cell(row, "medal_band") != cell(coverage_row, "medal_band"):
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: medal_band does not "
+                "match coverage.csv"
+            )
+        rows_by_identity.setdefault(identity, []).append(row)
+
+        category = cell(row, "category")
+        if category not in {
+            "pipeline",
+            "mechanism",
+            "validation",
+            "result",
+            "negative-result",
+            "reasoning-turn",
+            "reproducibility",
+            "limitation",
+        }:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: invalid category "
+                f"{category!r}"
+            )
+        if not cell(row, "summary") or not cell(row, "source_refs"):
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: summary and source_refs "
+                "are required"
+            )
+        importance = cell(row, "importance")
+        if importance not in {"core", "supporting", "context"}:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: invalid importance "
+                f"{importance!r}"
+            )
+
+        report_disposition = cell(row, "report_disposition")
+        slide_disposition = cell(row, "slide_disposition")
+        if report_disposition not in {"included", "excluded"}:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: invalid "
+                f"report_disposition {report_disposition!r}"
+            )
+        if slide_disposition not in {"included", "factor-only", "excluded"}:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: invalid slide_disposition "
+                f"{slide_disposition!r}"
+            )
+        report_location = cell(row, "report_location")
+        slide_location = cell(row, "slide_location")
+        if report_disposition == "included":
+            if not report_location or report_location not in report_text:
+                errors.append(
+                    f"synthesis/publication-evidence.csv:{line_number}: included report_location "
+                    f"must appear literally in report Typst: {report_location!r}"
+                )
+        elif report_location:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: excluded report row must "
+                "not set report_location"
+            )
+        if slide_disposition in {"included", "factor-only"}:
+            if not slide_location or slide_location not in slides_text:
+                errors.append(
+                    f"synthesis/publication-evidence.csv:{line_number}: included slide_location "
+                    f"must appear literally in slides Typst: {slide_location!r}"
+                )
+        elif slide_location:
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: excluded slide row must "
+                "not set slide_location"
+            )
+        if (
+            report_disposition == "excluded" or slide_disposition == "excluded"
+        ) and not cell(row, "exclusion_reason"):
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: excluded disposition "
+                "needs exclusion_reason"
+            )
+        if (
+            importance == "core"
+            and coverage_row is not None
+            and cell(coverage_row, "medal_band") == "gold"
+            and (report_disposition != "included" or slide_disposition != "included")
+        ):
+            errors.append(
+                f"synthesis/publication-evidence.csv:{line_number}: core Gold evidence must be "
+                "included in report and slides"
+            )
+
+    missing_artifact_evidence = sorted(artifact_evidence_ids - seen_ids)
+    if missing_artifact_evidence:
+        errors.append(
+            "sources/artifact-ledger.csv references unknown publication evidence IDs: "
+            f"{missing_artifact_evidence}"
+        )
+
+    trust_categories = {"result", "negative-result", "reproducibility", "limitation"}
+    for identity, coverage_row in selected_by_identity.items():
+        if (
+            cell(coverage_row, "medal_band") != "gold"
+            or cell(coverage_row, "method_status") != "documented"
+        ):
+            continue
+        team_rows = rows_by_identity.get(identity, [])
+        categories = {cell(row, "category") for row in team_rows}
+        if "pipeline" not in categories:
+            errors.append(
+                f"publication evidence missing pipeline for documented Gold {identity!r}"
+            )
+        if "mechanism" not in categories:
+            errors.append(
+                f"publication evidence missing central mechanism for documented Gold {identity!r}"
+            )
+        if not categories.intersection(trust_categories):
+            errors.append(
+                f"publication evidence missing result/negative/reproducibility/limitation "
+                f"for documented Gold {identity!r}"
+            )
+
+
 def validate_gold_pipelines(
     workspace: Path,
     selected_rows: list[dict[str, str]],
@@ -1042,6 +1461,13 @@ def main() -> int:
                 topology = validate_topology_record(summary_relative, summary_text, errors)
                 validate_mermaid_topology(summary_relative, summary_text, topology, errors)
 
+    artifact_evidence_ids = validate_artifact_ledger(workspace, selected_rows, errors)
+    validate_publication_evidence(
+        workspace,
+        selected_rows,
+        artifact_evidence_ids,
+        errors,
+    )
     validate_gold_pipelines(workspace, selected_rows, errors, args.require_pdf)
 
     report_text = (workspace / "report/main.typ").read_text(encoding="utf-8") if nonempty(workspace / "report/main.typ") else ""

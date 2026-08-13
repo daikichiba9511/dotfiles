@@ -18,6 +18,7 @@ Complete organized Markdown only from retained sources. Include:
 - validation design and public/private leaderboard relationship
 - ensemble, postprocessing, external data, compute, and reproducibility details
 - evidence/confidence table and unresolved questions
+- a closed audit of every linked technical artifact and what it changes
 
 For every complete or partial solution that exposes a method, add a Mermaid end-to-end diagram under `Solutionの全体像`. A solution is method-bearing when at least one real processing path can be drawn from team-attributable public evidence. Partial solutions still require a diagram when this condition holds; a fully unavailable solution does not. The diagram must show execution order from competition input to final prediction or submission and must retain material branches and convergence. Apply the semantic figure contract in `diagram-design.md`; do not replace the diagram with a component inventory, rank comparison, generic four-stage template, or prose-only arrow string.
 
@@ -46,6 +47,20 @@ For every numerical gain, record:
 - whether the number is participant-reported or reproduced
 
 Never compare gains from different settings as if they were commensurate.
+
+### Evidence saturation before synthesis
+
+After organizing a team, read the raw post, all retained comments, and every inspected material artifact again as a coverage audit. Add one `publication-evidence.csv` row for each independent mechanism, experiment, failed idea, reasoning turn, reproducibility fact, and material limitation. The unit is a claim that could change what a reader builds, tests, trusts, or rejects; do not split incidental implementation details into artificial rows.
+
+Then compare the organized headings and evidence table against this inventory:
+
+- every row must point to retained primary evidence;
+- every material artifact must connect to at least one row or explain why it adds no consequential evidence;
+- every raw section describing `worked`, `didn't work`, `failed`, `ablation`, `CV`, `Public`, `Private`, `not used`, `dropped`, `unstable`, or a change of approach must be represented or explicitly classified as incidental;
+- independent interventions must not be collapsed into one broad “other experiments” entry;
+- missing quantitative controls remain limitations rather than fabricated results.
+
+This is a semantic audit, not a word-count or slide-count target. A concise source may yield few items. A rich solution with several distinct mechanisms and negative results must remain correspondingly rich downstream.
 
 ## 2. Cross-solution synthesis
 
@@ -115,3 +130,5 @@ Reconstruct a discoverable path instead of a hindsight-only list:
 6. Which ideas were unavailable without privileged hindsight?
 
 Produce an ordered playbook: baseline, trustworthy validation, metric-aligned error analysis, targeted representation or model changes, inference and postprocessing, and finally diversity-aware ensembling.
+
+Before drafting report or slides, close every `publication-evidence.csv` disposition. Gold core items cannot be excluded from slides. Factor-only placement is appropriate when a supporting item is clearer in a cross-team comparison, but the location must still name the item's actual mechanism or evidence rather than merely listing the team.

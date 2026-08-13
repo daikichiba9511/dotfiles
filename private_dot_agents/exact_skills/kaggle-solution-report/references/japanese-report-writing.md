@@ -43,6 +43,10 @@ For each central term, decide whether the reader already knows it, define it at 
 
 For a Kaggler audience, established machine-learning vocabulary such as `OOF`, `CV`, `log loss`, and `noise filtering` may be assumed when the reader contract says so. Do not spend space defining these terms mechanically. Explain what a team-specific expression means and what was actually compared: `OOF` may be known, while `team OOF` still requires a sentence stating which models were averaged and how the value was used.
 
+When the intended reader has Kaggle experience but did not enter the competition, assume ordinary ML and competition vocabulary but never assume knowledge of the task schema, target relationships, organizer-specific rules, team shorthand, or competition-specific postprocessing. A familiar word such as `constraint`, `calibration`, `adapter`, or `projection` still needs a concrete explanation when its meaning depends on this competition. At first use, state the affected inputs or predictions, the exact operation or relationship, where it occurs in training/validation/inference, and why it changes the decision.
+
+Do not juxtapose two task-specific operations with a connective such as `一方` or `両立する` before explaining their difference. For example, before saying that a team rejected a training constraint but used inference-time consistency, name the constrained equations, explain that the former adds a penalty while fitting model parameters, and explain that the latter changes only the five predictions after inference. If this bridge does not fit legibly, add a paragraph or slide; page count is not a compression target.
+
 Use one stable term for one concept. Prefer Japanese prose terms such as `解法` consistently, while keeping source identifiers and established technical names such as `GroupKFold`, `ImagePositionPatient`, `log loss`, and `OOF` exact. Define unfamiliar English terms in Japanese at first use.
 
 Before drafting slides, add a terminology ledger to the working notes with these columns:
@@ -123,6 +127,8 @@ Do not add unverified facts, causal explanations, numerical gains, reader person
 
 Editing should make the mechanism explicit without changing it. Repair undefined terms, overlong sentences, mixed topics, ambiguous antecedents, and duplicated conclusions. Keep the original level of uncertainty.
 
+Run a dependency test on every revised explanation: could a reader who knows general ML but has not read the competition rules recover what each task-specific noun refers to and why the next sentence follows? If not, add the missing schema fact, equation, operation, or contrast before polishing the wording. Replacing English nouns with Japanese nouns does not repair a missing logical link.
+
 ## Paragraph and section rules
 
 - Use one topic and one main claim per paragraph.
@@ -177,5 +183,7 @@ Before accepting Japanese prose, confirm all of the following:
 - Team-specific shorthand and source-local variable names are expanded before use.
 - The same concept has one canonical wording across titles, claims, prose, diagrams, tables, and supplements.
 - Task-specific abstractions are introduced only after a sentence names their input, action, and output.
+- A reader who knows general ML but not the competition can explain what every competition-specific transformation changes and at which pipeline stage it happens.
+- Contrastive sentences such as `Xは不採用だがYは採用` define X and Y before drawing the contrast.
 - Every slide's title and claim state a concrete subject and conclusion without unexplained counting labels or noun chains.
 - Equations and tables are introduced, interpreted, and connected to a decision in prose.

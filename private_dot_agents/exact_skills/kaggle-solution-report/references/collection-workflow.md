@@ -6,7 +6,8 @@
 2. Rank and medal scope
 3. Kaggle retrieval
 4. Solution discovery
-5. Raw preservation
+5. Linked artifact audit
+6. Raw preservation
 
 ## 1. Scope contract
 
@@ -78,7 +79,7 @@ Kaggle CLI JSON can omit a publicly retrievable original body. Retrieve each sel
 
 For one topic, prefer `scripts/collect_topic_raw.py`; it performs all retrievals, follows comment pagination, and calls the renderer. For multiple team-authored topics, collect each independently and merge the complete topic sections with `scripts/combine_topic_raw.py`. Never pass pages from different topic IDs to one renderer invocation.
 
-Use `scripts/render_topic_raw.py` for manual assembly. Pass HTML with `--topic-html-input`, non-JSON output with `--topic-text-input`, and JSON pages as positional inputs. It must fail when no representation contains a body unless `--allow-missing-body` is supplied after recording the failed plain-text attempt.
+Use `scripts/render_topic_raw.py` for manual assembly. Pass HTML with `--topic-html-input`, non-JSON output with `--topic-text-input`, and JSON pages as positional inputs. It must fail when no representation contains a body unless `--allow-missing-body` is supplied after recording the failed plain-text attempt. When the package HTML route fails but the plain CLI still exposes the body, `collect_topic_raw.py` preserves that representation and records the downgrade in `retrieval_method`. A deleted original post with surviving comments remains valid discussion evidence when the raw file explicitly records the unavailable body and preserved comments.
 
 For cross-forum discovery:
 
@@ -115,6 +116,10 @@ Prefer sources in this order:
 
 Never promote a third-party description to team-authored evidence.
 
+Every candidate notebook, repository, paper, dataset, model, technical attachment, or external write-up linked from a scoped raw post or its comments must have one row in `sources/artifact-ledger.csv`. This ledger is not limited to artifacts eventually cited. It exists to distinguish “inspected and unused” from “never checked.”
+
+Treat the dependency manifest of an inspected notebook or repository as a second audit surface. Record named Kaggle `dataset_sources`, `kernel_sources`, and `model_sources`, as well as checkpoint/input paths that materially control the published output. A preserved notebook without its material weights or input artifacts is structurally inspectable but not reproducible; record those dependencies as `inspected`, `unavailable`, or `not-material` rather than implying full reproducibility. Also resolve cited papers and write-ups that are named in prose even when the author supplied no URL.
+
 Run the discovery gate independently for every selected rank before assigning `unavailable`:
 
 1. exhaust the `top`, `recent`, and `active` topic orderings and the relevance search, following all page tokens;
@@ -125,7 +130,25 @@ Run the discovery gate independently for every selected rank before assigning `u
 
 An empty relevance search is not evidence that no solution exists. Set `method_status=unavailable` only after the rank-specific search matrix is complete. In the raw file, mark the four search-completion checkboxes defined in `schemas.md`; validation rejects a method-unavailable row without them.
 
-## 5. Raw preservation
+## 5. Linked artifact audit
+
+After each raw solution is preserved, extract candidate technical links from the post and comments. The validator detects common code and research hosts, arXiv HTML/PDF pages, Kaggle notebooks/datasets/models, cross-linked Kaggle Discussion/Writeup pages, and both post-body and comment-hosted Kaggle attachments. It excludes only the scoped raw post's own official URL. Manual inspection must also catch project pages, personal blogs, cloud documents, and attachments whose host name is not diagnostic. Preserve diagrams, ablation plots, and result tables when they change a technical claim; mark purely decorative media `not-material` with a reason.
+
+For each candidate:
+
+1. map it to the scoped rank and the raw file where it was discovered;
+2. classify it as material or non-material to understanding or reproducing the solution;
+3. for material artifacts, retrieve or inspect the exact version and preserve it under `sources/notebooks/`, `sources/code/`, `sources/papers/`, `sources/models/`, or another explicit local path;
+4. when access fails, record the attempted method and failure in `evidence_limit` instead of silently dropping the link;
+5. when the artifact is inspected but not used, state why it adds no consequential evidence;
+6. connect every used material artifact to one or more evidence IDs in `synthesis/publication-evidence.csv`.
+7. inspect dependency manifests and notebook input paths recursively until every material direct dependency has a closed decision; generic libraries and official competition data may be marked non-material without downloading them.
+
+Do not clone or download unrelated dependencies merely because a repository links them. Preserve the smallest primary artifact that can verify the solution claim. Do not run untrusted code unless reproduction is explicitly in scope.
+
+The artifact audit is complete only when every ledger row is `inspected`, `unavailable`, or `not-material`; `pending` is never releasable.
+
+## 6. Raw preservation
 
 Treat each raw file as an evidence container, not a summary. Include:
 

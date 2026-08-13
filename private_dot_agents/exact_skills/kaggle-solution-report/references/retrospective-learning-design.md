@@ -70,6 +70,8 @@ Do not reduce a gold team to one memorable trick. For each method-bearing gold t
 
 Two pages per team are a useful default: `Nth solution: <team>の全体像` followed by `Nth solution: <central decision>`. Use a third page when the solution has another independent mechanism or experiment that cannot be understood as a detail of the first two. Page count is not a reason to collapse the pipeline into a component list.
 
+Use `synthesis/publication-evidence.csv` as the completeness boundary. A team block is complete only when all of its core rows have named slide locations and its supporting rows are included, placed in a factor-level slide, or excluded with a specific reason. When raw evidence contains several independent failures, validation turns, or mechanisms, add pages as needed; the two-page pattern is a starting point, not an upper bound.
+
 The overview should normally fit on one slide at the minimum permitted diagram-label size. If the real topology cannot fit legibly, keep a compact whole-solution map and add one or more zoomed continuation slides for coherent branches. Split by an actual boundary such as member path, imaging view, training/inference phase, or ensemble stage; never split at an arbitrary horizontal coordinate. The following team pages carry the prose explanation, mechanism, and evidence, so do not crowd the overview with paragraphs that merely repeat node labels.
 
 ### Pass B: factor-centric
@@ -177,5 +179,8 @@ Before release, answer yes or no:
 - Does the final playbook contain decision gates rather than a shopping list?
 - Does the transfer map distinguish general, task-family, and competition-specific knowledge?
 - Would the representative pipeline still be one of the first pages a reader remembers after viewing the full deck?
+- Does every core publication-evidence row appear on a named slide?
+- Can every excluded supporting item be defended as redundant, incidental, inaccessible, or outside the reader contract?
+- Did every linked technical artifact reach an inspected, unavailable, or not-material decision?
 
 If more than two answers are no, revise the narrative before working on layout or color. Run the separate visual QA during the slide-design phase after the narrative passes.

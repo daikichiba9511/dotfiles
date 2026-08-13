@@ -39,8 +39,7 @@ def run_text(command: list[str]) -> str:
     completed = subprocess.run(
         command,
         check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
     return completed.stdout
@@ -115,22 +114,38 @@ def main() -> int:
             "--quiet",
         ]
     )
+    deleted_topic = bool(
+        re.search(r"^Topic\s+#\d+:\s+\[Deleted Topic\]\s*$", plain_output, flags=re.MULTILINE)
+    )
     json_pages = collect_json_pages(wrapper, topic_ref, args.page_size)
     body_fetcher = Path(__file__).resolve().with_name("fetch_topic_body.py")
-    html_output = run_text(
-        [
-            "uv",
-            "run",
-            "--python",
-            "3.12",
-            "--with",
-            f"kaggle=={version_number}",
-            "python",
-            str(body_fetcher),
-            "--topic-id",
-            args.topic_id,
-        ]
-    )
+    try:
+        html_output = run_text(
+            [
+                "uv",
+                "run",
+                "--python",
+                "3.12",
+                "--with",
+                f"kaggle=={version_number}",
+                "python",
+                str(body_fetcher),
+                "--topic-id",
+                args.topic_id,
+            ]
+        )
+    except subprocess.CalledProcessError:
+        html_output = None
+        if deleted_topic:
+            retrieval_method = (
+                f"{version} via uv; original post deleted, "
+                "JSON metadata/comments preserved"
+            )
+        else:
+            retrieval_method = (
+                f"{version} via uv; package HTML body unavailable, "
+                "plain body and JSON metadata/comments preserved"
+            )
 
     renderer = Path(__file__).resolve().with_name("render_topic_raw.py")
     with tempfile.TemporaryDirectory(prefix="kaggle-topic-") as temporary_directory:
@@ -138,7 +153,8 @@ def main() -> int:
         plain_path = temporary / "topic.txt"
         plain_path.write_text(plain_output, encoding="utf-8")
         html_path = temporary / "topic.html"
-        html_path.write_text(html_output, encoding="utf-8")
+        if html_output is not None:
+            html_path.write_text(html_output, encoding="utf-8")
         json_paths: list[Path] = []
         for index, page in enumerate(json_pages, start=1):
             page_path = temporary / f"comments-{index:03d}.json"
@@ -163,13 +179,15 @@ def main() -> int:
             args.medal_band,
             "--retrieval-method",
             retrieval_method,
-            "--topic-text-input",
-            str(plain_path),
-            "--topic-html-input",
-            str(html_path),
             "--output",
             str(args.output),
         ]
+        if not deleted_topic:
+            command.extend(("--topic-text-input", str(plain_path)))
+        else:
+            command.append("--allow-missing-body")
+        if html_output is not None:
+            command.extend(("--topic-html-input", str(html_path)))
         subprocess.run(command, check=True)
 
     return 0

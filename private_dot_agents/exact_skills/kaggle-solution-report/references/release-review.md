@@ -6,12 +6,27 @@ Use this review after a full report run or a broad revision. It is a release gat
 
 Keep reviewers read-only and partition them by failure axis. Do not ask several reviewers to perform the same vague whole-document review. When subagents are available, assign these scopes independently:
 
-1. evidence and technical accuracy;
-2. Japanese terminology and explanation quality;
-3. rendered report and slide geometry;
-4. report/slide claim, terminology, evidence, and pipeline parity.
+1. available-evidence saturation and artifact coverage;
+2. evidence and technical accuracy;
+3. Japanese terminology and explanation quality;
+4. rendered report and slide geometry;
+5. report/slide claim, terminology, evidence, and pipeline parity.
 
 The main workflow owns all edits. After accepting a finding, fix the organized solution and its semantic topology first, update the shared Typst rendering when needed, propagate it to report and slides, recompile, rerender, and ask the affected reviewer for a focused recheck. High- and medium-priority findings must be fixed or explicitly rejected with evidence before release.
+
+## Available-evidence saturation
+
+Check the publication-evidence and artifact ledgers against the raw posts, comments, organized files, and inspected linked artifacts.
+
+- Every linked technical artifact has a ledger row and a closed status.
+- Every inspected notebook/repository has its material checkpoints, model datasets, upstream kernels, and other direct dependencies audited; source code alone is not called reproducible when weights are absent.
+- Named papers and write-ups without source URLs were resolved or explicitly marked unavailable.
+- Every consequential mechanism, experiment, ablation, failed idea, reasoning turn, reproducibility fact, and confidence-changing limitation has a publication-evidence row.
+- Independent interventions are not hidden inside a generic summary row.
+- Every core Gold row is included in report and slides at a named location.
+- Supporting rows are included, factor-only, or excluded with a specific rationale.
+- Rich sources remain richer than sparse sources; concise output is not achieved by silently dropping available evidence.
+- No page-count target or visual-density preference overrides evidence coverage.
 
 ## Evidence and technical accuracy
 
@@ -33,10 +48,13 @@ Read titles, claims, prose, equations, captions, diagrams, and appendices as one
 - One concept uses one canonical expression after first use.
 - Team-specific shorthand is expanded before abbreviation; ordinary Kaggler terms may remain assumed knowledge according to the reader contract.
 - Concrete input, action, and output precede task-specific abstractions such as position estimation.
+- General ML vocabulary may be assumed, but task schema, target relations, team-specific transformations, and competition-specific postprocessing are defined before use.
+- A reader who did not enter the competition can distinguish training-time penalties, validation-time selection, and inference-time prediction repair when the prose contrasts them.
 - Japanese carries the grammar; generic English nouns and unexplained noun chains do not replace sentences.
 - `log loss`, training objective, loss term, and per-example loss value are not conflated.
 - Disease type, left/right target, vertebral level, series, slice, coordinate, and ROI are named at the correct conceptual level.
 - Prose does not compress a causal relation into labels such as `five decisions`, `geometry branch`, or `confident disagreement`.
+- Connectives such as `therefore`, `however`, and `both can coexist` do not hide an unstated equation, pipeline stage, or causal step.
 - Each paragraph advances one claim, and participant report and editorial interpretation occupy separate sentences or paragraphs.
 - Typst equations define symbols in reading order and contain no pasted LaTeX syntax.
 
@@ -66,5 +84,6 @@ Compare the organized semantic topology, shared Typst rendering, report, and sli
 Record findings with severity, artifact, location, evidence, disposition, and a concrete correction in `<workspace>/reviews/release-review.md`. Never append competition-specific findings to this Skill reference. Release only when:
 
 - no unresolved high- or medium-priority finding remains;
+- available-evidence saturation and artifact coverage are closed;
 - deterministic workspace validation and both Typst compilations pass after the final edit;
 - every report and slide page has been rerendered and inspected after the final meaningful change.

@@ -7,6 +7,7 @@ Record competition-specific independent review findings here, not in the Skill r
 
 ## Release gate
 
+- [ ] Available-evidence saturation and artifact audit have no unresolved high/medium finding.
 - [ ] Evidence and technical accuracy review has no unresolved high/medium finding.
 - [ ] Japanese terminology and explanation review has no unresolved high/medium finding.
 - [ ] Rendered geometry review has no unresolved high/medium finding.

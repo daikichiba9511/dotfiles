@@ -43,6 +43,8 @@ A prose-only slide is valid. Do not add a visual merely to fill space. Do not ad
 
 Most analytical slides should include at least two concrete evidence items across the explanation and optional representation. Keep evidence limitations on the same slide when they materially change how the claim should be read. Put a nearby source marker on every factual figure, table, metric definition, and solution claim, and label participant-reported values as such.
 
+Do not optimize for a target page count. Use the closed publication-evidence map to decide length: merge items only when they form one causal or experimental unit, and split them when the reader would otherwise have to infer the intervention, comparison, result, or decision. A visually clean but semantically under-covered deck does not pass release review.
+
 Use English ordinals followed by `solution:` on gold-team pages, for example `1st solution: Avengersの全体像` and `11th solution: 損失値の大きい学習例を除くと悪化した`. Never use `Rank 1:`. Give every method-bearing gold team an end-to-end overview page and at least one page explaining its central decision, evidence, or negative result. Represent upper-silver teams in factor-level comparisons unless the user explicitly requests individual pages.
 
 ## 3. Salience and visual hierarchy

@@ -5,11 +5,13 @@ description: "Use for end-to-end research, publication, or later revision of a c
 
 # Kaggle Solution Report
 
-Produce three traceable outputs for one completed competition:
+Produce five traceable outputs for one completed competition:
 
 1. one raw and one organized Markdown file for every scoped team;
-2. a detailed Japanese Typst report;
-3. a public 16:9 Polylux Metropolis slide deck derived from the verified report.
+2. an audited ledger of every linked notebook, repository, paper, dataset, model, or external write-up discovered in scoped evidence;
+3. a publication-evidence map that records which mechanisms, experiments, failures, and limitations are included or deliberately excluded;
+4. a detailed Japanese Typst report;
+5. a public 16:9 Polylux Metropolis slide deck derived from the verified report.
 
 Keep missing evidence missing. Never reconstruct an unavailable solution from rank, comments, or common practice.
 
@@ -87,7 +89,9 @@ Use the bundled scripts for fragile retrieval operations:
 
 Create exactly one `solutions/rank-NNN-team-slug-raw.md` and one `solutions/rank-NNN-team-slug.md` per selected team. Preserve the post and all retrieved comments without paraphrasing in raw files. If no public solution is found, still create both files and record the search log and unavailable status.
 
-Output: a complete raw/organized pair for every coverage row.
+Inventory every linked technical artifact in `sources/artifact-ledger.csv`. Material artifacts must be inspected and preserved locally, or marked unavailable with the failed access recorded. Non-material links need an explicit exclusion reason. Do not treat retrieval of the discussion body as completion while linked notebooks or repositories remain unaudited.
+
+Output: a complete raw/organized pair for every coverage row and a closed artifact ledger.
 
 ### 3. Organize each solution
 
@@ -95,7 +99,9 @@ Read `schemas.md`, `analysis-workflow.md`, `evidence-rules.md`, and `japanese-re
 
 Do not rewrite raw evidence. Do not start cross-team synthesis until every coverage row is `complete`, `partial`, or `unavailable` and has both Markdown files.
 
-Output: one evidence-labeled technical explanation per team.
+For each team, finish `外部Artifactの監査` and promote every consequential mechanism, validation result, ablation, failed idea, reasoning turn, reproducibility fact, and evidence limitation into `synthesis/publication-evidence.csv`. Do not decide slide length yet; first make the available evidence visible and dispositionable.
+
+Output: one evidence-labeled technical explanation per team and a publication-candidate inventory with no silent omissions.
 
 ### 4. Compare teams and explain the task
 
@@ -113,7 +119,9 @@ For every causal claim, preserve this chain:
 
 Search non-solution discussions for data properties, label generation, metric behavior, validation failure, leakage, shake-up, organizer clarification, and negative results. Preserve them under `sources/discussions/` and register claims in `sources/evidence-ledger.md`.
 
-Output: stable comparison, common-element, differentiator, task-grounded, and strategy-retrospective synthesis files.
+After synthesis, finalize every publication-evidence row as report-included/excluded and slide-included/factor-only/excluded. Every exclusion needs a reason. A method-bearing gold team must retain a whole pipeline, a central decision, and evidence that calibrates trust; richer sources may require several independent detail pages. Page count is never a substitute for this evidence coverage.
+
+Output: stable comparison, common-element, differentiator, task-grounded, and strategy-retrospective synthesis files plus a closed publication-evidence map.
 
 ### 5. Build the detailed report
 
@@ -128,6 +136,8 @@ Output: `report/report.pdf` and its Typst sources.
 Read `retrospective-learning-design.md` and `slide-design.md`. Read `diagram-design.md` only when creating or editing a figure. Derive the deck from verified report claims and evidence.
 
 Make the deck useful for the next similar competition: preserve each method-bearing gold team in an end-to-end block, retain upper-silver evidence in factor-level synthesis, reorganize evidence by bottleneck, distinguish entry conditions from rank differentiators, reconstruct `clue -> hypothesis -> cheapest test -> result -> decision -> transfer boundary`, and include negative or non-reproduced results when evidence exists.
+
+Build from `synthesis/publication-evidence.csv`. Every core gold item must appear on a named slide; supporting or contextual items may be excluded only with a recorded rationale. Do not compress independent mechanisms, experiments, or reasoning turns into one memorable trick merely to shorten the deck.
 
 Follow the page and salience contracts in `slide-design.md`; treat diagrams, tables, and emphasis as choices rather than page-completion requirements.
 
@@ -148,7 +158,7 @@ uv run --python 3.12 <skill-root>/scripts/validate_workspace.py <workspace> --re
 
 Render every report and slide page. Inspect full-resolution pages for legibility and geometry, and inspect a slide contact sheet for narrative rhythm and visual hierarchy. Fix, recompile, rerender, and revalidate after every meaningful change.
 
-For a full run or a broad revision, read `release-review.md` and perform four independent read-only review passes after self-QA: evidence accuracy, Japanese terminology and explanation, rendered geometry, and report/slide parity. Apply accepted fixes in the main workflow, then rerun the affected reviews and all deterministic validation.
+For a full run or a broad revision, read `release-review.md` and perform five independent read-only review passes after self-QA: available-evidence saturation and artifact coverage, evidence accuracy, Japanese terminology and explanation, rendered geometry, and report/slide parity. Apply accepted fixes in the main workflow, then rerun the affected reviews and all deterministic validation.
 
 ## Completion contract
 
@@ -157,12 +167,15 @@ Finish only when:
 - every selected rank has a coverage row and raw/organized pair;
 - unavailable and partial evidence remains explicit;
 - synthesis distinguishes observation from inference and common conditions from differentiators;
+- every candidate technical artifact is inspected, explicitly unavailable, or explicitly non-material;
+- every consequential available evidence item has a report and slide disposition, with reasons for exclusions;
 - task, data, validation, and metric explain the conclusions;
 - Japanese prose passes the reader, terminology, paragraph, and uncertainty checks;
 - every complete or partial method-bearing scoped team has a persisted semantic topology and an organized Markdown diagram;
 - every method-bearing gold team has a source-backed whole-solution figure in both report and slides, while unavailable topologies remain explicit;
 - report and slides compile, validate, and pass rendered visual inspection;
 - for a full run or broad revision, independent release review finds no unresolved high- or medium-priority issue;
+- available-evidence saturation review confirms that raw posts, comments, and inspected artifacts contain no unaccounted core mechanism, experiment, failure, or reasoning turn;
 - public slides contain citations and no raw or private material.
 
 Report coverage counts, unavailable/partial ranks, output paths, page counts, and validation results to the user.

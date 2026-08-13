@@ -33,6 +33,7 @@ typst_version: TODO
 - Assumed prior knowledge: TODO
 - Concepts that must be explained: TODO
 - Established terms that need no definition: TODO (for example OOF, CV, log loss, and noise filtering for a Kaggler audience)
+- Competition-specific knowledge that must not be assumed: TODO (for example target schema, target relationships, organizer rules, team shorthand, and postprocessing semantics)
 
 ## Terminology contract
 
@@ -40,4 +41,4 @@ typst_version: TODO
 |---|---|---|---|---|
 | TODO | TODO | TODO | TODO | TODO |
 
-For every task-specific term that is not assumed knowledge, write its first-use sentence as `input -> action -> output -> shorter term` before drafting the report or slides.
+For every task-specific term that is not assumed knowledge, write its first-use explanation as `affected input/prediction -> exact operation or relationship -> training/validation/inference stage -> decision consequence` before drafting the report or slides.
