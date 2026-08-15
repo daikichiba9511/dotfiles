@@ -1,7 +1,9 @@
 model = "gpt-5.6-sol"
-model_reasoning_effort = "max"   # モデルの推論努力（最大）
+model_reasoning_effort = "high"   # モデルの推論努力（最大）
+plan_model_reasoning_effort = "max"   # モデルの推論努力（最大）
 model_verbosity = "medium"       # 詳細な応答の冗長さ（情報量の多さ）
-sandbox_mode = "workspace-write" # 通常は作業ディレクトリ内だけ書き込み可
+sandbox_mode = "danger-full-access"
+experimental_compact_prompt_file = "/home/d-chiba/.codex/compact-prompt.md"
 
 # コマンド実行を承認するかどうかをプロンプトで確認すべきタイミング
 # - untrusted: 「信頼済み」でないコマンド（危険操作など）は実行前に都度承認を求め
@@ -13,10 +15,8 @@ approval_policy = "never"
 
 # nvim は file_opener の公式サポート外なので none にして手動で開く
 file_opener = "none"
-
-[sandbox_workspace_write]
-# trueにすると、npmのインストールや外部APIへのリクエストが可能 (デフォルトは false)
-network_access = true
+plan_mode_reasoning_effort = "xhigh"
+approvals_reviewer = "user"
 
 suppress_unstable_features_warning = true
 
@@ -38,3 +38,29 @@ exclude = ["AWS_*", "AZURE_*", "*TOKEN*", "*SECRET*", "*KEY*"]
 
 [features]
 hooks = true
+memories = true
+
+[memories]
+generate_memories = true
+use_memories = true
+disable_on_external_context = false
+extract_model = "gpt-5.6-sol"
+consolidation_model = "gpt-5.6-sol"
+min_rollout_idle_hours = 2
+
+[projects."/home/d-chiba/work/kaggle/rsna2026"]
+trust_level = "trusted"
+
+[projects."/home/d-chiba/ghq/github.com/daikichiba9511/my-concierge"]
+trust_level = "trusted"
+
+[hooks.state]
+
+[hooks.state."/home/d-chiba/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:e3ab5878007962f362f94bbc2e2d01f1af930641558995c99c431981f8e8f92b"
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true

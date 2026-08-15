@@ -38,6 +38,9 @@ Then verify the local environment:
 
 ## Analysis Job Rules
 
+- Every pueue-hosted Codex analysis command must be non-interactive: use a finite `timeout`, run `codex exec --ephemeral`, and append `</dev/null` to the shell command. Never enqueue bare `codex exec`; pueue can keep stdin open and leave Codex waiting indefinitely for EOF.
+- After enqueueing, inspect the stored pueue command and confirm that `</dev/null` is outside the quoted prompt and was not swallowed by shell quoting.
+- Before starting an existing queued or stashed Codex analysis task, replace it if it lacks explicit stdin redirection. If a running task is stuck at `Reading additional input from stdin...`, report the impact and obtain authorization before stopping and replacing it.
 - Use `pueue add --after <train_id>` for analysis that should run only after successful GPU completion. Pueue marks the dependent task failed if a dependency fails.
 - If failure analysis must also run, do not rely only on `--after`. Use an analysis-side watcher command that waits for the GPU task to finish, reads its status/logs, and invokes `codex exec` regardless of train exit status. Verify the exact `pueue wait` behavior locally first.
 - Keep analysis tasks out of the `gpu` group unless they actually require the GPU.

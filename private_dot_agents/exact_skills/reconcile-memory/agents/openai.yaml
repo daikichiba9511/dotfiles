@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reconcile Memory"
+  short_description: "Reconcile durable memory with corrections and changed facts"
+  default_prompt: "Use $reconcile-memory to reconcile this correction with related long-term memories."

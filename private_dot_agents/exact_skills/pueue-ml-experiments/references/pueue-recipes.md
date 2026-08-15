@@ -58,7 +58,7 @@ pueue add \
   --working-directory "$repo" \
   --label "${exp}:analyze" \
   --after "$train_id" \
-  -- "codex exec -C '$repo' 'Use \$ml-docs log ${exp} to analyze pueue task ${train_id}. Read pueue logs, metrics artifacts, config, and existing experiment notes; then write results, analysis, and next actions in Japanese.'"
+  -- "timeout 20m codex exec --ephemeral -C '$repo' 'Use \$ml-docs log ${exp} to analyze pueue task ${train_id}. Read pueue logs, metrics artifacts, config, and existing experiment notes; then write results, analysis, and next actions in Japanese.' </dev/null"
 ```
 
 Use `$ml-iterate` instead of `$ml-docs` when the repo follows the simple per-experiment README flow rather than the 3-layer docs flow.
@@ -88,7 +88,7 @@ for exp in exp042 exp043 exp044; do
     --working-directory "$repo" \
     --label "${exp}:analyze" \
     --after "$train_id" \
-    -- "codex exec -C '$repo' 'Use \$ml-docs log ${exp} to analyze pueue task ${train_id} and update experiment notes in Japanese.'"
+    -- "timeout 20m codex exec --ephemeral -C '$repo' 'Use \$ml-docs log ${exp} to analyze pueue task ${train_id} and update experiment notes in Japanese.' </dev/null"
 done
 
 pueue enqueue --group gpu
@@ -106,7 +106,7 @@ pueue add \
   --group analysis \
   --working-directory "<repo>" \
   --label "<exp>:analyze-any-exit" \
-  -- "pueue wait <train_id> --quiet; codex exec -C '<repo>' 'Analyze pueue task <train_id> for <exp>. Read status, logs, metrics if present, and existing notes. If training failed, explain the failure evidence and record next debugging actions in Japanese.'"
+  -- "pueue wait <train_id> --quiet; timeout 20m codex exec --ephemeral -C '<repo>' 'Analyze pueue task <train_id> for <exp>. Read status, logs, metrics if present, and existing notes. If training failed, explain the failure evidence and record next debugging actions in Japanese.' </dev/null"
 ```
 
 Before using this pattern, confirm the local `pueue wait --help` semantics and whether its exit status blocks the `codex exec` command. If needed, use `;` rather than `&&` so Codex still runs after a failed training task.
@@ -142,3 +142,4 @@ Include these facts in the analysis prompt:
 - Whether to analyze only successful runs or failures too.
 
 Ask the analysis Codex to update notes, not to rerun training unless explicitly requested.
+Confirm every stored analysis command has a finite timeout, `--ephemeral`, and shell-level `</dev/null` outside the quoted prompt.
