@@ -24,6 +24,7 @@ gh = "latest"
 usage = "latest"
 ghq = "latest"
 "npm:hunkdiff" = "latest"
+typst = "latest"
 
 aws-cli = "latest"
 terraform = "latest"

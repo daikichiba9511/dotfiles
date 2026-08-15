@@ -7,8 +7,10 @@
 3. Raw solution Markdown
 4. Organized solution Markdown
 5. Evidence ledger
-6. Synthesis files
-7. Status semantics
+6. Linked artifact ledger
+7. Publication-evidence map
+8. Synthesis files
+9. Status semantics
 
 ## 1. Workspace tree
 
@@ -23,6 +25,7 @@ Use this stable tree:
 │   ├── competition.md
 │   ├── leaderboard.csv
 │   ├── evidence-ledger.md
+│   ├── artifact-ledger.csv
 │   └── discussions/
 ├── solutions/
 │   ├── rank-001-team-slug-raw.md
@@ -32,9 +35,12 @@ Use this stable tree:
 │   ├── common-elements.md
 │   ├── differentiators.md
 │   ├── task-grounded-analysis.md
-│   └── strategy-retrospective.md
+│   ├── strategy-retrospective.md
+│   └── publication-evidence.csv
 ├── figures/
 ├── code/
+├── reviews/
+│   └── release-review.md
 ├── report/
 │   ├── main.typ
 │   ├── lib.typ
@@ -48,12 +54,20 @@ Use this stable tree:
 
 Use zero-padded final ranks and a stable lowercase team slug. Do not rename files after citations point to them.
 
+Store the final leaderboard as `sources/leaderboard.csv` with this exact header:
+
+```csv
+final_order,rank,team,score,medal_band
+```
+
+`final_order` is the consecutive one-based row position in the retrieved final leaderboard. It makes a complete prefix checkable while `rank` preserves Kaggle's displayed rank, including ties; do not use it to renumber tied ranks.
+
 ## 2. Coverage manifest
 
 `scope/coverage.csv` is the authoritative completeness boundary. Use this exact header:
 
 ```csv
-rank,team,team_slug,medal_band,gold_group,selected,topic_refs,raw_path,summary_path,status,evidence_limit
+rank,team,team_slug,medal_band,gold_group,selected,topic_refs,raw_path,summary_path,status,method_status,evidence_limit
 ```
 
 Field rules:
@@ -68,13 +82,14 @@ Field rules:
 - `raw_path`: workspace-relative paired raw path
 - `summary_path`: workspace-relative paired organized path
 - `status`: `pending`, `complete`, `partial`, or `unavailable`
+- `method_status`: `pending`, `documented`, or `unavailable`; use `documented` when at least one team-attributable processing path can be drawn
 - `evidence_limit`: short reason for partial/unavailable evidence
 
 Example:
 
 ```csv
-rank,team,team_slug,medal_band,gold_group,selected,topic_refs,raw_path,summary_path,status,evidence_limit
-1,Example Team,example-team,gold,top,true,competition-slug/12345,solutions/rank-001-example-team-raw.md,solutions/rank-001-example-team.md,pending,
+rank,team,team_slug,medal_band,gold_group,selected,topic_refs,raw_path,summary_path,status,method_status,evidence_limit
+1,Example Team,example-team,gold,top,true,competition-slug/12345,solutions/rank-001-example-team-raw.md,solutions/rank-001-example-team.md,pending,pending,
 ```
 
 ## 3. Raw solution Markdown
@@ -133,6 +148,13 @@ comments_status: "complete"
 
 | time | method | query/ref | result |
 |---|---|---|---|
+
+## Search completion gate
+
+- [ ] All selected Kaggle topic orderings and result pages were exhausted.
+- [ ] The exact team name and every known member handle were searched.
+- [ ] Rank/medal phrases and solution/write-up synonyms were searched.
+- [ ] Linked artifacts and cross-forum candidates were checked.
 ```
 
 When no public solution exists, keep the same headings. Put `Not retrieved` under Original post, retain the complete search log, and set `body_status: "unavailable"`.
@@ -149,6 +171,7 @@ medal_band: "gold"
 team: "Example Team"
 source_raw: "solutions/rank-001-example-team-raw.md"
 status: "complete"
+method_status: "documented"
 ---
 
 # Rank 1 — Example Team
@@ -157,7 +180,24 @@ status: "complete"
 
 ## Solutionの全体像
 
-Describe the input-to-submission pipeline. Add a Mermaid or text diagram in Markdown when it clarifies the flow.
+Describe the input-to-submission pipeline. For every complete or partial method-bearing team, add one closed fenced Mermaid diagram that preserves the team's material branches and final convergence. The Topology record below is the semantic source of truth; Mermaid is its checkable reader-facing rendering and must use exactly the same node IDs and directed edges. A prose-only arrow string does not satisfy the contract. For an unavailable solution, state that the topology cannot be drawn from public evidence.
+
+```mermaid
+flowchart LR
+  N1[Input]
+  N2[Prediction]
+  N1 -->|inference| N2
+```
+
+### Topology record
+
+| id | kind | label | from | to | condition | source_ref | uncertainty |
+|---|---|---|---|---|---|---|---|
+| N1 | node | Input |  |  |  | raw topic section | none |
+| N2 | node | Prediction |  |  |  | raw topic section | none |
+| E1 | edge |  | N1 | N2 | inference | raw topic section | none |
+
+Use only `kind=node` for processes or data states and `kind=edge` for relations. Every row needs a non-empty, unique ID; every node needs a label. A documented method needs at least two distinct nodes and one non-self edge. `from` and `to` must reference node IDs for edges. Use a stable local source or official reference in `source_ref`; use `uncertainty=unknown` for a publicly unresolved connection.
 
 ## Solutionのポイント
 
@@ -179,9 +219,15 @@ Describe folds/splits, metric, public/private LB, ablations, seeds, compute, cod
 ## 参照
 
 - Stable official links and local raw path.
+
+## 外部Artifactの監査
+
+List every linked notebook, repository, paper, dataset, model, technical attachment, cross-linked Kaggle Discussion/Writeup, or other external write-up discovered in the paired raw evidence. Give its `artifact_id`, audit status, local preserved path or access limitation, and which technical claim it changes. Do not repeat the raw solution's own official URL as an artifact. State `none discovered` when the raw evidence contains no candidate technical artifact.
 ```
 
 `Solutionの全体像` means the whole method, not a list of components. Show data flow, training, inference, postprocessing, and ensembling in their execution order.
+
+The persisted topology record and diagram are the semantic contract for later publication. The shared Typst source under `figures/` is its rendering implementation. A report or slide may arrange it at a different scale, but must not collapse distinct member paths, input views, coordinate mappings, or ensemble routes into a generic sequence. Cross-team comparison diagrams are additional synthesis artifacts and never substitute for a per-team whole-solution diagram.
 
 ## 5. Evidence ledger
 
@@ -195,7 +241,65 @@ Use one row per consequential claim in `sources/evidence-ledger.md`:
 
 Use `source_owner` to distinguish Kaggle/host, organizer, team, other participant, vendor, paper author, and independent reproduction.
 
-## 6. Synthesis files
+## 6. Linked artifact ledger
+
+Use `sources/artifact-ledger.csv` with this exact header:
+
+```csv
+artifact_id,rank,team,artifact_type,url,discovered_in,materiality,status,local_path,evidence_ids,evidence_limit
+```
+
+Field rules:
+
+- `artifact_id`: unique stable ID such as `A-001`
+- `rank`, `team`: scoped final identity; use `0`, `competition-context` only for competition-wide artifacts
+- `artifact_type`: `notebook`, `repository`, `paper`, `dataset`, `model`, `attachment`, or `external-writeup`
+- `url`: exact public URL or stable official reference
+- `discovered_in`: workspace-relative raw or source path containing the link
+- `materiality`: `material` or `not-material`
+- `status`: `pending`, `inspected`, `unavailable`, or `not-material`
+- `local_path`: workspace-relative preserved path for inspected material artifacts; empty only for unavailable or not-material rows
+- `evidence_ids`: semicolon-separated IDs from `publication-evidence.csv`, or empty when inspected material changes no consequential claim
+- `evidence_limit`: required for unavailable and not-material rows; optional for inspected rows
+
+Every candidate technical artifact discovered in selected raw evidence needs exactly one row. Redirect variants and versioned notebook URLs may share one row when they resolve to the same exact artifact; record the selected version in `evidence_limit`.
+
+## 7. Publication-evidence map
+
+Use `synthesis/publication-evidence.csv` with this exact header:
+
+```csv
+evidence_id,rank,team,medal_band,category,summary,source_refs,importance,report_disposition,report_location,slide_disposition,slide_location,exclusion_reason
+```
+
+Create one row for every consequential available item, including:
+
+- end-to-end pipeline;
+- independent modeling, data, validation, objective, inference, postprocessing, or ensemble decision;
+- numerical result or ablation;
+- failed, rejected, unstable, or non-reproduced idea;
+- reasoning turn that changed the team's approach;
+- reproducibility or evidence limitation that changes confidence.
+
+Field rules:
+
+- `evidence_id`: unique stable ID such as `P-001`
+- `rank`, `team`, `medal_band`: scoped identity
+- `category`: `pipeline`, `mechanism`, `validation`, `result`, `negative-result`, `reasoning-turn`, `reproducibility`, or `limitation`
+- `summary`: one concrete claim; do not combine independent interventions into one row
+- `source_refs`: semicolon-separated local raw, organized, artifact, or ledger references
+- `importance`: `core`, `supporting`, or `context`
+- `report_disposition`: `included` or `excluded`
+- `report_location`: report section or appendix heading when included
+- `slide_disposition`: `included`, `factor-only`, or `excluded`
+- `slide_location`: exact visible slide title when included or factor-only
+- `exclusion_reason`: required for either excluded disposition; empty otherwise
+
+For every method-bearing gold team, the map must contain at least one `pipeline`, one `mechanism`, and one trust-calibrating item from `result`, `negative-result`, `reproducibility`, or `limitation`. Every core gold item must be included in slides. Supporting items may be factor-only or excluded with a reason. There is no page-count quota.
+
+For every row marked `included` or `factor-only`, the validator requires the location string to appear literally in the corresponding Typst source. Use the exact visible slide title or report heading, not a page number that can drift.
+
+## 8. Synthesis files
 
 ### `comparison-matrix.md`
 
@@ -222,7 +326,7 @@ Use one mechanism-chain table per factor:
 
 Organize as discovery cue, falsifiable hypothesis, cheapest test, decision rule, and next investment. Include mistakes to avoid and evidence that would have changed the path.
 
-## 7. Status semantics
+## 9. Status semantics
 
 - `pending`: collection or analysis has not reached a conclusion
 - `complete`: main post and materially relevant comments/artifacts were retrieved and organized
@@ -230,3 +334,20 @@ Organize as discovery cue, falsifiable hypothesis, cheapest test, decision rule,
 - `unavailable`: no public team-attributable solution was found after the documented search
 
 `partial` and `unavailable` are valid final research outcomes. They are not permission to omit the team or fill gaps with inference.
+
+An unavailable method still keeps the `外部Artifactの監査` heading in its organized file. Use `none discovered after completed search` when appropriate. This distinguishes an audited absence from an omitted section.
+
+Use only these state combinations:
+
+| coverage `status` | `method_status` | meaning |
+|---|---|---|
+| `pending` | `pending` | collection or analysis is unfinished |
+| `complete` | `documented` | the main evidence is complete enough to draw at least one real processing path |
+| `complete` | `unavailable` | the relevant public artifacts were fully retrieved, but they expose no team-attributable processing path; complete the search gate and do not infer a pipeline |
+| `partial` | `documented` | a real path is public, but a material artifact, branch, setting, or mapping is missing; show unknowns in the topology |
+| `partial` | `unavailable` | contextual evidence exists, but no team-attributable processing path can be drawn; explain the limit and do not draw a guessed pipeline |
+| `unavailable` | `unavailable` | no public team-attributable solution remains after the completed search gate |
+
+A final row cannot keep `method_status=pending`. Every `partial` or `unavailable` row needs a concrete `evidence_limit`.
+
+When revising a workspace created before `method_status`, `final_order`, `figures/gold-pipelines.typ`, and `reviews/release-review.md` existed, migrate it before validation: add the columns, classify each row from retained team-attributable evidence, move an older shared figure source such as `diagrams/gold-pipelines.typ` to the canonical `figures/gold-pipelines.typ` path, rename rank-only functions to `gold-pipeline-<rank>-<team-slug>`, update imports, and copy the current review-log template from `<skill-root>/assets/workspace-template/reviews/release-review.md`. Do not mark the unavailable-search completion boxes merely to satisfy validation; rerun and document the missing discovery steps first.

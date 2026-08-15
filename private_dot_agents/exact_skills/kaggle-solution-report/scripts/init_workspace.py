@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
 import argparse
 import shutil
 from pathlib import Path
@@ -46,6 +44,7 @@ def main() -> int:
         "solutions",
         "figures",
         "code",
+        "reviews",
     ):
         (output / relative).mkdir(parents=True, exist_ok=True)
     replace_tokens(output, args.competition, args.title)
