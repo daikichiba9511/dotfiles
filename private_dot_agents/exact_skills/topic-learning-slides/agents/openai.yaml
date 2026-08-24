@@ -1,0 +1,4 @@
+interface:
+  display_name: "トピック理解スライド"
+  short_description: "トピックを調査し、論点から各論へ進む日本語の理解用スライドを作る"
+  default_prompt: "Use $topic-learning-slides to research this topic, organize the major issues before the details, and create a source-backed Japanese Typst/Polylux deck for my understanding."
