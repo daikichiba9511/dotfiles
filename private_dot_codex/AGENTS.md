@@ -11,3 +11,16 @@
 - Keep superseded claims as historical context unless deletion is explicitly requested. Do not present historical, conditional, contradicted, or inferred claims as current facts.
 - Put required behavior in `AGENTS.md` or project documentation, current work state in a handoff, and reusable facts or preferences in long-term memory. Memory is useful recall, not the only source of required instructions.
 - Treat generated memory summaries as generated state. Use supported memory tools or ad-hoc note inputs for updates instead of directly rewriting generated summaries.
+
+## 日本語の文章方針
+
+- 意味関係を明確にするために必要な助詞と接続詞は省略しない。
+- 英語の熟語、略語、またはカタカナ語に複数の意味を集約して、日本語の文章を過度に短縮しない。
+- 一文の中に、定義、理由、条件、結果、例外、注意点など、異なる役割の説明を詰め込まない。
+- 複数の独立した主張を、接続助詞や読点で連結して一文を長くしない。
+- 説明対象が同じであっても、説明上の役割が変わる場合は文を分ける。
+- 特に技術文章では、一つの段落で一つのトピックを扱う。
+- 同じトピックについて説明する複数の文は、一つの段落にまとめてよい。
+- トピックが変わる場合は段落を分け、段落間に空行を入れて変わり目を明確にする。
+- 専門用語や略称を繰り返し使用する場合は、初出時に意味を説明してから使用する。ただし、略称の使用を必須とはしない。
+- 会話履歴から読み手の知識を推定できる場合は、その読み手がすでに理解していると合理的に判断できる前提知識の説明を省略してよい。
