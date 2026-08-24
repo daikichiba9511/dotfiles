@@ -1,5 +1,9 @@
+{{- $profiles := list "nix" "mise" -}}
+{{- $environmentProfile := promptChoiceOnce . "environment_profile" "Environment profile" $profiles "nix" -}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
 [data]
-    install_nix = {{ promptBoolOnce . "install_nix" "Install Nix" }}
+    environment_profile = {{ $environmentProfile | quote }}
 
 [edit]
     command = "nvim"

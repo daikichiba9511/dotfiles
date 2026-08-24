@@ -3,7 +3,7 @@ set -eu
 
 mkdir -p "${HOME}/.local/bin"
 
-# mise（バージョン固定）
+# mise（仕事用・プロジェクトローカルのランタイム管理、バージョン固定）
 MISE_VERSION="v2026.5.13"
 if ! command -v mise &> /dev/null; then
   echo "==> Installing mise ${MISE_VERSION}..."

@@ -21,7 +21,6 @@
           zsh
           jq
           tree-sitter
-          starship
           uv
           ripgrep
           lsd
@@ -33,6 +32,7 @@
           gh
           neovim-unwrapped
           ghq
+          typst
           # markdown LSP/lint CLIs (consumed by nvim efm-langserver / nvim-lint)
           markdownlint-cli2
           textlint

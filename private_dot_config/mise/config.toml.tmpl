@@ -1,0 +1,36 @@
+{{- if and (ne .environment_profile "nix") (ne .environment_profile "mise") -}}
+{{ fail (printf "unsupported environment_profile: %s" .environment_profile) }}
+{{- end -}}
+{{ if eq .environment_profile "mise" -}}
+[tools]
+# Work-machine defaults. Project-specific runtimes belong in each repository's mise.toml.
+node = "24"
+python = "3.12"
+pnpm = "latest"
+
+# Shell and editor tools
+jq = "latest"
+tree-sitter = "latest"
+uv = "latest"
+ripgrep = "latest"
+lsd = "latest"
+fd = "latest"
+bat = "latest"
+delta = "latest"
+fzf = "latest"
+lazygit = "latest"
+gh = "latest"
+"aqua:neovim/neovim" = "0.12"
+ghq = "latest"
+"npm:hunkdiff" = "latest"
+"npm:markdownlint-cli2" = "latest"
+"npm:textlint" = "latest"
+
+{{ end -}}
+[settings]
+idiomatic_version_file_enable_tools = ["rust"]
+
+[settings.github]
+# gh CLI がmacOS Keychainに保存したトークンをmiseが必要時のみ取得する。
+# GITHUB_TOKENを常時exportせず、他プロセスへの露出を避ける。
+credential_command = "gh auth token"

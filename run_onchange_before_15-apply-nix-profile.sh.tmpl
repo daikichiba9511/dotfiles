@@ -1,0 +1,43 @@
+#!/bin/bash
+set -eu
+
+{{ if eq .environment_profile "mise" -}}
+echo "==> Skipping Nix installation (profile: {{ .environment_profile }})"
+exit 0
+{{ else if eq .environment_profile "nix" -}}
+# chezmoiは生成後のスクリプト内容が変わった場合だけrun_onchangeを再実行する。
+# 次のハッシュにより、Nixの宣言または固定バージョンの変更を検知する。
+# flake.nix: {{ include "flake.nix" | sha256sum }}
+# flake.lock: {{ include "flake.lock" | sha256sum }}
+
+# Nixがインストール済みならパッケージのみインストールする。
+# 未インストールならDeterminate Systems installerで導入する。
+if ! command -v nix &> /dev/null; then
+  echo "==> Installing Nix (Determinate Systems installer)..."
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+fi
+
+# このセッションでnixコマンドを有効化する。
+if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+elif [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
+
+# flakeからグローバルCLIツールをインストールする。
+DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
+if [ ! -f "$DOTFILES_DIR/flake.nix" ]; then
+  echo "Required Nix flake not found: $DOTFILES_DIR/flake.nix" >&2
+  exit 1
+fi
+
+if nix profile list --json | grep -q '"dotfiles":{'; then
+  echo "==> Updating global CLI tools from flake..."
+  nix profile upgrade dotfiles
+else
+  echo "==> Installing global CLI tools from flake..."
+  nix profile install "$DOTFILES_DIR"
+fi
+{{ else -}}
+{{ fail (printf "unsupported environment_profile: %s" .environment_profile) }}
+{{ end -}}

@@ -19,9 +19,39 @@
 
 ## Quick Start
 
+Personal machines use the Nix profile by default:
+
 ```sh
 curl -fsLS https://raw.githubusercontent.com/daikichiba9511/dotfiles/main/install.sh | bash
 ```
+
+Work machines use the lighter mise profile explicitly:
+
+```sh
+curl -fsLS https://raw.githubusercontent.com/daikichiba9511/dotfiles/main/install.sh | bash -s -- --profile mise
+```
+
+The profiles have a strict ownership boundary:
+
+| Profile | Global CLI tools | Project runtimes |
+|---------|------------------|------------------|
+| `nix` (default) | Nix profile | Nix dev shells; mise remains available for repositories that declare mise config |
+| `mise` | mise | Each repository's `mise.toml` or supported version file |
+
+Unsupported profile names fail without applying dotfiles.
+
+On the Nix profile, global CLI tools are declared in `flake.nix`. Chezmoi
+reapplies the `dotfiles` Nix profile only when `flake.nix` or `flake.lock`
+changes. It does not run `nix flake update` automatically.
+
+Project-specific Nix environments are explicit. Enter a repository containing
+a development shell and run:
+
+```sh
+nix develop
+```
+
+Starting zsh does not automatically activate a project development shell.
 
 <details>
 <summary><strong>Manual Installation</strong></summary>
@@ -58,7 +88,7 @@ git clone https://github.com/daikichiba9511/dotfiles.git ~/dotfiles
 | **Ghostty** | GPU-accelerated terminal (main) |
 | **Herdr** | Agent-aware terminal multiplexer |
 | **zsh** | Shell |
-| **starship** | Cross-shell prompt |
+| **zsh prompt** | Minimal prompt without external processes |
 | **mise** | Runtime version manager |
 
 ### Theme
