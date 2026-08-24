@@ -1,4 +1,6 @@
-# Public slide content and visual contract
+# Kaggle slide adapter
+
+Apply this reference after the general `topic-learning-slides` Typst/Polylux contract. It adds Kaggle-specific public-release limits, team headings, Gold overview requirements, publication-evidence coverage, and report/slide parity. The general Skill owns the abstract-to-detail reading order, Japanese logic reconstruction, and semantic checkpoints.
 
 ## Contents
 
@@ -27,6 +29,8 @@ If a font is absent, choose an installed Japanese font and record the change. Ne
 When `~/MyVault/slides` exists, inspect representative Kaggle retrospective pages and the relevant Metropolis theme source there before composing; otherwise start from the bundled theme. Also inspect any other local slide examples, theme, or public reference decks the user supplies. Abstract their hierarchy, density, and explanatory rhythm; do not copy branding or copyrighted figures.
 
 The public deck must not contain Kaggle credentials, local usernames, private paths, raw comment dumps, inaccessible private artifacts, participant claims presented as verified facts, unlabeled inference, or copyrighted figures copied without permission and attribution. Redraw mechanisms from facts when appropriate and cite the underlying stable source. State the included rank range and unavailable/partial solution count.
+
+Give each public source a stable `[S-001]`-style ID in `synthesis/slide-sources.csv`. Place the marker beside the factual claim or representation and add the matching entry to a visible `出典一覧`. The appendix is a publication index back to the canonical Kaggle ledgers, not a substitute research ledger. It may appear immediately before the final individual-solution reference block so that the ranked solutions remain the final substantive section.
 
 ## 2. Page contract
 
@@ -117,7 +121,7 @@ Omit agenda and section-divider slides by default. Include them only when a long
 
 When creating or editing diagrams, plots, node-edge layouts, or spatial schematics, apply the separate diagram contract selected by `SKILL.md`.
 
-Do not use one gold-field comparison slide as a replacement for the individual solution overviews. Comparison belongs after readers can recognize each method; it should align genuinely repeated fields and must not erase team-specific topology.
+Do not use one gold-field comparison slide as a replacement for the individual solution overviews. In the default abstract-first narrative, the comparison or relationship map may appear before the detailed team blocks only when it defines the compared bottleneck, names the supporting ranks or teams, preserves counterexamples and unknowns, and remains understandable without prior team-page knowledge. The later reference section must still preserve every method-bearing gold topology. If the user explicitly chooses a team-first narrative, place the comparison after those blocks.
 
 ## 7. Compilation and deck-level QA
 
@@ -131,7 +135,7 @@ mise exec -- typst compile --root <workspace> <workspace>/slides/slides.typ <wor
 uv run --python 3.12 <skill-root>/scripts/validate_workspace.py <workspace> --require-pdf
 ```
 
-Render every slide at full resolution and create a contact sheet. Check:
+Render every slide at full resolution under `reviews/renders/` and create a contact sheet in the same directory. Check:
 
 - every slide has an obvious first reading target
 - titles, claims, prose, and sources are legible
@@ -142,6 +146,8 @@ Render every slide at full resolution and create a contact sheet. Check:
 - every table has a comparison purpose
 - no generic `Implication` or repeated takeaway strip appears
 - every method-bearing gold team has its own whole-solution overview, with the same topology as the report figure
+- the abstract section is readable without the later team details, and every cross-team claim remains traceable to named solution blocks
+- the transition into the individual solution reference section is explicit rather than accidental
 - the deck works in grayscale because structure and labels carry meaning
 - claims include evidence, mechanism, or a decision consequence rather than only slogans
 

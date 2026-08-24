@@ -81,6 +81,22 @@
   #align(right, text(size: 8.5pt, fill: gray)[#body])
 ]
 
+#let source-mark(id) = text(size: 8.5pt, fill: gray)[[#id]]
+
+#let source-entry(id, title, location, inspected, retrieved, limitation) = block(
+  width: 100%,
+  inset: (y: 4pt),
+  [
+    #text(size: 10pt, weight: "bold", fill: ink)[[#id] #title]
+    #linebreak()
+    #text(size: 8.5pt, fill: gray)[#location · 確認範囲: #inspected · 取得日: #retrieved]
+    #if limitation != none {
+      linebreak()
+      text(size: 8.5pt, fill: gray)[制約: #limitation]
+    }
+  ],
+)
+
 #let explainer(
   title,
   point,

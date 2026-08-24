@@ -9,10 +9,11 @@ This contract adapts the relevant rules from `japanese-tech-generation` for new 
 3. Engineer-facing prose contract
 4. New-draft workflow
 5. Existing-draft workflow
-6. Paragraph and section rules
-7. Evidence and uncertainty
-8. Source-format rules
-9. Completion checks
+6. Revision order and naturalness diagnostics
+7. Paragraph and section rules
+8. Evidence and uncertainty
+9. Source-format rules
+10. Completion checks
 
 ## Phase routing
 
@@ -129,6 +130,41 @@ Editing should make the mechanism explicit without changing it. Repair undefined
 
 Run a dependency test on every revised explanation: could a reader who knows general ML but has not read the competition rules recover what each task-specific noun refers to and why the next sentence follows? If not, add the missing schema fact, equation, operation, or contrast before polishing the wording. Replacing English nouns with Japanese nouns does not repair a missing logical link.
 
+## Revision order and naturalness diagnostics
+
+Revise explanatory prose in this order:
+
+1. **Technical meaning:** freeze verified facts, values, evidence status, pipeline stage, and uncertainty.
+2. **Logical completeness:** restore any missing subject, comparison target, input, operation, output, prerequisite, or causal step.
+3. **Japanese sentence structure:** rebuild the sentence around an explicit Japanese subject and predicate; split overloaded sentences.
+4. **Terminology:** choose one reader-appropriate expression for each concept and define competition-specific terms at first use.
+5. **Surface notation:** normalize punctuation, full-width and half-width forms, units, capitalization, and line breaks.
+
+Do not start with a global term replacement or notation pass. A sentence may be typographically consistent and still fail because its mechanism or logical dependency is missing. After each meaning-level edit, compare the claim again with the organized source and evidence status before polishing its form.
+
+For every competition-specific operation, make this chain recoverable from the local explanation:
+
+`input -> operation or relationship -> output -> training/validation/inference stage -> consequence for the decision or prediction`
+
+The chain may span adjacent sentences, a list, or a diagram, but it must not depend on the reader knowing the source post. When contrasting two operations, define both chains before stating that they conflict, coexist, or act at different stages.
+
+Treat the following as rewrite triggers. They are diagnostics, not automatic word bans:
+
+- a source-local verb-object combination whose operation is unclear in ordinary Japanese, such as `epochを読む`, `モデルを修復する`, or `構成が交絡する`;
+- three or more ordered operations compressed into one sentence, especially when changing their order changes the result;
+- a result, its mechanism, and its limitation placed in one sentence without an explicit boundary;
+- participant-reported evidence and editorial interpretation sharing one unlabelled sentence;
+- several generic English nouns joined into a nominal chain instead of an actor and action;
+- a demonstrative or omitted subject whose referent could be a dataset, model, prediction, or stage;
+- a connective such as `一方`, `ただし`, `そのため`, or `両立する` whose preceding sentences have not supplied both sides of the relation;
+- a vague predicate such as `効いた`, `改善した`, `重要だった`, or `採用した` without the compared setting, affected quantity, or decision context available nearby.
+
+Repair source-local shorthand by naming the actual action. For example, replace `epoch 15から読む` with `epoch 15のcheckpointを採用する` when that is the verified operation. Replace `数epoch修復する` only after identifying what parameters or predictions are corrected, with which data, and for what purpose. Do not invent the missing object merely to make the Japanese smoother.
+
+Do not enforce a universal character-count limit. Sentence length is a diagnostic, not the defect itself. Split when a sentence carries multiple claims, evidence statuses, causal relations, or ordered operations; keep a longer sentence when one subject-predicate relation remains unambiguous.
+
+For slides, prefer `title = question or subject`, `claim = one conclusion`, and `body or figure = mechanism and evidence`. For reports, let each paragraph establish one link in the causal chain and move supporting detail to the next sentence or paragraph. A line break is not a substitute for a complete sentence.
+
 ## Paragraph and section rules
 
 - Use one topic and one main claim per paragraph.
@@ -176,6 +212,7 @@ Before accepting Japanese prose, confirm all of the following:
 - Every example, equation, diagram, and code sample answers the same question as its surrounding claim.
 - Every causal-looking statement follows the mechanism chain and retains its evidence status.
 - Revision has not changed verified facts, citations, numerical values, or uncertainty.
+- Revision followed `technical meaning -> logical completeness -> Japanese sentence structure -> terminology -> surface notation`; a notation-only pass was not treated as a prose pass.
 - The summary contains no claim absent from the body.
 - Empty emphasis and unused concepts have been removed.
 - Japanese forms the sentence skeleton; untranslated English remains only where it preserves an exact identifier, search term, or established technical meaning.
@@ -185,5 +222,9 @@ Before accepting Japanese prose, confirm all of the following:
 - Task-specific abstractions are introduced only after a sentence names their input, action, and output.
 - A reader who knows general ML but not the competition can explain what every competition-specific transformation changes and at which pipeline stage it happens.
 - Contrastive sentences such as `Xは不採用だがYは採用` define X and Y before drawing the contrast.
+- Every competition-specific operation exposes its input, action, output, stage, and consequence locally or through an adjacent diagram.
+- Source-local verb-object combinations, vague predicates, and unexplained connectives have been rewritten or retained with a specific reason.
+- Sentences with several ordered operations, causal relations, or evidence statuses have been split unless one relation remains unambiguous.
+- Participant-reported evidence and editorial interpretation are separated and labelled even when they discuss the same result.
 - Every slide's title and claim state a concrete subject and conclusion without unexplained counting labels or noun chains.
 - Equations and tables are introduced, interpreted, and connected to a decision in prose.

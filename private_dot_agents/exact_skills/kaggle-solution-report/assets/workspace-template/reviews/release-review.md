@@ -12,4 +12,5 @@ Record competition-specific independent review findings here, not in the Skill r
 - [ ] Japanese terminology and explanation review has no unresolved high/medium finding.
 - [ ] Rendered geometry review has no unresolved high/medium finding.
 - [ ] Report/slide parity review has no unresolved high/medium finding.
+- [ ] Topic-slide C1-C6 checkpoints are fresh and the Kaggle adapter check passed.
 - [ ] Validation, compilation, and full rerender passed after the final accepted correction.

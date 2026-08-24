@@ -10,7 +10,8 @@
 6. Linked artifact ledger
 7. Publication-evidence map
 8. Synthesis files
-9. Status semantics
+9. Topic-slide chain artifacts
+10. Status semantics
 
 ## 1. Workspace tree
 
@@ -36,11 +37,18 @@ Use this stable tree:
 │   ├── differentiators.md
 │   ├── task-grounded-analysis.md
 │   ├── strategy-retrospective.md
-│   └── publication-evidence.csv
+│   ├── publication-evidence.csv
+│   ├── argument-map.md
+│   ├── slide-outline.md
+│   ├── terminology.md
+│   └── slide-sources.csv
 ├── figures/
 ├── code/
 ├── reviews/
-│   └── release-review.md
+│   ├── release-review.md
+│   ├── topic-slide-checkpoints.md
+│   ├── prose-reconstruction.csv
+│   └── renders/
 ├── report/
 │   ├── main.typ
 │   ├── lib.typ
@@ -326,7 +334,21 @@ Use one mechanism-chain table per factor:
 
 Organize as discovery cue, falsifiable hypothesis, cheapest test, decision rule, and next investment. Include mistakes to avoid and evidence that would have changed the path.
 
-## 9. Status semantics
+## 9. Topic-slide chain artifacts
+
+The public deck uses the general `topic-learning-slides` semantic workflow without duplicating the Kaggle research packet.
+
+- `synthesis/argument-map.md` records the broad issue map and the bidirectional relationship between issues and claim IDs.
+- `synthesis/slide-outline.md` records each slide's claim, incoming context, evidence, outgoing context, role, and representation.
+- `synthesis/terminology.md` is the only terminology ledger. `slides/terminology.md` is obsolete and validation rejects it.
+- `synthesis/slide-sources.csv` is the public source appendix index with header `source_id,title,url_or_path,inspected_scope,retrieved_at,limitations,evidence_refs`. It does not replace the research ledgers; `evidence_refs` points back to their stable IDs.
+- `reviews/topic-slide-checkpoints.md` is the authoritative append-only C1, C2a, C3, C2b, C4, C5, and C6 log. Each row records the artifact paths and their current hash so a later edit makes stale passes detectable.
+- `reviews/prose-reconstruction.csv` records the expanded and reconstructed proposition for each checked slide group.
+- `reviews/renders/` is the canonical location for full-resolution page renders and contact sheets used by C6.
+
+Use `[S-001]`-style markers beside factual slide content and one matching `source-entry` in the visible `出典一覧`. The source appendix may precede the final team-by-team reference block so that individual solutions remain the final substantive section.
+
+## 10. Status semantics
 
 - `pending`: collection or analysis has not reached a conclusion
 - `complete`: main post and materially relevant comments/artifacts were retrieved and organized
@@ -350,4 +372,4 @@ Use only these state combinations:
 
 A final row cannot keep `method_status=pending`. Every `partial` or `unavailable` row needs a concrete `evidence_limit`.
 
-When revising a workspace created before `method_status`, `final_order`, `figures/gold-pipelines.typ`, and `reviews/release-review.md` existed, migrate it before validation: add the columns, classify each row from retained team-attributable evidence, move an older shared figure source such as `diagrams/gold-pipelines.typ` to the canonical `figures/gold-pipelines.typ` path, rename rank-only functions to `gold-pipeline-<rank>-<team-slug>`, update imports, and copy the current review-log template from `<skill-root>/assets/workspace-template/reviews/release-review.md`. Do not mark the unavailable-search completion boxes merely to satisfy validation; rerun and document the missing discovery steps first.
+When revising a workspace created before `method_status`, `final_order`, `figures/gold-pipelines.typ`, the topic-slide chain artifacts, and `reviews/release-review.md` existed, migrate it before validation. Add the current scaffolding, move `slides/terminology.md` to the canonical `synthesis/terminology.md` path, classify each coverage row from retained team-attributable evidence, move an older shared figure source such as `diagrams/gold-pipelines.typ` to `figures/gold-pipelines.typ`, rename rank-only functions to `gold-pipeline-<rank>-<team-slug>`, and update imports. Resolve every added TODO and append fresh checkpoint rows; do not mark unavailable-search or semantic gates complete merely to satisfy validation.

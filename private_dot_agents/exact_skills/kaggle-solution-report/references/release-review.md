@@ -45,16 +45,21 @@ Check every material claim against the paired raw and organized files, not only 
 
 Read titles, claims, prose, equations, captions, diagrams, and appendices as one terminology surface.
 
+- Review in this order: technical meaning, logical completeness, Japanese sentence structure, terminology, then surface notation. Consistent typography does not clear translation-like or logically incomplete prose.
 - One concept uses one canonical expression after first use.
 - Team-specific shorthand is expanded before abbreviation; ordinary Kaggler terms may remain assumed knowledge according to the reader contract.
 - Concrete input, action, and output precede task-specific abstractions such as position estimation.
 - General ML vocabulary may be assumed, but task schema, target relations, team-specific transformations, and competition-specific postprocessing are defined before use.
 - A reader who did not enter the competition can distinguish training-time penalties, validation-time selection, and inference-time prediction repair when the prose contrasts them.
 - Japanese carries the grammar; generic English nouns and unexplained noun chains do not replace sentences.
+- Source-local verb-object combinations such as `epochを読む` or `モデルを修復する` are replaced with the verified action, not merely translated word by word.
 - `log loss`, training objective, loss term, and per-example loss value are not conflated.
 - Disease type, left/right target, vertebral level, series, slice, coordinate, and ROI are named at the correct conceptual level.
 - Prose does not compress a causal relation into labels such as `five decisions`, `geometry branch`, or `confident disagreement`.
 - Connectives such as `therefore`, `however`, and `both can coexist` do not hide an unstated equation, pipeline stage, or causal step.
+- Every competition-specific operation makes its input, action, output, pipeline stage, and prediction or decision consequence recoverable from the page and its immediate context.
+- A sentence containing several ordered operations, causal relations, or evidence statuses is split, listed, or diagrammed unless one subject-predicate relation remains unambiguous.
+- Vague predicates such as `worked`, `improved`, `was important`, and `was selected` retain a nearby comparison, affected quantity, or decision context.
 - Each paragraph advances one claim, and participant report and editorial interpretation occupy separate sentences or paragraphs.
 - Typst equations define symbols in reading order and contain no pasted LaTeX syntax.
 
@@ -85,5 +90,7 @@ Record findings with severity, artifact, location, evidence, disposition, and a 
 
 - no unresolved high- or medium-priority finding remains;
 - available-evidence saturation and artifact coverage are closed;
+- the latest C1, C2a, C3, C2b, C4, C5, and C6 rows are passing and their artifact hashes are current;
+- the Kaggle adapter check passes after the generic topic-slide checkpoints;
 - deterministic workspace validation and both Typst compilations pass after the final edit;
 - every report and slide page has been rerendered and inspected after the final meaningful change.

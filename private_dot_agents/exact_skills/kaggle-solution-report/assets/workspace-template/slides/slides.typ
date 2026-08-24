@@ -49,7 +49,7 @@
     TODO: 通常の問題と異なる制約や、test時に初めて必要になる処理を説明する。
   ],
   none,
-  source: [TODO: 公式のタスク説明。],
+  source: [TODO: 公式のタスク説明。 #source-mark("S-001")],
   quiet: true,
 )
 
@@ -83,6 +83,25 @@
   quiet: true,
 )
 
+// Analyze and author these pages first, but render them after the abstract synthesis.
+#let gold_solution_reference_pages = [
+#explainer(
+  [出典一覧],
+  [TODO: 本文中の出典IDから、確認した情報源とその制約を逆引きできる。],
+  [
+    #source-entry(
+      "S-001",
+      [TODO: 出典名],
+      [TODO: 安定したURLまたはローカルパス],
+      [TODO: 確認した章、ページ、節、ファイル],
+      [TODO: 取得日],
+      [TODO: この出典だけでは判断できないこと],
+    )
+  ],
+  none,
+  quiet: true,
+)
+
 #solution-overview(
   [1st solution: TODOチームの全体像],
   [TODO: 入力から最終確率まで、解法全体が何をどの順序で処理するか。],
@@ -113,7 +132,8 @@
 )
 
 // Repeat the complete `Nth solution` overview and central-decision block for
-// every method-bearing gold team before starting cross-team synthesis.
+// every method-bearing gold team inside this reference section.
+]
 
 #explainer(
   [上位解法の共通項],
@@ -247,11 +267,13 @@
 
 #explainer(
   [調査範囲と限界],
-  [TODO: 結論をどのcoverageと不確実性の範囲で読むべきか。],
+  [TODO: 結論をどの調査範囲と不確実性のもとで読むべきか。],
   [
-    TODO: selected ranks、complete、partial、unavailableを説明する。
+    TODO: 対象順位と、公開情報を十分に確認できた順位、一部だけ確認できた順位、解法を取得できなかった順位を説明する。その後で、台帳上のcomplete、partial、unavailableという状態名を対応付ける。
 
-    TODO: participant-reported、not reproduced、publication bias等の限界を説明する。
+    TODO: 参加者による報告にとどまる結果、独立に再現されていない結果、公開解法の偏りが結論をどう弱めるか説明する。
+
+    TODO: 次頁以降が、前半の学びを順位別の根拠へ戻って確認する個別解法の参照編であることを案内する。
   ],
   [
     #table(
@@ -260,10 +282,12 @@
       stroke: (x: none, y: 0.55pt + gray.lighten(48%)),
       fill: (x, y) => if y == 0 { pale } else { white },
       [調査対象], [公開情報の確認状況],
-      [TODO], [rank coverage],
+      [TODO], [対象順位],
       [TODO], [complete / partial / unavailable],
     )
   ],
   source: [TODO: コンペ、評価指標、主催者、公開解法の出典。],
   quiet: true,
 )
+
+#gold_solution_reference_pages

@@ -99,22 +99,21 @@ def migrate_coverage(workspace: Path, actions: list[str]) -> None:
 
 def migrate_review_log(workspace: Path, skill_root: Path, actions: list[str]) -> None:
     destination = workspace / "reviews/release-review.md"
-    saturation_gate = (
-        "- [ ] Available-evidence saturation and artifact audit have no unresolved "
-        "high/medium finding."
+    required_gates = (
+        "- [ ] Available-evidence saturation and artifact audit have no unresolved high/medium finding.",
+        "- [ ] Topic-slide C1-C6 checkpoints are fresh and the Kaggle adapter check passed.",
     )
     if destination.exists():
         text = destination.read_text(encoding="utf-8")
-        if "Available-evidence saturation and artifact audit" in text:
-            return
         marker = "## Release gate\n"
         if marker not in text:
             raise SystemExit(f"Malformed release review without gate heading: {destination}")
-        destination.write_text(
-            text.replace(marker, f"{marker}\n{saturation_gate}\n", 1),
-            encoding="utf-8",
-        )
-        actions.append("added unchecked available-evidence saturation release gate")
+        missing_gates = [gate for gate in required_gates if gate not in text]
+        if not missing_gates:
+            return
+        inserted = "\n".join(missing_gates)
+        destination.write_text(text.replace(marker, f"{marker}\n{inserted}\n", 1), encoding="utf-8")
+        actions.append("added unchecked current release gates")
         return
     destination.parent.mkdir(parents=True, exist_ok=True)
     source = skill_root / "assets/workspace-template/reviews/release-review.md"
@@ -138,6 +137,43 @@ def migrate_evidence_saturation_scaffolding(
         source = skill_root / "assets/workspace-template" / relative
         shutil.copy2(source, destination)
         actions.append(f"added {relative}; populate it from retained evidence before validation")
+
+
+def migrate_terminology(workspace: Path, actions: list[str]) -> None:
+    old_path = workspace / "slides/terminology.md"
+    destination = workspace / "synthesis/terminology.md"
+    if old_path.exists() and destination.exists():
+        raise SystemExit(
+            "Both slides/terminology.md and synthesis/terminology.md exist. "
+            "Merge them manually and keep only synthesis/terminology.md."
+        )
+    if old_path.exists():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        old_path.replace(destination)
+        actions.append("moved slides/terminology.md to synthesis/terminology.md")
+
+
+def migrate_topic_slide_scaffolding(
+    workspace: Path,
+    skill_root: Path,
+    actions: list[str],
+) -> None:
+    for relative in (
+        "synthesis/argument-map.md",
+        "synthesis/slide-outline.md",
+        "synthesis/terminology.md",
+        "synthesis/slide-sources.csv",
+        "reviews/topic-slide-checkpoints.md",
+        "reviews/prose-reconstruction.csv",
+        "reviews/renders/README.md",
+    ):
+        destination = workspace / relative
+        if destination.exists():
+            continue
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        source = skill_root / "assets/workspace-template" / relative
+        shutil.copy2(source, destination)
+        actions.append(f"added {relative}; resolve its scaffold before slide release")
 
 
 def migrate_shared_figures(workspace: Path, actions: list[str]) -> None:
@@ -168,6 +204,8 @@ def main() -> int:
     migrate_leaderboard(workspace, actions)
     migrate_review_log(workspace, skill_root, actions)
     migrate_evidence_saturation_scaffolding(workspace, skill_root, actions)
+    migrate_terminology(workspace, actions)
+    migrate_topic_slide_scaffolding(workspace, skill_root, actions)
     migrate_shared_figures(workspace, actions)
 
     if actions:
@@ -178,9 +216,10 @@ def main() -> int:
     print(
         "Next: resolve scope TODO values, classify pending method_status values from retained evidence, "
         "add matching organized frontmatter/topology records and 外部Artifactの監査 sections, "
-        "populate the artifact and publication-evidence ledgers, rename rank-only pipeline "
-        "functions with their team slugs, update moved imports, and rerun any method-unavailable "
-        "discovery gate before validation."
+        "populate the artifact and publication-evidence ledgers, resolve the topic-slide issue map, "
+        "source appendix, terminology, prose reconstruction, and checkpoint scaffolds, rename "
+        "rank-only pipeline functions with their team slugs, update moved imports, and rerun any "
+        "method-unavailable discovery gate before validation."
     )
     return 0
 

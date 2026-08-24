@@ -1,15 +1,18 @@
-# Kaggle retrospective learning design
+# Kaggle adapter for topic-learning-slides
+
+Apply this reference after the general `topic-learning-slides` argument and checkpoint workflow. It adds competition-specific team coverage, factor synthesis, discovery reconstruction, and ranked solution-reference requirements. When a rule is not Kaggle-specific, follow the general Skill rather than duplicating a second narrative contract here.
 
 ## Contents
 
 1. Purpose and abstraction
-2. Two-pass synthesis
-3. Discovery reconstruction
-4. Slide narrative
-5. Explanation depth
-6. Required story types
-7. Transfer map
-8. Audit checklist
+2. Analysis order and reading order
+3. Two-pass synthesis
+4. Discovery reconstruction
+5. Slide narrative
+6. Explanation depth
+7. Required story types
+8. Transfer map
+9. Audit checklist
 
 ## Purpose
 
@@ -29,20 +32,31 @@ The recurring useful structure is:
 
 1. make the task concrete with an input, output, metric, or failure example;
 2. show the author's or a simple baseline pipeline before discussing top solutions;
-3. summarize each team end to end so components retain their purpose;
-4. reorganize the same evidence by bottleneck or factor;
-5. treat widely shared factors as minimum conditions for competing, not as proof of what separated ranks;
-6. identify the distinctive factors and compare them against a control, counterexample, or alternative explanation;
-7. reconstruct how a participant could have noticed the clue during the competition;
-8. show the cheapest experiment that could accept or reject the hypothesis;
-9. include failed ideas, non-reproduced gains, and reasoning turns;
-10. finish with a reusable idea inventory and a detection checklist for the next similar task.
+3. show a cross-team map of the main bottlenecks, solution families, and relationships before asking the reader to absorb long team histories;
+4. treat widely shared factors as minimum conditions for competing, not as proof of what separated ranks;
+5. identify distinctive factors and compare them against a control, counterexample, or alternative explanation;
+6. reconstruct how a participant could have noticed the clue during the competition;
+7. show the cheapest experiment that could accept or reject the hypothesis;
+8. include failed ideas, non-reproduced gains, and reasoning turns;
+9. give the reusable idea inventory, decision order, transfer boundary, and evidence limits;
+10. finish with complete team-by-team solution blocks so the reader can inspect the concrete evidence behind the abstraction.
 
 The causal unit of explanation is not a technique name. It is this chain:
 
 `observable clue -> failure hypothesis -> intervention -> controlled result -> decision -> transfer boundary`
 
 For example, `offset crop augmentation` is incomplete. A useful explanation says that predicted coordinates create a train/inference crop gap, specifies how to measure that gap, compares a fixed classifier on ground-truth and out-of-fold predicted crops, and states when offset training should be adopted.
+
+## Analysis order and reading order
+
+Do not equate the order used to build the evidence with the order offered to the reader.
+
+- **Analysis order:** complete the team-centric pass first, then derive factor-centric claims. This prevents incompatible branches from being merged into a fictitious solution.
+- **Reading order:** normally present the factor-centric overview before the detailed team blocks. Let the reader first understand the solution space, relationships, exceptions, and reusable decisions, then inspect individual implementations as evidence-bearing references.
+
+The abstract section must stand on its own. Define the task-specific bottleneck, name the solution families that address it, distinguish shared conditions from rank differentiators, retain counterexamples and uncertainty, and identify the supporting ranks or teams. Do not rely on phrases such as `as shown earlier` when the detailed solution appears later.
+
+The individual solution section must also stand on its own. Preserve each real end-to-end topology, central decision, evidence status, and unknown. Do not let the early abstraction replace these blocks or introduce a blended pipeline that no team actually built. When navigation is useful, end the abstract section with one sentence explaining that the following pages are ranked solution references.
 
 ## Two-pass synthesis
 
@@ -57,6 +71,8 @@ For every method-bearing team, preserve:
 - evidence gaps and participant-only claims.
 
 This pass prevents factor summaries from combining incompatible components into a fictitious solution.
+
+Complete this pass before composing the abstract-first reader narrative, even though its slides are rendered later in the deck.
 
 In slides, give every method-bearing gold team a recognizable ordinal heading such as `1st solution:`, `2nd solution:`, and `11th solution:`. Do not use `Rank 1:` or `Rank 11:` as the team-solution heading. The ordinal identifies the competition placement in the form commonly used by Kaggle solution write-ups; the text after the colon states the specific subject of that page. Upper-silver teams remain fully represented in organized Markdown and factor-level synthesis; give them individual slide blocks only when the user asks.
 
@@ -86,6 +102,8 @@ Reorganize the same evidence around the task's bottlenecks:
 
 Do not call a frequent element a differentiator merely because it appears in winning solutions. A common element is usually an entry ticket. A differentiator needs a contrast, a mechanism, and enough evidence to survive confounders such as team size, compute, or missing write-ups.
 
+Use this pass to build the first reader-facing synthesis. A relationship map should show which bottleneck each solution family addresses, which teams exemplify it, where strategies combine or diverge, and which counterexample limits the conclusion. It is an index into the later team blocks, not a substitute for them.
+
 ## Discovery reconstruction
 
 For every central learning, fill this card before making slides:
@@ -110,16 +128,16 @@ Build a learning arc, not a report table of contents. A strong default sequence 
 2. **Concrete task:** one representative input-to-output path.
 3. **Metric and data pressure:** one property per slide, with an equation, count, or example.
 4. **Naive baseline:** the simplest plausible pipeline and where it fails.
-5. **Gold-team blocks:** preserve every method-bearing gold solution end to end before rank-level synthesis.
+5. **Solution-space overview:** relate the main bottlenecks to the solution families and name the teams that exemplify each response.
 6. **Top-field entry ticket:** the common pipeline or principle and why it fits the task.
-7. **Bottleneck map:** where errors enter and how they propagate to the metric.
-8. **Team exemplars revisited:** use two to four already introduced solutions to explain distinct responses to the bottleneck; this does not replace the complete gold-team blocks.
-9. **Rank difference:** what the top group added beyond the entry ticket, with confounders stated.
-10. **Worked success story:** clue, hypothesis, test, reported result, decision.
-11. **Negative or non-reproduced story:** plausible idea, failed evidence, revised rule.
-12. **During-competition playbook:** ordered measurements and decision gates.
-13. **Transfer map:** general principle, task-family adaptation, and domain-specific detail.
-14. **Coverage and evidence limits.**
+7. **Bottleneck map:** where errors enter, how they propagate to the metric, and where solution families intervene.
+8. **Rank difference:** what the top group added beyond the entry ticket, with counterexamples and confounders stated.
+9. **Worked success story:** clue, hypothesis, test, reported result, decision.
+10. **Negative or non-reproduced story:** plausible idea, failed evidence, revised rule.
+11. **During-competition playbook:** ordered measurements and decision gates.
+12. **Transfer map:** general principle, task-family adaptation, and domain-specific detail.
+13. **Coverage and evidence limits:** state which ranks and factors can support the synthesis.
+14. **Individual solution references:** preserve every method-bearing gold solution end to end in rank order; add requested upper-silver blocks after Gold.
 
 Page count may grow. Split a reasoning chain across slides whenever a reader would otherwise have to infer a missing step.
 
@@ -141,7 +159,8 @@ When evidence permits, the deck must contain:
 
 - one concrete metric example showing how an error changes score;
 - one baseline-to-top contrast;
-- one complete solution pipeline before factor-level synthesis;
+- one cross-team relationship map that is understandable before the individual solution blocks;
+- one complete pipeline for every method-bearing gold solution in the later reference section;
 - one common-element explanation framed as an entry condition;
 - one top-rank differentiator with an explicit confounder;
 - one worked positive experiment with a numeric result;
@@ -164,6 +183,8 @@ This prevents the reader from copying a Kaggle-specific recipe while missing the
 Before release, answer yes or no:
 
 - Can the reader state the task and metric failure mode after the opening slides?
+- Can the reader explain the main solution families, their relationships, and their counterexamples before reaching the individual solution section?
+- Does every abstract factor name the ranks or teams that support it and point naturally to a later solution block?
 - Can the reader state what each slide is about and what it claims after reading only the title and claim?
 - Are task-specific terms introduced through their input, operation, and output before their shortened form is used?
 - Is there a simple baseline against which the top pattern is meaningful?
@@ -178,7 +199,7 @@ Before release, answer yes or no:
 - Does the deck show what to measure before recommending what to build?
 - Does the final playbook contain decision gates rather than a shopping list?
 - Does the transfer map distinguish general, task-family, and competition-specific knowledge?
-- Would the representative pipeline still be one of the first pages a reader remembers after viewing the full deck?
+- Would the cross-team relationship map and the most important team pipeline remain memorable after viewing the full deck?
 - Does every core publication-evidence row appear on a named slide?
 - Can every excluded supporting item be defended as redundant, incidental, inaccessible, or outside the reader contract?
 - Did every linked technical artifact reach an inspected, unavailable, or not-material decision?

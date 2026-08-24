@@ -39,8 +39,9 @@ Do not read every reference at startup. Read each selected file completely befor
 | evidence labels and non-inference rules | [evidence-rules.md](references/evidence-rules.md) |
 | Japanese synthesis, report drafting, or prose revision | [japanese-report-writing.md](references/japanese-report-writing.md) |
 | report structure, Typst math, appendix, report QA | [report-output.md](references/report-output.md) |
-| reusable-learning narrative and team/factor synthesis for slides | [retrospective-learning-design.md](references/retrospective-learning-design.md) |
-| slide composition, typography, color, spacing, public QA | [slide-design.md](references/slide-design.md) |
+| general topic-to-understanding-deck workflow | sibling Skill `../topic-learning-slides/SKILL.md` and the phase references it selects |
+| Kaggle-specific learning narrative and team/factor adapter | [retrospective-learning-design.md](references/retrospective-learning-design.md) |
+| Kaggle-specific slide composition and public-release adapter | [slide-design.md](references/slide-design.md) |
 | diagrams, plots, arrows, nodes, or spatial schematics | [diagram-design.md](references/diagram-design.md) |
 | final independent review across evidence, Japanese prose, diagrams, and cross-artifact parity | [release-review.md](references/release-review.md) |
 
@@ -121,7 +122,7 @@ Search non-solution discussions for data properties, label generation, metric be
 
 After synthesis, finalize every publication-evidence row as report-included/excluded and slide-included/factor-only/excluded. Every exclusion needs a reason. A method-bearing gold team must retain a whole pipeline, a central decision, and evidence that calibrates trust; richer sources may require several independent detail pages. Page count is never a substitute for this evidence coverage.
 
-Output: stable comparison, common-element, differentiator, task-grounded, and strategy-retrospective synthesis files plus a closed publication-evidence map.
+Output: stable comparison, common-element, differentiator, task-grounded, and strategy-retrospective synthesis files plus a closed publication-evidence map. Together with the organized solutions, coverage manifest, and official task/data/metric evidence, these files form the verified research packet passed to `topic-learning-slides`.
 
 ### 5. Build the detailed report
 
@@ -133,15 +134,74 @@ Output: `report/report.pdf` and its Typst sources.
 
 ### 6. Build the public slide deck
 
-Read `retrospective-learning-design.md` and `slide-design.md`. Read `diagram-design.md` only when creating or editing a figure. Derive the deck from verified report claims and evidence.
+Resolve the sibling installed Skill at `<skill-root>/../topic-learning-slides/SKILL.md`, read it completely, and follow its selected phase references. Treat the completed competition as the topic and pass the verified research packet from steps 1–5 as its starting evidence. Do not repeat broad collection inside the slide phase; research only a concrete gap exposed by its C2 evidence checkpoint.
 
-Make the deck useful for the next similar competition: preserve each method-bearing gold team in an end-to-end block, retain upper-silver evidence in factor-level synthesis, reorganize evidence by bottleneck, distinguish entry conditions from rank differentiators, reconstruct `clue -> hypothesis -> cheapest test -> result -> decision -> transfer boundary`, and include negative or non-reproduced results when evidence exists.
+Before running the chained workflow, record these resolved mappings in `reviews/topic-slide-checkpoints.md`. Do not rely on an implied phrase such as “reuse the research packet”:
+
+| chained role | canonical Kaggle artifact |
+|---|---|
+| `scope_artifact` | `scope/scope.md` |
+| `source_ledger` | `sources/evidence-ledger.md` plus `sources/artifact-ledger.csv` |
+| `claim_ledger` | `sources/evidence-ledger.md` for stable claim IDs; `synthesis/publication-evidence.csv` for report/slide disposition |
+| `evidence_packet` | official competition sources, paired solution files, preserved discussions/artifacts, and stable synthesis files |
+| `checkpoint_log` | `reviews/topic-slide-checkpoints.md` |
+| `terminology_ledger` | `synthesis/terminology.md` |
+| `prose_reconstruction` | `reviews/prose-reconstruction.csv` |
+
+The Kaggle caller owns its established evidence vocabulary. Use this crosswalk only to interpret the generic checks; do not rename or duplicate ledger rows:
+
+| generic meaning | Kaggle label |
+|---|---|
+| `official-or-organizer` | `organizer-confirmed` |
+| `author-reported` | `participant-reported` |
+| `directly-observed` | `directly-observed` |
+| `independently-reproduced` | `independently-reproduced` |
+| `inference` | `inference` |
+| `unavailable` | `unavailable` |
+
+Map the generic workflow to this competition:
+
+| `topic-learning-slides` artifact | Kaggle input |
+|---|---|
+| scope and central question | reuse `scope/scope.md`; explain why the top solutions fit this task and what a participant should test next time |
+| source and claim evidence | reuse official pages, paired solution evidence, `sources/` ledgers, discussion evidence, and `synthesis/publication-evidence.csv`; do not duplicate them into a second ledger |
+| broad issue map | write `synthesis/argument-map.md`: task/data/metric pressure -> failure modes -> solution families -> common conditions and differentiators |
+| slide outline and terminology | write `synthesis/slide-outline.md` and `synthesis/terminology.md` |
+| checkpoint review | append authoritative C1–C6 attempts to `reviews/topic-slide-checkpoints.md`; never duplicate pass/fail state in synthesis files |
+| detailed references | complete Gold solution blocks in rank order, followed by requested Upper Silver blocks |
+| evidence limits | unavailable/partial ranks, participant-only results, missing artifacts, and non-reproduced gains |
+
+Run C1–C6 from `topic-learning-slides`, including C2a before the issue map and C2b after it. Record C5 reconstructions in `reviews/prose-reconstruction.csv`. Then read `retrospective-learning-design.md` and `slide-design.md` as Kaggle-specific adapters. Read `diagram-design.md` only when creating or editing a figure. Derive the deck from verified report claims and evidence.
+
+Compute each checkpoint artifact hash with the chained Skill's deterministic helper:
+
+```bash
+uv run --python 3.12 <skill-root>/../topic-learning-slides/scripts/checkpoint_hash.py \
+  <workspace> "<semicolon-separated-artifact-paths>"
+```
+
+Append a new attempt whenever an artifact changes; do not edit a prior passing row to match the new hash.
+
+Separate analysis order from reading order. Analyze every team end to end before cross-team synthesis, but normally present the public deck from abstraction to detail: establish the task and baseline, show how the solutions relate by bottleneck and strategy, derive common conditions, differentiators, counterexamples, and a reusable playbook, state coverage limits, and only then provide the complete team-by-team solution blocks as a reference section. Keep the opening synthesis understandable without requiring the reader to have memorized the later team pages, and make every abstract claim traceable to named ranks and later solution blocks.
+
+Make the deck useful for the next similar competition: preserve each method-bearing gold team in an end-to-end reference block, retain upper-silver evidence in factor-level synthesis, reorganize evidence by bottleneck, distinguish entry conditions from rank differentiators, reconstruct `clue -> hypothesis -> cheapest test -> result -> decision -> transfer boundary`, and include negative or non-reproduced results when evidence exists. Do not use the abstract-first order to synthesize before the team evidence is stable or to replace real pipelines with a fictitious average solution.
 
 Build from `synthesis/publication-evidence.csv`. Every core gold item must appear on a named slide; supporting or contextual items may be excluded only with a recorded rationale. Do not compress independent mechanisms, experiments, or reasoning turns into one memorable trick merely to shorten the deck.
 
 Follow the page and salience contracts in `slide-design.md`; treat diagrams, tables, and emphasis as choices rather than page-completion requirements.
 
 Give every method-bearing gold team its own whole-solution overview figure before the detailed team pages. Reuse the shared rendering derived from the organized semantic topology so the two artifacts cannot silently describe different pipelines.
+
+After the generic C6 deck check, run a Kaggle adapter check:
+
+- the rank scope and complete/partial/unavailable counts match `coverage.csv`;
+- every abstract factor names the supporting teams and remains consistent with `comparison-matrix.md`;
+- every method-bearing Gold team retains its exact end-to-end topology, central decision, evidence status, and unknowns;
+- every core publication-evidence row has a named slide location;
+- report and slides preserve the same terminology, numbers, branches, and uncertainty;
+- the deck explains the solution space before the detailed blocks without replacing team-specific evidence with a fictitious average solution.
+
+If the adapter check fails, return to the earliest relevant generic checkpoint: C2 for missing evidence, C3 for an incorrect issue map, C4 for narrative order, C5 for Japanese logic, or C6 for rendering. Record the correction and rerun downstream checkpoints.
 
 Output: `slides/slides.pdf` and its Typst sources, containing no private paths, credentials, raw comment dumps, or unsupported public claims.
 
@@ -170,10 +230,11 @@ Finish only when:
 - every candidate technical artifact is inspected, explicitly unavailable, or explicitly non-material;
 - every consequential available evidence item has a report and slide disposition, with reasons for exclusions;
 - task, data, validation, and metric explain the conclusions;
-- Japanese prose passes the reader, terminology, paragraph, and uncertainty checks;
+- Japanese prose is revised in the order of technical meaning, logical completeness, sentence structure, terminology, and surface notation, and passes the reader, paragraph, and uncertainty checks;
 - every complete or partial method-bearing scoped team has a persisted semantic topology and an organized Markdown diagram;
 - every method-bearing gold team has a source-backed whole-solution figure in both report and slides, while unavailable topologies remain explicit;
 - report and slides compile, validate, and pass rendered visual inspection;
+- the `topic-learning-slides` C1–C6 checkpoints pass for the public deck, followed by the Kaggle adapter check;
 - for a full run or broad revision, independent release review finds no unresolved high- or medium-priority issue;
 - available-evidence saturation review confirms that raw posts, comments, and inspected artifacts contain no unaccounted core mechanism, experiment, failure, or reasoning turn;
 - public slides contain citations and no raw or private material.

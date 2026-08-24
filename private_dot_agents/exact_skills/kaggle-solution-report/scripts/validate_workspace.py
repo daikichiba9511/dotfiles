@@ -2,6 +2,7 @@
 import argparse
 import colorsys
 import csv
+import hashlib
 import html
 import json
 import re
@@ -47,7 +48,13 @@ REQUIRED_FILES = (
     "synthesis/task-grounded-analysis.md",
     "synthesis/strategy-retrospective.md",
     "synthesis/publication-evidence.csv",
+    "synthesis/argument-map.md",
+    "synthesis/slide-outline.md",
+    "synthesis/terminology.md",
+    "synthesis/slide-sources.csv",
     "reviews/release-review.md",
+    "reviews/topic-slide-checkpoints.md",
+    "reviews/prose-reconstruction.csv",
     "report/main.typ",
     "slides/slides.typ",
 )
@@ -73,6 +80,7 @@ RELEASE_REVIEW_ITEMS = (
     "- [x] Japanese terminology and explanation review has no unresolved high/medium finding.",
     "- [x] Rendered geometry review has no unresolved high/medium finding.",
     "- [x] Report/slide parity review has no unresolved high/medium finding.",
+    "- [x] Topic-slide C1-C6 checkpoints are fresh and the Kaggle adapter check passed.",
     "- [x] Validation, compilation, and full rerender passed after the final accepted correction.",
 )
 ARTIFACT_COLUMNS = (
@@ -103,6 +111,37 @@ PUBLICATION_EVIDENCE_COLUMNS = (
     "slide_location",
     "exclusion_reason",
 )
+SLIDE_SOURCE_COLUMNS = (
+    "source_id",
+    "title",
+    "url_or_path",
+    "inspected_scope",
+    "retrieved_at",
+    "limitations",
+    "evidence_refs",
+)
+PROSE_RECONSTRUCTION_COLUMNS = (
+    "group_id",
+    "slide_ids",
+    "expanded_proposition",
+    "published_claim",
+    "reconstructed_proposition",
+    "ambiguity_found",
+    "correction",
+    "status",
+)
+TOPIC_CHECKPOINT_COLUMNS = (
+    "attempt_id",
+    "checkpoint",
+    "artifact",
+    "artifact_hash",
+    "status",
+    "finding",
+    "action",
+    "invalidates",
+    "supersedes",
+)
+REQUIRED_TOPIC_CHECKPOINTS = ("C1", "C2a", "C3", "C2b", "C4", "C5", "C6")
 MATERIAL_ARTIFACT_URL_PATTERN = re.compile(
     r"https?://(?:www\.)?(?:"
     r"github\.com/[^\s<>\"']+|"
@@ -388,8 +427,9 @@ def validate_no_release_todos(
         workspace / "scope/scope.md",
         workspace / "sources/competition.md",
         workspace / "sources/evidence-ledger.md",
-        workspace / "slides/terminology.md",
+        workspace / "synthesis/terminology.md",
         workspace / "reviews/release-review.md",
+        workspace / "reviews/topic-slide-checkpoints.md",
         *summary_paths,
         *(workspace / "synthesis").glob("*.md"),
     }
@@ -404,6 +444,296 @@ def validate_no_release_todos(
         )
         if re.search(r"\bTODO\b", visible_text):
             errors.append(f"{path.relative_to(workspace)}: unresolved TODO")
+
+    for path in (
+        workspace / "synthesis/slide-sources.csv",
+        workspace / "reviews/prose-reconstruction.csv",
+    ):
+        if nonempty(path) and re.search(r"\bTODO\b", path.read_text(encoding="utf-8")):
+            errors.append(f"{path.relative_to(workspace)}: unresolved TODO")
+
+
+def digest_checkpoint_artifacts(workspace: Path, artifact_field: str) -> str:
+    digest = hashlib.sha256()
+    for relative in (item.strip() for item in artifact_field.split(";")):
+        if not relative:
+            continue
+        path = safe_path(workspace, relative)
+        if path is None or not path.is_file():
+            raise ValueError(f"artifact is missing or unsafe: {relative}")
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def validate_topic_slide_contract(workspace: Path, errors: list[str]) -> None:
+    evidence_ledger_text = (
+        (workspace / "sources/evidence-ledger.md").read_text(encoding="utf-8")
+        if nonempty(workspace / "sources/evidence-ledger.md")
+        else ""
+    )
+    publication_text = (
+        (workspace / "synthesis/publication-evidence.csv").read_text(encoding="utf-8")
+        if nonempty(workspace / "synthesis/publication-evidence.csv")
+        else ""
+    )
+    artifact_text = (
+        (workspace / "sources/artifact-ledger.csv").read_text(encoding="utf-8")
+        if nonempty(workspace / "sources/artifact-ledger.csv")
+        else ""
+    )
+    known_evidence_ids = set(
+        re.findall(
+            r"\b[CPA]-[0-9]{3,}\b",
+            f"{evidence_ledger_text}\n{publication_text}\n{artifact_text}",
+        )
+    )
+
+    source_rows = read_csv_rows(
+        workspace / "synthesis/slide-sources.csv",
+        SLIDE_SOURCE_COLUMNS,
+        errors,
+    )
+    source_ids: set[str] = set()
+    for line_number, row in enumerate(source_rows, start=2):
+        source_id = cell(row, "source_id")
+        if not re.fullmatch(r"S-[0-9]{3,}", source_id):
+            errors.append(
+                f"synthesis/slide-sources.csv:{line_number}: invalid source_id {source_id!r}"
+            )
+        elif source_id in source_ids:
+            errors.append(
+                f"synthesis/slide-sources.csv:{line_number}: duplicate source_id {source_id!r}"
+            )
+        source_ids.add(source_id)
+        for field in ("title", "url_or_path", "inspected_scope", "retrieved_at", "evidence_refs"):
+            if not cell(row, field):
+                errors.append(
+                    f"synthesis/slide-sources.csv:{line_number}: {field} is required"
+                )
+        unknown_evidence = split_ids(cell(row, "evidence_refs")) - known_evidence_ids
+        if unknown_evidence:
+            errors.append(
+                f"synthesis/slide-sources.csv:{line_number}: unknown evidence_refs "
+                f"{sorted(unknown_evidence)}"
+            )
+
+    if not source_rows:
+        errors.append("synthesis/slide-sources.csv: at least one public source is required")
+
+    argument_path = workspace / "synthesis/argument-map.md"
+    argument_text = argument_path.read_text(encoding="utf-8") if nonempty(argument_path) else ""
+    issue_matches = list(re.finditer(r"^##\s+(I-[0-9]{3,})\s*:", argument_text, re.MULTILINE))
+    if not issue_matches:
+        errors.append("synthesis/argument-map.md: at least one stable issue ID is required")
+    for position, match in enumerate(issue_matches):
+        section_end = issue_matches[position + 1].start() if position + 1 < len(issue_matches) else len(argument_text)
+        section = argument_text[match.end():section_end]
+        if not set(re.findall(r"\b[CP]-[0-9]{3,}\b", section)):
+            errors.append(
+                f"synthesis/argument-map.md: {match.group(1)} needs a primary claim or "
+                "explicit limitation claim ID"
+            )
+    mapped_ids = set(re.findall(r"\b[CP]-[0-9]{3,}\b", argument_text))
+    unknown_mapped = mapped_ids - known_evidence_ids
+    if unknown_mapped:
+        errors.append(
+            f"synthesis/argument-map.md: unknown claim IDs {sorted(unknown_mapped)}"
+        )
+
+    outline_path = workspace / "synthesis/slide-outline.md"
+    outline_text = outline_path.read_text(encoding="utf-8") if nonempty(outline_path) else ""
+    outline_ids = set(re.findall(r"\b[CP]-[0-9]{3,}\b", outline_text))
+    unknown_outline = outline_ids - known_evidence_ids
+    if unknown_outline:
+        errors.append(
+            f"synthesis/slide-outline.md: unknown evidence IDs {sorted(unknown_outline)}"
+        )
+
+    slides_path = workspace / "slides/slides.typ"
+    slides_text = slides_path.read_text(encoding="utf-8") if nonempty(slides_path) else ""
+    markers = set(re.findall(r'#source-mark\(\s*"(S-[0-9]{3,})"\s*\)', slides_text))
+    entries = set(re.findall(r'#source-entry\(\s*"(S-[0-9]{3,})"\s*,', slides_text))
+    if not markers:
+        errors.append("slides/slides.typ: no source-mark IDs found")
+    if markers - source_ids:
+        errors.append(
+            f"slides/slides.typ: source markers absent from slide-sources.csv {sorted(markers - source_ids)}"
+        )
+    if markers - entries:
+        errors.append(
+            f"slides/slides.typ: source markers missing from 出典一覧 {sorted(markers - entries)}"
+        )
+    if "出典一覧" not in slides_text:
+        errors.append("slides/slides.typ: missing visible 出典一覧")
+
+    prose_rows = read_csv_rows(
+        workspace / "reviews/prose-reconstruction.csv",
+        PROSE_RECONSTRUCTION_COLUMNS,
+        errors,
+    )
+    if not prose_rows:
+        errors.append("reviews/prose-reconstruction.csv: at least one checked slide group is required")
+    for line_number, row in enumerate(prose_rows, start=2):
+        if cell(row, "ambiguity_found") not in {"yes", "no"}:
+            errors.append(
+                f"reviews/prose-reconstruction.csv:{line_number}: ambiguity_found must be yes or no"
+            )
+        if cell(row, "status") != "pass":
+            errors.append(
+                f"reviews/prose-reconstruction.csv:{line_number}: status must be pass"
+            )
+        if cell(row, "ambiguity_found") == "yes" and not cell(row, "correction"):
+            errors.append(
+                f"reviews/prose-reconstruction.csv:{line_number}: ambiguity needs a correction"
+            )
+        for field in (
+            "group_id",
+            "slide_ids",
+            "expanded_proposition",
+            "published_claim",
+            "reconstructed_proposition",
+        ):
+            if not cell(row, field):
+                errors.append(
+                    f"reviews/prose-reconstruction.csv:{line_number}: {field} is required"
+                )
+
+    checkpoint_path = workspace / "reviews/topic-slide-checkpoints.md"
+    if not nonempty(checkpoint_path):
+        return
+    checkpoint_text = checkpoint_path.read_text(encoding="utf-8")
+    for token in (
+        "scope_artifact",
+        "source_ledger",
+        "claim_ledger",
+        "evidence_packet",
+        "checkpoint_log",
+        "terminology_ledger",
+        "prose_reconstruction",
+        "organizer-confirmed",
+        "participant-reported",
+    ):
+        if token not in checkpoint_text:
+            errors.append(f"reviews/topic-slide-checkpoints.md: missing mapping token {token!r}")
+
+    checkpoint_rows: list[dict[str, str]] = []
+    for line in checkpoint_text.splitlines():
+        if not line.lstrip().startswith("|"):
+            continue
+        values = [value.strip() for value in line.strip().strip("|").split("|")]
+        if tuple(values) == TOPIC_CHECKPOINT_COLUMNS or all(
+            set(value) <= {"-", ":"} for value in values
+        ):
+            continue
+        if len(values) != len(TOPIC_CHECKPOINT_COLUMNS):
+            continue
+        checkpoint_rows.append(
+            dict(zip(TOPIC_CHECKPOINT_COLUMNS, values, strict=True))
+        )
+
+    latest: dict[str, tuple[int, dict[str, str]]] = {}
+    seen_attempts: set[str] = set()
+    previous_by_checkpoint: dict[str, str] = {}
+    for index, row in enumerate(checkpoint_rows):
+        attempt_id = row["attempt_id"]
+        checkpoint = row["checkpoint"]
+        if not re.fullmatch(r"A-[0-9]{3,}", attempt_id):
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: invalid attempt_id {attempt_id!r}"
+            )
+        elif attempt_id in seen_attempts:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: duplicate attempt_id {attempt_id!r}"
+            )
+        seen_attempts.add(attempt_id)
+        if checkpoint not in REQUIRED_TOPIC_CHECKPOINTS:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: invalid checkpoint {checkpoint!r}"
+            )
+            continue
+        if row["status"] not in {"pass", "revise", "blocked"}:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: invalid status {row['status']!r}"
+            )
+        if not row["artifact"]:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: {attempt_id} needs artifact paths"
+            )
+        expected_supersedes = previous_by_checkpoint.get(checkpoint, "none")
+        if row["supersedes"] != expected_supersedes:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: {attempt_id} supersedes must be "
+                f"{expected_supersedes!r}"
+            )
+        previous_by_checkpoint[checkpoint] = attempt_id
+        invalidated = split_ids(row["invalidates"]) if row["invalidates"] != "none" else set()
+        unknown_invalidated = invalidated - set(REQUIRED_TOPIC_CHECKPOINTS)
+        if unknown_invalidated:
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: {attempt_id} invalidates unknown "
+                f"checkpoints {sorted(unknown_invalidated)}"
+            )
+        checkpoint_position = REQUIRED_TOPIC_CHECKPOINTS.index(checkpoint)
+        if any(
+            REQUIRED_TOPIC_CHECKPOINTS.index(name) <= checkpoint_position
+            for name in invalidated
+            if name in REQUIRED_TOPIC_CHECKPOINTS
+        ):
+            errors.append(
+                f"reviews/topic-slide-checkpoints.md: {attempt_id} may invalidate only "
+                "downstream checkpoints"
+            )
+        latest[checkpoint] = (index, row)
+
+    missing = [name for name in REQUIRED_TOPIC_CHECKPOINTS if name not in latest]
+    if missing:
+        errors.append(
+            f"reviews/topic-slide-checkpoints.md: missing current checkpoints {missing}"
+        )
+    else:
+        indices = [latest[name][0] for name in REQUIRED_TOPIC_CHECKPOINTS]
+        if indices != sorted(indices):
+            errors.append(
+                "reviews/topic-slide-checkpoints.md: downstream checkpoints were not rerun "
+                "after the latest upstream pass"
+            )
+        for name in REQUIRED_TOPIC_CHECKPOINTS:
+            index, row = latest[name]
+            if row["status"] != "pass":
+                errors.append(
+                    f"reviews/topic-slide-checkpoints.md: latest {name} status is not pass"
+                )
+            try:
+                expected_hash = digest_checkpoint_artifacts(workspace, row["artifact"])
+            except ValueError as error:
+                errors.append(f"reviews/topic-slide-checkpoints.md: {error}")
+                expected_hash = ""
+            if expected_hash and row["artifact_hash"] != expected_hash:
+                errors.append(
+                    f"reviews/topic-slide-checkpoints.md: {row['attempt_id']} has stale "
+                    f"artifact_hash; expected {expected_hash}"
+                )
+            invalidated = split_ids(row["invalidates"]) if row["invalidates"] != "none" else set()
+            for downstream in invalidated:
+                if downstream in latest and latest[downstream][0] <= index:
+                    errors.append(
+                        f"reviews/topic-slide-checkpoints.md: {downstream} was not rerun after "
+                        f"{row['attempt_id']} invalidated it"
+                    )
+
+    render_root = workspace / "reviews/renders"
+    images = [
+        path
+        for path in render_root.glob("**/*")
+        if path.is_file() and path.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+    ] if render_root.is_dir() else []
+    if not images:
+        errors.append("reviews/renders: no full-resolution page render found")
+    if not any("contact" in path.name.lower() for path in images):
+        errors.append("reviews/renders: no contact sheet found")
 
 
 def query_rendered_markers(
@@ -1290,6 +1620,10 @@ def main() -> int:
         path = workspace / relative
         if not nonempty(path):
             errors.append(f"missing or empty required file: {relative}")
+    if (workspace / "slides/terminology.md").exists():
+        errors.append(
+            "slides/terminology.md is obsolete; merge it into synthesis/terminology.md and remove it"
+        )
 
     validate_typst_math(workspace, errors)
     validate_slide_palette(workspace, errors)
@@ -1503,6 +1837,7 @@ def main() -> int:
             if (path := safe_path(workspace, cell(row, "summary_path"))) is not None
         }
         validate_no_release_todos(workspace, valid_summary_paths, errors)
+        validate_topic_slide_contract(workspace, errors)
         review_path = workspace / "reviews/release-review.md"
         if nonempty(review_path):
             review_text = review_path.read_text(encoding="utf-8")
