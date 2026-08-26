@@ -40,12 +40,14 @@ fi
 source "$_sheldon_cache"
 unset _sheldon_cache _sheldon_toml
 
-# --- mise（プロジェクト設定があるときだけPATHを動的に切り替える）
+# --- mise（仕事用プロファイルでのみ有効化）
+{{ if eq .environment_profile "mise" -}}
 # GitHub token は mise の credential_command で gh auth token をオンデマンド呼び出し
 # （プロセス環境への GITHUB_TOKEN 露出を回避: private_dot_config/mise/config.toml 参照）
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
+{{ end -}}
 
 # --- fzf
 if [[ -f ~/.fzf.zsh ]]; then

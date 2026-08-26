@@ -3,6 +3,7 @@ set -eu
 
 mkdir -p "${HOME}/.local/bin"
 
+{{ if eq .environment_profile "mise" -}}
 # mise（仕事用・プロジェクトローカルのランタイム管理、バージョン固定）
 MISE_VERSION="v2026.5.13"
 if ! command -v mise &> /dev/null; then
@@ -12,6 +13,7 @@ if ! command -v mise &> /dev/null; then
   MISE_VERSION="${MISE_VERSION}" sh "${installer}"
   export PATH="${HOME}/.local/bin:${PATH}"
 fi
+{{ end -}}
 
 # sheldon (公式スクリプト)
 if ! command -v sheldon &> /dev/null; then

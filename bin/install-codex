@@ -1,22 +1,23 @@
-#!/bin/bash
+#!/bin/sh
 # Install OpenAI Codex CLI
-# https://github.com/openai/codex
+# https://developers.openai.com/codex/cli
 
-set -e
+set -eu
 
 echo "Installing OpenAI Codex CLI..."
 
-if ! command -v node &>/dev/null; then
-  echo "Node.js not found. Install it first (mise install node)."
-  exit 1
-fi
+installer="$(mktemp)"
+trap 'rm -f "$installer"' EXIT
+curl --proto '=https' --tlsv1.2 -fsSL \
+  https://chatgpt.com/codex/install.sh \
+  -o "$installer"
+CODEX_NON_INTERACTIVE=true sh "$installer"
 
-npm i -g @openai/codex
-
-if command -v codex &>/dev/null; then
+codex_bin="${CODEX_INSTALL_DIR:-$HOME/.local/bin}/codex"
+if [ -x "$codex_bin" ]; then
   echo ""
   echo "Codex CLI installed successfully!"
-  codex --version
+  "$codex_bin" --version
   echo ""
   echo "Run 'codex' to start."
 else
