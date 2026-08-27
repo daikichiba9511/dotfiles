@@ -172,7 +172,7 @@ _prompt_render() {
     character_color="#b4637a"
   fi
 
-  PROMPT="${_prompt_prefix}${branch} %F{${character_color}}❯%f "
+  PROMPT="${_prompt_prefix}${branch}"$'\n'" %F{${character_color}}❯%f "
 }
 
 # 終了コードを他のprecmdフックより先に取得する。
