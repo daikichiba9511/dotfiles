@@ -15,7 +15,14 @@ local treesitter_parsers = {
 
 return {
   -- Detect tabstop and shiftwidth automatically
-  { "tpope/vim-sleuth", event = { "BufReadPost", "BufNewFile" } },
+  {
+    "tpope/vim-sleuth",
+    event = { "BufReadPost", "BufNewFile" },
+    init = function()
+      -- Markdown uses the fixed two-space indentation from its ftplugin.
+      vim.g.sleuth_markdown_heuristics = 0
+    end,
+  },
 
   -- Autopairs
   {
