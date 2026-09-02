@@ -7,7 +7,6 @@ allowed-tools: Read, Write, Glob, Grep, Bash(python:*)
 # ML Error Analysis
 
 Turn observed failures into concrete next actions.
-Use `references/analysis-format.md` for failure buckets, hypothesis structure, and reporting.
 
 ## Workflow
 
@@ -23,7 +22,7 @@ Find what is available:
 
 ### Step 2: Group failures
 
-Bucket errors by the most useful dimension available:
+Bucket errors by the dimension most likely to expose a shared mechanism:
 
 - class
 - slice
@@ -32,20 +31,19 @@ Bucket errors by the most useful dimension available:
 - annotation ambiguity
 - temporal or domain shift
 
-### Step 3: Explain plausible causes
+For each bucket, quantify its frequency or severity and retain representative examples.
 
-For each bucket, distinguish:
+### Step 3: Test candidate explanations
 
-- evidence-backed observations
-- plausible but unverified causes
-- hypotheses worth testing next
+For each plausible mechanism, record:
 
-Use `references/analysis-format.md` for the bucket template.
+- why it fits the observed bucket
+- evidence that contradicts it
+- the smallest check that would discriminate it from alternatives
 
 ### Step 4: Convert to experiments
 
-Generate a ranked list of next experiments or checks.
-Prefer proposals that cleanly discriminate between hypotheses instead of vague "improve the model" advice.
+Rank the next checks or experiments by failure impact and their ability to change the next decision.
 
 ## Rules
 

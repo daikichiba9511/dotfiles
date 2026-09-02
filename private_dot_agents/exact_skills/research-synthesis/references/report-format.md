@@ -9,8 +9,7 @@ Use these formats only when the task benefits from explicit structure.
 [What was investigated]
 
 ## Findings
-- [Fact with source]
-- [Fact with source]
+- [Material claim with its source and evidence state made clear when needed]
 
 ## Recommendation
 - [Best current answer]
@@ -57,11 +56,7 @@ Use these formats only when the task benefits from explicit structure.
 - [Source 2]
 
 ## Findings
-### Confirmed facts
-- ...
-
-### Open questions
-- ...
+- [Material findings, open questions, and inference boundaries]
 
 ## Trade-offs
 - ...

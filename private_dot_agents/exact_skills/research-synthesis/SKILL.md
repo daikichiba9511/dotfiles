@@ -12,8 +12,6 @@ Use `references/report-format.md` when you need a full comparison memo, option m
 ## Core Rules
 
 - Prefer primary sources: official docs, source code, papers, specs, benchmark repositories
-- Separate observed facts from your inference
-- Make uncertainty explicit instead of smoothing it over
 - Compare at least two plausible approaches when the answer is not obvious
 - Research first; do not jump to implementation advice until the evidence is organized
 
@@ -44,9 +42,10 @@ If a source is large, skim structure first and then read only the relevant secti
 For each important claim, capture:
 
 - claim
-- source
+- source and provenance
 - scope or assumptions
-- confidence level
+- evidence state from the global `Evidence and Inference` contract
+- confidence or remaining verification need
 
 Do not merge multiple claims together if they depend on different evidence.
 
@@ -74,8 +73,6 @@ When the user wants a recommendation:
 ## Output Expectations
 
 - cite sources directly in the answer when using web or docs
-- clearly mark inference vs evidence
 - keep the final answer compressed unless the user asks for a full memo
-- if evidence is weak, say so and explain what is missing
 
 $ARGUMENTS

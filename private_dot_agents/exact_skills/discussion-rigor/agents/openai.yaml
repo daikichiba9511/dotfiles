@@ -1,4 +1,0 @@
-interface:
-  display_name: "Discussion Rigor"
-  short_description: "理解確認と非迎合の議論プロトコル"
-  default_prompt: "Use $discussion-rigor to understand my claim accurately and respond with an independent, evidence-aware position."

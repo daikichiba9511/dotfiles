@@ -49,6 +49,8 @@ Ask clarifying questions:
 - What's the baseline comparison?
 - What metrics will we track?
 - What's the minimal experiment to test the hypothesis?
+- Prefer the smallest comparison that can change the next decision, not a cheap wiring check that only proves the code runs.
+- When choosing among directions, consider expected upside, uncertainty reduction, diagnostic value of failure, distance from the current approach, cost, and reversibility.
 - When starting a new `src/exp/expXXX/`, create a self-contained directory by copying the closest baseline or recreating the needed files. Never implement it by importing code from another experiment directory.
 
 ### Phase 4: Exploratory Coding

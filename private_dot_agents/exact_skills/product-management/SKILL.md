@@ -34,7 +34,7 @@ Do not run every framework merely because it is available.
 1. Frame the decision.
    Capture the product stage, decision owner, audience, deadline, and the decision the work must inform.
 2. Inventory the evidence.
-   Separate `Observed`, `Inferred`, `Assumed`, and `Unknown` claims.
+   Collect the evidence relevant to the decision and identify material gaps.
 3. Choose the smallest adequate method.
    Load the relevant reference and explain why that method fits.
 4. Perform the analysis.
