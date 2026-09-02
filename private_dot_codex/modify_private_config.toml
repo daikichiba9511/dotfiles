@@ -1,0 +1,92 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $config := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{-   $config = .chezmoi.stdin | fromToml -}}
+{{- end -}}
+
+{{- /* Codex defaults shared across machines. */ -}}
+{{- $config = $config | setValueAtPath "model" "gpt-5.6-sol" -}}
+{{- $config = $config | setValueAtPath "model_reasoning_effort" "high" -}}
+{{- $config = $config | setValueAtPath "plan_model_reasoning_effort" "max" -}}
+{{- $config = $config | setValueAtPath "model_verbosity" "medium" -}}
+{{- $config = $config | setValueAtPath "sandbox_mode" "danger-full-access" -}}
+{{- $config = $config | setValueAtPath "experimental_compact_prompt_file" (joinPath .chezmoi.homeDir ".codex/compact-prompt.md") -}}
+{{- $config = $config | setValueAtPath "approval_policy" "never" -}}
+{{- $config = $config | setValueAtPath "file_opener" "none" -}}
+{{- $config = $config | setValueAtPath "plan_mode_reasoning_effort" "xhigh" -}}
+{{- $config = $config | setValueAtPath "approvals_reviewer" "user" -}}
+{{- $config = $config | setValueAtPath "suppress_unstable_features_warning" true -}}
+
+{{- /* TUI and subprocess environment. */ -}}
+{{- $config = $config | setValueAtPath "tui.theme" "github" -}}
+{{- $config = $config | setValueAtPath "tui.status_line" (list "model-with-reasoning" "current-dir" "git-branch" "context-remaining" "five-hour-limit" "weekly-limit") -}}
+{{- $config = $config | setValueAtPath "shell_environment_policy.inherit" "core" -}}
+{{- $config = $config | setValueAtPath "shell_environment_policy.include_only" (list "PATH" "HOME" "USER") -}}
+{{- $config = $config | setValueAtPath "shell_environment_policy.exclude" (list "AWS_*" "AZURE_*" "*TOKEN*" "*SECRET*" "*KEY*") -}}
+
+{{- /* Stable features and memory behavior. */ -}}
+{{- $config = $config | setValueAtPath "features.hooks" true -}}
+{{- $config = $config | setValueAtPath "features.memories" true -}}
+{{- $config = $config | setValueAtPath "memories.generate_memories" true -}}
+{{- $config = $config | setValueAtPath "memories.use_memories" true -}}
+{{- $config = $config | setValueAtPath "memories.disable_on_external_context" false -}}
+{{- $config = $config | setValueAtPath "memories.extract_model" "gpt-5.6-sol" -}}
+{{- $config = $config | setValueAtPath "memories.consolidation_model" "gpt-5.6-sol" -}}
+{{- $config = $config | setValueAtPath "memories.min_rollout_idle_hours" 2 -}}
+
+{{- /* User-selected bundled plugins. App-owned marketplace paths stay untouched. */ -}}
+{{- $config = $config | setValueAtPath (list "plugins" "sites@openai-bundled" "enabled") true -}}
+{{- $config = $config | setValueAtPath (list "plugins" "visualize@openai-bundled" "enabled") true -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $config = $config | setValueAtPath (list "plugins" "codex-app-tools@openai-bundled" "enabled") true -}}
+{{-   $config = $config | setValueAtPath (list "plugins" "browser@openai-bundled" "enabled") true -}}
+{{-   $config = $config | setValueAtPath (list "plugins" "chrome@openai-bundled" "enabled") true -}}
+{{-   $config = $config | setValueAtPath (list "plugins" "computer-use@openai-bundled" "enabled") true -}}
+{{- end -}}
+
+{{- /* Codex App appearance, including separate UI and code fonts. */ -}}
+{{- $config = $config | setValueAtPath "desktop.followUpQueueMode" "queue" -}}
+{{- $config = $config | setValueAtPath "desktop.show-context-window-usage" false -}}
+{{- $config = $config | setValueAtPath "desktop.conversationDetailMode" "STEPS_PROSE" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightCodeThemeId" "rose-pine" -}}
+{{- $config = $config | setValueAtPath "desktop.dock-icon-preference" "codex-system" -}}
+{{- $config = $config | setValueAtPath "desktop.sansFontSize" 16 -}}
+{{- $config = $config | setValueAtPath "desktop.codeFontSize" 13 -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.accent" "#d7827e" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.contrast" 70 -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.ink" "#575279" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.opaqueWindows" false -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.surface" "#faf4ed" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.fonts.ui" "\"UDEV Gothic 35NFLG\"" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.fonts.code" "\"UDEV Gothic 35NF\"" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.semanticColors.diffAdded" "#56949f" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.semanticColors.diffRemoved" "#797593" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceLightChromeTheme.semanticColors.skill" "#907aa9" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.accent" "#339cff" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.contrast" 60 -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.ink" "#ffffff" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.opaqueWindows" false -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.surface" "#181818" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.fonts.ui" "\"UDEV Gothic 35NFLG\"" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.fonts.code" "\"UDEV Gothic 35NF\"" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.semanticColors.diffAdded" "#40c977" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.semanticColors.diffRemoved" "#fa423e" -}}
+{{- $config = $config | setValueAtPath "desktop.appearanceDarkChromeTheme.semanticColors.skill" "#ad7bf9" -}}
+
+{{- /* Stable project trust decisions. */ -}}
+{{- $config = $config | setValueAtPath (list "projects" (joinPath .chezmoi.homeDir "work/kaggle/rsna2026") "trust_level") "trusted" -}}
+{{- $config = $config | setValueAtPath (list "projects" (joinPath .chezmoi.homeDir "ghq/github.com/daikichiba9511/my-concierge") "trust_level") "trusted" -}}
+{{- $config = $config | setValueAtPath (list "projects" (joinPath .chezmoi.homeDir "MyVault") "trust_level") "trusted" -}}
+{{- $config = $config | setValueAtPath (list "projects" (joinPath .chezmoi.homeDir "dotfiles") "trust_level") "trusted" -}}
+
+{{- /* Trust only the exact chezmoi-managed hook content. */ -}}
+{{- $hookStateKey := printf "%s/.codex/hooks.json:pre_tool_use:0:0" .chezmoi.homeDir -}}
+{{- $config = $config | setValueAtPath (list "hooks" "state" $hookStateKey "trusted_hash") "sha256:e3ab5878007962f362f94bbc2e2d01f1af930641558995c99c431981f8e8f92b" -}}
+
+{{- /* macOS App notification integration. */ -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $notifyCommand := joinPath .chezmoi.homeDir ".codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient" -}}
+{{-   $config = $config | setValueAtPath "notify" (list $notifyCommand "turn-ended") -}}
+{{- end -}}
+
+{{ $config | toToml -}}
