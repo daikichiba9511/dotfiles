@@ -28,7 +28,7 @@ adjust-cell-height = 25%
 
 # macOS
 macos-titlebar-style = tabs
-macos-window-shadow = false
+macos-window-shadow = true
 
 # Window
 window-padding-x = 2
