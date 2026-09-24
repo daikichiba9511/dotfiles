@@ -32,7 +32,7 @@ description: "Use to copyedit or substantially rewrite an existing Japanese tech
 
 ## 文章規範
 
-- Markdownでは一文ごとに改行し、段落間に空行を置く。
+- 段落間に空行を置く。
 - 一段落には一つの話題だけを置く。
 - 見出しは節の対象または問いを具体的に示す。
 - 用語の初出は必要なら太字で定義し、以後は表記を統一する。
