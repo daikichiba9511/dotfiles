@@ -17,6 +17,9 @@ accent = "cyan"
 kitty_graphics = true
 reveal_hidden_cursor_for_cjk_ime = true
 cjk_ime_agents = ["claude", "codex"]
+# A block cursor overlaps Claude Code's self-painted inverse cursor, and Ghostty's
+# cursor-invert-fg-bg re-inverts that cell so the cursor disappears.
+cjk_ime_cursor_shape = "steady_bar"
 switch_ascii_input_source_in_prefix = true
 
 [session]
