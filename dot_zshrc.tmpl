@@ -167,3 +167,12 @@ _prompt_render() {
 
 # 終了コードを他のprecmdフックより先に取得する。
 precmd_functions=(_prompt_render ${precmd_functions:#_prompt_render})
+
+# SSH切断などでリモートアプリが拡張キーボード/マウス報告モードを解除できずに終わると、
+# 以降のキー入力がエスケープシーケンスとして化けるため、プロンプト毎に解除する。
+_reset_terminal_modes() {
+  printf '\e[=0;1u'   # kitty keyboard protocol
+  printf '\e[>4;0m'   # xterm modifyOtherKeys
+  printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'  # mouse reporting
+}
+precmd_functions+=(_reset_terminal_modes)
