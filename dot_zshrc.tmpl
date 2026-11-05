@@ -181,3 +181,8 @@ _reset_terminal_modes() {
   printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'  # mouse reporting
 }
 precmd_functions+=(_reset_terminal_modes)
+
+# --- マシン固有の設定（chezmoi管理外）
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi
