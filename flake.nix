@@ -30,6 +30,7 @@
           fzf
           lazygit
           gh
+          direnv
           neovim-unwrapped
           ghq
           typst

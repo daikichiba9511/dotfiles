@@ -39,6 +39,11 @@ if command -v mise &>/dev/null; then
 fi
 {{ end -}}
 
+# --- direnv（mise activate の後: mise 管理の direnv を PATH から解決するため）
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 # --- fzf
 if [[ -f ~/.fzf.zsh ]]; then
   source ~/.fzf.zsh
@@ -176,3 +181,8 @@ _reset_terminal_modes() {
   printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'  # mouse reporting
 }
 precmd_functions+=(_reset_terminal_modes)
+
+# --- マシン固有の設定（chezmoi管理外）
+if [[ -f ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi

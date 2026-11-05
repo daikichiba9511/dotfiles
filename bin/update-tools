@@ -1,0 +1,25 @@
+#!/bin/sh
+# mise管理のツールを、config.tomlで指定したバージョン範囲内で更新する。
+# launchd（~/Library/LaunchAgents/com.github.daikichiba9511.update-tools.plist）から毎朝実行される。
+
+set -eu
+
+# launchdはログインシェルを経由しないため、PATHを明示する。
+# credential_command の `gh auth token` を解決できるようmiseのshimsも含める。
+export PATH="${HOME}/.local/bin:${HOME}/.local/share/mise/shims:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+notify_failure() {
+  osascript -e 'display notification "~/Library/Logs/update-tools.log を確認してください" with title "update-tools が失敗しました"' || true
+}
+trap 'status=$?; [ "$status" -eq 0 ] || notify_failure' EXIT
+
+echo "==> $(date '+%Y-%m-%d %H:%M:%S') update-tools start"
+
+mise self-update --yes
+mise upgrade --yes
+mise prune --tools --yes
+
+echo "==> Updates beyond the configured ranges (apply manually with 'mise upgrade --bump <tool>'):"
+mise outdated --bump --global
+
+echo "==> $(date '+%Y-%m-%d %H:%M:%S') update-tools done"

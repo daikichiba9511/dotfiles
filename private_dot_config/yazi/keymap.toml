@@ -4,3 +4,8 @@
 on = "V"
 run = 'shell "vimg $@" --confirm'
 desc = "View image on local machine"
+
+[[manager.prepend_keymap]]
+on = "T"
+run = "plugin toggle-pane max-preview"
+desc = "Maximize or restore preview"
