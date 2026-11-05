@@ -1,0 +1,15 @@
+{{ if and (eq .chezmoi.os "darwin") (eq .environment_profile "mise") -}}
+#!/bin/bash
+set -eu
+
+# plistが変わったときだけ再実行されるよう、内容のハッシュを埋め込む。
+# plist: {{ include "private_Library/LaunchAgents/com.github.daikichiba9511.update-tools.plist.tmpl" | sha256sum }}
+
+label="com.github.daikichiba9511.update-tools"
+plist="${HOME}/Library/LaunchAgents/${label}.plist"
+domain="gui/$(id -u)"
+
+echo "==> Loading LaunchAgent ${label}..."
+launchctl bootout "${domain}/${label}" 2>/dev/null || true
+launchctl bootstrap "${domain}" "${plist}"
+{{ end -}}

@@ -4,31 +4,43 @@
 {{ if eq .environment_profile "mise" -}}
 [tools]
 # Work-machine defaults. Project-specific runtimes belong in each repository's mise.toml.
+# bin/update-tools が毎朝 `mise upgrade` するため、各指定は自動更新を許す範囲を表す。
+# 原則メジャー固定、0.x はマイナー固定。範囲を超える更新は `mise outdated --bump` で確認し手動で上げる。
 node = "24"
 python = "3.12"
-pnpm = "latest"
+pnpm = "12"
 
 # Shell and editor tools
-jq = "latest"
-tree-sitter = "latest"
-uv = "latest"
-ripgrep = "latest"
-lsd = "latest"
-fd = "latest"
-bat = "latest"
-delta = "latest"
-fzf = "latest"
-lazygit = "latest"
-gh = "latest"
+jq = "1"
+# 0.x だがマイナー更新を機能改善として受け入れる
+tree-sitter = "0"
+uv = "0"
+delta = "0"
+fzf = "0"
+lazygit = "0"
+ripgrep = "15"
+lsd = "1"
+fd = "10"
+bat = "0.26"
+gh = "2"
 "aqua:neovim/neovim" = "0.12"
-ghq = "latest"
-"npm:hunkdiff" = "latest"
-"npm:markdownlint-cli2" = "latest"
-"npm:textlint" = "latest"
+ghq = "1"
+direnv = "2"
+"npm:hunkdiff" = "0.24"
+"npm:markdownlint-cli2" = "0.24"
+"npm:textlint" = "15"
+aws = { version = "2", symlink_bins = "true" }
+"aqua:aws/session-manager-plugin" = "1"
+# CalVer（YY.M.D）でメジャーが年を表すだけなので範囲を絞らない
+yazi = "latest"
+bun = "1"
 
 {{ end -}}
 [settings]
 idiomatic_version_file_enable_tools = ["rust"]
+# 毎朝の自動更新で、公開直後に汚染されたリリースを取り込まないよう待機期間を置く。
+# 急ぎのセキュリティ修正は `mise upgrade --minimum-release-age 0 <tool>` で手動で入れる。
+minimum_release_age = "7d"
 
 [settings.github]
 # gh CLI がmacOS Keychainに保存したトークンをmiseが必要時のみ取得する。

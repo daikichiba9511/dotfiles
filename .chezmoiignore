@@ -5,6 +5,11 @@ private_dot_config/yazi
 private_dot_claude/commands
 {{ end }}
 
+# update-tools はmiseプロファイルのmacOSでのみ使う
+{{ if not (and (eq .chezmoi.os "darwin") (eq .environment_profile "mise")) }}
+Library/LaunchAgents
+{{ end }}
+
 # 共通除外
 README.md
 experiments
