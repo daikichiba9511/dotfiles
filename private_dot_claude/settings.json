@@ -36,6 +36,10 @@
       "Read(**/*secret*)"
     ]
   },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "alwaysThinkingEnabled": true,
   "showThinkingSummaries": true,
   "statusLine": {
