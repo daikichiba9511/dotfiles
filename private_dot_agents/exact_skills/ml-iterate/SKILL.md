@@ -1,6 +1,7 @@
 ---
 name: ml-iterate
-description: "Use for active ML or Kaggle experiment iteration when the task includes forming a hypothesis, designing a minimal comparison, running or analyzing the experiment, and logging the result. For an isolated experiment-code edit without this cycle, use coding-rules instead. Do not use for production ML engineering, post-stabilization cleanup, dataset audits, or paper-only analysis."
+description: "Use only when the user invokes ml-iterate by name or explicitly asks to run the full src/exp/expXXX cycle: hypothesis, minimal comparison design, experiment README, and result logging. Do not trigger merely because the task touches ML or Kaggle code, an experiment directory, or a metric: editing experiment code (coding-rules), analyzing predictions or failures (ml-error-analysis), the three-layer docs workflow (ml-docs), queueing or monitoring runs (pueue-ml-experiments), ML questions, production ML engineering, cleanup, dataset audits, and paper-only analysis all belong elsewhere."
+disable-model-invocation: true
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(run experiment:*), Bash(python:*)
 ---
 
@@ -50,6 +51,7 @@ Ask clarifying questions:
 - What metrics will we track?
 - What's the minimal experiment to test the hypothesis?
 - Prefer the smallest comparison that can change the next decision, not a cheap wiring check that only proves the code runs.
+- Before running, write down the decision the result will drive, the result that would change it, and the noise floor (seed or fold spread of the baseline). If the expected effect is smaller than that spread, change the design before spending compute.
 - When choosing among directions, consider expected upside, uncertainty reduction, diagnostic value of failure, distance from the current approach, cost, and reversibility.
 - When starting a new `src/exp/expXXX/`, create a self-contained directory by copying the closest baseline or recreating the needed files. Never implement it by importing code from another experiment directory.
 
@@ -95,9 +97,10 @@ Include enough code-backed evidence that another reader can understand and expla
 ### Phase 6: Post-Experiment (when results are available)
 
 1. **Log results** in README.md
-2. **Analyze**: What do the results tell us?
-3. **Discuss**: Why did we see these results?
-4. **Propose next actions**: What should we try next?
+2. **Vet the number before trusting it**: Did every fold/seed actually run to completion without silent errors, skipped work, or cached predictions? Were baseline and change run under the same config, data, and tuning budget, so the comparison is between methods and not settings? Is the gap larger than the run-to-run spread? Could it be leakage or a CV/LB mismatch? Keep the run count, spread, and any unresolved doubt next to the number; call it inconclusive when a check fails.
+3. **Analyze**: What do the results tell us?
+4. **Discuss**: Why did we see these results?
+5. **Propose next actions**: What should we try next?
 
 ## Interaction Flow
 
@@ -125,6 +128,8 @@ Include enough code-backed evidence that another reader can understand and expla
 - Track what worked, what did not work, and why
 - Keep code minimal, concept-separated, and fail-fast; do not add abstractions, tests, or error handling by default
 - Treat a successful cheap end-to-end debug run plus a complete experiment-tracker record as the default verification
+
+Parts adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 ## Current Experiment
 

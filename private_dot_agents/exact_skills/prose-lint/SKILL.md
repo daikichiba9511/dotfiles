@@ -1,7 +1,7 @@
 ---
 name: prose-lint
 description: "Use for read-only linting and feedback on an existing Japanese draft's readability, structure, consistency, and naturalness, with line-specific severities and suggested fixes. Do not use when the user asks for direct rewriting or deep argument restructuring."
-allowed-tools: Read, Glob, Grep, Bash(npx markdownlint:*), Bash(markdownlint:*)
+allowed-tools: Read, Glob, Grep, Bash(npx markdownlint:*), Bash(markdownlint:*), Bash(bun ~/.agents/skills/japanese-tech-writing/scripts/jp-readability.ts:*)
 ---
 
 # Prose Lint (日本語)
@@ -29,7 +29,13 @@ allowed-tools: Read, Glob, Grep, Bash(npx markdownlint:*), Bash(markdownlint:*)
 
 ### Step 2: 機械的チェック
 
-`references/lint-spec.md` のチェック一覧に従い、機械的に検出できる項目を行番号付きで報告する。
+まず AI生成文の型の検査を bun で実行し、候補を行番号付きで拾う。候補は手がかりにすぎず、直すべきかは文脈で判断する。各候補の見方は `../japanese-tech-writing/references/ai-slop.md` にある。
+
+```bash
+bun ~/.agents/skills/japanese-tech-writing/scripts/jp-readability.ts lint <file>
+```
+
+続けて `references/lint-spec.md` のチェック一覧に従い、機械的に検出できる項目を行番号付きで報告する。
 
 ### Step 3: 文章レビュー
 
