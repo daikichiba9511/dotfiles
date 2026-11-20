@@ -23,4 +23,6 @@ Design system boundaries and trade-offs from the actual constraints. Do not assu
 - Design patterns to adopt
 - Comparison with alternatives
 
+Parts adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
+
 $ARGUMENTS

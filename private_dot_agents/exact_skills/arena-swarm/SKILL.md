@@ -38,6 +38,6 @@ If the harness cannot spawn subagents (or, in Codex, the user has not asked for 
 - Arena: the synthesized artifact on one branch, plus a short synthesis note (base and why, rubric scores, each graft with its source, what was rejected, dropouts, verification result).
 - Swarm: one consolidated report (result table per slice, issue one-liners, gaps and dropouts, merge status of any written changes, verification result).
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

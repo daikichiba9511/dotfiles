@@ -14,6 +14,8 @@ Prose is the weakest fix, because nothing fails when an agent skips it. When a m
 
 Finish with a brief summary to the user of the lessons captured and any suggested follow-ups, with concrete examples over abstract advice.
 
+Parts adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
+
 ## Additional Instructions
 
 $ARGUMENTS

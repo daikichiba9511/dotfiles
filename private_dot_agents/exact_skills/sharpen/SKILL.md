@@ -39,6 +39,6 @@ Write a self-contained prompt, in a fenced block, that states:
 
 Then stop. Ask the user to confirm or correct the restatement, or to use the rewritten prompt as is.
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

@@ -57,6 +57,6 @@ In your reply, name each principle that changed a decision and the specific choi
 
 - `encode-lessons-in-structure` - Writing the same instruction or correction a second time. Encode it as a check instead.
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

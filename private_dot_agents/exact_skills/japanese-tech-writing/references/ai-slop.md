@@ -1,7 +1,7 @@
 # AI生成文の読みにくさを直す規則
 
 AIが書いた日本語に出やすい型と、その直し方。型に当たっても、意味を保って自然に言い換えられないなら原文を残す。語の一覧は機械的な置換表ではない。
-yomiyasu（MIT, nanaism, https://github.com/nanaism/yomiyasu）の規則から、技術文書の推敲に要る部分だけを抜き出して書き直した。
+yomiyasu（MIT, nanaism, https://github.com/nanaism/yomiyasu）の規則から、技術文書の推敲に要る部分だけを抜き出して書き直した。ライセンスの全文は `../LICENSE.yomiyasu` にある。
 
 ## 1. 意味を保つ（ほかの規則より優先する）
 

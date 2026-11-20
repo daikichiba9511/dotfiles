@@ -44,6 +44,6 @@ Do this yourself; do not trust the reports' confidence.
 - **Dropped**: per adversary, count and reason (did not reproduce, out of intent, style).
 - **Scratch**: where the repro files are, so the user can reuse or delete them.
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

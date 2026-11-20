@@ -34,6 +34,6 @@ Explain existing code; never change it. Answer in the user's language. If the sc
 - Teach: tailor depth to why the user is asking (about to change it, reviewing, debugging, new to it) as read from the conversation. Give the smallest complete answer first, then offer to go deeper; no quizzes or walls of text.
 - End with open threads worth chasing, if any.
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

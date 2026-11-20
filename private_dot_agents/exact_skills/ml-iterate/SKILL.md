@@ -129,6 +129,8 @@ Include enough code-backed evidence that another reader can understand and expla
 - Keep code minimal, concept-separated, and fail-fast; do not add abstractions, tests, or error handling by default
 - Treat a successful cheap end-to-end debug run plus a complete experiment-tracker record as the default verification
 
+Parts adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
+
 ## Current Experiment
 
 $ARGUMENTS

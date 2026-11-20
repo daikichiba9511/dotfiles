@@ -44,6 +44,6 @@ Level 4 is usually one short script that imports the same library version the pr
 
 Strip private data before any of this goes somewhere public.
 
-Adapted from pstack (MIT, Lauren Tan).
+Adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
 
 $ARGUMENTS

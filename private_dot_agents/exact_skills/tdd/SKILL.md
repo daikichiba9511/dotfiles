@@ -66,6 +66,8 @@ When problems are found, suggest improvements during the refactor phase.
 
 Report evidence, not just the outcome: the test (or executable check) that failed before and the failure it produced, the passing run after, and any nearby validation. If failing-before evidence could not be shown, say why and name the check used instead.
 
+Parts adapted from pstack (MIT, Lauren Tan); see LICENSE.pstack.
+
 ## Additional Instructions
 
 $ARGUMENTS
