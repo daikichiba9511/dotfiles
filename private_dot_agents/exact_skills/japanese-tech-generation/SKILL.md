@@ -1,6 +1,6 @@
 ---
 name: japanese-tech-generation
-description: "Use to draft a new substantial Japanese technical document with coherent paragraphs, idiomatic wording, and explanations suited to its readers. Trigger for requests such as 記事にして, 章を書いて, このメモを解説文にして, or 初心者向けに説明文を書いて. Do not use for short chat answers, review-only work, or editing an existing manuscript."
+description: "Use to draft a new substantial Japanese technical document with coherent paragraphs, idiomatic wording, and explanations suited to its readers. Trigger for requests such as 記事にして, 章を書いて, このメモを解説文にして, 調査結果を文章にまとめて, or 初心者向けに説明文を書いて. Do not use for short chat answers, review-only work, or editing an existing manuscript."
 ---
 
 # Japanese Tech Generation
@@ -47,6 +47,13 @@ description: "Use to draft a new substantial Japanese technical document with co
    因果を説明する場合は、根拠のある仕組みと適用条件を示す。
    資料にない理由や数値を、文章を滑らかにするために補わない。
 7. 「自己点検」に沿って読み直し、意味の飛躍、不要な重複、読みにくい表現を直す。
+8. ファイルに書いた本文に AI生成文の型の検査をかけ、候補を1か所ずつ見直す。
+   型ごとの直し方は `../japanese-tech-writing/references/ai-slop.md` の2〜6章にある。
+   候補は手がかりにすぎず、直すと資料との対応や意味が変わる所は残す。
+
+   ```bash
+   bun ~/.agents/skills/japanese-tech-writing/scripts/jp-readability.ts lint <file>
+   ```
 
 初心者向け、専門外の読者向け、ジャーゴンを避ける依頼では、中心語彙を先に列挙する。
 各語について、読者が既知か、初出で何を説明するか、後続のどの判断に使うかを決めてから本文を書く。

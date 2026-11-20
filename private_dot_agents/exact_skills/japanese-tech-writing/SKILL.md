@@ -1,6 +1,6 @@
 ---
 name: japanese-tech-writing
-description: "Use to copyedit or substantially rewrite an existing Japanese technical draft to match the personal house style, formatting, terminology, and prose rules. Do not use for new drafting, review-only feedback, or paragraph-level argument restructuring."
+description: "Use to copyedit or substantially rewrite an existing Japanese technical draft to match the personal house style, formatting, terminology, and prose rules, including fixing AI-generated tells while preserving meaning (読みやすくして, AIっぽさを消して, 推敲して). Do not use for new drafting, review-only feedback, or paragraph-level argument restructuring."
 ---
 
 # 日本語技術文書をリライトする
@@ -20,6 +20,21 @@ description: "Use to copyedit or substantially rewrite an existing Japanese tech
 指定がなければ、主張と節順を保ち、文と段落までを編集する。
 資料にない事実、因果、数値、人物像を補わない。
 
+## AI生成文の型を直す
+
+AIが書いた原稿や、AIっぽさを消してほしいと頼まれた原稿では、編集の前に `references/ai-slop.md` を読み、その規則で直す。意味を保つ4点と言い直しテストは、ほかの規則より優先する。
+
+付属の検査ツールを bun で使う（依存パッケージなし）。
+
+```bash
+bun ~/.agents/skills/japanese-tech-writing/scripts/jp-readability.ts lint 原稿.md
+bun ~/.agents/skills/japanese-tech-writing/scripts/jp-readability.ts diff 原稿.md 書き直した原稿.md
+```
+
+- `lint` は比喩動詞、決まり文句、太字ラベル、ダッシュ、間を作るだけの読点などを見直し候補として出す。候補は手がかりにすぎず、0件でも型を探す。
+- `diff` は段落ごとに、数値、否定、言い切りの強さ（伝聞、推量、義務、保証、許可、能力）が変わった所を出す。出た所は原文と読み比べ、意味が変わっていれば戻す。主語と目的語の入れ替わりは拾えないので、出なかった所も読み比べる。
+- 書き直した原稿は原文とは別のファイルに書いてから `diff` をかけ、確かめてから原文の場所に写す。
+
 ## 編集する
 
 1. 各段落の主張を一つに絞り、冒頭で話題を特定する。
@@ -28,7 +43,7 @@ description: "Use to copyedit or substantially rewrite an existing Japanese tech
 4. 推定、可能性、反実仮想を、根拠なく断定へ変えない。
 5. 同じ主張の言い換え、空虚な予告と総括、回収しない前方参照を削る。
 6. 段落の役割を変えない範囲で、文の順序と接続を整える。
-7. 編集後に原文と照合し、意味や事実を変えた箇所がないか確認する。
+7. 編集後に原文と照合し、意味や事実を変えた箇所がないか確認する。`diff` が使えるときは必ずかける。
 
 ## 文章規範
 
@@ -45,7 +60,7 @@ description: "Use to copyedit or substantially rewrite an existing Japanese tech
 
 ## 完了条件
 
-- 主張、事実、引用、コードの意味が原文から変わっていない。
+- 主張、事実、引用、コードの意味が原文から変わっていない。`diff` の候補はすべて読み比べ、残したものは理由を言える。
 - 各段落の話題と前後関係を一読で追える。
 - 専門用語の指す対象と不確実性の表現が一貫している。
 - 重複した主張と空虚な接続表現が残っていない。
