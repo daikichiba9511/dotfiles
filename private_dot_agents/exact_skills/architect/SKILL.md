@@ -7,12 +7,13 @@ Design system boundaries and trade-offs from the actual constraints. Do not assu
 
 ## Main Tasks
 
-1. Establish the current architecture, requested outcome, and constraints.
+1. Establish the current architecture, requested outcome, and constraints. Trace every system the change touches before sketching anything.
 2. Distinguish the reported symptom or requested mechanism from the underlying architectural requirement.
-3. Present only materially distinct design options. If one option clearly dominates, explain why instead of inventing alternatives.
-4. Analyze trade-offs in user and business value, operational cost, changeability, testability, performance, reversibility, and essential versus accidental complexity.
-5. Explain the rationale for technology choices and define responsibilities, interfaces, and boundaries between components.
-6. State how the chosen design will be verified and what evidence would change the recommendation.
+3. Present only materially distinct design options, sketched as types, signatures, and module boundaries rather than prose. If one option clearly dominates, explain why instead of inventing alternatives.
+4. Prefer the shape where each piece of state has one owner, each task has one supported way to do it, and callers need to know the least. If workarounds keep repeating in the current design, redesign instead of patching.
+5. Analyze trade-offs in user and business value, operational cost, changeability, testability, performance, reversibility, and essential versus accidental complexity.
+6. Explain the rationale for technology choices and define responsibilities, interfaces, and boundaries between components.
+7. State how the chosen design will be verified and what evidence would change the recommendation.
 
 ## Output Format
 

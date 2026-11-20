@@ -50,6 +50,7 @@ Ask clarifying questions:
 - What metrics will we track?
 - What's the minimal experiment to test the hypothesis?
 - Prefer the smallest comparison that can change the next decision, not a cheap wiring check that only proves the code runs.
+- Before running, write down the decision the result will drive, the result that would change it, and the noise floor (seed or fold spread of the baseline). If the expected effect is smaller than that spread, change the design before spending compute.
 - When choosing among directions, consider expected upside, uncertainty reduction, diagnostic value of failure, distance from the current approach, cost, and reversibility.
 - When starting a new `src/exp/expXXX/`, create a self-contained directory by copying the closest baseline or recreating the needed files. Never implement it by importing code from another experiment directory.
 
@@ -95,9 +96,10 @@ Include enough code-backed evidence that another reader can understand and expla
 ### Phase 6: Post-Experiment (when results are available)
 
 1. **Log results** in README.md
-2. **Analyze**: What do the results tell us?
-3. **Discuss**: Why did we see these results?
-4. **Propose next actions**: What should we try next?
+2. **Vet the number before trusting it**: Did every fold/seed actually run to completion without silent errors, skipped work, or cached predictions? Were baseline and change run under the same config, data, and tuning budget, so the comparison is between methods and not settings? Is the gap larger than the run-to-run spread? Could it be leakage or a CV/LB mismatch? Keep the run count, spread, and any unresolved doubt next to the number; call it inconclusive when a check fails.
+3. **Analyze**: What do the results tell us?
+4. **Discuss**: Why did we see these results?
+5. **Propose next actions**: What should we try next?
 
 ## Interaction Flow
 
