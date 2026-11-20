@@ -1,6 +1,7 @@
 ---
 name: ml-iterate
-description: "Use for active ML or Kaggle experiment iteration when the task includes forming a hypothesis, designing a minimal comparison, running or analyzing the experiment, and logging the result. For an isolated experiment-code edit without this cycle, use coding-rules instead. Do not use for production ML engineering, post-stabilization cleanup, dataset audits, or paper-only analysis."
+description: "Use only when the user invokes ml-iterate by name or explicitly asks to run the full src/exp/expXXX cycle: hypothesis, minimal comparison design, experiment README, and result logging. Do not trigger merely because the task touches ML or Kaggle code, an experiment directory, or a metric: editing experiment code (coding-rules), analyzing predictions or failures (ml-error-analysis), the three-layer docs workflow (ml-docs), queueing or monitoring runs (pueue-ml-experiments), ML questions, production ML engineering, cleanup, dataset audits, and paper-only analysis all belong elsewhere."
+disable-model-invocation: true
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(run experiment:*), Bash(python:*)
 ---
 
