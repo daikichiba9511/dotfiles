@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
-// Pattern sets adapted from yomiyasu (MIT, nanaism): https://github.com/nanaism/yomiyasu
+// Pattern sets adapted from yomiyasu (MIT, Copyright (c) 2026 nanaism): https://github.com/nanaism/yomiyasu
+// See ../LICENSE.yomiyasu for the full license notice.
 // Findings are review hints only; they never decide whether meaning or readability is preserved.
 import { readFileSync } from "node:fs";
 
@@ -239,7 +240,13 @@ const diff = (before: string, after: string): { readonly aligned: boolean; reado
   return { aligned: true, risks: pb.flatMap((p, i) => (p.text === pa[i].text ? [] : risksBetween(pa[i].line, p.text, pa[i].text))) };
 };
 
-const shorten = (text: string, max = 80): string => (text.length > max ? `${text.slice(0, max)}…` : text);
+// Excerpts come from arbitrary documents; strip control bytes so they cannot drive the terminal.
+const CONTROL = /[\u0000-\u0008\u000b-\u001f\u007f-\u009f]/g;
+
+const shorten = (text: string, max = 80): string => {
+  const safe = text.replace(CONTROL, "");
+  return safe.length > max ? `${safe.slice(0, max)}…` : safe;
+};
 
 const printLint = (findings: readonly Finding[]): void => {
   const warn = findings.filter((f) => f.severity === "warn").length;
